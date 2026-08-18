@@ -40,7 +40,7 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
     <div className="space-y-6 animate-fade-in pb-12">
       
       {/* Top Header Banner with Professional Polish Styling */}
-      <div className="bg-gradient-to-r from-[#1b4332] via-[#2d6a4f] to-[#1b4332] rounded-xl p-6 text-white shadow-sm border border-[#1b4332]/20 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+      <div className="dashboard-hero rounded-2xl p-6 sm:p-7 text-white flex flex-col md:flex-row items-start md:items-center justify-between gap-5">
         <div>
           <div className="flex items-center gap-2 mb-1.5">
             <span className="location-pill">
@@ -48,11 +48,14 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
               <span>{activeLocId === 'ALL' ? 'SEMUA LOKASI' : locations.find(l => l.id === activeLocId)?.name.toUpperCase()}</span>
             </span>
           </div>
-          <h2 className="text-xl sm:text-2xl font-bold tracking-tight">
-            Ringkasan Bisnis Peternakan
+          <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#bde3c9] mb-2">
+            Pusat kendali operasional
+          </p>
+          <h2 className="text-2xl sm:text-3xl font-black tracking-tight">
+            Selamat datang di kandang.
           </h2>
-          <p className="text-xs sm:text-sm text-[#d8f3dc] max-w-2xl mt-1 leading-relaxed">
-            Sistem monitorinssg peternakan terpadu. Pantau populasi, kondisi kesehatan, pertumbuhan bobot, dan neraca keuangan dari manapun.
+          <p className="text-xs sm:text-sm text-[#d8f3dc] max-w-2xl mt-2 leading-relaxed">
+            Pantau populasi, kesehatan, pertumbuhan bobot, dan arus kas peternakan dalam satu pandangan.
           </p>
         </div>
 
@@ -78,7 +81,7 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
       <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         
         {/* Total Active Livestock */}
-        <div className="card-polish hover:border-[#1b4332]/30 transition">
+        <div className="kpi-card">
           <div className="flex items-center justify-between">
             <span className="stat-label-polish">Total Ternak</span>
             <div className="p-1.5 rounded-lg bg-[#d8f3dc] text-[#1b4332]">
@@ -92,7 +95,7 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
         </div>
 
         {/* Health Condition */}
-        <div className="card-polish hover:border-rose-300 transition">
+        <div className="kpi-card">
           <div className="flex items-center justify-between">
             <span className="stat-label-polish">Ternak Sakit/Isolasi</span>
             <div className="p-1.5 rounded-lg bg-rose-50 text-rose-600">
@@ -106,7 +109,7 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
         </div>
 
         {/* Total Income */}
-        <div className="card-polish hover:border-blue-300 transition">
+        <div className="kpi-card">
           <div className="flex items-center justify-between">
             <span className="stat-label-polish">Total Pemasukan</span>
             <div className="p-1.5 rounded-lg bg-blue-50 text-blue-600">
@@ -118,7 +121,7 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
         </div>
 
         {/* Net Profit */}
-        <div className="card-polish hover:border-[#1b4332]/30 transition">
+        <div className="kpi-card">
           <div className="flex items-center justify-between">
             <span className="stat-label-polish">Arus Kas Bersih</span>
             <div className="p-1.5 rounded-lg bg-[#d8f3dc] text-[#1b4332]">
@@ -161,7 +164,7 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
       )}
 
       {/* Multi-Location Comparison Table */}
-      <div className="card-polish p-0 overflow-hidden">
+      <div className="section-card p-0 overflow-hidden">
         <div className="p-4 bg-slate-50/80 border-b border-[#e2e8f0] flex items-center justify-between">
           <div>
             <h3 className="text-sm font-bold text-slate-900">Ringkasan Lokasi Kandang Peternakan</h3>
@@ -226,7 +229,7 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         
         {/* Daily Reports Status */}
-        <div className="card-polish space-y-3">
+        <div className="section-card p-4 space-y-3">
           <div className="flex items-center justify-between">
             <h3 className="text-sm font-bold text-slate-900 flex items-center gap-2">
               <FileSpreadsheet className="w-4 h-4 text-[#1b4332]" />
@@ -263,7 +266,7 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
         </div>
 
         {/* Quick Navigation Modules */}
-        <div className="card-polish space-y-3">
+        <div className="section-card p-4 space-y-3">
           <h3 className="text-sm font-bold text-slate-900">Akses Cepat Modul Utama</h3>
           <div className="grid grid-cols-2 gap-2 text-xs">
             <button

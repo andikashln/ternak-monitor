@@ -196,7 +196,7 @@ export function App() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-100 font-sans text-slate-800 antialiased flex flex-col selection:bg-emerald-900 selection:text-white">
+    <div className="app-shell min-h-screen font-sans text-slate-800 antialiased flex flex-col selection:bg-emerald-900 selection:text-white">
       
       {/* Top Navbar */}
       <Navbar
