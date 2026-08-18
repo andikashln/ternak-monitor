@@ -1,0 +1,383 @@
+import React, { useState, useEffect } from 'react';
+import { Baby, Skull, Plus, AlertTriangle, Check, X } from 'lucide-react';
+import { storeService } from '../../services/storeService';
+import { GenderType, DeathRecord } from '../../types';
+import { formatDate } from '../../utils/formatters';
+
+export const BirthsDeathsView: React.FC = () => {
+  const [deaths, setDeaths] = useState(storeService.deathRecords);
+  const [livestock, setLivestock] = useState(storeService.getActiveLivestock());
+  const [locations, setLocations] = useState(storeService.locations);
+
+  // Modals
+  const [isBirthModalOpen, setIsBirthModalOpen] = useState(false);
+  const [isDeathModalOpen, setIsDeathModalOpen] = useState(false);
+
+  // Birth Form
+  const [motherId, setMotherId] = useState('');
+  const [gender, setGender] = useState<GenderType>('Jantan');
+  const [birthWeight, setBirthWeight] = useState('28');
+  const [locationId, setLocationId] = useState('');
+  const [birthCondition, setBirthCondition] = useState('Sehat, menyusu lancar');
+
+  // Death Form
+  const [deadLivestockId, setDeadLivestockId] = useState('');
+  const [deathDate, setDeathDate] = useState(new Date().toISOString().split('T')[0]);
+  const [suspectedCause, setSuspectedCause] = useState('Kembung akut / Bloat');
+  const [symptomsBefore, setSymptomsBefore] = useState('Perut kiri membesar, gelisah');
+  const [handlingNote, setHandlingNote] = useState('Bangkai dikubur sesuai SOP kesehatan hewan');
+  const [officerName, setOfficerName] = useState(storeService.currentUser.displayName);
+  const [vetName, setVetName] = useState('drh. Fitriani');
+
+  useEffect(() => {
+    const unsubscribe = storeService.subscribe(() => {
+      setDeaths(storeService.deathRecords);
+      setLivestock(storeService.getActiveLivestock());
+      setLocations(storeService.locations);
+    });
+    return unsubscribe;
+  }, []);
+
+  const handleOpenBirth = () => {
+    const females = livestock.filter(l => l.gender === 'Betina');
+    if (females.length > 0) setMotherId(females[0].id);
+    if (locations.length > 0) setLocationId(locations[0].id);
+    setIsBirthModalOpen(true);
+  };
+
+  const handleOpenDeath = () => {
+    if (livestock.length > 0) setDeadLivestockId(livestock[0].id);
+    setIsDeathModalOpen(true);
+  };
+
+  const handleSaveBirth = (e: React.FormEvent) => {
+    e.preventDefault();
+    const mother = livestock.find(l => l.id === motherId);
+    if (!mother) return;
+
+    storeService.addBirthRecord(
+      mother.id,
+      mother.tagId,
+      locationId || mother.locationId,
+      gender,
+      parseFloat(birthWeight) || 25,
+      birthCondition
+    );
+
+    setIsBirthModalOpen(false);
+  };
+
+  const handleSaveDeath = (e: React.FormEvent) => {
+    e.preventDefault();
+    const animal = livestock.find(l => l.id === deadLivestockId);
+    if (!animal) return;
+
+    storeService.addDeathRecord({
+      livestockId: animal.id,
+      tagId: animal.tagId,
+      locationId: animal.locationId,
+      deathDate,
+      suspectedCause,
+      symptomsBefore,
+      handlingNote,
+      officerName,
+      vetName
+    });
+
+    setIsDeathModalOpen(false);
+  };
+
+  return (
+    <div className="space-y-6 animate-fade-in pb-12">
+      
+      {/* Header */}
+      <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-2xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div>
+          <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
+            <Baby className="w-5 h-5 text-amber-600" />
+            <span>Pencatatan Kelahiran & Kematian Ternak</span>
+          </h2>
+          <p className="text-xs text-slate-500">
+            Pencatatan resmi anakan baru lahir dan pelaporan kematian ternak dengan pembaruan otomatis populasi
+          </p>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <button
+            onClick={handleOpenBirth}
+            className="flex items-center gap-1.5 px-3.5 py-2 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs rounded-xl transition cursor-pointer"
+          >
+            <Baby className="w-4 h-4" />
+            <span>+ Lapor Kelahiran</span>
+          </button>
+
+          <button
+            onClick={handleOpenDeath}
+            className="flex items-center gap-1.5 px-3.5 py-2 bg-slate-800 hover:bg-slate-900 text-white font-bold text-xs rounded-xl transition cursor-pointer"
+          >
+            <Skull className="w-4 h-4 text-rose-400" />
+            <span>+ Lapor Kematian</span>
+          </button>
+        </div>
+      </div>
+
+      {/* Official Death Records List */}
+      <div className="bg-white rounded-2xl border border-slate-200 shadow-2xs overflow-hidden">
+        <div className="p-4 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
+          <h3 className="text-xs font-bold text-slate-900 flex items-center gap-2">
+            <Skull className="w-4 h-4 text-slate-700" />
+            <span>Arsip Resmi Laporan Kematian Ternak</span>
+          </h3>
+          <span className="text-xs font-semibold text-rose-700">
+            Total {deaths.length} Kasus Kematian Recorded
+          </span>
+        </div>
+
+        <div className="overflow-x-auto">
+          <table className="w-full text-left text-xs">
+            <thead className="bg-slate-100 text-[10px] font-bold text-slate-500 uppercase tracking-wider">
+              <tr>
+                <th className="p-3.5">Tanggal Mati</th>
+                <th className="p-3.5">Ear Tag</th>
+                <th className="p-3.5">Dugaan Penyebab</th>
+                <th className="p-3.5">Gejala Sebelum Mati</th>
+                <th className="p-3.5">Penanganan Bangkai</th>
+                <th className="p-3.5">Petugas / Dokter</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-100 font-medium">
+              {deaths.map(d => (
+                <tr key={d.id} className="hover:bg-rose-50/50 transition">
+                  <td className="p-3.5 font-bold text-slate-900">{formatDate(d.deathDate)}</td>
+                  <td className="p-3.5 font-mono font-black text-rose-800 text-sm">{d.tagId}</td>
+                  <td className="p-3.5 font-bold text-rose-700">{d.suspectedCause}</td>
+                  <td className="p-3.5 text-slate-600">{d.symptomsBefore}</td>
+                  <td className="p-3.5 text-slate-600">{d.handlingNote}</td>
+                  <td className="p-3.5 text-slate-500">{d.officerName} {d.vetName ? `(${d.vetName})` : ''}</td>
+                </tr>
+              ))}
+              {deaths.length === 0 && (
+                <tr>
+                  <td colSpan={6} className="p-8 text-center text-slate-400">
+                    Sistem bersih. Tidak ada rekam kematian ternak tercatat.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* Birth Modal */}
+      {isBirthModalOpen && (
+        <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center p-3 sm:p-4">
+          <div className="bg-white rounded-2xl max-w-md w-full overflow-hidden shadow-2xl border border-slate-200">
+            <div className="p-4 bg-amber-600 text-slate-950 flex items-center justify-between font-bold">
+              <h3>Lapor Kelahiran Anakan Ternak Baru</h3>
+              <button onClick={() => setIsBirthModalOpen(false)} className="p-1 hover:bg-amber-500 rounded">
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <form onSubmit={handleSaveBirth} className="p-5 space-y-3 text-xs">
+              <div>
+                <label className="block font-bold text-slate-700 mb-1">Pilih Induk Betina *</label>
+                <select
+                  value={motherId}
+                  onChange={e => setMotherId(e.target.value)}
+                  required
+                  className="w-full px-3 py-2 border border-slate-300 rounded-lg font-bold focus:ring-2 focus:ring-amber-500 focus:outline-none"
+                >
+                  {livestock.filter(l => l.gender === 'Betina').map(f => (
+                    <option key={f.id} value={f.id}>{f.tagId} — {f.breed} ({f.locationName})</option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block font-bold text-slate-700 mb-1">Jenis Kelamin Anak *</label>
+                  <select
+                    value={gender}
+                    onChange={e => setGender(e.target.value as GenderType)}
+                    className="w-full px-3 py-2 border border-slate-300 rounded-lg font-bold focus:ring-2 focus:ring-amber-500 focus:outline-none"
+                  >
+                    <option value="Jantan">Jantan</option>
+                    <option value="Betina">Betina</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block font-bold text-slate-700 mb-1">Bobot Lahir (kg) *</label>
+                  <input
+                    type="number"
+                    value={birthWeight}
+                    onChange={e => setBirthWeight(e.target.value)}
+                    required
+                    className="w-full px-3 py-2 border border-slate-300 rounded-lg font-bold focus:ring-2 focus:ring-amber-500 focus:outline-none"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block font-bold text-slate-700 mb-1">Lokasi Kandang Kelahiran *</label>
+                <select
+                  value={locationId}
+                  onChange={e => setLocationId(e.target.value)}
+                  className="w-full px-3 py-2 border border-slate-300 rounded-lg font-bold focus:ring-2 focus:ring-amber-500 focus:outline-none"
+                >
+                  {locations.map(loc => (
+                    <option key={loc.id} value={loc.id}>{loc.name}</option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label className="block font-bold text-slate-700 mb-1">Kondisi Lahir & Catatan</label>
+                <textarea
+                  value={birthCondition}
+                  onChange={e => setBirthCondition(e.target.value)}
+                  rows={2}
+                  className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:outline-none"
+                />
+              </div>
+
+              <div className="pt-2 flex items-center justify-end gap-2">
+                <button
+                  type="button"
+                  onClick={() => setIsBirthModalOpen(false)}
+                  className="px-4 py-2 border border-slate-300 rounded-lg text-slate-700 font-semibold"
+                >
+                  Batal
+                </button>
+                <button
+                  type="submit"
+                  className="px-5 py-2 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold rounded-lg"
+                >
+                  Daftarkan Anakan Baru
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Death Modal */}
+      {isDeathModalOpen && (
+        <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center p-3 sm:p-4">
+          <div className="bg-white rounded-2xl max-w-md w-full overflow-hidden shadow-2xl border border-slate-200">
+            <div className="p-4 bg-slate-900 text-white flex items-center justify-between font-bold">
+              <h3 className="flex items-center gap-2">
+                <Skull className="w-5 h-5 text-rose-500" />
+                <span>Pelaporan Resmi Kematian Ternak</span>
+              </h3>
+              <button onClick={() => setIsDeathModalOpen(false)} className="p-1 hover:bg-slate-800 rounded">
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <form onSubmit={handleSaveDeath} className="p-5 space-y-3 text-xs">
+              <div className="p-3 bg-rose-50 border border-rose-200 text-rose-900 font-semibold rounded-lg text-[11px]">
+                ⚠️ Mengisi laporan ini akan mengubah status ternak menjadi MATI dan mengeluarkannya dari populasi aktif.
+              </div>
+
+              <div>
+                <label className="block font-bold text-slate-700 mb-1">Pilih Ternak yang Mati *</label>
+                <select
+                  value={deadLivestockId}
+                  onChange={e => setDeadLivestockId(e.target.value)}
+                  required
+                  className="w-full px-3 py-2 border border-slate-300 rounded-lg font-bold focus:ring-2 focus:ring-slate-900 focus:outline-none"
+                >
+                  {livestock.map(l => (
+                    <option key={l.id} value={l.id}>{l.tagId} — {l.type} ({l.breed}) [{l.locationName}]</option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label className="block font-bold text-slate-700 mb-1">Tanggal Kematian *</label>
+                <input
+                  type="date"
+                  value={deathDate}
+                  onChange={e => setDeathDate(e.target.value)}
+                  required
+                  className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-900 focus:outline-none"
+                />
+              </div>
+
+              <div>
+                <label className="block font-bold text-slate-700 mb-1">Dugaan Penyebab Kematian *</label>
+                <input
+                  type="text"
+                  value={suspectedCause}
+                  onChange={e => setSuspectedCause(e.target.value)}
+                  required
+                  className="w-full px-3 py-2 border border-slate-300 rounded-lg font-bold focus:ring-2 focus:ring-slate-900 focus:outline-none"
+                  placeholder="e.g. Kembung akut, Gigitan ular, Demam tinggi, Kecelakaan"
+                />
+              </div>
+
+              <div>
+                <label className="block font-bold text-slate-700 mb-1">Gejala Sebelum Mati</label>
+                <input
+                  type="text"
+                  value={symptomsBefore}
+                  onChange={e => setSymptomsBefore(e.target.value)}
+                  className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-900 focus:outline-none"
+                />
+              </div>
+
+              <div>
+                <label className="block font-bold text-slate-700 mb-1">Penanganan Bangkai</label>
+                <input
+                  type="text"
+                  value={handlingNote}
+                  onChange={e => setHandlingNote(e.target.value)}
+                  className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-900 focus:outline-none"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block font-bold text-slate-700 mb-1">Petugas Lapor</label>
+                  <input
+                    type="text"
+                    value={officerName}
+                    onChange={e => setOfficerName(e.target.value)}
+                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-900 focus:outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="block font-bold text-slate-700 mb-1">Dokter Hewan Saksi</label>
+                  <input
+                    type="text"
+                    value={vetName}
+                    onChange={e => setVetName(e.target.value)}
+                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-900 focus:outline-none"
+                  />
+                </div>
+              </div>
+
+              <div className="pt-2 flex items-center justify-end gap-2">
+                <button
+                  type="button"
+                  onClick={() => setIsDeathModalOpen(false)}
+                  className="px-4 py-2 border border-slate-300 rounded-lg text-slate-700 font-semibold"
+                >
+                  Batal
+                </button>
+                <button
+                  type="submit"
+                  className="px-5 py-2 bg-rose-600 hover:bg-rose-700 text-white font-bold rounded-lg"
+                >
+                  Simpan Laporan Kematian
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+    </div>
+  );
+};

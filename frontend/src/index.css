@@ -1,0 +1,121 @@
+@import "tailwindcss";
+
+:root {
+  --primary: #1b4332;
+  --primary-light: #d8f3dc;
+  --accent: #f59e0b;
+  --danger: #ef4444;
+  --bg: #f8fafc;
+  --text: #0f172a;
+  --slate: #64748b;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+  font-size: 14px;
+}
+
+.bg-primary {
+  background-color: #1b4332;
+}
+
+.bg-primary-light {
+  background-color: #d8f3dc;
+}
+
+.text-primary {
+  color: #1b4332;
+}
+
+.text-slate-muted {
+  color: #64748b;
+}
+
+.border-primary-light {
+  border-color: #d8f3dc;
+}
+
+.location-pill {
+  background-color: #d8f3dc;
+  color: #1b4332;
+  padding: 4px 12px;
+  border-radius: 9999px;
+  font-weight: 600;
+  font-size: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.card-polish {
+  background-color: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  padding: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.stat-label-polish {
+  font-size: 12px;
+  color: #64748b;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+}
+
+.stat-value-polish {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1b4332;
+  margin-top: 4px;
+}
+
+.badge-success-polish {
+  background-color: #dcfce7;
+  color: #166534;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.badge-warning-polish {
+  background-color: #fef3c7;
+  color: #92400e;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.badge-danger-polish {
+  background-color: #fee2e2;
+  color: #991b1b;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.ai-panel-polish {
+  background: linear-gradient(135deg, #1b4332 0%, #2d6a4f 100%);
+  color: #ffffff;
+  border: none;
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.ai-title-polish {
+  color: #95d5b2;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
