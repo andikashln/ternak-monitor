@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ShoppingCart, Plus, Store, Scale, MapPin, Upload, Trash2, X } from 'lucide-react';
+import { ShoppingCart, Plus, Store, Scale, MapPin, Upload, Trash2, Ban, X } from 'lucide-react';
 import { storeService } from '../../services/storeService';
 import { SalesRecord } from '../../types';
 import { formatRupiah, formatDate } from '../../utils/formatters';
@@ -99,6 +99,13 @@ export const PurchasesSalesView: React.FC<PurchasesSalesViewProps> = ({ onOpenAd
     });
 
     setIsModalOpen(false);
+  };
+
+  const handleVoidSale = (sale: SalesRecord) => {
+    const reason = window.prompt(`Alasan pembatalan penjualan ${sale.invoiceNo}:`);
+    if (reason?.trim() && window.confirm('Batalkan penjualan, pulihkan ternak, dan balikkan pemasukan kas terkait?')) {
+      storeService.voidSalesTransaction(sale.id, reason);
+    }
   };
 
   return (
@@ -246,6 +253,7 @@ export const PurchasesSalesView: React.FC<PurchasesSalesViewProps> = ({ onOpenAd
                 <th className="p-3.5">Total Harga</th>
                 <th className="p-3.5 text-center">Status Pembayaran</th>
                 <th className="p-3.5">Metode</th>
+                <th className="p-3.5 text-center">Aksi</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 font-medium">
@@ -268,11 +276,20 @@ export const PurchasesSalesView: React.FC<PurchasesSalesViewProps> = ({ onOpenAd
                     </span>
                   </td>
                   <td className="p-3.5 text-slate-500">{s.paymentMethod}</td>
+                  <td className="p-3.5 text-center">
+                    {s.transactionStatus === 'Batal' ? (
+                      <span className="text-rose-700 font-bold">Dibatalkan</span>
+                    ) : (
+                      <button type="button" onClick={() => handleVoidSale(s)} aria-label={`Batalkan penjualan ${s.invoiceNo}`} className="inline-flex items-center gap-1 px-2 py-1 text-rose-700 hover:bg-rose-50 rounded font-bold">
+                        <Ban className="w-3.5 h-3.5" /> Batalkan
+                      </button>
+                    )}
+                  </td>
                 </tr>
               ))}
               {salesRecords.length === 0 && (
                 <tr>
-                  <td colSpan={7} className="p-8 text-center text-slate-400">
+                  <td colSpan={8} className="p-8 text-center text-slate-400">
                     Belum ada invoice penjualan recorded.
                   </td>
                 </tr>
@@ -358,11 +375,11 @@ export const PurchasesSalesView: React.FC<PurchasesSalesViewProps> = ({ onOpenAd
                   <label className="block font-bold text-slate-700 mb-1">Status Pembayaran *</label>
                   <select
                     value={paymentStatus}
-                    onChange={e => setPaymentStatus(e.target.value as any)}
+                    onChange={e => setPaymentStatus(e.target.value as 'Lunas' | 'Belum Bayar')}
                     className="w-full px-3 py-2 border border-slate-300 rounded-lg font-bold focus:ring-2 focus:ring-emerald-800 focus:outline-none"
                   >
                     <option value="Lunas">Lunas</option>
-                    <option value="DP">DP (Uang Muka)</option>
+                    <option value="DP" disabled>DP (belum didukung — nominal DP belum dimodelkan)</option>
                     <option value="Belum Bayar">Belum Bayar / Utang</option>
                   </select>
                 </div>

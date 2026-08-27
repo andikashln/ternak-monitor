@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
-import { Settings, Building2, Plus, RefreshCw, Save, Check } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { Settings, Pencil, Ban, Save } from 'lucide-react';
 import { storeService } from '../../services/storeService';
 
 export const SettingsView: React.FC = () => {
   const [settings, setSettings] = useState(storeService.settings);
   const [locations, setLocations] = useState(storeService.locations);
   const [saved, setSaved] = useState(false);
+  const [locationMessage, setLocationMessage] = useState('');
+
+  useEffect(() => storeService.subscribe(() => setLocations([...storeService.locations])), []);
 
   // New location form
   const [newLocName, setNewLocName] = useState('');
@@ -18,6 +21,27 @@ export const SettingsView: React.FC = () => {
     storeService.updateSettings(settings);
     setSaved(true);
     setTimeout(() => setSaved(false), 2000);
+  };
+
+  const handleEditLocation = (id: string) => {
+    const location = locations.find(item => item.id === id);
+    if (!location) return;
+    const name = window.prompt('Nama lokasi:', location.name);
+    if (name === null || !name.trim()) return;
+    const address = window.prompt('Alamat lokasi:', location.address);
+    if (address === null) return;
+    const picName = window.prompt('Nama PIC:', location.picName);
+    if (picName === null) return;
+    const picPhone = window.prompt('Telepon PIC:', location.picPhone);
+    if (picPhone === null) return;
+    storeService.updateLocation(id, { name: name.trim(), address, picName, picPhone });
+    setLocationMessage('Lokasi berhasil diperbarui.');
+  };
+
+  const handleDeactivateLocation = (id: string) => {
+    if (!window.confirm('Nonaktifkan lokasi ini? Data historis tetap disimpan.')) return;
+    const result = storeService.deactivateLocation(id);
+    setLocationMessage(result.ok ? 'Lokasi berhasil dinonaktifkan.' : result.reason ?? 'Lokasi tidak dapat dinonaktifkan.');
   };
 
   const handleAddLocation = (e: React.FormEvent) => {
@@ -128,6 +152,7 @@ export const SettingsView: React.FC = () => {
         {/* Master Locations Management */}
         <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-2xs space-y-4 text-xs">
           <h3 className="font-bold text-slate-900 text-sm border-b border-slate-100 pb-2">Master Lokasi Peternakan ({locations.length})</h3>
+          {locationMessage && <div role="status" className="p-2 rounded bg-amber-50 border border-amber-200 text-amber-900 font-semibold">{locationMessage}</div>}
 
           <div className="space-y-2 max-h-48 overflow-y-auto">
             {locations.map(loc => (
@@ -136,9 +161,10 @@ export const SettingsView: React.FC = () => {
                   <h4 className="font-bold text-slate-900 text-xs">📍 {loc.name}</h4>
                   <p className="text-[11px] text-slate-500">PIC: {loc.picName} ({loc.picPhone})</p>
                 </div>
-                <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-900">
-                  {loc.status}
-                </span>
+                <div className="flex items-center gap-1"><span className={`px-2 py-0.5 rounded text-[10px] font-bold ${loc.status === 'Aktif' ? 'bg-emerald-100 text-emerald-900' : 'bg-slate-200 text-slate-600'}`}>{loc.status}</span>
+                  <button type="button" onClick={() => handleEditLocation(loc.id)} aria-label={`Edit lokasi ${loc.name}`} className="p-1 text-blue-700 hover:bg-blue-50 rounded"><Pencil className="w-4 h-4" /></button>
+                  {loc.status === 'Aktif' && <button type="button" onClick={() => handleDeactivateLocation(loc.id)} aria-label={`Nonaktifkan lokasi ${loc.name}`} className="p-1 text-rose-700 hover:bg-rose-50 rounded"><Ban className="w-4 h-4" /></button>}
+                </div>
               </div>
             ))}
           </div>

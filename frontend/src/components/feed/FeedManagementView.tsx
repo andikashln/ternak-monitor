@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Wheat, Plus, AlertTriangle, Pencil, ArrowDownToLine, ArrowUpFromLine, X } from 'lucide-react';
+import { Wheat, Plus, AlertTriangle, Pencil, Archive, ArrowDownToLine, ArrowUpFromLine, X } from 'lucide-react';
 import { storeService } from '../../services/storeService';
 import { FeedInventory } from '../../types';
 import { formatRupiah } from '../../utils/formatters';
 
 export const FeedManagementView: React.FC = () => {
-  const [feed, setFeed] = useState(storeService.feedInventory);
+  const [feed, setFeed] = useState(storeService.getActiveFeedInventory());
   const [locations, setLocations] = useState(storeService.locations);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingFeedId, setEditingFeedId] = useState<string | null>(null);
@@ -23,7 +23,7 @@ export const FeedManagementView: React.FC = () => {
 
   useEffect(() => {
     const unsubscribe = storeService.subscribe(() => {
-      setFeed(storeService.feedInventory);
+      setFeed(storeService.getActiveFeedInventory());
       setLocations(storeService.locations);
     });
     return unsubscribe;
@@ -148,6 +148,15 @@ export const FeedManagementView: React.FC = () => {
                     className="p-1.5 text-blue-700 hover:bg-blue-50 rounded-lg cursor-pointer"
                   >
                     <Pencil className="w-4 h-4" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => window.confirm(`Arsipkan stok ${f.feedType}? Riwayat tetap disimpan.`) && storeService.archiveFeedInventory(f.id)}
+                    title="Arsipkan stok pakan"
+                    aria-label={`Arsipkan stok ${f.feedType}`}
+                    className="p-1.5 text-rose-700 hover:bg-rose-50 rounded-lg cursor-pointer"
+                  >
+                    <Archive className="w-4 h-4" />
                   </button>
                 </div>
               </div>

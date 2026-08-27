@@ -154,6 +154,12 @@ export interface BreedingRecord {
   createdAt: string;
 }
 
+export interface BirthRecord {
+  id: string; motherId: string; motherTag: string; offspringId: string; offspringTag: string;
+  locationId: string; birthDate: string; gender: GenderType; birthWeightKg: number; condition: string;
+  photoUrl?: string; voidedAt?: string; voidedBy?: string; voidReason?: string; createdAt: string;
+}
+
 export type FinancialCategoryType = 'Pakan' | 'Obat & Vitamin' | 'Pembelian Ternak' | 'Penjualan Ternak' | 'Tenaga Kerja' | 'Transportasi' | 'Operasional Lainnya';
 
 export interface DeathRecord {
@@ -222,6 +228,11 @@ export interface SalesRecord {
   docUrl?: string;
   salesRep: string;
   transactionStatus: 'Draft' | 'Diproses' | 'Selesai' | 'Batal';
+  linkedFinanceTransactionIds?: string[];
+  preSaleLivestockSnapshots?: Array<{ livestockId: string; status: LivestockStatusType; notes?: string }>;
+  voidedAt?: string;
+  voidedBy?: string;
+  voidReason?: string;
   notes?: string;
   createdBy: string;
   createdAt: string;
@@ -299,6 +310,8 @@ export interface DailyReport {
   submittedAt?: string;
   reviewedBy?: string;
   reviewedAt?: string;
+  archivedAt?: string;
+  archivedBy?: string;
 }
 
 export interface NotificationItem {

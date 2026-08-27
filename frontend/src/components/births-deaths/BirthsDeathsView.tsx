@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Baby, Skull, Plus, AlertTriangle, Check, X } from 'lucide-react';
+import { Baby, Skull, Pencil, Ban, X } from 'lucide-react';
 import { storeService } from '../../services/storeService';
 import { GenderType, DeathRecord } from '../../types';
 import { formatDate } from '../../utils/formatters';
 
 export const BirthsDeathsView: React.FC = () => {
   const [deaths, setDeaths] = useState(storeService.deathRecords);
+  const [births, setBirths] = useState(storeService.birthRecords);
   const [livestock, setLivestock] = useState(storeService.getActiveLivestock());
   const [locations, setLocations] = useState(storeService.locations);
 
@@ -17,6 +18,7 @@ export const BirthsDeathsView: React.FC = () => {
   const [motherId, setMotherId] = useState('');
   const [gender, setGender] = useState<GenderType>('Jantan');
   const [birthWeight, setBirthWeight] = useState('28');
+  const [birthDate, setBirthDate] = useState(new Date().toISOString().split('T')[0]);
   const [locationId, setLocationId] = useState('');
   const [birthCondition, setBirthCondition] = useState('Sehat, menyusu lancar');
 
@@ -32,6 +34,7 @@ export const BirthsDeathsView: React.FC = () => {
   useEffect(() => {
     const unsubscribe = storeService.subscribe(() => {
       setDeaths(storeService.deathRecords);
+      setBirths(storeService.birthRecords);
       setLivestock(storeService.getActiveLivestock());
       setLocations(storeService.locations);
     });
@@ -55,16 +58,25 @@ export const BirthsDeathsView: React.FC = () => {
     const mother = livestock.find(l => l.id === motherId);
     if (!mother) return;
 
-    storeService.addBirthRecord(
-      mother.id,
-      mother.tagId,
-      locationId || mother.locationId,
-      gender,
-      parseFloat(birthWeight) || 25,
-      birthCondition
-    );
+    storeService.addBirthRecord({ motherId: mother.id, motherTag: mother.tagId, locationId: locationId || mother.locationId,
+      gender, birthDate, birthWeightKg: parseFloat(birthWeight) || 25, condition: birthCondition });
 
     setIsBirthModalOpen(false);
+  };
+
+  const handleVoidBirth = (id: string, tag: string) => {
+    const reason = window.prompt(`Alasan membatalkan kelahiran ${tag}:`);
+    if (reason?.trim() && window.confirm('Batalkan catatan kelahiran dan arsipkan data anak?')) storeService.voidBirthRecord(id, reason);
+  };
+
+  const handleEditDeath = (record: DeathRecord) => {
+    const cause = window.prompt(`Koreksi dugaan penyebab untuk ${record.tagId}:`, record.suspectedCause);
+    if (cause?.trim()) storeService.updateDeathRecord(record.id, { suspectedCause: cause.trim() });
+  };
+
+  const handleVoidDeath = (record: DeathRecord) => {
+    const reason = window.prompt(`Alasan membatalkan laporan kematian ${record.tagId}:`);
+    if (reason?.trim() && window.confirm('Batalkan laporan dan pulihkan status ternak dari snapshot?')) storeService.voidDeathRecord(record.id, reason);
   };
 
   const handleSaveDeath = (e: React.FormEvent) => {
@@ -121,6 +133,13 @@ export const BirthsDeathsView: React.FC = () => {
         </div>
       </div>
 
+      <div className="bg-white rounded-2xl border border-slate-200 shadow-2xs overflow-hidden">
+        <div className="p-4 bg-amber-50 border-b border-amber-200 flex justify-between"><h3 className="text-xs font-bold">Riwayat Kelahiran</h3><span className="text-xs">{births.length} peristiwa</span></div>
+        <div className="overflow-x-auto"><table className="w-full text-left text-xs"><thead className="bg-slate-100"><tr><th className="p-3">Tanggal</th><th className="p-3">Induk</th><th className="p-3">Anak</th><th className="p-3">Bobot</th><th className="p-3">Status / Aksi</th></tr></thead>
+          <tbody>{births.map(b => <tr key={b.id} className="border-t"><td className="p-3">{formatDate(b.birthDate)}</td><td className="p-3 font-mono">{b.motherTag}</td><td className="p-3 font-mono font-bold">{b.offspringTag}</td><td className="p-3">{b.birthWeightKg} kg</td><td className="p-3">{b.voidedAt ? <span className="text-rose-700 font-bold">Dibatalkan</span> : <button type="button" onClick={() => handleVoidBirth(b.id, b.offspringTag)} className="text-rose-700 font-bold">Batalkan & Arsipkan Anak</button>}</td></tr>)}</tbody>
+        </table>{births.length === 0 && <p className="p-6 text-center text-slate-400 text-xs">Belum ada riwayat kelahiran.</p>}</div>
+      </div>
+
       {/* Official Death Records List */}
       <div className="bg-white rounded-2xl border border-slate-200 shadow-2xs overflow-hidden">
         <div className="p-4 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
@@ -142,7 +161,7 @@ export const BirthsDeathsView: React.FC = () => {
                 <th className="p-3.5">Dugaan Penyebab</th>
                 <th className="p-3.5">Gejala Sebelum Mati</th>
                 <th className="p-3.5">Penanganan Bangkai</th>
-                <th className="p-3.5">Petugas / Dokter</th>
+                <th className="p-3.5">Petugas / Dokter</th><th className="p-3.5">Aksi</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 font-medium">
@@ -154,11 +173,12 @@ export const BirthsDeathsView: React.FC = () => {
                   <td className="p-3.5 text-slate-600">{d.symptomsBefore}</td>
                   <td className="p-3.5 text-slate-600">{d.handlingNote}</td>
                   <td className="p-3.5 text-slate-500">{d.officerName} {d.vetName ? `(${d.vetName})` : ''}</td>
+                  <td className="p-3.5">{d.voidedAt ? <span className="text-rose-700 font-bold">Dibatalkan</span> : <div className="flex gap-2"><button type="button" onClick={() => handleEditDeath(d)} aria-label={`Edit kematian ${d.tagId}`} className="text-blue-700"><Pencil className="w-4 h-4" /></button><button type="button" onClick={() => handleVoidDeath(d)} aria-label={`Batalkan kematian ${d.tagId}`} className="text-rose-700"><Ban className="w-4 h-4" /></button></div>}</td>
                 </tr>
               ))}
               {deaths.length === 0 && (
                 <tr>
-                  <td colSpan={6} className="p-8 text-center text-slate-400">
+                  <td colSpan={7} className="p-8 text-center text-slate-400">
                     Sistem bersih. Tidak ada rekam kematian ternak tercatat.
                   </td>
                 </tr>
@@ -195,6 +215,10 @@ export const BirthsDeathsView: React.FC = () => {
               </div>
 
               <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block font-bold text-slate-700 mb-1">Tanggal Lahir *</label>
+                  <input type="date" value={birthDate} onChange={e => setBirthDate(e.target.value)} required className="w-full px-3 py-2 border border-slate-300 rounded-lg" />
+                </div>
                 <div>
                   <label className="block font-bold text-slate-700 mb-1">Jenis Kelamin Anak *</label>
                   <select

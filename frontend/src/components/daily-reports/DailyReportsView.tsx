@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { FileSpreadsheet, Plus, CheckCircle, Clock, AlertTriangle, Check, X, Building2 } from 'lucide-react';
+import { FileSpreadsheet, Plus, Pencil, Archive, X } from 'lucide-react';
 import { storeService } from '../../services/storeService';
 import { DailyReport } from '../../types';
 import { formatDate } from '../../utils/formatters';
 
 export const DailyReportsView: React.FC = () => {
-  const [reports, setReports] = useState(storeService.dailyReports);
+  const [reports, setReports] = useState(storeService.dailyReports.filter(report => !report.archivedAt));
   const [locations, setLocations] = useState(storeService.locations);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingReportId, setEditingReportId] = useState<string | null>(null);
+  const [reportStatus, setReportStatus] = useState<'Draft' | 'Dikirim'>('Draft');
 
   // Form
   const [locationId, setLocationId] = useState('');
@@ -29,7 +31,7 @@ export const DailyReportsView: React.FC = () => {
 
   useEffect(() => {
     const unsubscribe = storeService.subscribe(() => {
-      setReports(storeService.dailyReports);
+      setReports(storeService.dailyReports.filter(report => !report.archivedAt));
       setLocations(storeService.locations);
     });
     return unsubscribe;
@@ -47,15 +49,26 @@ export const DailyReportsView: React.FC = () => {
   const popFinalCalculated = (initNum + purNum + birNum + tInNum) - (salNum + deaNum + tOutNum);
 
   const handleOpenModal = () => {
+    setEditingReportId(null);
+    setReportStatus('Draft');
     if (locations.length > 0) setLocationId(locations[0].id);
     setIsModalOpen(true);
+  };
+
+  const handleEdit = (report: DailyReport) => {
+    setEditingReportId(report.id); setLocationId(report.locationId); setDate(report.date);
+    setPopInitial(String(report.popInitial)); setPopPurchase(String(report.popPurchase)); setPopBirth(String(report.popBirth)); setPopTransferIn(String(report.popTransferIn));
+    setPopSales(String(report.popSales)); setPopDeath(String(report.popDeath)); setPopTransferOut(String(report.popTransferOut));
+    setHealthyCount(String(report.healthyCount)); setSickCount(String(report.sickCount)); setIsolationCount(String(report.isolationCount));
+    setActivitiesText(report.activitiesText); setOfficerNotes(report.officerNotes ?? '');
+    setReportStatus(report.reportStatus === 'Draft' ? 'Draft' : 'Dikirim'); setIsModalOpen(true);
   };
 
   const handleSaveReport = (e: React.FormEvent) => {
     e.preventDefault();
     const loc = locations.find(l => l.id === locationId) || locations[0];
 
-    storeService.addDailyReport({
+    const reportData = {
       date,
       locationId: loc.id,
       locationName: loc.name,
@@ -74,10 +87,12 @@ export const DailyReportsView: React.FC = () => {
       expensesList: [],
       photos: [],
       officerNotes,
-      reportStatus: 'Dikirim',
+      reportStatus,
       createdBy: storeService.currentUser.displayName,
       submittedAt: new Date().toISOString()
-    });
+    };
+    if (editingReportId) storeService.updateDailyReport(editingReportId, reportData);
+    else storeService.addDailyReport(reportData);
 
     setIsModalOpen(false);
   };
@@ -134,6 +149,10 @@ export const DailyReportsView: React.FC = () => {
                     ✓ Setujui Laporan
                   </button>
                 )}
+                {rpt.reportStatus !== 'Disetujui' && <>
+                  <button type="button" onClick={() => handleEdit(rpt)} aria-label={`Edit laporan ${rpt.locationName}`} className="p-1.5 text-blue-700 hover:bg-blue-50 rounded"><Pencil className="w-4 h-4" /></button>
+                  <button type="button" onClick={() => window.confirm('Arsipkan laporan ini?') && storeService.archiveDailyReport(rpt.id)} aria-label={`Arsipkan laporan ${rpt.locationName}`} className="p-1.5 text-rose-700 hover:bg-rose-50 rounded"><Archive className="w-4 h-4" /></button>
+                </>}
               </div>
             </div>
 
@@ -160,6 +179,7 @@ export const DailyReportsView: React.FC = () => {
               <div>
                 <span className="font-bold text-slate-900 block">Aktivitas & Catatan Petugas:</span>
                 <p className="text-slate-600">{rpt.activitiesText}</p>
+                {rpt.officerNotes && <p className="text-slate-500 mt-1">Catatan: {rpt.officerNotes}</p>}
               </div>
             </div>
 
@@ -176,7 +196,7 @@ export const DailyReportsView: React.FC = () => {
         <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center p-3 sm:p-4">
           <div className="bg-white rounded-2xl max-w-lg w-full overflow-hidden shadow-2xl border border-slate-200">
             <div className="p-4 bg-emerald-900 text-white flex items-center justify-between font-bold">
-              <h3>Form Laporan Harian Kandang</h3>
+              <h3>{editingReportId ? 'Edit Laporan Harian' : 'Form Laporan Harian Kandang'}</h3>
               <button onClick={() => setIsModalOpen(false)} className="p-1 hover:bg-emerald-800 rounded">
                 <X className="w-5 h-5" />
               </button>
@@ -327,6 +347,14 @@ export const DailyReportsView: React.FC = () => {
                   className="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-800"
                 />
               </div>
+              <div>
+                <label className="block font-bold text-slate-700 mb-1">Catatan Petugas</label>
+                <textarea value={officerNotes} onChange={e => setOfficerNotes(e.target.value)} rows={2} className="w-full p-2 border border-slate-300 rounded-lg" />
+              </div>
+              <div>
+                <label className="block font-bold text-slate-700 mb-1">Simpan Sebagai</label>
+                <select value={reportStatus} onChange={e => setReportStatus(e.target.value as 'Draft' | 'Dikirim')} className="w-full p-2 border border-slate-300 rounded-lg"><option value="Draft">Draft</option><option value="Dikirim">Kirim untuk diperiksa</option></select>
+              </div>
 
               <div className="pt-2 flex items-center justify-end gap-2">
                 <button
@@ -340,7 +368,7 @@ export const DailyReportsView: React.FC = () => {
                   type="submit"
                   className="px-5 py-2 bg-emerald-900 text-white font-bold rounded-lg hover:bg-emerald-800"
                 >
-                  Kirim Laporan Harian
+                  {editingReportId ? 'Simpan Perubahan' : reportStatus === 'Draft' ? 'Simpan Draft' : 'Kirim Laporan Harian'}
                 </button>
               </div>
             </form>
