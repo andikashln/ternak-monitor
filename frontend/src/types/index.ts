@@ -174,7 +174,18 @@ export interface DeathRecord {
   photoUrl?: string; // Required documentation photo
   docUrl?: string;
   confirmedBy?: string;
+  previousLivestockState?: LivestockStateSnapshot;
+  voidedAt?: string;
+  voidedBy?: string;
+  voidReason?: string;
   createdAt: string;
+}
+
+/** State that must be restored when a death record is voided. */
+export interface LivestockStateSnapshot {
+  status: LivestockStatusType;
+  healthStatus: HealthStatusType;
+  notes?: string;
 }
 
 export interface TransferRecord {
@@ -228,6 +239,8 @@ export interface FeedInventory {
   minStock: number;
   unitPrice: number;
   supplier: string;
+  archivedAt?: string;
+  archivedBy?: string;
   updatedAt: string;
 }
 

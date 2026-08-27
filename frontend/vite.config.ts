@@ -35,4 +35,8 @@ export default defineConfig(() => ({
     host: '0.0.0.0', port: 5173,
     proxy: { '/api': { target: process.env.VITE_API_URL || 'http://localhost:3001', changeOrigin: true, rewrite: url => url.replace(/^\/api/, '/api') } },
   },
+  test: {
+    environment: 'node',
+    include: ['src/**/*.test.ts'],
+  },
 }));

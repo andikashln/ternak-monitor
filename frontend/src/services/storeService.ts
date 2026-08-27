@@ -960,8 +960,16 @@ class StoreService {
 
   // Death Record -> Auto sets status to MATI and excludes from active population
   public addDeathRecord(rec: Omit<DeathRecord, 'id' | 'createdAt'>) {
+    const livestock = this.livestock.find(item => item.id === rec.livestockId);
+    if (!livestock) return;
+
     const newRec: DeathRecord = {
       ...rec,
+      previousLivestockState: {
+        status: livestock.status,
+        healthStatus: livestock.healthStatus,
+        notes: livestock.notes
+      },
       id: `d-${Date.now()}`,
       createdAt: new Date().toISOString()
     };
@@ -985,6 +993,35 @@ class StoreService {
 
     this.addAuditLog('Kematian', 'Input Kematian Ternak', newRec.id, rec.tagId, 'Status: Aktif/Sakit', `Status: MATI (${rec.suspectedCause})`);
     this.notify();
+  }
+
+  public voidDeathRecord(id: string, reason: string): boolean {
+    const record = this.deathRecords.find(item => item.id === id);
+    if (!record || record.voidedAt || !record.previousLivestockState || !reason.trim()) return false;
+
+    this.livestock = this.livestock.map(item => item.id === record.livestockId
+      ? {
+          ...item,
+          status: record.previousLivestockState!.status,
+          healthStatus: record.previousLivestockState!.healthStatus,
+          notes: record.previousLivestockState!.notes,
+          updatedAt: new Date().toISOString()
+        }
+      : item);
+    this.deathRecords = this.deathRecords.map(item => item.id === id
+      ? { ...item, voidedAt: new Date().toISOString(), voidedBy: this.currentUser.displayName, voidReason: reason.trim() }
+      : item);
+    saveStorage(STORAGE_KEYS.LIVESTOCK, this.livestock);
+    saveStorage(STORAGE_KEYS.DEATHS, this.deathRecords);
+    this.addAuditLog('Kematian', 'Void Kematian Ternak', id, record.tagId, `Status: Mati (${record.suspectedCause})`, `Dipulihkan; alasan: ${reason.trim()}`);
+    this.addNotification({
+      title: 'Laporan Kematian Dibatalkan',
+      message: `Laporan kematian ${record.tagId} dibatalkan dan status ternak dipulihkan.`,
+      severity: 'info',
+      category: 'Kematian',
+      locationId: record.locationId
+    });
+    return true;
   }
 
   // Transfer Record
@@ -1108,6 +1145,23 @@ class StoreService {
     this.notify();
   }
 
+  public archiveFeedInventory(id: string): boolean {
+    const item = this.feedInventory.find(feed => feed.id === id);
+    if (!item || item.archivedAt) return false;
+
+    this.feedInventory = this.feedInventory.map(feed => feed.id === id
+      ? { ...feed, archivedAt: new Date().toISOString(), archivedBy: this.currentUser.displayName, updatedAt: new Date().toISOString() }
+      : feed);
+    saveStorage(STORAGE_KEYS.FEED, this.feedInventory);
+    this.addAuditLog('Pakan', 'Arsip Stok Pakan', id, item.feedType, `Stok: ${item.stockQty} ${item.unit}`);
+    this.notify();
+    return true;
+  }
+
+  public getActiveFeedInventory(): FeedInventory[] {
+    return this.feedInventory.filter(item => !item.archivedAt);
+  }
+
   public updateSettings(settings: BusinessSettings) {
     this.settings = settings;
     saveStorage(STORAGE_KEYS.SETTINGS, this.settings);
@@ -1212,6 +1266,10 @@ class StoreService {
   }
 
   // Reset / Clear Demo Seed
+  public resetForDemo() {
+    this.resetToSeed();
+  }
+
   public resetToSeed() {
     this.locations = INITIAL_LOCATIONS;
     this.pens = INITIAL_PENS;
