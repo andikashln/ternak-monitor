@@ -911,9 +911,46 @@ class StoreService {
     };
     this.breedingRecords = [newRec, ...this.breedingRecords];
     saveStorage(STORAGE_KEYS.BREEDING, this.breedingRecords);
+    this.syncBreedingStatus(newRec.motherId);
     this.addAuditLog('Breeding', 'Input Perkawinan', newRec.id, newRec.motherTag);
     this.notify();
     return newRec;
+  }
+
+  private syncBreedingStatus(motherId: string) {
+    const latest = this.breedingRecords
+      .filter(record => record.motherId === motherId)
+      .sort((a, b) => `${b.matingDate}${b.createdAt}`.localeCompare(`${a.matingDate}${a.createdAt}`))[0];
+    if (!latest) {
+      this.updateLivestock(motherId, { breedingStatus: 'Belum Dikawinkan' });
+      return;
+    }
+    this.updateLivestock(motherId, {
+      breedingStatus: latest.pregStatus === 'Positif' ? 'Bunting' : latest.pregStatus === 'Negatif' ? 'Tidak Bunting' : 'Menunggu Pemeriksaan'
+    });
+  }
+
+  public updateBreedingRecord(id: string, rec: Omit<BreedingRecord, 'id' | 'createdAt'>): boolean {
+    const existing = this.breedingRecords.find(record => record.id === id);
+    if (!existing) return false;
+    this.breedingRecords = this.breedingRecords.map(record => record.id === id ? { ...record, ...rec } : record);
+    saveStorage(STORAGE_KEYS.BREEDING, this.breedingRecords);
+    this.syncBreedingStatus(existing.motherId);
+    if (existing.motherId !== rec.motherId) this.syncBreedingStatus(rec.motherId);
+    this.addAuditLog('Breeding', 'Edit Perkawinan', id, rec.motherTag);
+    this.notify();
+    return true;
+  }
+
+  public deleteBreedingRecord(id: string): boolean {
+    const record = this.breedingRecords.find(item => item.id === id);
+    if (!record) return false;
+    this.breedingRecords = this.breedingRecords.filter(item => item.id !== id);
+    saveStorage(STORAGE_KEYS.BREEDING, this.breedingRecords);
+    this.syncBreedingStatus(record.motherId);
+    this.addAuditLog('Breeding', 'Hapus Perkawinan', id, record.motherTag);
+    this.notify();
+    return true;
   }
 
   // Birth Record -> Auto creates new offspring livestock

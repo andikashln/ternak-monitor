@@ -59,6 +59,27 @@ describe('safe death record void', () => {
   });
 });
 
+describe('breeding lifecycle', () => {
+  it('recalculates the mother breeding status after a breeding record is removed', () => {
+    const mother = storeService.livestock.find(item => item.gender === 'Betina' && item.status === 'Aktif');
+    expect(mother).toBeDefined();
+    const previousBreedingStatus = mother!.breedingStatus;
+    const record = storeService.addBreedingRecord({
+      motherId: mother!.id,
+      motherTag: mother!.tagId,
+      fatherTag: 'DEMO-VIDEO-PEJANTAN',
+      matingDate: '2026-08-27',
+      method: 'Inseminasi Buatan (IB)',
+      pregStatus: 'Positif',
+      notes: 'DEMO-VIDEO breeding',
+    });
+    expect(storeService.livestock.find(item => item.id === mother!.id)?.breedingStatus).toBe('Bunting');
+    expect(storeService.deleteBreedingRecord(record.id)).toBe(true);
+    expect(storeService.livestock.find(item => item.id === mother!.id)?.breedingStatus).toBe(previousBreedingStatus);
+  });
+});
+
+
 describe('feed inventory archive', () => {
   it('hides archived feed from the active inventory while preserving its history', () => {
     const feed = storeService.feedInventory[0];
