@@ -40,17 +40,12 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
       {/* Top Header Banner with Professional Polish Styling */}
       <div className="bg-gradient-to-r from-[#1b4332] via-[#2d6a4f] to-[#1b4332] rounded-xl p-6 text-white shadow-sm border border-[#1b4332]/20 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div>
-          <div className="flex items-center gap-2 mb-1.5">
-            <span className="location-pill">
-              <Building2 className="w-3.5 h-3.5 text-[#1b4332]" />
-              <span>{activeLocId === 'ALL' ? 'SEMUA LOKASI' : locations.find(l => l.id === activeLocId)?.name.toUpperCase()}</span>
-            </span>
-          </div>
+          <p className="mb-2 text-[11px] font-bold uppercase tracking-[0.18em] text-[#d8f3dc]">Pusat kendali operasional</p>
           <h2 className="text-xl sm:text-2xl font-bold tracking-tight">
-            Ringkasan Bisnis Peternakan
+            Ringkasan peternakan hari ini
           </h2>
           <p className="text-xs sm:text-sm text-[#d8f3dc] max-w-2xl mt-1 leading-relaxed">
-            Sistem monitorinssg peternakan terpadu. Pantau populasi, kondisi kesehatan, pertumbuhan bobot, dan neraca keuangan dari manapun.
+            Pantau populasi, kesehatan, pertumbuhan bobot, dan arus keuangan dari satu tempat.
           </p>
         </div>
 
