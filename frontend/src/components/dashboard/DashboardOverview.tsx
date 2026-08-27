@@ -1,19 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import {
   Building2, TrendingUp, TrendingDown, HeartPulse, Scale, ShieldAlert,
-  Wallet, FileSpreadsheet, Sparkles, Plus, CheckCircle2, ArrowRight
+  Wallet, FileSpreadsheet, Plus, CheckCircle2, ArrowRight
 } from 'lucide-react';
 import { storeService } from '../../services/storeService';
 import { formatRupiah, formatDate } from '../../utils/formatters';
 
 interface DashboardOverviewProps {
-  onOpenOwnerBrief: () => void;
   onOpenQuickAction: () => void;
   onNavigateTab: (tabId: string) => void;
 }
 
 export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
-  onOpenOwnerBrief,
   onOpenQuickAction,
   onNavigateTab
 }) => {
@@ -57,13 +55,6 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
         </div>
 
         <div className="flex flex-wrap items-center gap-2.5 shrink-0">
-          <button
-            onClick={onOpenOwnerBrief}
-            className="flex items-center gap-2 px-4 py-2 bg-[#d8f3dc] hover:bg-emerald-200 text-[#1b4332] rounded-lg font-bold text-xs transition shadow-2xs cursor-pointer"
-          >
-            <Sparkles className="w-4 h-4 text-[#1b4332]" />
-            <span>AI Daily Brief</span>
-          </button>
           <button
             onClick={onOpenQuickAction}
             className="flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg font-semibold text-xs border border-white/20 transition cursor-pointer"

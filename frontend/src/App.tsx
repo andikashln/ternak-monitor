@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Leaf, Loader2, LogIn } from 'lucide-react';
+import { Loader2, LogIn } from 'lucide-react';
 import { LoginPage } from './components/auth/LoginPage';
 import { Navbar } from './components/layout/Navbar';
 import { Sidebar } from './components/layout/Sidebar';
@@ -7,7 +7,6 @@ import { BottomNav } from './components/layout/BottomNav';
 import { QuickActionsModal } from './components/layout/QuickActionsModal';
 
 import { DashboardOverview } from './components/dashboard/DashboardOverview';
-import { OwnerDailyBriefModal } from './components/dashboard/OwnerDailyBriefModal';
 
 import { LivestockDatabaseView } from './components/livestock/LivestockDatabaseView';
 import { LivestockFormModal } from './components/livestock/LivestockFormModal';
@@ -41,9 +40,6 @@ export function App() {
   const [globalSearch, setGlobalSearch] = useState('');
   const [authState, setAuthState] = useState<AuthState>('checking');
   const [showPublicCatalog, setShowPublicCatalog] = useState(false);
-
-  // Modals
-  const [isOwnerBriefOpen, setIsOwnerBriefOpen] = useState(false);
   const [isQuickActionOpen, setIsQuickActionOpen] = useState(false);
   
   const [isAddLivestockOpen, setIsAddLivestockOpen] = useState(false);
@@ -151,9 +147,7 @@ export function App() {
           <header className="sticky top-0 z-30 border-b border-slate-200 bg-white shadow-2xs">
             <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
               <div className="flex items-center gap-3">
-                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#1b4332] text-white">
-                  <Leaf className="h-5 w-5" />
-                </div>
+                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#1b4332] text-xs font-black text-white">SP</div>
                 <div>
                   <p className="text-sm font-black tracking-tight text-slate-950 sm:text-base">SAPI PAPI FARM</p>
                   <p className="text-[10px] font-bold text-emerald-800">Katalog Publik Penjualan Sapi</p>
@@ -181,7 +175,6 @@ export function App() {
     return (
       <div className="min-h-screen bg-slate-100 font-sans text-slate-800 antialiased">
         <Navbar
-          onOpenOwnerBrief={() => undefined}
           onOpenQuickAction={() => undefined}
           onSearchChange={query => setGlobalSearch(query)}
           onOpenNotifications={() => undefined}
@@ -200,7 +193,6 @@ export function App() {
       
       {/* Top Navbar */}
       <Navbar
-        onOpenOwnerBrief={() => setIsOwnerBriefOpen(true)}
         onOpenQuickAction={() => setIsQuickActionOpen(true)}
         onSearchChange={query => setGlobalSearch(query)}
         onOpenNotifications={() => setActiveTab('notifications')}
@@ -221,7 +213,6 @@ export function App() {
           
           {activeTab === 'dashboard' && (
             <DashboardOverview
-              onOpenOwnerBrief={() => setIsOwnerBriefOpen(true)}
               onOpenQuickAction={() => setIsQuickActionOpen(true)}
               onNavigateTab={tab => setActiveTab(tab)}
             />
@@ -275,11 +266,6 @@ export function App() {
       />
 
       {/* MODALS */}
-      <OwnerDailyBriefModal
-        isOpen={isOwnerBriefOpen}
-        onClose={() => setIsOwnerBriefOpen(false)}
-      />
-
       <QuickActionsModal
         isOpen={isQuickActionOpen}
         onClose={() => setIsQuickActionOpen(false)}
