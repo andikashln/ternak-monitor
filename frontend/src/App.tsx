@@ -30,7 +30,7 @@ import { SalesCatalogView } from './components/catalog/SalesCatalogView';
 
 import { storeService } from './services/storeService';
 import { authAPI, authSession } from './services/api';
-import { getStaticDemoSession } from './services/demoAuth';
+import { getStaticDemoSession, shouldUseStaticDemoFallback } from './services/demoAuth';
 import { LivestockItem, UserProfile } from './types';
 
 type AuthState = 'checking' | 'authenticated' | 'guest';
@@ -96,7 +96,7 @@ export function App() {
     } catch (error: any) {
       // Public Vercel demo is static: fall back only for the explicitly documented
       // demo owner account when the API cannot be reached at all.
-      if (!error.response) {
+      if (shouldUseStaticDemoFallback(error.response?.status)) {
         const demoSession = getStaticDemoSession(email, password);
         if (demoSession) {
           authSession.setToken(demoSession.token);
