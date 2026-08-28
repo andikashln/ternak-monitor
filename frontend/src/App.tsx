@@ -30,6 +30,7 @@ import { SalesCatalogView } from './components/catalog/SalesCatalogView';
 
 import { storeService } from './services/storeService';
 import { authAPI, authSession } from './services/api';
+import { getStaticDemoSession } from './services/demoAuth';
 import { LivestockItem, UserProfile } from './types';
 
 type AuthState = 'checking' | 'authenticated' | 'guest';
@@ -93,6 +94,18 @@ export function App() {
       setActiveTab(user.role === 'USER' ? 'catalog' : 'dashboard');
       setAuthState('authenticated');
     } catch (error: any) {
+      // Public Vercel demo is static: fall back only for the explicitly documented
+      // demo owner account when the API cannot be reached at all.
+      if (!error.response) {
+        const demoSession = getStaticDemoSession(email, password);
+        if (demoSession) {
+          authSession.setToken(demoSession.token);
+          storeService.setCurrentUser(demoSession.user);
+          setActiveTab('dashboard');
+          setAuthState('authenticated');
+          return;
+        }
+      }
       const message = error.response?.data?.error || 'Tidak dapat terhubung ke server. Periksa koneksi lalu coba kembali.';
       throw new Error(message);
     }
