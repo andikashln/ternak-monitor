@@ -30,7 +30,7 @@ import { SalesCatalogView } from './components/catalog/SalesCatalogView';
 
 import { storeService } from './services/storeService';
 import { authAPI, authSession } from './services/api';
-import { getStaticDemoSession, shouldUseStaticDemoFallback } from './services/demoAuth';
+import { getOneClickDemoSession, getStaticDemoSession, shouldUseStaticDemoFallback } from './services/demoAuth';
 import { LivestockItem, UserProfile } from './types';
 
 type AuthState = 'checking' | 'authenticated' | 'guest';
@@ -111,6 +111,14 @@ export function App() {
     }
   };
 
+  const handleDemoLogin = async () => {
+    const demoSession = getOneClickDemoSession();
+    authSession.setToken(demoSession.token);
+    storeService.setCurrentUser(demoSession.user);
+    setActiveTab('dashboard');
+    setAuthState('authenticated');
+  };
+
   const handleLogout = async () => {
     try {
       await authAPI.logout();
@@ -181,7 +189,7 @@ export function App() {
         </div>
       );
     }
-    return <LoginPage onLogin={handleLogin} onOpenCatalog={() => setShowPublicCatalog(true)} />;
+    return <LoginPage onLogin={handleLogin} onDemoLogin={handleDemoLogin} onOpenCatalog={() => setShowPublicCatalog(true)} />;
   }
 
   if (currentUser.role === 'USER') {

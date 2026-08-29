@@ -3,10 +3,11 @@ import { AlertCircle, Eye, EyeOff, Leaf, Loader2, LockKeyhole, Mail, ShieldCheck
 
 interface LoginPageProps {
   onLogin: (email: string, password: string) => Promise<void>;
+  onDemoLogin: () => Promise<void>;
   onOpenCatalog: () => void;
 }
 
-export const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onOpenCatalog }) => {
+export const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onDemoLogin, onOpenCatalog }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -21,6 +22,18 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onOpenCatalog }) 
       await onLogin(email.trim(), password);
     } catch (error) {
       setErrorMessage(error instanceof Error ? error.message : 'Tidak dapat masuk. Silakan coba kembali.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleDemoLogin = async () => {
+    setErrorMessage('');
+    setIsSubmitting(true);
+    try {
+      await onDemoLogin();
+    } catch (error) {
+      setErrorMessage(error instanceof Error ? error.message : 'Login demo belum dapat dibuka. Silakan coba kembali.');
     } finally {
       setIsSubmitting(false);
     }
@@ -145,6 +158,17 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onOpenCatalog }) 
                 {isSubmitting ? 'Memverifikasi...' : 'Masuk ke Dashboard'}
               </button>
             </form>
+
+            <button
+              type="button"
+              onClick={handleDemoLogin}
+              disabled={isSubmitting}
+              className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl border border-emerald-300 bg-emerald-50 px-4 py-3 text-sm font-black text-emerald-950 transition hover:bg-emerald-100 disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              {isSubmitting && <Loader2 className="h-4 w-4 animate-spin" />}
+              {isSubmitting ? 'Membuka Demo...' : 'Login Demo Sekali Klik'}
+            </button>
+            <p className="mt-2 text-center text-[11px] text-slate-500">Masuk ke data contoh Sapi Papi Farm tanpa mengisi akun.</p>
 
             <div className="my-5 flex items-center gap-3 text-[10px] font-bold uppercase tracking-wider text-slate-400">
               <span className="h-px flex-1 bg-slate-200" /> atau <span className="h-px flex-1 bg-slate-200" />

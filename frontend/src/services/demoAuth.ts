@@ -25,11 +25,14 @@ export function shouldUseStaticDemoFallback(httpStatus?: number): boolean {
   return httpStatus === undefined || httpStatus === 405;
 }
 
-export function getStaticDemoSession(email: string, password: string): StaticDemoSession | null {
-  if (email !== DEMO_EMAIL || password !== DEMO_PASSWORD) return null;
-
+export function getOneClickDemoSession(): StaticDemoSession {
   return {
     token: 'static-demo-owner-session',
     user: DEMO_OWNER,
   };
+}
+
+export function getStaticDemoSession(email: string, password: string): StaticDemoSession | null {
+  if (email !== DEMO_EMAIL || password !== DEMO_PASSWORD) return null;
+  return getOneClickDemoSession();
 }

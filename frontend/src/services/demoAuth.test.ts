@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { getStaticDemoSession, shouldUseStaticDemoFallback } from './demoAuth';
+import { getOneClickDemoSession, getStaticDemoSession, shouldUseStaticDemoFallback } from './demoAuth';
 
 describe('static demo authentication', () => {
   it('returns an owner session only for the documented demo credentials', () => {
@@ -11,6 +11,13 @@ describe('static demo authentication', () => {
         role: 'OWNER',
         status: 'Aktif',
       },
+    });
+  });
+
+  it('returns a demo owner session without exposing credentials to the UI', () => {
+    expect(getOneClickDemoSession()).toMatchObject({
+      token: 'static-demo-owner-session',
+      user: { uid: 'demo-owner-local', role: 'OWNER', status: 'Aktif' },
     });
   });
 
