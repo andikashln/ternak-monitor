@@ -1290,9 +1290,10 @@ class StoreService {
       });
     }
 
-    // Auto add income to finance if paid
+    // A completed, paid sale produces linked revenue and HPP ledger entries.
+    // Keeping both IDs on the sale makes a later void atomic and traceable.
     if (tx.paymentStatus === 'Lunas') {
-      const finance = this.addFinancialTransaction({
+      const revenue = this.addFinancialTransaction({
         invoiceNo: tx.invoiceNo,
         date: tx.date,
         type: 'income',
@@ -1306,7 +1307,32 @@ class StoreService {
         proofUrl: tx.proofUrl,
         createdBy: tx.createdBy
       });
-      newTx.linkedFinanceTransactionIds = [finance.id];
+      const linkedFinanceTransactionIds = [revenue.id];
+
+      if (tx.transactionStatus === 'Selesai') {
+        const acquisitionCost = tx.acquisitionCostTotal ?? tx.livestockIds.reduce((total, livestockId) => {
+          const livestock = this.livestock.find(item => item.id === livestockId);
+          return total + (livestock?.acquisitionPrice ?? 0);
+        }, 0);
+        if (acquisitionCost > 0) {
+          const hpp = this.addFinancialTransaction({
+            invoiceNo: tx.invoiceNo,
+            date: tx.date,
+            type: 'expense',
+            category: 'Pembelian Ternak',
+            description: `Harga beli/HPP ternak terjual (${tx.invoiceNo})`,
+            locationId: tx.locationId,
+            locationName: tx.locationName,
+            amount: acquisitionCost,
+            paymentMethod: 'Harga Perolehan',
+            payeePayer: 'Persediaan Ternak',
+            createdBy: tx.createdBy
+          });
+          linkedFinanceTransactionIds.push(hpp.id);
+        }
+      }
+
+      newTx.linkedFinanceTransactionIds = linkedFinanceTransactionIds;
       this.salesRecords = this.salesRecords.map(item => item.id === newTx.id ? newTx : item);
       saveStorage(STORAGE_KEYS.SALES, this.salesRecords);
     }

@@ -45,7 +45,7 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
             Ringkasan peternakan hari ini
           </h2>
           <p className="text-xs sm:text-sm text-[#d8f3dc] max-w-2xl mt-1 leading-relaxed">
-            Pantau populasi, kesehatan, pertumbuhan bobot, dan arus keuangan dari satu tempat.
+            Pantau populasi, kesehatan, aktivitas kandang, dan arus keuangan dari satu tempat.
           </p>
         </div>
 
@@ -253,24 +253,10 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
           <h3 className="text-sm font-bold text-slate-900">Akses Cepat Modul Utama</h3>
           <div className="grid grid-cols-2 gap-2 text-xs">
             <button
-              onClick={() => onNavigateTab('weight')}
-              className="p-3 rounded-xl bg-slate-50 hover:bg-[#d8f3dc]/40 border border-slate-200 hover:border-[#1b4332]/30 text-left font-bold text-slate-800 flex items-center justify-between transition cursor-pointer"
-            >
-              <span>⚖️ Penimbangan Bobot</span>
-              <ArrowRight className="w-3.5 h-3.5 text-slate-400" />
-            </button>
-            <button
               onClick={() => onNavigateTab('health')}
               className="p-3 rounded-xl bg-slate-50 hover:bg-[#d8f3dc]/40 border border-slate-200 hover:border-[#1b4332]/30 text-left font-bold text-slate-800 flex items-center justify-between transition cursor-pointer"
             >
               <span>💉 Kesehatan & Obat</span>
-              <ArrowRight className="w-3.5 h-3.5 text-slate-400" />
-            </button>
-            <button
-              onClick={() => onNavigateTab('breeding')}
-              className="p-3 rounded-xl bg-slate-50 hover:bg-[#d8f3dc]/40 border border-slate-200 hover:border-[#1b4332]/30 text-left font-bold text-slate-800 flex items-center justify-between transition cursor-pointer"
-            >
-              <span>🧬 Breeding & Bunting</span>
               <ArrowRight className="w-3.5 h-3.5 text-slate-400" />
             </button>
             <button

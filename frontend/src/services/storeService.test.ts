@@ -156,17 +156,22 @@ describe('location lifecycle', () => {
 });
 
 describe('safe sale void', () => {
-  it('restores livestock snapshots and reverses exactly its linked finance entry', () => {
+  it('records linked revenue and HPP, then reverses both without touching unrelated cash entries', () => {
     const animal = storeService.getActiveLivestock()[0];
     const snapshot = { status: animal.status, notes: animal.notes };
     const unrelatedFinanceIds = storeService.financialTransactions.map(item => item.id);
     const sale = storeService.addSalesTransaction({
       invoiceNo: 'DEMO-VIDEO-SALE', date: '2026-08-27', buyerName: 'Pembeli Demo', buyerPhone: '-',
       livestockIds: [animal.id], weightTotalKg: animal.currentWeightKg, priceTotal: 20_000_000,
+      acquisitionCostTotal: animal.acquisitionPrice,
       paymentMethod: 'Tunai', paymentStatus: 'Lunas', locationId: animal.locationId,
       locationName: animal.locationName ?? '-', salesRep: 'Petugas Uji', transactionStatus: 'Selesai', createdBy: 'Petugas Uji',
     });
-    expect(sale.linkedFinanceTransactionIds).toHaveLength(1);
+    expect(sale.linkedFinanceTransactionIds).toHaveLength(2);
+    expect(storeService.financialTransactions.filter(item => sale.linkedFinanceTransactionIds.includes(item.id))).toEqual(expect.arrayContaining([
+      expect.objectContaining({ type: 'income', category: 'Penjualan Ternak', amount: 20_000_000 }),
+      expect.objectContaining({ type: 'expense', category: 'Pembelian Ternak', amount: animal.acquisitionPrice }),
+    ]));
     expect(storeService.voidSalesTransaction(sale.id, 'Pembeli membatalkan')).toBe(true);
     expect(storeService.livestock.find(item => item.id === animal.id)).toMatchObject(snapshot);
     expect(storeService.salesRecords.find(item => item.id === sale.id)).toMatchObject({ transactionStatus: 'Batal', voidReason: 'Pembeli membatalkan' });

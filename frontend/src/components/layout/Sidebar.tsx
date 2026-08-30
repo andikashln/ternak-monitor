@@ -1,10 +1,10 @@
 import React from 'react';
 import {
-  LayoutDashboard, Database, HeartPulse, Dna, ShoppingCart, Wheat, FileText,
-  ShieldCheck,
+  Activity, BadgeDollarSign, Baby, ChevronRight, ClipboardList, Database, FileBarChart,
+  HeartPulse, LayoutDashboard, ReceiptText, ShoppingCart,
+  Users, Wallet,
 } from 'lucide-react';
 import { UserRole } from '../../types';
-import { SapiPapiLogo } from '../brand/SapiPapiLogo';
 
 interface SidebarProps {
   activeTab: string;
@@ -12,52 +12,127 @@ interface SidebarProps {
   role: UserRole;
 }
 
-interface NavMenuItem {
+export interface NavMenuItem {
   id: string;
   label: string;
-  icon: React.ReactNode;
+  description: string;
+  icon: React.ComponentType<{ className?: string; strokeWidth?: number }>;
   allowedRoles: UserRole[];
 }
 
-export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab, role }) => {
-  const menuItems: NavMenuItem[] = [
-    { id: 'dashboard', label: 'Dashboard', icon: <LayoutDashboard className="h-4 w-4" />, allowedRoles: ['OWNER', 'ADMIN'] },
-    { id: 'livestock', label: 'Ternak', icon: <Database className="h-4 w-4" />, allowedRoles: ['OWNER', 'ADMIN'] },
-    { id: 'health', label: 'Kesehatan', icon: <HeartPulse className="h-4 w-4" />, allowedRoles: ['OWNER', 'ADMIN'] },
-    { id: 'breeding', label: 'Reproduksi', icon: <Dna className="h-4 w-4" />, allowedRoles: ['OWNER', 'ADMIN'] },
-    { id: 'transactions', label: 'Keuangan & Penjualan', icon: <ShoppingCart className="h-4 w-4" />, allowedRoles: ['OWNER', 'ADMIN'] },
-    { id: 'feed', label: 'Pakan', icon: <Wheat className="h-4 w-4" />, allowedRoles: ['OWNER', 'ADMIN'] },
-    { id: 'daily-reports', label: 'Laporan', icon: <FileText className="h-4 w-4" />, allowedRoles: ['OWNER', 'ADMIN'] },
-  ];
+export interface NavSection {
+  label: string;
+  items: NavMenuItem[];
+}
 
-  return (
-    <aside className="hidden min-h-[calc(100vh-4rem)] w-60 shrink-0 flex-col border-r border-[#d7eadc] bg-[#f7fcf8] md:flex">
-      <div className="border-b border-[#d7eadc] p-5">
-        <SapiPapiLogo />
-        <p className="mt-3 text-[11px] font-medium leading-relaxed text-slate-500">Pencatatan yang sederhana untuk operasional kandang setiap hari.</p>
+const staffRoles: UserRole[] = ['OWNER', 'ADMIN'];
+
+export const navigationSections: NavSection[] = [
+  {
+    label: 'Ringkasan',
+    items: [
+      { id: 'dashboard', label: 'Dashboard', description: 'Kondisi farm hari ini', icon: LayoutDashboard, allowedRoles: staffRoles },
+    ],
+  },
+  {
+    label: 'Operasional ternak',
+    items: [
+      { id: 'livestock', label: 'Database Ternak', description: 'Identitas & populasi', icon: Database, allowedRoles: staffRoles },
+      { id: 'health', label: 'Kesehatan', description: 'Rekam medis & obat', icon: HeartPulse, allowedRoles: staffRoles },
+      { id: 'births-deaths', label: 'Kelahiran & Kematian', description: 'Perubahan populasi', icon: Baby, allowedRoles: staffRoles },
+    ],
+  },
+  {
+    label: 'Bisnis & keuangan',
+    items: [
+      { id: 'transactions', label: 'Jual & Beli', description: 'Transaksi ternak', icon: ShoppingCart, allowedRoles: staffRoles },
+      { id: 'sales-results', label: 'Hasil Penjualan', description: 'HPP, biaya & laba bersih', icon: BadgeDollarSign, allowedRoles: staffRoles },
+      { id: 'finance', label: 'Laporan Laba Rugi', description: 'Pemasukan, biaya & laba', icon: Wallet, allowedRoles: staffRoles },
+      { id: 'feed', label: 'Pengeluaran', description: 'Biaya operasional', icon: ReceiptText, allowedRoles: staffRoles },
+    ],
+  },
+  {
+    label: 'Laporan',
+    items: [
+      { id: 'daily-reports', label: 'Laporan Kandang', description: 'Aktivitas harian', icon: ClipboardList, allowedRoles: staffRoles },
+      { id: 'reports', label: 'Ekspor Laporan', description: 'Dokumen PDF & Excel', icon: FileBarChart, allowedRoles: staffRoles },
+    ],
+  },
+  {
+    label: 'Sistem',
+    items: [
+      { id: 'users', label: 'Pengguna', description: 'Akun & hak akses', icon: Users, allowedRoles: staffRoles },
+    ],
+  },
+];
+
+export const getNavigationLabel = (tabId: string) => (
+  navigationSections.flatMap(section => section.items).find(item => item.id === tabId)?.label ?? 'Dashboard'
+);
+
+export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab, role }) => (
+  <aside className="app-sidebar hidden w-[17.5rem] shrink-0 flex-col border-r border-emerald-950/8 bg-white/90 lg:flex">
+    <div className="mx-4 mt-5 rounded-2xl border border-emerald-100 bg-gradient-to-br from-emerald-50 to-white p-3.5">
+      <div className="flex items-center gap-3">
+        <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-900 text-white shadow-sm">
+          <Activity className="h-5 w-5" />
+        </span>
+        <span className="min-w-0">
+          <span className="block text-[10px] font-black uppercase tracking-[0.16em] text-emerald-700">Status sistem</span>
+          <span className="mt-0.5 flex items-center gap-1.5 text-xs font-extrabold text-slate-900">
+            <span className="h-2 w-2 rounded-full bg-emerald-500 ring-4 ring-emerald-100" /> Operasional aktif
+          </span>
+        </span>
       </div>
-      <div className="mx-3 mt-4 flex items-center gap-2 rounded-xl bg-[#e7f5eb] px-3 py-2 text-[10px] font-bold text-[#174a3a]">
-        <ShieldCheck className="h-3.5 w-3.5" />
-        <span>Akses {role}</span>
-      </div>
-      <nav aria-label="Navigasi utama" className="flex-1 space-y-1 px-3 py-4">
-        {menuItems.filter(item => item.allowedRoles.includes(role)).map(item => {
-          const isActive = activeTab === item.id;
-          return (
-            <button
-              key={item.id}
-              onClick={() => setActiveTab(item.id)}
-              className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-xs font-bold transition ${
-                isActive ? 'bg-[#174a3a] text-white shadow-sm' : 'text-slate-600 hover:bg-[#e7f5eb] hover:text-[#174a3a]'
-              }`}
-            >
-              {item.icon}
-              <span>{item.label}</span>
-            </button>
-          );
-        })}
-      </nav>
-      <p className="border-t border-[#d7eadc] px-5 py-4 text-[10px] font-medium text-slate-400">Sapi Papi Farm · v2.5</p>
-    </aside>
-  );
-};
+    </div>
+
+    <nav aria-label="Navigasi utama" className="scrollbar-subtle flex-1 overflow-y-auto px-3 py-4">
+      {navigationSections.map(section => {
+        const visibleItems = section.items.filter(item => item.allowedRoles.includes(role));
+        if (visibleItems.length === 0) return null;
+        return (
+          <div key={section.label} className="mb-5 last:mb-2">
+            <p className="mb-1.5 px-3 text-[9px] font-black uppercase tracking-[0.2em] text-slate-400">{section.label}</p>
+            <div className="space-y-1">
+              {visibleItems.map(item => {
+                const Icon = item.icon;
+                const isActive = activeTab === item.id;
+                return (
+                  <button
+                    key={item.id}
+                    type="button"
+                    onClick={() => setActiveTab(item.id)}
+                    aria-current={isActive ? 'page' : undefined}
+                    className={`group flex w-full items-center gap-3 rounded-xl px-2.5 py-2 text-left transition-all ${
+                      isActive
+                        ? 'bg-emerald-900 text-white shadow-md shadow-emerald-950/10'
+                        : 'text-slate-600 hover:bg-emerald-50 hover:text-emerald-950'
+                    }`}
+                  >
+                    <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg ${
+                      isActive ? 'bg-white/12 text-white' : 'bg-slate-100 text-slate-500 group-hover:bg-white group-hover:text-emerald-800'
+                    }`}>
+                      <Icon className="h-[18px] w-[18px]" strokeWidth={2} />
+                    </span>
+                    <span className="min-w-0 flex-1">
+                      <span className="block truncate text-xs font-extrabold">{item.label}</span>
+                      <span className={`mt-0.5 block truncate text-[9px] font-medium ${isActive ? 'text-emerald-100/80' : 'text-slate-400'}`}>
+                        {item.description}
+                      </span>
+                    </span>
+                    <ChevronRight className={`h-3.5 w-3.5 shrink-0 ${isActive ? 'text-emerald-200' : 'text-slate-300'}`} />
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        );
+      })}
+    </nav>
+
+    <div className="border-t border-slate-100 px-5 py-4">
+      <p className="text-[10px] font-bold text-slate-500">Sapi Papi Farm</p>
+      <p className="mt-0.5 text-[9px] text-slate-400">Ternak Monitor · v2.5</p>
+    </div>
+  </aside>
+);
