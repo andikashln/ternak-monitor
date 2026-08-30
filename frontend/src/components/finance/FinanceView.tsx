@@ -150,9 +150,9 @@ export const FinanceView: React.FC = () => {
 
   return (
     <div className="space-y-3 pb-24 animate-fade-in sm:space-y-4 md:pb-12">
-      <header className="rounded-2xl border border-slate-200 bg-white p-4 shadow-2xs sm:p-5">
+      <header className="ranch-panel rounded-2xl border p-4 sm:p-5">
         <div>
-          <h2 className="flex items-center gap-2 text-lg font-bold text-slate-900">
+          <h2 className="ranch-heading flex items-center gap-2 text-lg font-bold">
             <Wallet className="h-5 w-5 text-emerald-800" />
             <span>Laporan Laba Rugi</span>
           </h2>
@@ -160,7 +160,7 @@ export const FinanceView: React.FC = () => {
         </div>
       </header>
 
-      <section className="flex flex-col gap-3 rounded-2xl border border-slate-200 bg-white p-4 shadow-2xs lg:flex-row lg:items-center lg:justify-between">
+      <section className="ranch-panel flex flex-col gap-3 rounded-2xl border p-4 lg:flex-row lg:items-center lg:justify-between">
         <div>
           <p className="text-[10px] font-black uppercase tracking-[0.16em] text-emerald-700">Ringkasan {granularity === 'month' ? 'bulanan' : 'tahunan'}</p>
           <h3 className="mt-1 text-base font-black capitalize text-slate-900">Periode {periodLabel}</h3>

@@ -42,7 +42,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   const initials = currentUser.displayName.split(' ').map(name => name[0]).join('').slice(0, 2).toUpperCase();
 
   return (
-    <header className="app-navbar z-40 shrink-0 border-b border-emerald-950/8 bg-white/92 backdrop-blur-xl">
+    <header className="app-navbar z-40 shrink-0 border-b bg-white/92 backdrop-blur-xl">
       <div className="flex h-[4.5rem] items-center gap-3 px-3 sm:px-5 lg:px-6">
         <button type="button" onClick={onOpenMenu} className="icon-button lg:hidden" aria-label="Buka menu navigasi">
           <Menu className="h-5 w-5" />
@@ -50,8 +50,8 @@ export const Navbar: React.FC<NavbarProps> = ({
 
         <div className="hidden w-[15.75rem] shrink-0 lg:block"><SapiPapiLogo /></div>
         <div className="min-w-0 flex-1 lg:hidden">
-          <p className="truncate text-[10px] font-black uppercase tracking-[0.16em] text-emerald-700">Ternak Monitor</p>
-          <h1 className="truncate text-base font-black tracking-tight text-slate-950">{pageTitle}</h1>
+          <p className="ranch-label truncate">Ternak Monitor</p>
+          <h1 className="ranch-heading truncate text-base font-black">{pageTitle}</h1>
         </div>
 
         <div className="mx-auto hidden w-full max-w-xl flex-1 md:block">
@@ -62,14 +62,14 @@ export const Navbar: React.FC<NavbarProps> = ({
               value={searchVal}
               onChange={event => { setSearchVal(event.target.value); onSearchChange(event.target.value); }}
               placeholder="Cari ear tag, pembeli, transaksi..."
-              className="h-10 w-full rounded-xl border border-slate-200 bg-slate-50/80 pl-10 pr-4 text-xs text-slate-800 outline-none transition focus:border-emerald-700 focus:bg-white focus:ring-4 focus:ring-emerald-700/10"
+              className="ranch-input h-10 w-full pl-10 pr-4 text-xs outline-none transition focus:bg-white"
             />
           </label>
         </div>
 
         <div className="ml-auto flex items-center gap-1.5 sm:gap-2">
           {currentUser.role !== 'USER' && (
-            <button type="button" onClick={onOpenQuickAction} className="hidden min-h-10 items-center gap-2 rounded-xl bg-emerald-900 px-3.5 text-xs font-black text-white shadow-md shadow-emerald-950/10 transition hover:bg-emerald-800 sm:inline-flex">
+            <button type="button" onClick={onOpenQuickAction} className="ranch-action-primary hidden px-3.5 text-xs shadow-md sm:inline-flex">
               <Plus className="h-4 w-4" /> Catat Data
             </button>
           )}

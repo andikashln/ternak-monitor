@@ -38,13 +38,13 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
     <div className="space-y-6 animate-fade-in pb-12">
       
       {/* Top Header Banner with Professional Polish Styling */}
-      <div className="bg-gradient-to-r from-[#1b4332] via-[#2d6a4f] to-[#1b4332] rounded-xl p-6 text-white shadow-sm border border-[#1b4332]/20 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+      <div className="ranch-hero rounded-xl p-6 shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div>
-          <p className="mb-2 text-[11px] font-bold uppercase tracking-[0.18em] text-[#d8f3dc]">Pusat kendali operasional</p>
-          <h2 className="text-xl sm:text-2xl font-bold tracking-tight">
+          <p className="ranch-label relative z-10 mb-2 text-[#f3ddb0]">Pusat kendali operasional</p>
+          <h2 className="ranch-heading relative z-10 text-xl sm:text-2xl font-bold tracking-tight text-[#fff8e8]">
             Ringkasan peternakan hari ini
           </h2>
-          <p className="text-xs sm:text-sm text-[#d8f3dc] max-w-2xl mt-1 leading-relaxed">
+          <p className="relative z-10 max-w-2xl mt-1 text-xs sm:text-sm text-[#f3ddb0]/80 leading-relaxed">
             Pantau populasi, kesehatan, aktivitas kandang, dan arus keuangan dari satu tempat.
           </p>
         </div>
@@ -52,7 +52,7 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
         <div className="flex flex-wrap items-center gap-2.5 shrink-0">
           <button
             onClick={onOpenQuickAction}
-            className="flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg font-semibold text-xs border border-white/20 transition cursor-pointer"
+            className="ranch-action-secondary relative z-10 bg-white/10! text-[#fff8e8]! border-white/35!"
           >
             <Plus className="w-4 h-4" />
             <span>Aksi Kandang</span>
@@ -64,15 +64,15 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
       <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         
         {/* Total Active Livestock */}
-        <div className="card-polish hover:border-[#1b4332]/30 transition">
+        <div className="card-polish ranch-kpi hover:border-[#5a2d1f]/30 transition">
           <div className="flex items-center justify-between">
             <span className="stat-label-polish">Total Ternak</span>
-            <div className="p-1.5 rounded-lg bg-[#d8f3dc] text-[#1b4332]">
+            <div className="p-1.5 rounded-lg bg-[#ead0a0] text-[#5a2d1f]">
               <Building2 className="w-4 h-4" />
             </div>
           </div>
           <div className="stat-value-polish">{metrics.totalActive}</div>
-          <div className="text-[11px] text-[#059669] font-medium mt-1">
+          <div className="text-[11px] text-[#69704a] font-medium mt-1">
             ↑ Sehat: {metrics.healthy} | Sakit: {metrics.sick}
           </div>
         </div>
@@ -92,10 +92,10 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
         </div>
 
         {/* Total Income */}
-        <div className="card-polish hover:border-blue-300 transition">
+        <div className="card-polish ranch-kpi hover:border-[#315864]/40 transition">
           <div className="flex items-center justify-between">
             <span className="stat-label-polish">Total Pemasukan</span>
-            <div className="p-1.5 rounded-lg bg-blue-50 text-blue-600">
+            <div className="p-1.5 rounded-lg bg-[#dce8e9] text-[#315864]">
               <TrendingUp className="w-4 h-4" />
             </div>
           </div>
@@ -104,10 +104,10 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
         </div>
 
         {/* Net Profit */}
-        <div className="card-polish hover:border-[#1b4332]/30 transition">
+        <div className="card-polish ranch-kpi hover:border-[#5a2d1f]/30 transition">
           <div className="flex items-center justify-between">
             <span className="stat-label-polish">Arus Kas Bersih</span>
-            <div className="p-1.5 rounded-lg bg-[#d8f3dc] text-[#1b4332]">
+            <div className="p-1.5 rounded-lg bg-[#ead0a0] text-[#5a2d1f]">
               <Wallet className="w-4 h-4" />
             </div>
           </div>
@@ -139,7 +139,7 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
           </div>
           <button
             onClick={() => onNavigateTab('notifications')}
-            className="px-3 py-1.5 bg-[#1b4332] hover:bg-[#2d6a4f] text-white rounded-lg text-xs font-semibold shrink-0 transition cursor-pointer"
+            className="ranch-action-primary px-3 py-1.5 text-xs shrink-0"
           >
             Lihat Semua Alert
           </button>
@@ -256,14 +256,14 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
               onClick={() => onNavigateTab('health')}
               className="p-3 rounded-xl bg-slate-50 hover:bg-[#d8f3dc]/40 border border-slate-200 hover:border-[#1b4332]/30 text-left font-bold text-slate-800 flex items-center justify-between transition cursor-pointer"
             >
-              <span>💉 Kesehatan & Obat</span>
+              <span>Kesehatan & Obat</span>
               <ArrowRight className="w-3.5 h-3.5 text-slate-400" />
             </button>
             <button
               onClick={() => onNavigateTab('finance')}
               className="p-3 rounded-xl bg-slate-50 hover:bg-[#d8f3dc]/40 border border-slate-200 hover:border-[#1b4332]/30 text-left font-bold text-slate-800 flex items-center justify-between transition cursor-pointer"
             >
-              <span>💵 Keuangan & Laba</span>
+              <span>Keuangan & Laba</span>
               <ArrowRight className="w-3.5 h-3.5 text-slate-400" />
             </button>
           </div>

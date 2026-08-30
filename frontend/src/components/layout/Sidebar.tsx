@@ -71,16 +71,16 @@ export const getNavigationLabel = (tabId: string) => (
 );
 
 export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab, role }) => (
-  <aside className="app-sidebar hidden w-[17.5rem] shrink-0 flex-col border-r border-emerald-950/8 bg-white/90 lg:flex">
-    <div className="mx-4 mt-5 rounded-2xl border border-emerald-100 bg-gradient-to-br from-emerald-50 to-white p-3.5">
+  <aside className="app-sidebar hidden w-[17.5rem] shrink-0 flex-col border-r bg-white/90 lg:flex">
+    <div className="mx-4 mt-5 rounded-xl border border-[#d2ad76]/70 bg-[#f9ebcc]/65 p-3.5">
       <div className="flex items-center gap-3">
         <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-900 text-white shadow-sm">
           <Activity className="h-5 w-5" />
         </span>
         <span className="min-w-0">
-          <span className="block text-[10px] font-black uppercase tracking-[0.16em] text-emerald-700">Status sistem</span>
+          <span className="block ranch-label">Status sistem</span>
           <span className="mt-0.5 flex items-center gap-1.5 text-xs font-extrabold text-slate-900">
-            <span className="h-2 w-2 rounded-full bg-emerald-500 ring-4 ring-emerald-100" /> Operasional aktif
+            <span className="h-2 w-2 rounded-full bg-[#69704a] ring-4 ring-[#ead0a0]" /> Operasional aktif
           </span>
         </span>
       </div>
@@ -105,12 +105,12 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab, role 
                     aria-current={isActive ? 'page' : undefined}
                     className={`group flex w-full items-center gap-3 rounded-xl px-2.5 py-2 text-left transition-all ${
                       isActive
-                        ? 'bg-emerald-900 text-white shadow-md shadow-emerald-950/10'
-                        : 'text-slate-600 hover:bg-emerald-50 hover:text-emerald-950'
+                        ? 'bg-[#5a2d1f] text-white shadow-md shadow-[#5a2d1f]/15'
+                        : 'text-slate-600 hover:bg-[#f9ebcc] hover:text-[#5a2d1f]'
                     }`}
                   >
                     <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg ${
-                      isActive ? 'bg-white/12 text-white' : 'bg-slate-100 text-slate-500 group-hover:bg-white group-hover:text-emerald-800'
+                      isActive ? 'bg-white/12 text-white' : 'bg-[#f4ead3] text-slate-500 group-hover:bg-white group-hover:text-[#5a2d1f]'
                     }`}>
                       <Icon className="h-[18px] w-[18px]" strokeWidth={2} />
                     </span>
