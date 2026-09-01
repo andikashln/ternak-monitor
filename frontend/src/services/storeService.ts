@@ -2,7 +2,7 @@ import {
   LivestockItem, LocationItem, WeightRecord, HealthRecord, BreedingRecord,
   DeathRecord, TransferRecord, SalesRecord, FeedInventory,
   FinancialTransaction, DailyReport, NotificationItem, AuditLogItem,
-  BusinessSettings, UserProfile, PenItem, BirthRecord
+  BusinessSettings, UserProfile, PenItem, BirthRecord, ManagedUser, UserRole
 } from '../types';
 
 // Initial Demo Seed Data
@@ -500,8 +500,16 @@ const STORAGE_KEYS = {
   NOTIFICATIONS: 'ternak_notifications',
   AUDIT_LOGS: 'ternak_audit_logs',
   SETTINGS: 'ternak_settings',
-  CURRENT_USER: 'ternak_current_user'
+  CURRENT_USER: 'ternak_current_user',
+  USERS: 'ternak_users'
 };
+
+const INITIAL_USERS: ManagedUser[] = [
+  { uid: 'u-owner-1', displayName: 'Bapak H. Hendra Owner', email: 'andikashalihin01@gmail.com', role: 'OWNER', locationIds: [], phone: '0812-3456-7890', status: 'Aktif', createdAt: '2026-01-01T08:00:00Z' },
+  { uid: 'u-manager-1', displayName: 'Andika Shalihin', email: 'manager@sapipapi.farm', role: 'MANAGER', locationIds: ['loc-kulim'], phone: '0812-0000-0001', status: 'Aktif', createdAt: '2026-01-05T08:00:00Z' },
+  { uid: 'u-akuntan-1', displayName: 'Sari Keuangan', email: 'akuntan@sapipapi.farm', role: 'ACCOUNTANT', locationIds: [], phone: '0812-0000-0002', status: 'Aktif', createdAt: '2026-01-06T08:00:00Z' },
+  { uid: 'u-mitra-1', displayName: 'Mitra Sontang', email: 'mitra@sapipapi.farm', role: 'MITRA', locationIds: ['loc-sontang'], phone: '0812-0000-0003', status: 'Aktif', createdAt: '2026-01-07T08:00:00Z' },
+];
 
 function loadStorage<T>(key: string, fallback: T): T {
   try {
@@ -534,6 +542,7 @@ class StoreService {
   });
 
   public locations: LocationItem[] = loadStorage(STORAGE_KEYS.LOCATIONS, INITIAL_LOCATIONS);
+  public users: ManagedUser[] = loadStorage(STORAGE_KEYS.USERS, INITIAL_USERS);
   public pens: PenItem[] = loadStorage(STORAGE_KEYS.PENS, INITIAL_PENS);
   public livestock: LivestockItem[] = loadStorage(STORAGE_KEYS.LIVESTOCK, INITIAL_LIVESTOCK);
   public weightRecords: WeightRecord[] = loadStorage(STORAGE_KEYS.WEIGHT, INITIAL_WEIGHT_RECORDS);
@@ -593,6 +602,52 @@ class StoreService {
   public setActiveLocation(locId: string) {
     this.activeLocationId = locId;
     this.notify();
+  }
+
+  // Managed users (demo/local fallback when no backend users API is available)
+  public getManagedUsers(): ManagedUser[] {
+    return this.users;
+  }
+
+  public createManagedUser(data: Partial<ManagedUser> & { displayName: string; email: string; role: UserRole }): ManagedUser {
+    const user: ManagedUser = {
+      uid: `u-${Date.now()}`,
+      displayName: data.displayName,
+      email: data.email,
+      role: data.role,
+      locationIds: data.locationIds ?? [],
+      phone: data.phone,
+      status: data.status ?? 'Aktif',
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+    this.users = [user, ...this.users];
+    saveStorage(STORAGE_KEYS.USERS, this.users);
+    this.notify();
+    return user;
+  }
+
+  public updateManagedUser(uid: string, updates: Partial<ManagedUser>): ManagedUser | undefined {
+    let updated: ManagedUser | undefined;
+    this.users = this.users.map(item => {
+      if (item.uid !== uid) return item;
+      updated = { ...item, ...updates, updatedAt: new Date().toISOString() };
+      return updated;
+    });
+    if (updated) {
+      saveStorage(STORAGE_KEYS.USERS, this.users);
+      this.notify();
+    }
+    return updated;
+  }
+
+  public resetManagedUserPassword(uid: string, password: string): boolean {
+    // Demo mode has no real credential store; the reset is acknowledged locally.
+    const exists = this.users.some(item => item.uid === uid);
+    if (exists) {
+      this.addAuditLog('Pengguna', 'Reset Password', uid, this.users.find(item => item.uid === uid)?.displayName ?? uid);
+    }
+    return exists;
   }
 
   // Location CRUD

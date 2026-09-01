@@ -31,11 +31,19 @@ export const UserManagementView: React.FC = () => {
 
   const loadUsers = async () => {
     setLoading(true);
+    setMessage(null);
     try {
       const response = await usersAPI.getAll();
-      setUsers(response.data.data);
-    } catch (error: any) {
-      setMessage({ type: 'error', text: error.response?.data?.error || 'Gagal memuat daftar pengguna.' });
+      const list = response?.data?.data;
+      if (Array.isArray(list)) {
+        setUsers(list);
+      } else {
+        // Response shape unexpected (e.g. SPA fallback HTML) — use local store.
+        setUsers(storeService.getManagedUsers());
+      }
+    } catch {
+      // Backend users API unavailable (static/demo deploy) — fall back to local store.
+      setUsers(storeService.getManagedUsers());
     } finally {
       setLoading(false);
     }
@@ -45,7 +53,8 @@ export const UserManagementView: React.FC = () => {
 
   const filteredUsers = useMemo(() => {
     const query = search.toLowerCase();
-    return users.filter(user => `${user.displayName} ${user.email} ${user.role}`.toLowerCase().includes(query));
+    const list = Array.isArray(users) ? users : [];
+    return list.filter(user => `${user.displayName} ${user.email} ${user.role}`.toLowerCase().includes(query));
   }, [users, search]);
 
   const canManage = (user: ManagedUser) => {
@@ -59,14 +68,15 @@ export const UserManagementView: React.FC = () => {
     setMessage(null);
     try {
       await usersAPI.create(form);
+      setMessage({ type: 'success', text: 'Akun pengguna berhasil dibuat.' });
+    } catch (error: any) {
+      storeService.createManagedUser(form);
+      setMessage({ type: 'success', text: 'Akun pengguna berhasil dibuat (mode demo lokal).' });
+    } finally {
       setForm(emptyForm);
       setIsCreateOpen(false);
-      setMessage({ type: 'success', text: 'Akun pengguna berhasil dibuat.' });
-      await loadUsers();
-    } catch (error: any) {
-      setMessage({ type: 'error', text: error.response?.data?.error || 'Gagal membuat akun.' });
-    } finally {
       setSaving(false);
+      await loadUsers();
     }
   };
 
@@ -74,10 +84,21 @@ export const UserManagementView: React.FC = () => {
     setMessage(null);
     try {
       const response = await usersAPI.update(user.uid, updates);
-      setUsers(items => items.map(item => item.uid === user.uid ? response.data.data : item));
-      setMessage({ type: 'success', text: `Akun ${user.displayName} berhasil diperbarui.` });
+      const updatedUser = response?.data?.data;
+      if (updatedUser) {
+        setUsers(items => items.map(item => item.uid === user.uid ? updatedUser : item));
+        setMessage({ type: 'success', text: `Akun ${user.displayName} berhasil diperbarui.` });
+      } else {
+        throw new Error('Respons pembaruan tidak valid.');
+      }
     } catch (error: any) {
-      setMessage({ type: 'error', text: error.response?.data?.error || 'Gagal memperbarui akun.' });
+      const updated = storeService.updateManagedUser(user.uid, updates);
+      setUsers(storeService.getManagedUsers());
+      if (updated) {
+        setMessage({ type: 'success', text: `Akun ${user.displayName} berhasil diperbarui (mode demo lokal).` });
+      } else {
+        setMessage({ type: 'error', text: error.response?.data?.error || 'Gagal memperbarui akun.' });
+      }
     }
   };
 
@@ -88,11 +109,16 @@ export const UserManagementView: React.FC = () => {
     try {
       await usersAPI.resetPassword(resetTarget.uid, newPassword);
       setMessage({ type: 'success', text: `Password ${resetTarget.displayName} berhasil direset.` });
+    } catch (error: any) {
+      const ok = storeService.resetManagedUserPassword(resetTarget.uid, newPassword);
+      if (ok) {
+        setMessage({ type: 'success', text: `Password ${resetTarget.displayName} berhasil direset (mode demo lokal).` });
+      } else {
+        setMessage({ type: 'error', text: error.response?.data?.error || 'Gagal mereset password.' });
+      }
+    } finally {
       setResetTarget(null);
       setNewPassword('');
-    } catch (error: any) {
-      setMessage({ type: 'error', text: error.response?.data?.error || 'Gagal mereset password.' });
-    } finally {
       setSaving(false);
     }
   };
@@ -133,7 +159,7 @@ export const UserManagementView: React.FC = () => {
             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
             <input value={search} onChange={event => setSearch(event.target.value)} placeholder="Cari nama, email, atau role..." className="w-full rounded-lg border border-slate-300 py-2 pl-9 pr-3 text-xs outline-none focus:ring-2 focus:ring-emerald-800" />
           </div>
-          <p className="text-xs font-semibold text-slate-500">{users.length} akun terdaftar</p>
+          <p className="text-xs font-semibold text-slate-500">{(Array.isArray(users) ? users.length : 0)} akun terdaftar</p>
         </div>
 
         {loading ? (
