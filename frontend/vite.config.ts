@@ -31,20 +31,6 @@ export default defineConfig(() => ({
     }),
   ],
   resolve: { alias: { '@': path.resolve(__dirname, '.') } },
-  build: {
-    chunkSizeWarningLimit: 550,
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          'vendor-react': ['react', 'react-dom'],
-          'vendor-lucide': ['lucide-react'],
-          'vendor-jspdf': ['jspdf', 'jspdf-autotable'],
-          'vendor-excel': ['read-excel-file', 'write-excel-file'],
-          'vendor-http': ['axios'],
-        },
-      },
-    },
-  },
   server: {
     host: '0.0.0.0', port: 5173,
     proxy: { '/api': { target: process.env.VITE_API_URL || 'http://localhost:3001', changeOrigin: true, rewrite: url => url.replace(/^\/api/, '/api') } },

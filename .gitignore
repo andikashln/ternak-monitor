@@ -13,3 +13,4 @@ backend/data/development-users.json
 
 # Local brainstorming/agent scratch (not part of the app)
 .superpowers/
+.vercel
