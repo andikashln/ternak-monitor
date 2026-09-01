@@ -10,3 +10,6 @@ backend/data/development-users.json
 
 # Local isolated worktrees
 .worktrees/
+
+# Local brainstorming/agent scratch (not part of the app)
+.superpowers/
