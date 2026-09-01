@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { ChevronDown, LogOut, Menu, Plus, Search, ShieldCheck, Users } from 'lucide-react';
 import { storeService } from '../../services/storeService';
 import { SapiPapiLogo } from '../brand/SapiPapiLogo';
+import { ROLE_LABELS } from '../../services/permissions';
 
 interface NavbarProps {
   pageTitle?: string;
@@ -78,7 +79,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-emerald-100 text-[10px] font-black text-emerald-900">{initials}</span>
               <span className="hidden max-w-28 text-left xl:block">
                 <span className="block truncate text-[11px] font-black text-slate-800">{currentUser.displayName}</span>
-                <span className="block text-[9px] font-bold text-slate-400">{currentUser.role}</span>
+                <span className="block text-[9px] font-bold text-slate-400">{ROLE_LABELS[currentUser.role]}</span>
               </span>
               <ChevronDown className="hidden h-3.5 w-3.5 text-slate-400 sm:block" />
             </button>
@@ -89,7 +90,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                   <p className="text-xs font-black text-slate-950">{currentUser.displayName}</p>
                   <p className="mt-0.5 truncate text-[10px] text-slate-500">{currentUser.email}</p>
                 </div>
-                <div className="m-3 flex items-center gap-2 rounded-xl bg-emerald-50 px-3 py-2.5 text-[10px] font-bold text-emerald-900"><ShieldCheck className="h-4 w-4" /> Hak akses {currentUser.role}</div>
+                <div className="m-3 flex items-center gap-2 rounded-xl bg-emerald-50 px-3 py-2.5 text-[10px] font-bold text-emerald-900"><ShieldCheck className="h-4 w-4" /> Hak akses {ROLE_LABELS[currentUser.role]}</div>
                 {(currentUser.role === 'OWNER' || currentUser.role === 'ADMIN') && (
                   <button type="button" onClick={() => { setShowProfileDropdown(false); onOpenUsers(); }} className="mx-2 flex min-h-10 w-[calc(100%-1rem)] items-center gap-2 rounded-xl px-3 text-left text-xs font-bold text-slate-700 hover:bg-slate-100"><Users className="h-4 w-4" /> Kelola pengguna</button>
                 )}

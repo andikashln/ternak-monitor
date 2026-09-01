@@ -4,13 +4,13 @@ import { usersAPI } from '../../services/api';
 import { storeService } from '../../services/storeService';
 import { ManagedUser, UserRole } from '../../types';
 
-const ALL_ROLES: UserRole[] = ['OWNER', 'ADMIN', 'USER'];
+const ALL_ROLES: UserRole[] = ['OWNER', 'MANAGER', 'ACCOUNTANT', 'MITRA'];
 const roleLabels: Record<UserRole, string> = {
-  OWNER: 'Owner', ADMIN: 'Administrator', USER: 'User (Katalog Sapi)',
+  OWNER: 'Owner', MANAGER: 'Manager', ACCOUNTANT: 'Akuntan', MITRA: 'Mitra', ADMIN: 'Administrator', USER: 'Customer',
 };
 
 const emptyForm = {
-  displayName: '', email: '', password: '', role: 'USER' as UserRole,
+  displayName: '', email: '', password: '', role: 'MANAGER' as UserRole,
   phone: '', status: 'Aktif' as const, locationIds: [] as string[],
 };
 

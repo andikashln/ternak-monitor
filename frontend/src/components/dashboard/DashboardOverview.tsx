@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import {
   Building2, TrendingUp, TrendingDown, HeartPulse, Scale, ShieldAlert,
-  Wallet, FileSpreadsheet, Plus, CheckCircle2, ArrowRight
+  Wallet, FileSpreadsheet, Plus, CheckCircle2, ArrowRight, Receipt, WalletCards, Clock3
 } from 'lucide-react';
 import { storeService } from '../../services/storeService';
+import { financialDocumentsStore } from '../../services/financialDocuments';
 import { formatRupiah, formatDate } from '../../utils/formatters';
 
 interface DashboardOverviewProps {
@@ -20,6 +21,7 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
   const [dailyReports, setDailyReports] = useState(storeService.dailyReports);
   const [notifications, setNotifications] = useState(storeService.notifications);
   const [activeLocId, setActiveLocId] = useState(storeService.activeLocationId);
+  const [workflow, setWorkflow] = useState(financialDocumentsStore.snapshot());
 
   useEffect(() => {
     const unsubscribe = storeService.subscribe(() => {
@@ -31,6 +33,8 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
     });
     return unsubscribe;
   }, []);
+
+  useEffect(() => financialDocumentsStore.subscribe(() => setWorkflow(financialDocumentsStore.snapshot())), []);
 
   const criticalNotifs = notifications.filter(n => n.severity === 'critical' || n.severity === 'warning');
 
@@ -119,6 +123,22 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
           </div>
         </div>
 
+      </div>
+
+      {/* Funding and invoice workflow indicators */}
+      <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+        <button onClick={() => onNavigateTab('funding-docs')} className="card-polish text-left transition hover:border-amber-300">
+          <WalletCards className="mb-2 h-5 w-5 text-amber-700"/><p className="text-[10px] font-black uppercase tracking-wider text-slate-500">Menunggu Persetujuan</p><p className="mt-1 text-xl font-black">{workflow.fundRequests.filter(item => ['Diajukan','Diverifikasi Akuntan'].includes(item.status)).length}</p>
+        </button>
+        <button onClick={() => onNavigateTab('funding-docs')} className="card-polish text-left transition hover:border-emerald-300">
+          <CheckCircle2 className="mb-2 h-5 w-5 text-emerald-700"/><p className="text-[10px] font-black uppercase tracking-wider text-slate-500">Dana Disetujui</p><p className="mt-1 text-sm font-black">{formatRupiah(workflow.fundRequests.filter(item => ['Disetujui Owner','Dicairkan','Selesai'].includes(item.status)).reduce((sum,item) => sum + item.total, 0))}</p>
+        </button>
+        <button onClick={() => onNavigateTab('invoices')} className="card-polish text-left transition hover:border-rose-300">
+          <Receipt className="mb-2 h-5 w-5 text-rose-700"/><p className="text-[10px] font-black uppercase tracking-wider text-slate-500">Invoice Belum Lunas</p><p className="mt-1 text-xl font-black">{workflow.invoices.filter(item => item.status === 'Aktif' && item.remainingAmount > 0).length}</p>
+        </button>
+        <button onClick={() => onNavigateTab('invoices')} className="card-polish text-left transition hover:border-blue-300">
+          <Clock3 className="mb-2 h-5 w-5 text-blue-700"/><p className="text-[10px] font-black uppercase tracking-wider text-slate-500">Verifikasi Bayar</p><p className="mt-1 text-xl font-black">{workflow.invoices.flatMap(item => item.payments).filter(item => item.status === 'Menunggu Verifikasi').length}</p>
+        </button>
       </div>
 
       {/* Critical Warnings Alert Bar */}

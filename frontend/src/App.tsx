@@ -8,6 +8,7 @@ import { MobileNavigationDrawer } from './components/layout/MobileNavigationDraw
 import { getNavigationLabel } from './components/layout/Sidebar';
 import { SapiPapiLogo } from './components/brand/SapiPapiLogo';
 import { SalesCatalogView } from './components/catalog/SalesCatalogView';
+import { canAccess } from './services/permissions';
 
 import { storeService } from './services/storeService';
 import { authAPI, authSession } from './services/api';
@@ -24,10 +25,13 @@ const BirthsDeathsView = lazy(() => import('./components/births-deaths/BirthsDea
 const PurchasesSalesView = lazy(() => import('./components/transactions/PurchasesSalesView').then(module => ({ default: module.PurchasesSalesView })));
 const SalesResultsView = lazy(() => import('./components/sales-results/SalesResultsView').then(module => ({ default: module.SalesResultsView })));
 const ExpenseManagementView = lazy(() => import('./components/expenses/ExpenseManagementView').then(module => ({ default: module.ExpenseManagementView })));
+const FeedManagementView = lazy(() => import('./components/feed/FeedManagementView').then(module => ({ default: module.FeedManagementView })));
 const FinanceView = lazy(() => import('./components/finance/FinanceView').then(module => ({ default: module.FinanceView })));
 const DailyReportsView = lazy(() => import('./components/daily-reports/DailyReportsView').then(module => ({ default: module.DailyReportsView })));
 const ReportsExportView = lazy(() => import('./components/reports/ReportsExportView').then(module => ({ default: module.ReportsExportView })));
 const UserManagementView = lazy(() => import('./components/users/UserManagementView').then(module => ({ default: module.UserManagementView })));
+const SettingsView = lazy(() => import('./components/settings/SettingsView').then(module => ({ default: module.SettingsView })));
+const FinancialDocumentsView = lazy(() => import('./components/finance/FinancialDocumentsView').then(module => ({ default: module.FinancialDocumentsView })));
 const QuickActionsModal = lazy(() => import('./components/layout/QuickActionsModal').then(module => ({ default: module.QuickActionsModal })));
 
 const PageLoader = () => (
@@ -87,6 +91,9 @@ export function App() {
       setActiveTab('catalog');
     } else if (currentUser.role !== 'USER' && activeTab === 'catalog') {
       setActiveTab('dashboard');
+    } else if (currentUser.role !== 'USER' && !canAccess(currentUser.role, activeTab as never)) {
+      const firstAllowed = ['dashboard', 'livestock', 'finance', 'feed'].find(tab => canAccess(currentUser.role, tab as never));
+      if (firstAllowed && activeTab !== firstAllowed) setActiveTab(firstAllowed);
     }
   }, [activeTab, currentUser.role]);
 
@@ -95,6 +102,14 @@ export function App() {
   }, [activeTab]);
 
   const handleLogin = async (email: string, password: string) => {
+    const exactDemoSession = getStaticDemoSession(email, password);
+    if (exactDemoSession) {
+      authSession.setToken(exactDemoSession.token);
+      storeService.setCurrentUser(exactDemoSession.user);
+      setActiveTab(exactDemoSession.user.role === 'MITRA' ? 'livestock' : 'dashboard');
+      setAuthState('authenticated');
+      return;
+    }
     try {
       const response = await authAPI.login(email, password);
       const { token, user } = response.data.data as { token: string; user: UserProfile };
@@ -260,7 +275,7 @@ export function App() {
 
           {activeTab === 'health' && <HealthManagementView />}
           {activeTab === 'births-deaths' && <BirthsDeathsView />}
-          {activeTab === 'transactions' && (currentUser.role === 'OWNER' || currentUser.role === 'ADMIN') && (
+          {activeTab === 'transactions' && canAccess(currentUser.role, 'transactions') && (
             <PurchasesSalesView
               onOpenAddLivestock={() => {
                 setEditLivestockItem(null);
@@ -268,12 +283,16 @@ export function App() {
               }}
             />
           )}
-          {activeTab === 'sales-results' && (currentUser.role === 'OWNER' || currentUser.role === 'ADMIN') && <SalesResultsView />}
-          {activeTab === 'feed' && <ExpenseManagementView onOpenFinance={() => setActiveTab('finance')} />}
-          {activeTab === 'finance' && <FinanceView />}
-          {activeTab === 'daily-reports' && <DailyReportsView />}
-          {activeTab === 'reports' && <ReportsExportView />}
-          {activeTab === 'users' && (currentUser.role === 'OWNER' || currentUser.role === 'ADMIN') && <UserManagementView />}
+          {activeTab === 'sales-results' && canAccess(currentUser.role, 'sales-results') && <SalesResultsView />}
+          {activeTab === 'expenses' && canAccess(currentUser.role, 'expenses') && <ExpenseManagementView onOpenFinance={() => setActiveTab('finance')} />}
+          {activeTab === 'feed' && canAccess(currentUser.role, 'feed') && <FeedManagementView />}
+          {activeTab === 'finance' && canAccess(currentUser.role, 'finance') && <FinanceView />}
+          {activeTab === 'daily-reports' && canAccess(currentUser.role, 'daily-reports') && <DailyReportsView />}
+          {activeTab === 'reports' && canAccess(currentUser.role, 'reports') && <ReportsExportView />}
+          {activeTab === 'users' && canAccess(currentUser.role, 'users') && <UserManagementView />}
+          {activeTab === 'settings' && currentUser.role === 'OWNER' && <SettingsView />}
+          {activeTab === 'funding-docs' && canAccess(currentUser.role, 'funding-docs') && <FinancialDocumentsView initialTab="funding" />}
+          {activeTab === 'invoices' && canAccess(currentUser.role, 'invoices') && <FinancialDocumentsView initialTab="invoices" />}
           </Suspense>
           </div>
         </main>
@@ -284,6 +303,7 @@ export function App() {
         activeTab={activeTab}
         setActiveTab={setActiveTab}
         onOpenQuickAction={() => setIsQuickActionOpen(true)}
+        role={currentUser.role}
       />
 
       <MobileNavigationDrawer

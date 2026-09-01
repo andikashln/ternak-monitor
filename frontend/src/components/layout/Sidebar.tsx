@@ -2,9 +2,10 @@ import React from 'react';
 import {
   Activity, BadgeDollarSign, Baby, ChevronRight, ClipboardList, Database, FileBarChart,
   HeartPulse, LayoutDashboard, ReceiptText, ShoppingCart,
-  Users, Wallet,
+  Users, Wallet, Wheat, Settings, WalletCards, FileText,
 } from 'lucide-react';
 import { UserRole } from '../../types';
+import { canAccess } from '../../services/permissions';
 
 interface SidebarProps {
   activeTab: string;
@@ -25,43 +26,45 @@ export interface NavSection {
   items: NavMenuItem[];
 }
 
-const staffRoles: UserRole[] = ['OWNER', 'ADMIN'];
-
 export const navigationSections: NavSection[] = [
   {
     label: 'Ringkasan',
     items: [
-      { id: 'dashboard', label: 'Dashboard', description: 'Kondisi farm hari ini', icon: LayoutDashboard, allowedRoles: staffRoles },
+      { id: 'dashboard', label: 'Dashboard', description: 'Kondisi farm hari ini', icon: LayoutDashboard, allowedRoles: ['OWNER', 'MANAGER', 'ACCOUNTANT'] },
     ],
   },
   {
     label: 'Operasional ternak',
     items: [
-      { id: 'livestock', label: 'Database Ternak', description: 'Identitas & populasi', icon: Database, allowedRoles: staffRoles },
-      { id: 'health', label: 'Kesehatan', description: 'Rekam medis & obat', icon: HeartPulse, allowedRoles: staffRoles },
-      { id: 'births-deaths', label: 'Kelahiran & Kematian', description: 'Perubahan populasi', icon: Baby, allowedRoles: staffRoles },
+      { id: 'livestock', label: 'Database Ternak', description: 'Identitas & populasi', icon: Database, allowedRoles: ['OWNER', 'MANAGER', 'MITRA'] },
+      { id: 'health', label: 'Kesehatan', description: 'Rekam medis & obat', icon: HeartPulse, allowedRoles: ['OWNER', 'MANAGER'] },
+      { id: 'births-deaths', label: 'Kelahiran & Kematian', description: 'Perubahan populasi', icon: Baby, allowedRoles: ['OWNER', 'MANAGER'] },
     ],
   },
   {
     label: 'Bisnis & keuangan',
     items: [
-      { id: 'transactions', label: 'Jual & Beli', description: 'Transaksi ternak', icon: ShoppingCart, allowedRoles: staffRoles },
-      { id: 'sales-results', label: 'Hasil Penjualan', description: 'HPP, biaya & laba bersih', icon: BadgeDollarSign, allowedRoles: staffRoles },
-      { id: 'finance', label: 'Laporan Laba Rugi', description: 'Pemasukan, biaya & laba', icon: Wallet, allowedRoles: staffRoles },
-      { id: 'feed', label: 'Pengeluaran', description: 'Biaya operasional', icon: ReceiptText, allowedRoles: staffRoles },
+      { id: 'transactions', label: 'Jual & Beli', description: 'Transaksi ternak', icon: ShoppingCart, allowedRoles: ['OWNER', 'MANAGER', 'ACCOUNTANT'] },
+      { id: 'sales-results', label: 'Hasil Penjualan', description: 'HPP, biaya & laba bersih', icon: BadgeDollarSign, allowedRoles: ['OWNER', 'MANAGER', 'ACCOUNTANT'] },
+      { id: 'finance', label: 'Laporan Laba Rugi', description: 'Pemasukan, biaya & laba', icon: Wallet, allowedRoles: ['OWNER', 'MANAGER', 'ACCOUNTANT'] },
+      { id: 'expenses', label: 'Pengeluaran', description: 'Biaya operasional', icon: ReceiptText, allowedRoles: ['OWNER', 'MANAGER', 'ACCOUNTANT'] },
+      { id: 'feed', label: 'Pakan Ternak', description: 'Stok & pemakaian pakan', icon: Wheat, allowedRoles: ['OWNER', 'MANAGER', 'MITRA'] },
+      { id: 'funding-docs', label: 'Pengajuan Dana', description: 'Verifikasi & persetujuan', icon: WalletCards, allowedRoles: ['OWNER', 'MANAGER', 'ACCOUNTANT', 'MITRA'] },
+      { id: 'invoices', label: 'Invoice & Pembayaran', description: 'Tagihan, DP & bukti bayar', icon: FileText, allowedRoles: ['OWNER', 'MANAGER', 'ACCOUNTANT'] },
     ],
   },
   {
     label: 'Laporan',
     items: [
-      { id: 'daily-reports', label: 'Laporan Kandang', description: 'Aktivitas harian', icon: ClipboardList, allowedRoles: staffRoles },
-      { id: 'reports', label: 'Ekspor Laporan', description: 'Dokumen PDF & Excel', icon: FileBarChart, allowedRoles: staffRoles },
+      { id: 'daily-reports', label: 'Laporan Kandang', description: 'Aktivitas harian', icon: ClipboardList, allowedRoles: ['OWNER', 'MANAGER'] },
+      { id: 'reports', label: 'Ekspor Laporan', description: 'Dokumen PDF & Excel', icon: FileBarChart, allowedRoles: ['OWNER', 'MANAGER', 'ACCOUNTANT'] },
     ],
   },
   {
     label: 'Sistem',
     items: [
-      { id: 'users', label: 'Pengguna', description: 'Akun & hak akses', icon: Users, allowedRoles: staffRoles },
+      { id: 'users', label: 'Pengguna', description: 'Akun & hak akses', icon: Users, allowedRoles: ['OWNER'] },
+      { id: 'settings', label: 'Pengaturan', description: 'Profil farm & reset demo', icon: Settings, allowedRoles: ['OWNER'] },
     ],
   },
 ];
@@ -88,7 +91,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab, role 
 
     <nav aria-label="Navigasi utama" className="scrollbar-subtle flex-1 overflow-y-auto px-3 py-4">
       {navigationSections.map(section => {
-        const visibleItems = section.items.filter(item => item.allowedRoles.includes(role));
+        const visibleItems = section.items.filter(item => item.allowedRoles.includes(role) || (role === 'ADMIN' && canAccess('ADMIN', item.id as never)));
         if (visibleItems.length === 0) return null;
         return (
           <div key={section.label} className="mb-5 last:mb-2">

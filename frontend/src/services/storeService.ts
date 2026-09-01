@@ -1469,6 +1469,40 @@ class StoreService {
     this.notify();
   }
 
+  public clearAllDemoData() {
+    this.locations = [];
+    this.pens = [];
+    this.livestock = [];
+    this.weightRecords = [];
+    this.healthRecords = [];
+    this.breedingRecords = [];
+    this.birthRecords = [];
+    this.deathRecords = [];
+    this.transferRecords = [];
+    this.salesRecords = [];
+    this.feedInventory = [];
+    this.financialTransactions = [];
+    this.dailyReports = [];
+    this.notifications = [];
+    this.auditLogs = [];
+    saveStorage(STORAGE_KEYS.LOCATIONS, this.locations);
+    saveStorage(STORAGE_KEYS.PENS, this.pens);
+    saveStorage(STORAGE_KEYS.LIVESTOCK, this.livestock);
+    saveStorage(STORAGE_KEYS.WEIGHT, this.weightRecords);
+    saveStorage(STORAGE_KEYS.HEALTH, this.healthRecords);
+    saveStorage(STORAGE_KEYS.BREEDING, this.breedingRecords);
+    saveStorage(STORAGE_KEYS.BIRTHS, this.birthRecords);
+    saveStorage(STORAGE_KEYS.DEATHS, this.deathRecords);
+    saveStorage(STORAGE_KEYS.TRANSFERS, this.transferRecords);
+    saveStorage(STORAGE_KEYS.SALES, this.salesRecords);
+    saveStorage(STORAGE_KEYS.FEED, this.feedInventory);
+    saveStorage(STORAGE_KEYS.FINANCE, this.financialTransactions);
+    saveStorage(STORAGE_KEYS.DAILY_REPORTS, this.dailyReports);
+    saveStorage(STORAGE_KEYS.NOTIFICATIONS, this.notifications);
+    saveStorage(STORAGE_KEYS.AUDIT_LOGS, this.auditLogs);
+    this.notify();
+  }
+
   // Filtered queries based on activeLocationId
   public getActiveLivestock(locId?: string): LivestockItem[] {
     const targetLoc = locId || this.activeLocationId;

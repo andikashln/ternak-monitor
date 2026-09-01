@@ -1,16 +1,20 @@
 import type { UserProfile } from '../types';
 
-const DEMO_EMAIL = 'owner@ternak.local';
-const DEMO_PASSWORD = 'TernakDemo2026!';
+const DEMO_PASSWORD = 'Demo123!';
 
-const DEMO_OWNER: UserProfile = {
-  uid: 'demo-owner-local',
-  displayName: 'Owner Demo Sapi Papi',
-  email: DEMO_EMAIL,
-  role: 'OWNER',
-  locationIds: [],
-  status: 'Aktif',
-};
+const DEMO_ACCOUNTS: Array<{ email: string; displayName: string; role: UserProfile['role'] }> = [
+  { email: 'owner@sapipapi.farm', displayName: 'Owner Sapi Papi', role: 'OWNER' },
+  { email: 'manager@sapipapi.farm', displayName: 'Manager Sapi Papi', role: 'MANAGER' },
+  { email: 'akuntan@sapipapi.farm', displayName: 'Akuntan Sapi Papi', role: 'ACCOUNTANT' },
+  { email: 'mitra@sapipapi.farm', displayName: 'Mitra Sapi Papi', role: 'MITRA' },
+];
+
+function sessionFor(account: typeof DEMO_ACCOUNTS[number]): StaticDemoSession {
+  return {
+    token: `static-demo-${account.role.toLowerCase()}-session`,
+    user: { uid: `demo-${account.role.toLowerCase()}-local`, displayName: account.displayName, email: account.email, role: account.role, locationIds: [], status: 'Aktif' },
+  };
+}
 
 export interface StaticDemoSession {
   token: string;
@@ -22,17 +26,14 @@ export interface StaticDemoSession {
  * This is intentionally not a general authentication bypass.
  */
 export function shouldUseStaticDemoFallback(httpStatus?: number): boolean {
-  return httpStatus === undefined || httpStatus === 405;
+  return httpStatus === undefined || httpStatus === 404 || httpStatus === 405;
 }
 
 export function getOneClickDemoSession(): StaticDemoSession {
-  return {
-    token: 'static-demo-owner-session',
-    user: DEMO_OWNER,
-  };
+  return sessionFor(DEMO_ACCOUNTS[0]);
 }
 
 export function getStaticDemoSession(email: string, password: string): StaticDemoSession | null {
-  if (email !== DEMO_EMAIL || password !== DEMO_PASSWORD) return null;
-  return getOneClickDemoSession();
+  const account = DEMO_ACCOUNTS.find(item => item.email === email);
+  return account && password === DEMO_PASSWORD ? sessionFor(account) : null;
 }

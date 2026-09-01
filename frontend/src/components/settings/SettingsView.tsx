@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Settings, Pencil, Ban, Save } from 'lucide-react';
 import { storeService } from '../../services/storeService';
+import { financialDocumentsStore } from '../../services/financialDocuments';
+import { clearAttachments } from '../../services/attachmentDb';
 
 export const SettingsView: React.FC = () => {
   const [settings, setSettings] = useState(storeService.settings);
@@ -200,16 +202,18 @@ export const SettingsView: React.FC = () => {
           <div className="pt-3 border-t border-slate-100">
             <button
               type="button"
-              onClick={() => {
-                if (window.confirm('Reset seluruh data ke Seed Demo Awal?')) {
-                  storeService.resetToSeed();
-                  setLocations([...storeService.locations]);
-                  setSettings(storeService.settings);
+              onClick={async () => {
+                if (window.confirm('Kosongkan SELURUH data demo? Profil usaha dan akun login tetap dipertahankan. Tindakan ini tidak dapat dibatalkan.')) {
+                  storeService.clearAllDemoData();
+                  financialDocumentsStore.resetAll({ uid: storeService.currentUser.uid, name: storeService.currentUser.displayName, role: storeService.currentUser.role });
+                  await clearAttachments();
+                  setLocations([]);
+                  setLocationMessage('Seluruh data demo berhasil dikosongkan.');
                 }
               }}
               className="text-rose-600 font-bold hover:underline cursor-pointer"
             >
-              🔄 Reset Data ke Seed Demo
+              🗑️ Kosongkan Seluruh Data Demo
             </button>
           </div>
         </div>
