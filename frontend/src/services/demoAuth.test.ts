@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { getOneClickDemoSession, getStaticDemoSession, shouldUseStaticDemoFallback } from './demoAuth';
+import { getOneClickDemoSession, getStaticDemoSession, getStaticDemoSessionFromToken, shouldUseStaticDemoFallback } from './demoAuth';
 
 describe('static demo authentication', () => {
   it.each([
@@ -16,6 +16,14 @@ describe('static demo authentication', () => {
 
   it('returns a one-click owner session without exposing credentials to the UI', () => {
     expect(getOneClickDemoSession()).toMatchObject({ user: { role: 'OWNER', email: 'owner@sapipapi.farm' } });
+  });
+
+  it('restores a documented demo session from its persisted token', () => {
+    expect(getStaticDemoSessionFromToken('static-demo-mitra-session')).toMatchObject({
+      token: 'static-demo-mitra-session',
+      user: { email: 'mitra@sapipapi.farm', role: 'MITRA' },
+    });
+    expect(getStaticDemoSessionFromToken('unknown-token')).toBeNull();
   });
 
   it('rejects invalid credentials instead of bypassing authentication', () => {

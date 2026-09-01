@@ -12,7 +12,7 @@ import { canAccess } from './services/permissions';
 
 import { storeService } from './services/storeService';
 import { authAPI, authSession } from './services/api';
-import { getOneClickDemoSession, getStaticDemoSession, shouldUseStaticDemoFallback } from './services/demoAuth';
+import { getOneClickDemoSession, getStaticDemoSession, getStaticDemoSessionFromToken, shouldUseStaticDemoFallback } from './services/demoAuth';
 import { LivestockItem, UserProfile } from './types';
 
 const DashboardOverview = lazy(() => import('./components/dashboard/DashboardOverview').then(module => ({ default: module.DashboardOverview })));
@@ -65,13 +65,23 @@ export function App() {
     window.addEventListener('auth:unauthorized', handleUnauthorized);
 
     const restoreSession = async () => {
-      if (!authSession.getToken()) {
+      const token = authSession.getToken();
+      if (!token) {
         setAuthState('guest');
+        return;
+      }
+      const staticDemoSession = getStaticDemoSessionFromToken(token);
+      if (staticDemoSession) {
+        storeService.setCurrentUser(staticDemoSession.user);
+        setActiveTab(staticDemoSession.user.role === 'MITRA' ? 'livestock' : 'dashboard');
+        setAuthState('authenticated');
         return;
       }
       try {
         const response = await authAPI.getProfile();
-        storeService.setCurrentUser(response.data.data as UserProfile);
+        const profile = response.data?.data as UserProfile | undefined;
+        if (!profile?.uid || !profile.role) throw new Error('Respons profil pengguna tidak valid.');
+        storeService.setCurrentUser(profile);
         setAuthState('authenticated');
       } catch {
         authSession.clear();

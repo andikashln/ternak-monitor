@@ -37,3 +37,8 @@ export function getStaticDemoSession(email: string, password: string): StaticDem
   const account = DEMO_ACCOUNTS.find(item => item.email === email);
   return account && password === DEMO_PASSWORD ? sessionFor(account) : null;
 }
+
+export function getStaticDemoSessionFromToken(token: string): StaticDemoSession | null {
+  const account = DEMO_ACCOUNTS.find(item => sessionFor(item).token === token);
+  return account ? sessionFor(account) : null;
+}
