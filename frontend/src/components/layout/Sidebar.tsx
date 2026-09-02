@@ -2,9 +2,9 @@ import React from 'react';
 import {
   Activity, BadgeDollarSign, Baby, ChevronRight, ClipboardList, Database, FileBarChart,
   HeartPulse, LayoutDashboard, ReceiptText, ShoppingCart,
-  Users, Wallet, Wheat, Settings, WalletCards, FileText,
+  Users, Wallet, Wheat, Settings, WalletCards, FileText, Scale, Bell, FileStack,
   // Divisi baru
-  Landmark, Scale, ShieldCheck, Banknote, Sprout, Leaf, Tractor, Trees,
+  Landmark, ShieldCheck, Banknote, Sprout, Leaf, Tractor, Trees,
   Fish, Droplets, Waves, Anchor, Bird, PawPrint, Package, PackagePlus,
   ClipboardCheck, UserCheck, Gauge, BookOpenCheck, FolderCog, ScrollText,
 } from 'lucide-react';
@@ -35,6 +35,7 @@ export const navigationSections: NavSection[] = [
     label: 'Ringkasan',
     items: [
       { id: 'dashboard', label: 'Dashboard', description: 'Kondisi farm hari ini', icon: LayoutDashboard, allowedRoles: ['OWNER', 'MANAGER', 'ACCOUNTANT'] },
+      { id: 'notifications', label: 'Notifikasi', description: 'Alert & peringatan dini', icon: Bell, allowedRoles: ['OWNER', 'MANAGER', 'ACCOUNTANT', 'MITRA'] },
     ],
   },
   {
@@ -53,6 +54,7 @@ export const navigationSections: NavSection[] = [
     items: [
       { id: 'livestock', label: 'Data Sapi & Mutasi', description: 'Identitas, populasi & mutasi', icon: Database, allowedRoles: ['OWNER', 'MANAGER', 'MITRA'] },
       { id: 'feed', label: 'Pakan & Timbangan', description: 'Stok pakan & penimbangan', icon: Wheat, allowedRoles: ['OWNER', 'MANAGER', 'MITRA'] },
+      { id: 'weight', label: 'Timbang Bobot', description: 'Catat & pantau bobot ternak', icon: Scale, allowedRoles: ['OWNER', 'MANAGER', 'MITRA'] },
       { id: 'health', label: 'Kesehatan', description: 'Rekam medis & obat', icon: HeartPulse, allowedRoles: ['OWNER', 'MANAGER'] },
       { id: 'births-deaths', label: 'Kelahiran & Kematian', description: 'Perubahan populasi', icon: Baby, allowedRoles: ['OWNER', 'MANAGER'] },
     ],
@@ -97,6 +99,7 @@ export const navigationSections: NavSection[] = [
     items: [
       { id: 'inventory', label: 'Stok & Mutasi Barang', description: 'Inventori & mutasi stok', icon: Package, allowedRoles: ['OWNER', 'MANAGER', 'ACCOUNTANT'] },
       { id: 'purchase-request', label: 'Purchase Request & PO', description: 'Permintaan & pesanan', icon: PackagePlus, allowedRoles: ['OWNER', 'MANAGER', 'ACCOUNTANT'] },
+      { id: 'purchase-order', label: 'Purchase Order (PO)', description: 'Pesanan pembelian', icon: FileStack, allowedRoles: ['OWNER', 'MANAGER', 'ACCOUNTANT'] },
     ],
   },
   {

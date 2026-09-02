@@ -2,7 +2,7 @@ import type { UserRole } from '../types';
 
 export type WorkspaceModule =
   | 'dashboard' | 'livestock' | 'health' | 'births-deaths' | 'transactions'
-  | 'sales-results' | 'finance' | 'expenses' | 'feed' | 'daily-reports'
+  | 'sales-results' | 'finance' | 'expenses' | 'feed' | 'weight' | 'notifications' | 'daily-reports'
   | 'reports' | 'funding-docs' | 'invoices' | 'users' | 'settings'
   // FINANCE CONTROL
   | 'finance-dashboard' | 'approval-center' | 'cash-flow' | 'lpj'
@@ -31,7 +31,7 @@ export const ROLE_LABELS: Record<UserRole, string> = {
 
 const FULL_ACCESS: WorkspaceModule[] = [
   'dashboard', 'livestock', 'health', 'births-deaths', 'transactions',
-  'sales-results', 'finance', 'expenses', 'feed', 'daily-reports', 'reports',
+  'sales-results', 'finance', 'expenses', 'feed', 'weight', 'notifications', 'daily-reports', 'reports',
   'funding-docs', 'invoices', 'users', 'settings',
   'finance-dashboard', 'approval-center', 'cash-flow', 'lpj',
   'crop-longterm', 'crop-shortterm', 'crop-activity', 'garden-docs',
@@ -57,7 +57,7 @@ const ACCOUNTANT_ACCESS: WorkspaceModule[] = [
 
 // Mitra: akses terbatas operasional divisi yang dikelola
 const MITRA_ACCESS: WorkspaceModule[] = [
-  'livestock', 'feed', 'funding-docs',
+  'livestock', 'feed', 'weight', 'funding-docs',
   'crop-longterm', 'crop-shortterm', 'crop-activity',
   'ponds', 'water-quality', 'fish-feed', 'fish-harvest',
   'wildlife', 'wildlife-feed',

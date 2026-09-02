@@ -26,6 +26,8 @@ const PurchasesSalesView = lazy(() => import('./components/transactions/Purchase
 const SalesResultsView = lazy(() => import('./components/sales-results/SalesResultsView').then(module => ({ default: module.SalesResultsView })));
 const ExpenseManagementView = lazy(() => import('./components/expenses/ExpenseManagementView').then(module => ({ default: module.ExpenseManagementView })));
 const FeedManagementView = lazy(() => import('./components/feed/FeedManagementView').then(module => ({ default: module.FeedManagementView })));
+const WeightMonitoringView = lazy(() => import('./components/weight/WeightMonitoringView').then(module => ({ default: module.WeightMonitoringView })));
+const NotificationsView = lazy(() => import('./components/notifications/NotificationsView').then(module => ({ default: module.NotificationsView })));
 const FinanceView = lazy(() => import('./components/finance/FinanceView').then(module => ({ default: module.FinanceView })));
 const DailyReportsView = lazy(() => import('./components/daily-reports/DailyReportsView').then(module => ({ default: module.DailyReportsView })));
 const ReportsExportView = lazy(() => import('./components/reports/ReportsExportView').then(module => ({ default: module.ReportsExportView })));
@@ -199,7 +201,7 @@ export function App() {
     } else if (actionKey === 'add-death') {
       setActiveTab('births-deaths');
     } else if (actionKey === 'add-weight') {
-      setActiveTab('feed');
+      setActiveTab('weight');
     } else if (actionKey === 'add-feed') {
       setActiveTab('feed');
     } else if (actionKey === 'add-finance') {
@@ -325,6 +327,8 @@ export function App() {
           {activeTab === 'sales-results' && canAccess(currentUser.role, 'sales-results') && <SalesResultsView />}
           {activeTab === 'expenses' && canAccess(currentUser.role, 'expenses') && <ExpenseManagementView onOpenFinance={() => setActiveTab('finance')} />}
           {activeTab === 'feed' && canAccess(currentUser.role, 'feed') && <FeedManagementView />}
+          {activeTab === 'weight' && canAccess(currentUser.role, 'weight') && <WeightMonitoringView />}
+          {activeTab === 'notifications' && canAccess(currentUser.role, 'notifications') && <NotificationsView />}
           {activeTab === 'finance' && canAccess(currentUser.role, 'finance') && <FinanceView />}
           {activeTab === 'daily-reports' && canAccess(currentUser.role, 'daily-reports') && <DailyReportsView />}
           {activeTab === 'reports' && canAccess(currentUser.role, 'reports') && <ReportsExportView />}
