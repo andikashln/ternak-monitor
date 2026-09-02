@@ -61,7 +61,7 @@ export const OwnerDailyBriefModal: React.FC<OwnerDailyBriefModalProps> = ({ isOp
       <div className="bg-white rounded-2xl max-w-2xl w-full overflow-hidden shadow-2xl border border-slate-200 flex flex-col max-h-[85vh]">
         
         {/* Header */}
-        <div className="p-4 bg-gradient-to-r from-[#1b4332] to-[#2d6a4f] text-white flex items-center justify-between">
+        <div className="p-4 bg-gradient-to-r from-[#5A2D1F] to-[#2d6a4f] text-white flex items-center justify-between">
           <div className="flex items-center gap-2.5">
             <div className="p-2 rounded-lg bg-white/10 text-[#95d5b2]">
               <Sparkles className="w-5 h-5 animate-pulse" />
@@ -75,7 +75,7 @@ export const OwnerDailyBriefModal: React.FC<OwnerDailyBriefModalProps> = ({ isOp
           </div>
           <button
             onClick={onClose}
-            className="p-1 text-[#d8f3dc] hover:text-white hover:bg-white/10 rounded-lg transition"
+            className="p-1 text-[#EFE5D5] hover:text-white hover:bg-white/10 rounded-lg transition"
           >
             <X className="w-5 h-5" />
           </button>
@@ -85,7 +85,7 @@ export const OwnerDailyBriefModal: React.FC<OwnerDailyBriefModalProps> = ({ isOp
         <div className="p-6 overflow-y-auto flex-1 text-slate-800 text-xs sm:text-sm leading-relaxed">
           {loading ? (
             <div className="py-12 text-center space-y-3">
-              <RefreshCw className="w-8 h-8 text-emerald-800 animate-spin mx-auto" />
+              <RefreshCw className="w-8 h-8 text-#5A2D1F animate-spin mx-auto" />
               <p className="font-semibold text-slate-700">Menghasilkan Ringkasan Eksekutif Gemini AI...</p>
               <p className="text-xs text-slate-400">Menganalisis data populasi, kesehatan, dan transaksi keuangan saat ini.</p>
             </div>
@@ -106,12 +106,12 @@ export const OwnerDailyBriefModal: React.FC<OwnerDailyBriefModalProps> = ({ isOp
                 <span className="font-semibold text-slate-800">
                   📅 Tanggal Ringkasan: {new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}
                 </span>
-                <span className="text-[10px] bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-bold">
+                <span className="text-[10px] bg-#F5EFE6 text-#5A2D1F px-2 py-0.5 rounded font-bold">
                   VERIFIED AI BRIEF
                 </span>
               </div>
 
-              <div className="bg-emerald-50/40 p-4 rounded-xl border border-emerald-100 text-slate-800 whitespace-pre-wrap font-sans text-xs sm:text-sm leading-relaxed">
+              <div className="bg-#FBF8F2/40 p-4 rounded-xl border border-#F5EFE6 text-slate-800 whitespace-pre-wrap font-sans text-xs sm:text-sm leading-relaxed">
                 {briefText}
               </div>
             </div>
@@ -135,13 +135,13 @@ export const OwnerDailyBriefModal: React.FC<OwnerDailyBriefModalProps> = ({ isOp
               disabled={!briefText || loading}
               className="flex items-center gap-1.5 px-3 py-2 text-xs font-medium text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-100 transition cursor-pointer disabled:opacity-50"
             >
-              {copied ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
+              {copied ? <Check className="w-3.5 h-3.5 text-#7A4A30" /> : <Copy className="w-3.5 h-3.5" />}
               <span>{copied ? 'Tersalin!' : 'Salin Text'}</span>
             </button>
 
             <button
               onClick={onClose}
-              className="px-4 py-2 text-xs font-bold text-white bg-emerald-900 rounded-lg hover:bg-emerald-800 transition cursor-pointer"
+              className="px-4 py-2 text-xs font-bold text-white bg-#4A2C1D rounded-lg hover:bg-#5A2D1F transition cursor-pointer"
             >
               Tutup
             </button>

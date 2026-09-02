@@ -7,3 +7,10 @@ coverage/
 backend/data/development-users.json
 .env*
 !.env.example
+
+# Local isolated worktrees
+.worktrees/
+
+# Local brainstorming/agent scratch (not part of the app)
+.superpowers/
+.vercel

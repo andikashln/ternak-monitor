@@ -1,13 +1,36 @@
 @import "tailwindcss";
 
 :root {
-  --primary: #1b4332;
-  --primary-light: #d8f3dc;
-  --accent: #f59e0b;
-  --danger: #ef4444;
-  --bg: #f8fafc;
-  --text: #0f172a;
-  --slate: #64748b;
+  --ink: #24150F;
+  --coffee: #4A2C1D;
+  --leather: #5A2D1F;
+  --taupe: #937A65;
+  --taupe-soft: #B9A691;
+  --bone: #F5EFE6;
+  --bone-warm: #EFE5D5;
+  --paper: #FBF8F2;
+  --line: #D8C7B0;
+  --line-strong: #B9A691;
+  --danger: #7A3326;
+  --success: #5C6B3C;
+
+  --primary: #5A2D1F;
+  --primary-light: #EFE5D5;
+  --accent: #937A65;
+  --accent-soft: #EFE5D5;
+  --bg: #F5EFE6;
+  --surface: #FBF8F2;
+  --text: #24150F;
+  --slate: #937A65;
+  --line-var: #D8C7B0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--bg);
 }
 
 body {
@@ -16,31 +39,112 @@ body {
   background-color: var(--bg);
   color: var(--text);
   font-size: 14px;
+  -webkit-font-smoothing: antialiased;
 }
 
-.bg-primary {
-  background-color: #1b4332;
+button,
+a,
+input,
+select,
+textarea {
+  -webkit-tap-highlight-color: transparent;
 }
 
-.bg-primary-light {
-  background-color: #d8f3dc;
+button,
+a {
+  cursor: pointer;
 }
 
-.text-primary {
-  color: #1b4332;
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--taupe);
+  outline-offset: 2px;
 }
 
-.text-slate-muted {
-  color: #64748b;
+.app-surface {
+  background-color: var(--bg);
 }
 
-.border-primary-light {
-  border-color: #d8f3dc;
+.app-navbar {
+  background: rgba(251, 248, 242, .96) !important;
+  border-bottom-color: var(--line) !important;
+  box-shadow: 0 1px 0 rgba(36, 21, 15, .05);
+}
+
+.app-sidebar {
+  background: var(--paper) !important;
+  border-right-color: var(--line) !important;
+}
+
+.app-sidebar::before {
+  content: "";
+  display: block;
+  height: 1px;
+  margin: 0 1rem;
+  background: var(--line);
+}
+
+.workspace-main {
+  background: var(--bg);
+}
+
+.icon-button {
+  display: inline-flex;
+  min-height: 2.5rem;
+  min-width: 2.5rem;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--line);
+  border-radius: .65rem;
+  background: var(--paper);
+  color: var(--leather);
+}
+
+.ranch-panel {
+  border-color: var(--line) !important;
+  background: var(--paper) !important;
+  box-shadow: 0 1px 0 rgba(36, 21, 15, .04) !important;
+}
+
+.ranch-heading {
+  color: var(--text);
+  font-family: 'Fraunces', Georgia, 'Times New Roman', serif;
+  letter-spacing: -.02em;
+}
+
+.ranch-label {
+  color: var(--taupe);
+  font-size: .65rem;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+.ranch-divider {
+  display: flex;
+  align-items: center;
+  gap: .65rem;
+  color: var(--taupe);
+}
+
+.ranch-divider::before,
+.ranch-divider::after {
+  content: "";
+  height: 1px;
+  flex: 1;
+  background: var(--line);
+}
+
+.ranch-divider::after {
+  max-width: 2.5rem;
 }
 
 .location-pill {
-  background-color: #d8f3dc;
-  color: #1b4332;
+  background-color: var(--bone-warm);
+  color: var(--leather);
   padding: 4px 12px;
   border-radius: 9999px;
   font-weight: 600;
@@ -51,71 +155,123 @@ body {
 }
 
 .card-polish {
-  background-color: #ffffff;
+  background-color: var(--surface);
   border-radius: 12px;
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--line);
   padding: 16px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 0 rgba(36, 21, 15, .04);
 }
 
 .stat-label-polish {
   font-size: 12px;
-  color: #64748b;
-  font-weight: 600;
+  color: var(--slate);
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.025em;
+  letter-spacing: .06em;
 }
 
 .stat-value-polish {
   font-size: 24px;
-  font-weight: 700;
-  color: #1b4332;
+  font-weight: 800;
+  color: var(--text);
   margin-top: 4px;
 }
 
-.badge-success-polish {
-  background-color: #dcfce7;
-  color: #166534;
-  padding: 2px 8px;
-  border-radius: 4px;
-  font-size: 11px;
-  font-weight: 600;
+.animate-fade-in {
+  animation: fade-in .22s ease-out both;
 }
 
-.badge-warning-polish {
-  background-color: #fef3c7;
-  color: #92400e;
-  padding: 2px 8px;
-  border-radius: 4px;
-  font-size: 11px;
-  font-weight: 600;
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-.badge-danger-polish {
-  background-color: #fee2e2;
-  color: #991b1b;
-  padding: 2px 8px;
-  border-radius: 4px;
-  font-size: 11px;
-  font-weight: 600;
-}
-
-.ai-panel-polish {
-  background: linear-gradient(135deg, #1b4332 0%, #2d6a4f 100%);
-  color: #ffffff;
-  border: none;
-  border-radius: 12px;
-  padding: 16px;
-}
-
-.ai-title-polish {
-  color: #95d5b2;
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  font-weight: 700;
-  margin-bottom: 8px;
-  display: flex;
+.ranch-ribbon {
+  display: inline-flex;
+  min-height: 1.75rem;
   align-items: center;
-  gap: 6px;
+  border-left: 3px solid var(--taupe);
+  background: var(--leather);
+  padding: .35rem .7rem;
+  color: var(--paper);
+  font-size: .625rem;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+.ranch-action-primary,
+.ranch-action-secondary {
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  border-radius: .65rem;
+  padding: .65rem 1rem;
+  font-weight: 700;
+  transition: background-color .15s ease, border-color .15s ease, color .15s ease;
+}
+
+.ranch-action-primary {
+  border: 1px solid var(--leather);
+  background: var(--leather);
+  color: var(--bone);
+}
+
+.ranch-action-primary:hover { background: var(--coffee); }
+
+.ranch-action-secondary {
+  border: 1px solid var(--line-strong);
+  background: var(--paper);
+  color: var(--leather);
+}
+
+.ranch-action-secondary:hover {
+  border-color: var(--leather);
+  background: var(--bone-warm);
+}
+
+.ranch-input {
+  min-height: 2.75rem;
+  border: 1px solid var(--line-strong);
+  border-radius: .65rem;
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.ranch-input:focus {
+  border-color: var(--leather);
+  box-shadow: 0 0 0 3px rgba(90, 45, 31, .1);
+}
+
+.ranch-hero {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: var(--leather);
+  color: var(--paper);
+}
+
+.ranch-kpi {
+  position: relative;
+  overflow: hidden;
+}
+
+.ranch-kpi::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 3px;
+  background: var(--leather);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .ranch-action-primary,
+  .ranch-action-secondary { transition: none; }
 }

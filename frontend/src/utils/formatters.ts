@@ -13,12 +13,11 @@ export function formatRupiah(amount: number): string {
 export function formatDate(dateString?: string): string {
   if (!dateString) return '-';
   try {
-    const d = new Date(dateString);
-    if (isNaN(d.getTime())) return dateString;
-    const day = String(d.getDate()).padStart(2, '0');
-    const month = String(d.getMonth() + 1).padStart(2, '0');
-    const year = d.getFullYear();
-    return `${day}/${month}/${year}`;
+    const date = new Date(dateString);
+    if (Number.isNaN(date.getTime())) return dateString;
+    return new Intl.DateTimeFormat('id-ID', {
+      weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Asia/Jakarta'
+    }).format(date);
   } catch {
     return dateString;
   }
@@ -62,7 +61,7 @@ export async function exportToExcel(data: Record<string, any>[], filename: strin
   const { default: writeXlsxFile } = await import('write-excel-file');
   const keys = data.length > 0 ? Object.keys(data[0]) : [];
   const rows = [
-    keys.map(key => ({ value: key, fontWeight: 'bold' as const, backgroundColor: '#14532D', color: '#FFFFFF' })),
+    keys.map(key => ({ value: key, fontWeight: 'bold' as const, backgroundColor: '#5A2D1F', color: '#FFFFFF' })),
     ...data.map(row => keys.map(key => ({ value: row[key] == null ? '' : String(row[key]) }))),
   ];
   await writeXlsxFile(rows, { fileName: `${filename}.xlsx` });

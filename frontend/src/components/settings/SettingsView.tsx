@@ -1,11 +1,16 @@
-import React, { useState } from 'react';
-import { Settings, Building2, Plus, RefreshCw, Save, Check } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { Settings, Pencil, Ban, Save } from 'lucide-react';
 import { storeService } from '../../services/storeService';
+import { financialDocumentsStore } from '../../services/financialDocuments';
+import { clearAttachments } from '../../services/attachmentDb';
 
 export const SettingsView: React.FC = () => {
   const [settings, setSettings] = useState(storeService.settings);
   const [locations, setLocations] = useState(storeService.locations);
   const [saved, setSaved] = useState(false);
+  const [locationMessage, setLocationMessage] = useState('');
+
+  useEffect(() => storeService.subscribe(() => setLocations([...storeService.locations])), []);
 
   // New location form
   const [newLocName, setNewLocName] = useState('');
@@ -18,6 +23,27 @@ export const SettingsView: React.FC = () => {
     storeService.updateSettings(settings);
     setSaved(true);
     setTimeout(() => setSaved(false), 2000);
+  };
+
+  const handleEditLocation = (id: string) => {
+    const location = locations.find(item => item.id === id);
+    if (!location) return;
+    const name = window.prompt('Nama lokasi:', location.name);
+    if (name === null || !name.trim()) return;
+    const address = window.prompt('Alamat lokasi:', location.address);
+    if (address === null) return;
+    const picName = window.prompt('Nama PIC:', location.picName);
+    if (picName === null) return;
+    const picPhone = window.prompt('Telepon PIC:', location.picPhone);
+    if (picPhone === null) return;
+    storeService.updateLocation(id, { name: name.trim(), address, picName, picPhone });
+    setLocationMessage('Lokasi berhasil diperbarui.');
+  };
+
+  const handleDeactivateLocation = (id: string) => {
+    if (!window.confirm('Nonaktifkan lokasi ini? Data historis tetap disimpan.')) return;
+    const result = storeService.deactivateLocation(id);
+    setLocationMessage(result.ok ? 'Lokasi berhasil dinonaktifkan.' : result.reason ?? 'Lokasi tidak dapat dinonaktifkan.');
   };
 
   const handleAddLocation = (e: React.FormEvent) => {
@@ -47,7 +73,7 @@ export const SettingsView: React.FC = () => {
       {/* Header */}
       <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-2xs">
         <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-          <Settings className="w-5 h-5 text-emerald-800" />
+          <Settings className="w-5 h-5 text-#5A2D1F" />
           <span>Pengaturan Perusahaan & Master Lokasi Kandang</span>
         </h2>
         <p className="text-xs text-slate-500">
@@ -68,7 +94,7 @@ export const SettingsView: React.FC = () => {
               value={settings.companyName}
               onChange={e => setSettings({ ...settings, companyName: e.target.value })}
               required
-              className="w-full px-3 py-2 border border-slate-300 rounded-lg font-bold focus:ring-2 focus:ring-emerald-800 focus:outline-none"
+              className="w-full px-3 py-2 border border-slate-300 rounded-lg font-bold focus:ring-2 focus:ring-#5A2D1F focus:outline-none"
             />
           </div>
 
@@ -78,7 +104,7 @@ export const SettingsView: React.FC = () => {
               type="text"
               value={settings.tagline}
               onChange={e => setSettings({ ...settings, tagline: e.target.value })}
-              className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-800 focus:outline-none"
+              className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-#5A2D1F focus:outline-none"
             />
           </div>
 
@@ -89,7 +115,7 @@ export const SettingsView: React.FC = () => {
                 type="text"
                 value={settings.ownerName}
                 onChange={e => setSettings({ ...settings, ownerName: e.target.value })}
-                className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-800 focus:outline-none"
+                className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-#5A2D1F focus:outline-none"
               />
             </div>
             <div>
@@ -98,7 +124,7 @@ export const SettingsView: React.FC = () => {
                 type="text"
                 value={settings.phone}
                 onChange={e => setSettings({ ...settings, phone: e.target.value })}
-                className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-800 focus:outline-none"
+                className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-#5A2D1F focus:outline-none"
               />
             </div>
           </div>
@@ -109,15 +135,15 @@ export const SettingsView: React.FC = () => {
               value={settings.address}
               onChange={e => setSettings({ ...settings, address: e.target.value })}
               rows={2}
-              className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-800 focus:outline-none"
+              className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-#5A2D1F focus:outline-none"
             />
           </div>
 
           <div className="flex items-center justify-between pt-2">
-            {saved && <span className="text-emerald-700 font-bold">✓ Berhasil disimpan!</span>}
+            {saved && <span className="text-#6B3A24 font-bold">✓ Berhasil disimpan!</span>}
             <button
               type="submit"
-              className="ml-auto flex items-center gap-1.5 px-5 py-2 bg-emerald-900 text-white font-bold rounded-lg hover:bg-emerald-800 transition cursor-pointer"
+              className="ml-auto flex items-center gap-1.5 px-5 py-2 bg-#4A2C1D text-white font-bold rounded-lg hover:bg-#5A2D1F transition cursor-pointer"
             >
               <Save className="w-4 h-4" />
               <span>Simpan Profil</span>
@@ -128,6 +154,7 @@ export const SettingsView: React.FC = () => {
         {/* Master Locations Management */}
         <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-2xs space-y-4 text-xs">
           <h3 className="font-bold text-slate-900 text-sm border-b border-slate-100 pb-2">Master Lokasi Peternakan ({locations.length})</h3>
+          {locationMessage && <div role="status" className="p-2 rounded bg-amber-50 border border-amber-200 text-amber-900 font-semibold">{locationMessage}</div>}
 
           <div className="space-y-2 max-h-48 overflow-y-auto">
             {locations.map(loc => (
@@ -136,9 +163,10 @@ export const SettingsView: React.FC = () => {
                   <h4 className="font-bold text-slate-900 text-xs">📍 {loc.name}</h4>
                   <p className="text-[11px] text-slate-500">PIC: {loc.picName} ({loc.picPhone})</p>
                 </div>
-                <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-900">
-                  {loc.status}
-                </span>
+                <div className="flex items-center gap-1"><span className={`px-2 py-0.5 rounded text-[10px] font-bold ${loc.status === 'Aktif' ? 'bg-#F5EFE6 text-#4A2C1D' : 'bg-slate-200 text-slate-600'}`}>{loc.status}</span>
+                  <button type="button" onClick={() => handleEditLocation(loc.id)} aria-label={`Edit lokasi ${loc.name}`} className="p-1 text-blue-700 hover:bg-blue-50 rounded"><Pencil className="w-4 h-4" /></button>
+                  {loc.status === 'Aktif' && <button type="button" onClick={() => handleDeactivateLocation(loc.id)} aria-label={`Nonaktifkan lokasi ${loc.name}`} className="p-1 text-rose-700 hover:bg-rose-50 rounded"><Ban className="w-4 h-4" /></button>}
+                </div>
               </div>
             ))}
           </div>
@@ -174,16 +202,18 @@ export const SettingsView: React.FC = () => {
           <div className="pt-3 border-t border-slate-100">
             <button
               type="button"
-              onClick={() => {
-                if (window.confirm('Reset seluruh data ke Seed Demo Awal?')) {
-                  storeService.resetToSeed();
-                  setLocations([...storeService.locations]);
-                  setSettings(storeService.settings);
+              onClick={async () => {
+                if (window.confirm('Kosongkan SELURUH data demo? Profil usaha dan akun login tetap dipertahankan. Tindakan ini tidak dapat dibatalkan.')) {
+                  storeService.clearAllDemoData();
+                  financialDocumentsStore.resetAll({ uid: storeService.currentUser.uid, name: storeService.currentUser.displayName, role: storeService.currentUser.role });
+                  await clearAttachments();
+                  setLocations([]);
+                  setLocationMessage('Seluruh data demo berhasil dikosongkan.');
                 }
               }}
               className="text-rose-600 font-bold hover:underline cursor-pointer"
             >
-              🔄 Reset Data ke Seed Demo
+              🗑️ Kosongkan Seluruh Data Demo
             </button>
           </div>
         </div>

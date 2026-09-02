@@ -1,71 +1,99 @@
-import React, { useState, useEffect } from 'react';
-import { Wallet, Plus, BarChart3, Pencil, Trash2, X } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { ArrowDownRight, ArrowUpRight, Pencil, Plus, Trash2, Wallet, X } from 'lucide-react';
 import { storeService } from '../../services/storeService';
-import { FinancialTransaction, FinancialCategoryType } from '../../types';
-import { formatRupiah, formatDate } from '../../utils/formatters';
+import { FinancialCategoryType, FinancialTransaction } from '../../types';
+import { formatDate, formatRupiah } from '../../utils/formatters';
+import { FinancePeriodGranularity, summarizeFinancePeriod } from '../../services/financeSummary';
+
+const categoryOptions: Array<{ value: FinancialCategoryType; label: string }> = [
+  { value: 'Penjualan Ternak', label: 'Penjualan Sapi' },
+  { value: 'Pembelian Ternak', label: 'Pembelian Sapi' },
+  { value: 'Pakan', label: 'Pakan' },
+  { value: 'Obat & Vitamin', label: 'Obat & Vitamin' },
+  { value: 'Tenaga Kerja', label: 'Tenaga Kerja' },
+  { value: 'Transportasi', label: 'Transportasi' },
+  { value: 'Operasional Lainnya', label: 'Operasional Lainnya' },
+];
+
+const categorySummaries: Array<{
+  category: FinancialCategoryType;
+  label: string;
+  direction: 'income' | 'expense';
+}> = [
+  { category: 'Penjualan Ternak', label: 'Penjualan Sapi', direction: 'income' },
+  { category: 'Pembelian Ternak', label: 'Pembelian Sapi', direction: 'expense' },
+  { category: 'Pakan', label: 'Pakan', direction: 'expense' },
+  { category: 'Obat & Vitamin', label: 'Obat & Vitamin', direction: 'expense' },
+  { category: 'Tenaga Kerja', label: 'Tenaga Kerja', direction: 'expense' },
+  { category: 'Transportasi', label: 'Transportasi', direction: 'expense' },
+  { category: 'Operasional Lainnya', label: 'Operasional Lainnya', direction: 'expense' },
+];
+
+function getCategoryLabel(category: string) {
+  return categoryOptions.find(option => option.value === category)?.label ?? category;
+}
 
 export const FinanceView: React.FC = () => {
   const [transactions, setTransactions] = useState(storeService.financialTransactions);
-  const [salesRecords, setSalesRecords] = useState(storeService.salesRecords);
   const [locations, setLocations] = useState(storeService.locations);
+  const [currentUser, setCurrentUser] = useState(storeService.currentUser);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingTransactionId, setEditingTransactionId] = useState<string | null>(null);
+  const today = new Date();
+  const currentMonth = today.toISOString().slice(0, 7);
+  const currentYear = String(today.getUTCFullYear());
+  const [granularity, setGranularity] = useState<FinancePeriodGranularity>('month');
+  const [selectedPeriod, setSelectedPeriod] = useState(currentMonth);
 
-  // Form
-  const [type, setType] = useState<'income' | 'expense'>('expense');
   const [invoiceNo, setInvoiceNo] = useState(`TRX-${Date.now().toString().slice(-6)}`);
   const [transactionDate, setTransactionDate] = useState(new Date().toISOString().split('T')[0]);
   const [category, setCategory] = useState<FinancialCategoryType>('Pakan');
-  const [description, setDescription] = useState('Pembelian konsentrat pakan sapi');
-  const [amount, setAmount] = useState('5000000');
+  const [description, setDescription] = useState('');
+  const [amount, setAmount] = useState('');
   const [locationId, setLocationId] = useState('');
   const [paymentMethod, setPaymentMethod] = useState('Transfer Bank');
-  const [payeePayer, setPayeePayer] = useState('PT Feedmill Nusantara');
+  const [payeePayer, setPayeePayer] = useState('');
 
-  useEffect(() => {
-    const unsubscribe = storeService.subscribe(() => {
-      setTransactions(storeService.financialTransactions);
-      setSalesRecords(storeService.salesRecords);
-      setLocations(storeService.locations);
-    });
-    return unsubscribe;
-  }, []);
+  useEffect(() => storeService.subscribe(() => {
+    setTransactions(storeService.financialTransactions);
+    setLocations(storeService.locations);
+    setCurrentUser(storeService.currentUser);
+  }), []);
 
-  const totalIncome = transactions.filter(t => t.type === 'income').reduce((acc, curr) => acc + curr.amount, 0);
-  const totalExpense = transactions.filter(t => t.type === 'expense').reduce((acc, curr) => acc + curr.amount, 0);
-  const netProfit = totalIncome - totalExpense;
-  const completedSales = salesRecords.filter(sale => sale.transactionStatus === 'Selesai');
-  const salesRevenue = completedSales.reduce((sum, sale) => sum + sale.priceTotal, 0);
-  const livestockCost = completedSales.reduce((sum, sale) => {
-    if (sale.acquisitionCostTotal !== undefined) return sum + sale.acquisitionCostTotal;
-    return sum + sale.livestockIds.reduce((cost, id) => {
-      const item = storeService.livestock.find(livestock => livestock.id === id);
-      return cost + (item?.acquisitionPrice ?? 0);
-    }, 0);
-  }, 0);
-  const grossProfit = salesRevenue - livestockCost;
-  const operatingExpenses = transactions
-    .filter(transaction => transaction.type === 'expense' && transaction.category !== 'Pembelian Ternak')
-    .reduce((sum, transaction) => sum + transaction.amount, 0);
-  const salesNetProfit = grossProfit - operatingExpenses;
+  const periodTransactions = transactions.filter(transaction => transaction.date.startsWith(selectedPeriod));
+  const periodLabel = granularity === 'year'
+    ? selectedPeriod
+    : new Intl.DateTimeFormat('id-ID', { month: 'long', year: 'numeric', timeZone: 'UTC' })
+      .format(new Date(`${selectedPeriod}-01T00:00:00Z`));
+  const summary = summarizeFinancePeriod({
+    transactions,
+    sales: storeService.salesRecords,
+    period: selectedPeriod,
+    granularity,
+  });
+  const { income: totalIncome, expenses: totalExpense, grossProfit, netProfit } = summary;
+  const isOwner = currentUser.role === 'OWNER';
+  const transactionType: 'income' | 'expense' = category === 'Penjualan Ternak' ? 'income' : 'expense';
 
-  const handleOpenModal = () => {
+  const handleOpenModal = (initialCategory: FinancialCategoryType = 'Pakan') => {
+    const today = new Date().toISOString().split('T')[0];
     setEditingTransactionId(null);
     setInvoiceNo(`TRX-${Math.floor(100000 + Math.random() * 900000)}`);
-    setTransactionDate(new Date().toISOString().split('T')[0]);
-    setType('expense');
-    setCategory('Pakan');
+    const defaultDate = granularity === 'year'
+      ? `${selectedPeriod}-01-01`
+      : (selectedPeriod === currentMonth ? today : `${selectedPeriod}-01`);
+    setTransactionDate(defaultDate);
+    setCategory(initialCategory);
     setDescription('');
-    setAmount('0');
+    setAmount('');
     setPaymentMethod('Transfer Bank');
     setPayeePayer('');
-    if (locations.length > 0) setLocationId(locations[0].id);
+    setLocationId(locations[0]?.id ?? '');
     setIsModalOpen(true);
   };
 
   const handleEditTransaction = (transaction: FinancialTransaction) => {
     setEditingTransactionId(transaction.id);
-    setType(transaction.type);
     setInvoiceNo(transaction.invoiceNo);
     setTransactionDate(transaction.date);
     setCategory(transaction.category as FinancialCategoryType);
@@ -78,32 +106,36 @@ export const FinanceView: React.FC = () => {
   };
 
   const handleDeleteTransaction = (transaction: FinancialTransaction) => {
+    if (!isOwner || storeService.currentUser.role !== 'OWNER') {
+      window.alert('Hanya Owner yang dapat menghapus transaksi buku kas.');
+      return;
+    }
     const linkedSalesNote = transaction.category === 'Penjualan Ternak'
-      ? '\n\nCatatan: invoice pada POS penjualan tidak ikut dihapus.'
+      ? '\n\nInvoice pada daftar penjualan tidak ikut dihapus.'
       : '';
     const confirmed = window.confirm(
-      `Hapus transaksi ${transaction.invoiceNo} sebesar ${formatRupiah(transaction.amount)}?${linkedSalesNote}\n\nData buku kas yang dihapus tidak dapat dikembalikan.`
+      `Hapus transaksi ${transaction.invoiceNo} sebesar ${formatRupiah(transaction.amount)}?${linkedSalesNote}\n\nData yang dihapus tidak dapat dikembalikan.`
     );
     if (confirmed) storeService.deleteFinancialTransaction(transaction.id);
   };
 
-  const handleSaveTransaction = (e: React.FormEvent) => {
-    e.preventDefault();
-    const loc = locations.find(l => l.id === locationId) || locations[0];
-    if (!loc) return;
+  const handleSaveTransaction = (event: React.FormEvent) => {
+    event.preventDefault();
+    const location = locations.find(item => item.id === locationId) ?? locations[0];
+    if (!location) return;
 
     const transactionData = {
       invoiceNo,
       date: transactionDate,
-      type,
+      type: transactionType,
       category,
       description,
-      locationId: loc.id,
-      locationName: loc.name,
-      amount: parseFloat(amount) || 0,
+      locationId: location.id,
+      locationName: location.name,
+      amount: Number(amount) || 0,
       paymentMethod,
       payeePayer,
-      createdBy: storeService.currentUser.displayName
+      createdBy: storeService.currentUser.displayName,
     };
 
     if (editingTransactionId) {
@@ -111,330 +143,311 @@ export const FinanceView: React.FC = () => {
     } else {
       storeService.addFinancialTransaction(transactionData);
     }
-
+    setSelectedPeriod(transactionDate.slice(0, 7));
     setIsModalOpen(false);
     setEditingTransactionId(null);
   };
 
   return (
-    <div className="space-y-4 animate-fade-in pb-12">
-      
-      {/* Header */}
-      <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-2xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+    <div className="space-y-3 pb-24 animate-fade-in sm:space-y-4 md:pb-12">
+      <header className="ranch-panel rounded-2xl border p-4 sm:p-5">
         <div>
-          <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-            <Wallet className="w-5 h-5 text-emerald-800" />
-            <span>Keuangan & Buku Kas Operasional</span>
+          <h2 className="ranch-heading flex items-center gap-2 text-lg font-bold">
+            <Wallet className="h-5 w-5 text-#5A2D1F" />
+            <span>Laporan Laba Rugi</span>
           </h2>
-          <p className="text-xs text-slate-500">
-            Catat arus kas pemasukan, pengeluaran pakan/obat/operasional, invoice, dan neraca laba rugi peternakan
-          </p>
+          <p className="mt-1 text-[11px] leading-relaxed text-slate-500 sm:text-xs">Catat pemasukan penjualan sapi dan seluruh pengeluaran operasional peternakan.</p>
         </div>
+      </header>
 
-        <button
-          onClick={handleOpenModal}
-          className="flex items-center gap-1.5 px-4 py-2 bg-emerald-900 hover:bg-emerald-800 text-white text-xs font-bold rounded-xl transition cursor-pointer"
-        >
-          <Plus className="w-4 h-4" />
-          <span>+ Catat Pemasukan / Biaya</span>
-        </button>
-      </div>
+      <section className="ranch-panel flex flex-col gap-3 rounded-2xl border p-4 lg:flex-row lg:items-center lg:justify-between">
+        <div>
+          <p className="text-[10px] font-black uppercase tracking-[0.16em] text-#6B3A24">Ringkasan {granularity === 'month' ? 'bulanan' : 'tahunan'}</p>
+          <h3 className="mt-1 text-base font-black capitalize text-slate-900">Periode {periodLabel}</h3>
+          <p className="mt-0.5 text-[10px] text-slate-500">Angka ringkasan dan daftar transaksi mengikuti periode yang dipilih.</p>
+        </div>
+        <div className="grid w-full grid-cols-2 gap-2 lg:flex lg:w-auto lg:items-center">
+          <label className="flex items-center justify-between gap-2 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2">
+            <span className="text-[10px] font-bold text-slate-500">Mode</span>
+            <select
+              value={granularity}
+              onChange={event => {
+                const next = event.target.value as FinancePeriodGranularity;
+                setGranularity(next);
+                setSelectedPeriod(next === 'month' ? currentMonth : currentYear);
+              }}
+              className="bg-transparent text-xs font-bold text-slate-800 outline-none"
+              aria-label="Pilih jenis periode laporan"
+            >
+              <option value="month">Bulanan</option>
+              <option value="year">Tahunan</option>
+            </select>
+          </label>
+          <label className="flex items-center justify-between gap-2 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2">
+            <span className="text-[10px] font-bold text-slate-500">Periode</span>
+            <input
+              type={granularity === 'month' ? 'month' : 'number'}
+              min="2020"
+              max="2100"
+              value={selectedPeriod}
+              onChange={event => setSelectedPeriod(event.target.value || (granularity === 'month' ? currentMonth : currentYear))}
+              className="w-24 bg-transparent text-xs font-bold text-slate-800 outline-none"
+              aria-label={`Pilih periode ringkasan ${granularity === 'month' ? 'bulanan' : 'tahunan'}`}
+            />
+          </label>
+          <button
+            type="button"
+            onClick={() => handleOpenModal('Penjualan Ternak')}
+            className="flex items-center justify-center gap-1.5 rounded-xl bg-#4A2C1D px-3.5 py-2.5 text-xs font-bold text-white transition hover:bg-#5A2D1F"
+          >
+            <Plus className="h-4 w-4" /> <span><span className="hidden sm:inline">Catat </span>Penjualan</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => handleOpenModal('Pakan')}
+            className="flex items-center justify-center gap-1.5 rounded-xl border border-rose-200 bg-white px-3.5 py-2.5 text-xs font-bold text-rose-700 transition hover:bg-rose-50"
+          >
+            <Plus className="h-4 w-4" /> <span><span className="hidden sm:inline">Catat </span>Pengeluaran</span>
+          </button>
+        </div>
+      </section>
 
-      {/* Profit and Loss Report */}
-      <div className="bg-white rounded-2xl border border-slate-200 shadow-2xs overflow-hidden">
-        <div className="p-4 bg-slate-50 border-b border-slate-200 flex items-center justify-between gap-3">
-          <div>
-            <h3 className="text-sm font-bold text-slate-900 flex items-center gap-2">
-              <BarChart3 className="w-4 h-4 text-emerald-800" /> Laporan Laba Rugi Penjualan Ternak
-            </h3>
-            <p className="text-[11px] text-slate-500 mt-0.5">Pendapatan penjualan dikurangi harga beli ternak dan biaya operasional.</p>
+      <section className="grid grid-cols-2 gap-2.5 sm:grid-cols-4 sm:gap-3">
+        <article className="rounded-2xl border border-#EFE5D5 bg-white p-4 shadow-2xs sm:p-5">
+          <div className="flex items-center justify-between">
+            <span className="text-[10px] font-black uppercase tracking-wider text-slate-500">Pemasukan</span>
+            <ArrowUpRight className="h-4 w-4 text-#6B3A24" />
           </div>
-          <span className={`px-3 py-1.5 rounded-lg text-xs font-black ${salesNetProfit >= 0 ? 'bg-emerald-100 text-emerald-900' : 'bg-rose-100 text-rose-900'}`}>
-            {salesNetProfit >= 0 ? 'LABA' : 'RUGI'} {formatRupiah(Math.abs(salesNetProfit))}
-          </span>
+          <strong className="mt-2 block font-mono text-lg font-black text-#5A2D1F">{formatRupiah(totalIncome)}</strong>
+          <p className="mt-1 text-[10px] text-slate-400">Kas masuk pada periode</p>
+        </article>
+
+        <article className="rounded-2xl border border-rose-200 bg-white p-4 shadow-2xs sm:p-5">
+          <div className="flex items-center justify-between">
+            <span className="text-[10px] font-black uppercase tracking-wider text-slate-500">Pengeluaran</span>
+            <ArrowDownRight className="h-4 w-4 text-rose-600" />
+          </div>
+          <strong className="mt-2 block font-mono text-lg font-black text-rose-600">{formatRupiah(totalExpense)}</strong>
+          <p className="mt-1 text-[10px] text-slate-400">HPP dan biaya operasional</p>
+        </article>
+
+        <article className={`rounded-2xl border bg-white p-4 shadow-2xs sm:p-5 ${grossProfit >= 0 ? 'border-#EFE5D5' : 'border-rose-200'}`}>
+          <div className="flex items-center justify-between">
+            <span className="text-[10px] font-black uppercase tracking-wider text-slate-500">Laba Kotor</span>
+            <span className={`rounded-full px-2 py-1 text-[9px] font-black ${grossProfit >= 0 ? 'bg-#FBF8F2 text-#5A2D1F' : 'bg-rose-50 text-rose-700'}`}>{grossProfit >= 0 ? 'LABA' : 'RUGI'}</span>
+          </div>
+          <strong className={`mt-2 block font-mono text-lg font-black ${grossProfit >= 0 ? 'text-#5A2D1F' : 'text-rose-600'}`}>{formatRupiah(grossProfit)}</strong>
+          <p className="mt-1 text-[10px] text-slate-400">Penjualan dikurangi HPP ternak</p>
+        </article>
+
+        <article className={`rounded-2xl border bg-white p-4 shadow-2xs sm:p-5 ${netProfit >= 0 ? 'border-#EFE5D5' : 'border-rose-200'}`}>
+          <div className="flex items-center justify-between">
+            <span className="text-[10px] font-black uppercase tracking-wider text-slate-500">Laba Bersih</span>
+            <span className={`rounded-full px-2 py-1 text-[9px] font-black ${netProfit >= 0 ? 'bg-#FBF8F2 text-#5A2D1F' : 'bg-rose-50 text-rose-700'}`}>{netProfit >= 0 ? 'LABA' : 'RUGI'}</span>
+          </div>
+          <strong className={`mt-2 block font-mono text-lg font-black ${netProfit >= 0 ? 'text-#5A2D1F' : 'text-rose-600'}`}>{formatRupiah(netProfit)}</strong>
+          <p className="mt-1 text-[10px] text-slate-400">Laba kotor dikurangi operasional</p>
+        </article>
+      </section>
+
+      <section className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xs">
+        <div className="border-b border-slate-100 px-4 py-3.5 sm:px-5 sm:py-4">
+          <h3 className="text-sm font-bold text-slate-900">Ringkasan per Kategori</h3>
+          <p className="mt-0.5 text-[10px] text-slate-500">Penjualan sapi adalah pemasukan; kategori lainnya merupakan pengeluaran.</p>
         </div>
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-slate-200">
-          {[
-            ['Pendapatan Penjualan', salesRevenue, 'text-emerald-800'],
-            ['Harga Pokok Ternak', livestockCost, 'text-rose-600'],
-            ['Laba Kotor', grossProfit, grossProfit >= 0 ? 'text-emerald-800' : 'text-rose-600'],
-            ['Biaya Operasional', operatingExpenses, 'text-rose-600']
-          ].map(([label, value, color]) => (
-            <div key={String(label)} className="bg-white p-4">
-              <span className="text-[10px] uppercase tracking-wider font-bold text-slate-500 block">{label}</span>
-              <span className={`text-base font-black font-mono mt-1 block ${color}`}>{formatRupiah(Number(value))}</span>
-            </div>
-          ))}
+        <div className="grid grid-flow-col auto-cols-[minmax(145px,1fr)] gap-px overflow-x-auto bg-slate-200 sm:grid-flow-row sm:grid-cols-3 sm:auto-cols-auto xl:grid-cols-7">
+          {categorySummaries.map(item => {
+            const categoryTotal = periodTransactions
+              .filter(transaction => transaction.category === item.category && transaction.type === item.direction)
+              .reduce((total, transaction) => total + transaction.amount, 0);
+            const isIncome = item.direction === 'income';
+            return (
+              <div key={item.category} className="bg-white p-3.5 sm:p-4">
+                <span className="block text-[9px] font-bold uppercase tracking-wider text-slate-400">{isIncome ? 'Pemasukan' : 'Pengeluaran'}</span>
+                <span className="mt-1 block text-xs font-black text-slate-800">{item.label}</span>
+                <span className={`mt-2 block font-mono text-sm font-black ${isIncome ? 'text-#5A2D1F' : 'text-rose-600'}`}>
+                  {isIncome ? '+' : '-'}{formatRupiah(categoryTotal)}
+                </span>
+              </div>
+            );
+          })}
         </div>
-        <div className="overflow-x-auto">
+      </section>
+
+      <section className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xs">
+        <div className="flex items-center justify-between gap-3 border-b border-slate-200 bg-slate-50 px-4 py-3.5 sm:px-5 sm:py-4">
+          <div>
+            <h3 className="text-sm font-bold text-slate-900">Rincian Transaksi</h3>
+            <p className="mt-0.5 text-[10px] text-slate-500">Riwayat pemasukan dan pengeluaran</p>
+          </div>
+          <span className="text-right text-[10px] font-bold capitalize text-slate-500 sm:text-xs">{periodTransactions.length} Transaksi<span className="hidden sm:inline"> · {periodLabel}</span></span>
+        </div>
+
+        <div className="divide-y divide-slate-100 md:hidden">
+          {periodTransactions.map(transaction => {
+            const isIncome = transaction.type === 'income';
+            return (
+              <article key={transaction.id} className="p-4">
+                <div className="flex items-start justify-between gap-3">
+                  <div className="min-w-0">
+                    <span className={`inline-flex rounded-md px-2 py-1 text-[9px] font-bold ${isIncome ? 'bg-#FBF8F2 text-#5A2D1F' : 'bg-rose-50 text-rose-700'}`}>
+                      {getCategoryLabel(transaction.category)}
+                    </span>
+                    <p className="mt-2 line-clamp-2 text-xs font-bold leading-relaxed text-slate-800">{transaction.description}</p>
+                  </div>
+                  <strong className={`shrink-0 whitespace-nowrap font-mono text-sm font-black ${isIncome ? 'text-#5A2D1F' : 'text-rose-600'}`}>
+                    {isIncome ? '+' : '-'}{formatRupiah(transaction.amount)}
+                  </strong>
+                </div>
+
+                <div className="mt-3 grid grid-cols-2 gap-x-3 gap-y-1 text-[10px] text-slate-500">
+                  <span className="truncate font-mono font-bold text-slate-700">{transaction.invoiceNo}</span>
+                  <span className="truncate text-right">{transaction.locationName}</span>
+                  <span className="truncate">{formatDate(transaction.date)}</span>
+                  <span className="truncate text-right">{transaction.paymentMethod}</span>
+                </div>
+
+                <div className="mt-3 flex justify-end gap-2 border-t border-slate-100 pt-2.5">
+                  <button type="button" onClick={() => handleEditTransaction(transaction)} className="inline-flex min-h-9 items-center gap-1.5 rounded-lg bg-blue-50 px-3 text-[10px] font-bold text-blue-700" aria-label={`Edit transaksi ${transaction.invoiceNo}`}>
+                    <Pencil className="h-3.5 w-3.5" /> Edit
+                  </button>
+                  {isOwner && (
+                    <button type="button" onClick={() => handleDeleteTransaction(transaction)} className="inline-flex min-h-9 items-center gap-1.5 rounded-lg bg-rose-50 px-3 text-[10px] font-bold text-rose-700" aria-label={`Hapus transaksi ${transaction.invoiceNo}`}>
+                      <Trash2 className="h-3.5 w-3.5" /> Hapus
+                    </button>
+                  )}
+                </div>
+              </article>
+            );
+          })}
+          {periodTransactions.length === 0 && (
+            <div className="p-10 text-center text-xs text-slate-400">Belum ada transaksi pada periode {periodLabel}.</div>
+          )}
+        </div>
+
+        <div className="hidden overflow-x-auto md:block">
           <table className="w-full text-left text-xs">
-            <thead className="bg-slate-100 text-[10px] font-bold text-slate-500 uppercase tracking-wider">
-              <tr>
-                <th className="p-3.5">Invoice</th>
-                <th className="p-3.5">Pembeli</th>
-                <th className="p-3.5 text-right">Penjualan</th>
-                <th className="p-3.5 text-right">Harga Beli</th>
-                <th className="p-3.5 text-right">Laba Kotor</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-100">
-              {completedSales.map(sale => {
-                const cost = sale.acquisitionCostTotal ?? sale.livestockIds.reduce((sum, id) => {
-                  const item = storeService.livestock.find(livestock => livestock.id === id);
-                  return sum + (item?.acquisitionPrice ?? 0);
-                }, 0);
-                const profit = sale.priceTotal - cost;
-                return (
-                  <tr key={sale.id}>
-                    <td className="p-3.5 font-mono font-bold">{sale.invoiceNo}</td>
-                    <td className="p-3.5">{sale.buyerName}</td>
-                    <td className="p-3.5 text-right font-mono">{formatRupiah(sale.priceTotal)}</td>
-                    <td className="p-3.5 text-right font-mono">{formatRupiah(cost)}</td>
-                    <td className={`p-3.5 text-right font-mono font-black ${profit >= 0 ? 'text-emerald-800' : 'text-rose-600'}`}>{formatRupiah(profit)}</td>
-                  </tr>
-                );
-              })}
-              {completedSales.length === 0 && (
-                <tr><td colSpan={5} className="p-6 text-center text-slate-400">Belum ada penjualan selesai untuk dihitung.</td></tr>
-              )}
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      {/* Financial Summary KPI Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-2xs">
-          <span className="text-xs font-bold text-slate-500 uppercase tracking-wider block">Total Pemasukan</span>
-          <span className="text-2xl font-black font-mono text-emerald-800 mt-1 block">{formatRupiah(totalIncome)}</span>
-        </div>
-
-        <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-2xs">
-          <span className="text-xs font-bold text-slate-500 uppercase tracking-wider block">Total Pengeluaran</span>
-          <span className="text-2xl font-black font-mono text-rose-600 mt-1 block">{formatRupiah(totalExpense)}</span>
-        </div>
-
-        <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-2xs">
-          <span className="text-xs font-bold text-slate-500 uppercase tracking-wider block">Laba Bersih Operasional</span>
-          <span className={`text-2xl font-black font-mono mt-1 block ${netProfit >= 0 ? 'text-emerald-800' : 'text-rose-600'}`}>
-            {formatRupiah(netProfit)}
-          </span>
-        </div>
-      </div>
-
-      {/* Ledger Table */}
-      <div className="bg-white rounded-2xl border border-slate-200 shadow-2xs overflow-hidden">
-        <div className="p-4 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
-          <h3 className="text-xs font-bold text-slate-900">Buku Kas Transaksi Keuangan</h3>
-          <span className="text-xs font-bold text-slate-500">Total {transactions.length} Transaksi</span>
-        </div>
-
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs">
-            <thead className="bg-slate-100 text-[10px] font-bold text-slate-500 uppercase tracking-wider">
+            <thead className="bg-slate-100 text-[10px] font-bold uppercase tracking-wider text-slate-500">
               <tr>
                 <th className="p-3.5">Tanggal</th>
                 <th className="p-3.5">Invoice / Ref</th>
                 <th className="p-3.5">Kategori</th>
                 <th className="p-3.5">Keterangan</th>
                 <th className="p-3.5">Lokasi</th>
-                <th className="p-3.5 text-right">Jumlah (Rp)</th>
+                <th className="p-3.5 text-right">Jumlah</th>
                 <th className="p-3.5">Metode</th>
                 <th className="p-3.5 text-right">Aksi</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 font-medium">
-              {transactions.map(t => (
-                <tr key={t.id} className="hover:bg-slate-50 transition">
-                  <td className="p-3.5 text-slate-600">{formatDate(t.date)}</td>
-                  <td className="p-3.5 font-mono font-bold text-slate-900">{t.invoiceNo}</td>
+              {periodTransactions.map(transaction => (
+                <tr key={transaction.id} className="transition hover:bg-slate-50">
+                  <td className="whitespace-nowrap p-3.5 text-slate-600">{formatDate(transaction.date)}</td>
+                  <td className="p-3.5 font-mono font-bold text-slate-900">{transaction.invoiceNo}</td>
                   <td className="p-3.5">
-                    <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-100 text-slate-700">
-                      {t.category}
-                    </span>
+                    <span className="whitespace-nowrap rounded-md bg-slate-100 px-2 py-1 text-[10px] font-bold text-slate-700">{getCategoryLabel(transaction.category)}</span>
                   </td>
-                  <td className="p-3.5 text-slate-800 font-semibold">{t.description}</td>
-                  <td className="p-3.5 text-slate-600">{t.locationName}</td>
-                  <td className={`p-3.5 text-right font-mono font-black text-sm ${
-                    t.type === 'income' ? 'text-emerald-800' : 'text-rose-600'
-                  }`}>
-                    {t.type === 'income' ? '+' : '-'}{formatRupiah(t.amount)}
+                  <td className="min-w-52 p-3.5 font-semibold text-slate-700">{transaction.description}</td>
+                  <td className="whitespace-nowrap p-3.5 text-slate-600">{transaction.locationName}</td>
+                  <td className={`whitespace-nowrap p-3.5 text-right font-mono text-sm font-black ${transaction.type === 'income' ? 'text-#5A2D1F' : 'text-rose-600'}`}>
+                    {transaction.type === 'income' ? '+' : '-'}{formatRupiah(transaction.amount)}
                   </td>
-                  <td className="p-3.5 text-slate-500">{t.paymentMethod}</td>
+                  <td className="whitespace-nowrap p-3.5 text-slate-500">{transaction.paymentMethod}</td>
                   <td className="p-3.5">
                     <div className="flex items-center justify-end gap-1">
-                      <button
-                        type="button"
-                        onClick={() => handleEditTransaction(t)}
-                        title="Edit transaksi"
-                        aria-label={`Edit transaksi ${t.invoiceNo}`}
-                        className="p-1.5 rounded-lg text-blue-700 hover:bg-blue-50 transition cursor-pointer"
-                      >
-                        <Pencil className="w-4 h-4" />
+                      <button type="button" onClick={() => handleEditTransaction(transaction)} title="Edit transaksi" aria-label={`Edit transaksi ${transaction.invoiceNo}`} className="rounded-lg p-1.5 text-blue-700 transition hover:bg-blue-50">
+                        <Pencil className="h-4 w-4" />
                       </button>
-                      <button
-                        type="button"
-                        onClick={() => handleDeleteTransaction(t)}
-                        title="Hapus transaksi"
-                        aria-label={`Hapus transaksi ${t.invoiceNo}`}
-                        className="p-1.5 rounded-lg text-rose-700 hover:bg-rose-50 transition cursor-pointer"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </button>
+                      {isOwner && (
+                        <button type="button" onClick={() => handleDeleteTransaction(transaction)} title="Hapus transaksi (khusus Owner)" aria-label={`Hapus transaksi ${transaction.invoiceNo}`} className="rounded-lg p-1.5 text-rose-700 transition hover:bg-rose-50">
+                          <Trash2 className="h-4 w-4" />
+                        </button>
+                      )}
                     </div>
                   </td>
                 </tr>
               ))}
+              {periodTransactions.length === 0 && (
+                <tr><td colSpan={8} className="p-10 text-center text-slate-400">Belum ada transaksi pada periode {periodLabel}.</td></tr>
+              )}
             </tbody>
           </table>
         </div>
-      </div>
+      </section>
 
-      {/* Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center p-3 sm:p-4">
-          <div className="bg-white rounded-2xl max-w-md w-full overflow-hidden shadow-2xl border border-slate-200">
-            <div className="p-4 bg-emerald-900 text-white flex items-center justify-between font-bold">
-              <h3>{editingTransactionId ? 'Edit Transaksi Buku Kas' : 'Catat Transaksi Kas Baru'}</h3>
-              <button onClick={() => setIsModalOpen(false)} className="p-1 hover:bg-emerald-800 rounded">
-                <X className="w-5 h-5" />
+        <div className="fixed inset-0 z-50 flex items-end justify-center bg-slate-900/60 p-0 backdrop-blur-xs sm:items-center sm:p-4">
+          <div className="max-h-[94dvh] w-full max-w-lg overflow-y-auto rounded-t-2xl border border-slate-200 bg-white shadow-2xl sm:max-h-[92vh] sm:rounded-2xl">
+            <div className="sticky top-0 flex items-center justify-between bg-#4A2C1D p-4 font-bold text-white">
+              <h3>{editingTransactionId ? 'Edit Transaksi' : 'Catat Transaksi'}</h3>
+              <button type="button" onClick={() => setIsModalOpen(false)} className="rounded p-1 hover:bg-#5A2D1F" aria-label="Tutup form">
+                <X className="h-5 w-5" />
               </button>
             </div>
 
-            <form onSubmit={handleSaveTransaction} className="p-5 space-y-3 text-xs">
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="block font-bold text-slate-700 mb-1">Jenis Transaksi *</label>
-                  <select
-                    value={type}
-                    onChange={e => setType(e.target.value as 'income' | 'expense')}
-                    className="w-full px-3 py-2 border border-slate-300 rounded-lg font-bold focus:ring-2 focus:ring-emerald-800 focus:outline-none"
-                  >
-                    <option value="expense">Pengeluaran (Expense)</option>
-                    <option value="income">Pemasukan (Income)</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="block font-bold text-slate-700 mb-1">No. Invoice</label>
-                  <input
-                    type="text"
-                    value={invoiceNo}
-                    onChange={e => setInvoiceNo(e.target.value)}
-                    required
-                    className="w-full px-3 py-2 border border-slate-300 rounded-lg font-mono focus:ring-2 focus:ring-emerald-800 focus:outline-none"
-                  />
-                </div>
-              </div>
-
+            <form onSubmit={handleSaveTransaction} className="space-y-3 p-4 text-xs sm:space-y-4 sm:p-5">
               <div>
-                <label className="block font-bold text-slate-700 mb-1">Tanggal Transaksi *</label>
-                <input
-                  type="date"
-                  value={transactionDate}
-                  onChange={e => setTransactionDate(e.target.value)}
-                  required
-                  className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-800 focus:outline-none"
-                />
+                <label className="mb-1 block font-bold text-slate-700">Kategori *</label>
+                <select value={category} onChange={event => setCategory(event.target.value as FinancialCategoryType)} className="w-full rounded-lg border border-slate-300 px-3 py-2.5 font-bold outline-none focus:ring-2 focus:ring-#5A2D1F">
+                  {categoryOptions.map(option => <option key={option.value} value={option.value}>{option.label}</option>)}
+                </select>
+                <div className={`mt-2 rounded-lg px-3 py-2 text-[10px] font-semibold ${transactionType === 'income' ? 'bg-#FBF8F2 text-#5A2D1F' : 'bg-rose-50 text-rose-700'}`}>
+                  {transactionType === 'income' ? 'Dicatat sebagai PEMASUKAN.' : 'Dicatat sebagai PENGELUARAN.'}
+                </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 <div>
-                  <label className="block font-bold text-slate-700 mb-1">Kategori *</label>
-                  <select
-                    value={category}
-                    onChange={e => {
-                      const nextCategory = e.target.value as FinancialCategoryType;
-                      setCategory(nextCategory);
-                      setType(nextCategory === 'Penjualan Ternak' ? 'income' : 'expense');
-                    }}
-                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-800 focus:outline-none"
-                  >
-                    <option value="Pakan">Pakan</option>
-                    <option value="Obat & Vitamin">Obat & Vitamin</option>
-                    <option value="Pembelian Ternak">Pembelian Ternak</option>
-                    <option value="Penjualan Ternak">Penjualan Ternak</option>
-                    <option value="Tenaga Kerja">Tenaga Kerja</option>
-                    <option value="Transportasi">Transportasi</option>
-                    <option value="Operasional Lainnya">Operasional Lainnya</option>
-                  </select>
+                  <label className="mb-1 block font-bold text-slate-700">Nomor Invoice / Referensi *</label>
+                  <input value={invoiceNo} onChange={event => setInvoiceNo(event.target.value)} required className="w-full rounded-lg border border-slate-300 px-3 py-2 font-mono outline-none focus:ring-2 focus:ring-#5A2D1F" />
                 </div>
                 <div>
-                  <label className="block font-bold text-slate-700 mb-1">Lokasi Kandang *</label>
-                  <select
-                    value={locationId}
-                    onChange={e => setLocationId(e.target.value)}
-                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-800 focus:outline-none"
-                  >
-                    {locations.map(l => (
-                      <option key={l.id} value={l.id}>{l.name}</option>
-                    ))}
+                  <label className="mb-1 block font-bold text-slate-700">Tanggal *</label>
+                  <input type="date" value={transactionDate} onChange={event => setTransactionDate(event.target.value)} required className="w-full rounded-lg border border-slate-300 px-3 py-2 outline-none focus:ring-2 focus:ring-#5A2D1F" />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                <div>
+                  <label className="mb-1 block font-bold text-slate-700">Nominal *</label>
+                  <input type="number" min="1" value={amount} onChange={event => setAmount(event.target.value)} required placeholder="Contoh: 500000" className="w-full rounded-lg border border-slate-300 px-3 py-2 font-mono font-bold outline-none focus:ring-2 focus:ring-#5A2D1F" />
+                </div>
+                <div>
+                  <label className="mb-1 block font-bold text-slate-700">Lokasi Kandang *</label>
+                  <select value={locationId} onChange={event => setLocationId(event.target.value)} required className="w-full rounded-lg border border-slate-300 px-3 py-2 outline-none focus:ring-2 focus:ring-#5A2D1F">
+                    {locations.map(location => <option key={location.id} value={location.id}>{location.name}</option>)}
                   </select>
                 </div>
               </div>
 
               <div>
-                <label className="block font-bold text-slate-700 mb-1">Keterangan Transaksi *</label>
-                <input
-                  type="text"
-                  value={description}
-                  onChange={e => setDescription(e.target.value)}
-                  required
-                  className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-800 focus:outline-none"
-                />
+                <label className="mb-1 block font-bold text-slate-700">Keterangan *</label>
+                <input value={description} onChange={event => setDescription(event.target.value)} required placeholder="Jelaskan transaksi secara singkat" className="w-full rounded-lg border border-slate-300 px-3 py-2 outline-none focus:ring-2 focus:ring-#5A2D1F" />
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 <div>
-                  <label className="block font-bold text-slate-700 mb-1">Nominal Rp *</label>
-                  <input
-                    type="number"
-                    value={amount}
-                    onChange={e => setAmount(e.target.value)}
-                    required
-                    className="w-full px-3 py-2 border border-slate-300 rounded-lg font-mono font-bold text-sm focus:ring-2 focus:ring-emerald-800 focus:outline-none"
-                  />
+                  <label className="mb-1 block font-bold text-slate-700">Metode Pembayaran</label>
+                  <select value={paymentMethod} onChange={event => setPaymentMethod(event.target.value)} className="w-full rounded-lg border border-slate-300 px-3 py-2 outline-none focus:ring-2 focus:ring-#5A2D1F">
+                    <option value="Transfer Bank">Transfer Bank</option>
+                    <option value="Tunai">Tunai</option>
+                    <option value="Giro">Giro</option>
+                  </select>
                 </div>
                 <div>
-                  <label className="block font-bold text-slate-700 mb-1">Metode Pembayaran</label>
-                  <input
-                    type="text"
-                    value={paymentMethod}
-                    onChange={e => setPaymentMethod(e.target.value)}
-                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-800 focus:outline-none"
-                  />
+                  <label className="mb-1 block font-bold text-slate-700">Penerima / Pembayar</label>
+                  <input value={payeePayer} onChange={event => setPayeePayer(event.target.value)} placeholder="Nama pihak terkait" className="w-full rounded-lg border border-slate-300 px-3 py-2 outline-none focus:ring-2 focus:ring-#5A2D1F" />
                 </div>
               </div>
 
-              <div>
-                <label className="block font-bold text-slate-700 mb-1">Penerima / Pembayar</label>
-                <input
-                  type="text"
-                  value={payeePayer}
-                  onChange={e => setPayeePayer(e.target.value)}
-                  className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-800 focus:outline-none"
-                />
-              </div>
-
-              <div className="pt-2 flex items-center justify-end gap-2">
-                <button
-                  type="button"
-                  onClick={() => setIsModalOpen(false)}
-                  className="px-4 py-2 border border-slate-300 rounded-lg text-slate-700 font-semibold"
-                >
-                  Batal
-                </button>
-                <button
-                  type="submit"
-                  className="px-5 py-2 bg-emerald-900 text-white font-bold rounded-lg hover:bg-emerald-800"
-                >
-                  {editingTransactionId ? 'Simpan Perubahan' : 'Simpan Transaksi'}
-                </button>
+              <div className="flex justify-end gap-2 border-t border-slate-100 pt-4">
+                <button type="button" onClick={() => setIsModalOpen(false)} className="rounded-lg border border-slate-300 px-4 py-2 font-semibold text-slate-700">Batal</button>
+                <button type="submit" className="rounded-lg bg-#4A2C1D px-5 py-2 font-bold text-white hover:bg-#5A2D1F">{editingTransactionId ? 'Simpan Perubahan' : 'Simpan Transaksi'}</button>
               </div>
             </form>
           </div>
         </div>
       )}
-
     </div>
   );
 };

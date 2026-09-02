@@ -2,7 +2,7 @@ import {
   LivestockItem, LocationItem, WeightRecord, HealthRecord, BreedingRecord,
   DeathRecord, TransferRecord, SalesRecord, FeedInventory,
   FinancialTransaction, DailyReport, NotificationItem, AuditLogItem,
-  BusinessSettings, UserProfile, PenItem, GenderType
+  BusinessSettings, UserProfile, PenItem, BirthRecord, ManagedUser, UserRole
 } from '../types';
 
 // Initial Demo Seed Data
@@ -490,6 +490,7 @@ const STORAGE_KEYS = {
   WEIGHT: 'ternak_weight',
   HEALTH: 'ternak_health',
   BREEDING: 'ternak_breeding',
+  BIRTHS: 'ternak_births',
   DEATHS: 'ternak_deaths',
   TRANSFERS: 'ternak_transfers',
   SALES: 'ternak_sales',
@@ -499,8 +500,16 @@ const STORAGE_KEYS = {
   NOTIFICATIONS: 'ternak_notifications',
   AUDIT_LOGS: 'ternak_audit_logs',
   SETTINGS: 'ternak_settings',
-  CURRENT_USER: 'ternak_current_user'
+  CURRENT_USER: 'ternak_current_user',
+  USERS: 'ternak_users'
 };
+
+const INITIAL_USERS: ManagedUser[] = [
+  { uid: 'u-owner-1', displayName: 'Bapak H. Hendra Owner', email: 'andikashalihin01@gmail.com', role: 'OWNER', locationIds: [], phone: '0812-3456-7890', status: 'Aktif', createdAt: '2026-01-01T08:00:00Z' },
+  { uid: 'u-manager-1', displayName: 'Andika Shalihin', email: 'manager@sapipapi.farm', role: 'MANAGER', locationIds: ['loc-kulim'], phone: '0812-0000-0001', status: 'Aktif', createdAt: '2026-01-05T08:00:00Z' },
+  { uid: 'u-akuntan-1', displayName: 'Sari Keuangan', email: 'akuntan@sapipapi.farm', role: 'ACCOUNTANT', locationIds: [], phone: '0812-0000-0002', status: 'Aktif', createdAt: '2026-01-06T08:00:00Z' },
+  { uid: 'u-mitra-1', displayName: 'Mitra Sontang', email: 'mitra@sapipapi.farm', role: 'MITRA', locationIds: ['loc-sontang'], phone: '0812-0000-0003', status: 'Aktif', createdAt: '2026-01-07T08:00:00Z' },
+];
 
 function loadStorage<T>(key: string, fallback: T): T {
   try {
@@ -533,11 +542,13 @@ class StoreService {
   });
 
   public locations: LocationItem[] = loadStorage(STORAGE_KEYS.LOCATIONS, INITIAL_LOCATIONS);
+  public users: ManagedUser[] = loadStorage(STORAGE_KEYS.USERS, INITIAL_USERS);
   public pens: PenItem[] = loadStorage(STORAGE_KEYS.PENS, INITIAL_PENS);
   public livestock: LivestockItem[] = loadStorage(STORAGE_KEYS.LIVESTOCK, INITIAL_LIVESTOCK);
   public weightRecords: WeightRecord[] = loadStorage(STORAGE_KEYS.WEIGHT, INITIAL_WEIGHT_RECORDS);
   public healthRecords: HealthRecord[] = loadStorage(STORAGE_KEYS.HEALTH, INITIAL_HEALTH_RECORDS);
   public breedingRecords: BreedingRecord[] = loadStorage(STORAGE_KEYS.BREEDING, INITIAL_BREEDING_RECORDS);
+  public birthRecords: BirthRecord[] = loadStorage(STORAGE_KEYS.BIRTHS, []);
   public deathRecords: DeathRecord[] = loadStorage(STORAGE_KEYS.DEATHS, []);
   public transferRecords: TransferRecord[] = loadStorage(STORAGE_KEYS.TRANSFERS, []);
   public salesRecords: SalesRecord[] = loadStorage(STORAGE_KEYS.SALES, []);
@@ -593,6 +604,52 @@ class StoreService {
     this.notify();
   }
 
+  // Managed users (demo/local fallback when no backend users API is available)
+  public getManagedUsers(): ManagedUser[] {
+    return this.users;
+  }
+
+  public createManagedUser(data: Partial<ManagedUser> & { displayName: string; email: string; role: UserRole }): ManagedUser {
+    const user: ManagedUser = {
+      uid: `u-${Date.now()}`,
+      displayName: data.displayName,
+      email: data.email,
+      role: data.role,
+      locationIds: data.locationIds ?? [],
+      phone: data.phone,
+      status: data.status ?? 'Aktif',
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+    this.users = [user, ...this.users];
+    saveStorage(STORAGE_KEYS.USERS, this.users);
+    this.notify();
+    return user;
+  }
+
+  public updateManagedUser(uid: string, updates: Partial<ManagedUser>): ManagedUser | undefined {
+    let updated: ManagedUser | undefined;
+    this.users = this.users.map(item => {
+      if (item.uid !== uid) return item;
+      updated = { ...item, ...updates, updatedAt: new Date().toISOString() };
+      return updated;
+    });
+    if (updated) {
+      saveStorage(STORAGE_KEYS.USERS, this.users);
+      this.notify();
+    }
+    return updated;
+  }
+
+  public resetManagedUserPassword(uid: string, password: string): boolean {
+    // Demo mode has no real credential store; the reset is acknowledged locally.
+    const exists = this.users.some(item => item.uid === uid);
+    if (exists) {
+      this.addAuditLog('Pengguna', 'Reset Password', uid, this.users.find(item => item.uid === uid)?.displayName ?? uid);
+    }
+    return exists;
+  }
+
   // Location CRUD
   public addLocation(loc: Omit<LocationItem, 'id' | 'createdAt'>) {
     const newLoc: LocationItem = {
@@ -604,6 +661,32 @@ class StoreService {
     saveStorage(STORAGE_KEYS.LOCATIONS, this.locations);
     this.addAuditLog('Master Lokasi', 'Tambah Lokasi', newLoc.id, newLoc.name);
     this.notify();
+    return newLoc;
+  }
+
+  public updateLocation(id: string, updates: Partial<Omit<LocationItem, 'id' | 'createdAt'>>): boolean {
+    const location = this.locations.find(item => item.id === id);
+    if (!location) return false;
+    this.locations = this.locations.map(item => item.id === id ? { ...item, ...updates } : item);
+    saveStorage(STORAGE_KEYS.LOCATIONS, this.locations);
+    this.addAuditLog('Master Lokasi', 'Edit Lokasi', id, updates.name ?? location.name);
+    this.notify();
+    return true;
+  }
+
+  public deactivateLocation(id: string): { ok: boolean; reason?: string } {
+    const location = this.locations.find(item => item.id === id);
+    if (!location || location.status === 'Nonaktif') return { ok: false, reason: 'Lokasi tidak ditemukan atau sudah nonaktif.' };
+    const activeLivestock = this.getActiveLivestock().filter(item => item.locationId === id).length;
+    const transactions = this.salesRecords.filter(item => item.locationId === id && item.transactionStatus !== 'Batal').length
+      + this.financialTransactions.filter(item => item.locationId === id).length;
+    const reports = this.dailyReports.filter(item => item.locationId === id && !item.archivedAt).length;
+    if (activeLivestock || transactions || reports) return { ok: false, reason: `Lokasi masih dipakai: ${activeLivestock} ternak aktif, ${transactions} transaksi, ${reports} laporan.` };
+    this.locations = this.locations.map(item => item.id === id ? { ...item, status: 'Nonaktif' } : item);
+    saveStorage(STORAGE_KEYS.LOCATIONS, this.locations);
+    this.addAuditLog('Master Lokasi', 'Nonaktifkan Lokasi', id, location.name);
+    this.notify();
+    return { ok: true };
   }
 
   // Livestock CRUD
@@ -911,13 +994,51 @@ class StoreService {
     };
     this.breedingRecords = [newRec, ...this.breedingRecords];
     saveStorage(STORAGE_KEYS.BREEDING, this.breedingRecords);
+    this.syncBreedingStatus(newRec.motherId);
     this.addAuditLog('Breeding', 'Input Perkawinan', newRec.id, newRec.motherTag);
     this.notify();
     return newRec;
   }
 
+  private syncBreedingStatus(motherId: string) {
+    const latest = this.breedingRecords
+      .filter(record => record.motherId === motherId)
+      .sort((a, b) => `${b.matingDate}${b.createdAt}`.localeCompare(`${a.matingDate}${a.createdAt}`))[0];
+    if (!latest) {
+      this.updateLivestock(motherId, { breedingStatus: 'Belum Dikawinkan' });
+      return;
+    }
+    this.updateLivestock(motherId, {
+      breedingStatus: latest.pregStatus === 'Positif' ? 'Bunting' : latest.pregStatus === 'Negatif' ? 'Tidak Bunting' : 'Menunggu Pemeriksaan'
+    });
+  }
+
+  public updateBreedingRecord(id: string, rec: Omit<BreedingRecord, 'id' | 'createdAt'>): boolean {
+    const existing = this.breedingRecords.find(record => record.id === id);
+    if (!existing) return false;
+    this.breedingRecords = this.breedingRecords.map(record => record.id === id ? { ...record, ...rec } : record);
+    saveStorage(STORAGE_KEYS.BREEDING, this.breedingRecords);
+    this.syncBreedingStatus(existing.motherId);
+    if (existing.motherId !== rec.motherId) this.syncBreedingStatus(rec.motherId);
+    this.addAuditLog('Breeding', 'Edit Perkawinan', id, rec.motherTag);
+    this.notify();
+    return true;
+  }
+
+  public deleteBreedingRecord(id: string): boolean {
+    const record = this.breedingRecords.find(item => item.id === id);
+    if (!record) return false;
+    this.breedingRecords = this.breedingRecords.filter(item => item.id !== id);
+    saveStorage(STORAGE_KEYS.BREEDING, this.breedingRecords);
+    this.syncBreedingStatus(record.motherId);
+    this.addAuditLog('Breeding', 'Hapus Perkawinan', id, record.motherTag);
+    this.notify();
+    return true;
+  }
+
   // Birth Record -> Auto creates new offspring livestock
-  public addBirthRecord(motherId: string, motherTag: string, locationId: string, gender: GenderType, birthWeightKg: number, condition: string, photoUrl?: string) {
+  public addBirthRecord(input: Omit<BirthRecord, 'id' | 'offspringId' | 'offspringTag' | 'createdAt'>): BirthRecord {
+    const { motherId, motherTag, locationId, gender, birthWeightKg, condition, birthDate } = input;
     const loc = this.locations.find(l => l.id === locationId);
     const newTag = `ANAK-${motherTag}-${Math.floor(100 + Math.random() * 900)}`;
 
@@ -927,14 +1048,14 @@ class StoreService {
       type: 'Sapi',
       breed: 'Lokal/Persilangan',
       gender,
-      dob: new Date().toISOString().split('T')[0],
+      dob: birthDate,
       estimatedAgeMonths: 0,
       colorTraits: `Anakan dari ${motherTag}`,
       locationId,
       locationName: loc ? loc.name : '',
       ownershipStatus: 'Milik Mandiri',
       source: 'Kelahiran Kandang',
-      entryDate: new Date().toISOString().split('T')[0],
+      entryDate: birthDate,
       acquisitionPrice: 0,
       initialWeightKg: birthWeightKg,
       currentWeightKg: birthWeightKg,
@@ -947,6 +1068,9 @@ class StoreService {
       notes: `Lahir dari induk ${motherTag}. Kondisi: ${condition}`
     });
 
+    const birthRecord: BirthRecord = { ...input, id: `birth-${Date.now()}`, offspringId: newOffspring.id, offspringTag: newTag, createdAt: new Date().toISOString() };
+    this.birthRecords = [birthRecord, ...this.birthRecords];
+    saveStorage(STORAGE_KEYS.BIRTHS, this.birthRecords);
     this.addNotification({
       title: 'Kelahiran Ternak Baru!',
       message: `Anakan sapi (${gender}) baru lahir dari induk ${motherTag} dengan bobot ${birthWeightKg} kg di ${loc ? loc.name : ''}.`,
@@ -955,13 +1079,35 @@ class StoreService {
     });
 
     this.addAuditLog('Kelahiran', 'Input Kelahiran', newOffspring.id, newTag, `Induk: ${motherTag}`, `Bobot lahir: ${birthWeightKg} kg`);
-    return newOffspring;
+    this.notify();
+    return birthRecord;
+  }
+
+  public voidBirthRecord(id: string, reason: string): boolean {
+    const record = this.birthRecords.find(item => item.id === id);
+    if (!record || record.voidedAt || !reason.trim()) return false;
+    const now = new Date().toISOString();
+    this.birthRecords = this.birthRecords.map(item => item.id === id ? { ...item, voidedAt: now, voidedBy: this.currentUser.displayName, voidReason: reason.trim() } : item);
+    this.livestock = this.livestock.map(item => item.id === record.offspringId ? { ...item, status: 'Keluar', deletedAt: now, deletedBy: this.currentUser.displayName, notes: `Diarsipkan karena kelahiran dibatalkan: ${reason.trim()}`, updatedAt: now } : item);
+    saveStorage(STORAGE_KEYS.BIRTHS, this.birthRecords);
+    saveStorage(STORAGE_KEYS.LIVESTOCK, this.livestock);
+    this.addAuditLog('Kelahiran', 'Void Kelahiran', id, record.offspringTag, undefined, reason.trim());
+    this.notify();
+    return true;
   }
 
   // Death Record -> Auto sets status to MATI and excludes from active population
   public addDeathRecord(rec: Omit<DeathRecord, 'id' | 'createdAt'>) {
+    const livestock = this.livestock.find(item => item.id === rec.livestockId);
+    if (!livestock) return;
+
     const newRec: DeathRecord = {
       ...rec,
+      previousLivestockState: {
+        status: livestock.status,
+        healthStatus: livestock.healthStatus,
+        notes: livestock.notes
+      },
       id: `d-${Date.now()}`,
       createdAt: new Date().toISOString()
     };
@@ -985,6 +1131,45 @@ class StoreService {
 
     this.addAuditLog('Kematian', 'Input Kematian Ternak', newRec.id, rec.tagId, 'Status: Aktif/Sakit', `Status: MATI (${rec.suspectedCause})`);
     this.notify();
+  }
+
+  public voidDeathRecord(id: string, reason: string): boolean {
+    const record = this.deathRecords.find(item => item.id === id);
+    if (!record || record.voidedAt || !record.previousLivestockState || !reason.trim()) return false;
+
+    this.livestock = this.livestock.map(item => item.id === record.livestockId
+      ? {
+          ...item,
+          status: record.previousLivestockState!.status,
+          healthStatus: record.previousLivestockState!.healthStatus,
+          notes: record.previousLivestockState!.notes,
+          updatedAt: new Date().toISOString()
+        }
+      : item);
+    this.deathRecords = this.deathRecords.map(item => item.id === id
+      ? { ...item, voidedAt: new Date().toISOString(), voidedBy: this.currentUser.displayName, voidReason: reason.trim() }
+      : item);
+    saveStorage(STORAGE_KEYS.LIVESTOCK, this.livestock);
+    saveStorage(STORAGE_KEYS.DEATHS, this.deathRecords);
+    this.addAuditLog('Kematian', 'Void Kematian Ternak', id, record.tagId, `Status: Mati (${record.suspectedCause})`, `Dipulihkan; alasan: ${reason.trim()}`);
+    this.addNotification({
+      title: 'Laporan Kematian Dibatalkan',
+      message: `Laporan kematian ${record.tagId} dibatalkan dan status ternak dipulihkan.`,
+      severity: 'info',
+      category: 'Kematian',
+      locationId: record.locationId
+    });
+    return true;
+  }
+
+  public updateDeathRecord(id: string, updates: Partial<Pick<DeathRecord, 'deathDate' | 'suspectedCause' | 'symptomsBefore' | 'handlingNote' | 'officerName' | 'vetName'>>): boolean {
+    const record = this.deathRecords.find(item => item.id === id);
+    if (!record || record.voidedAt) return false;
+    this.deathRecords = this.deathRecords.map(item => item.id === id ? { ...item, ...updates } : item);
+    saveStorage(STORAGE_KEYS.DEATHS, this.deathRecords);
+    this.addAuditLog('Kematian', 'Koreksi Laporan Kematian', id, record.tagId);
+    this.notify();
+    return true;
   }
 
   // Transfer Record
@@ -1033,6 +1218,7 @@ class StoreService {
     saveStorage(STORAGE_KEYS.FINANCE, this.financialTransactions);
     this.addAuditLog('Keuangan', 'Tambah Transaksi Keuangan', newTx.id, newTx.invoiceNo, undefined, `${tx.type.toUpperCase()}: Rp ${tx.amount.toLocaleString('id-ID')} (${tx.category})`);
     this.notify();
+    return newTx;
   }
 
   public updateFinancialTransaction(id: string, tx: Omit<FinancialTransaction, 'id' | 'createdAt'>) {
@@ -1108,6 +1294,23 @@ class StoreService {
     this.notify();
   }
 
+  public archiveFeedInventory(id: string): boolean {
+    const item = this.feedInventory.find(feed => feed.id === id);
+    if (!item || item.archivedAt) return false;
+
+    this.feedInventory = this.feedInventory.map(feed => feed.id === id
+      ? { ...feed, archivedAt: new Date().toISOString(), archivedBy: this.currentUser.displayName, updatedAt: new Date().toISOString() }
+      : feed);
+    saveStorage(STORAGE_KEYS.FEED, this.feedInventory);
+    this.addAuditLog('Pakan', 'Arsip Stok Pakan', id, item.feedType, `Stok: ${item.stockQty} ${item.unit}`);
+    this.notify();
+    return true;
+  }
+
+  public getActiveFeedInventory(): FeedInventory[] {
+    return this.feedInventory.filter(item => !item.archivedAt);
+  }
+
   public updateSettings(settings: BusinessSettings) {
     this.settings = settings;
     saveStorage(STORAGE_KEYS.SETTINGS, this.settings);
@@ -1117,8 +1320,15 @@ class StoreService {
 
   // Sales Transactions
   public addSalesTransaction(tx: Omit<SalesRecord, 'id' | 'createdAt'>) {
+    if (tx.paymentStatus === 'DP') throw new Error('Pembayaran DP belum didukung sampai nominal uang muka dimodelkan.');
+    const preSaleLivestockSnapshots = tx.livestockIds.map(livestockId => {
+      const item = this.livestock.find(livestock => livestock.id === livestockId);
+      return item ? { livestockId, status: item.status, notes: item.notes } : undefined;
+    }).filter((item): item is NonNullable<typeof item> => Boolean(item));
     const newTx: SalesRecord = {
       ...tx,
+      linkedFinanceTransactionIds: [],
+      preSaleLivestockSnapshots,
       id: `sales-${Date.now()}`,
       createdAt: new Date().toISOString()
     };
@@ -1135,9 +1345,10 @@ class StoreService {
       });
     }
 
-    // Auto add income to finance if paid
-    if (tx.paymentStatus === 'Lunas' || tx.paymentStatus === 'DP') {
-      this.addFinancialTransaction({
+    // A completed, paid sale produces linked revenue and HPP ledger entries.
+    // Keeping both IDs on the sale makes a later void atomic and traceable.
+    if (tx.paymentStatus === 'Lunas') {
+      const revenue = this.addFinancialTransaction({
         invoiceNo: tx.invoiceNo,
         date: tx.date,
         type: 'income',
@@ -1151,10 +1362,59 @@ class StoreService {
         proofUrl: tx.proofUrl,
         createdBy: tx.createdBy
       });
+      const linkedFinanceTransactionIds = [revenue.id];
+
+      if (tx.transactionStatus === 'Selesai') {
+        const acquisitionCost = tx.acquisitionCostTotal ?? tx.livestockIds.reduce((total, livestockId) => {
+          const livestock = this.livestock.find(item => item.id === livestockId);
+          return total + (livestock?.acquisitionPrice ?? 0);
+        }, 0);
+        if (acquisitionCost > 0) {
+          const hpp = this.addFinancialTransaction({
+            invoiceNo: tx.invoiceNo,
+            date: tx.date,
+            type: 'expense',
+            category: 'Pembelian Ternak',
+            description: `Harga beli/HPP ternak terjual (${tx.invoiceNo})`,
+            locationId: tx.locationId,
+            locationName: tx.locationName,
+            amount: acquisitionCost,
+            paymentMethod: 'Harga Perolehan',
+            payeePayer: 'Persediaan Ternak',
+            createdBy: tx.createdBy
+          });
+          linkedFinanceTransactionIds.push(hpp.id);
+        }
+      }
+
+      newTx.linkedFinanceTransactionIds = linkedFinanceTransactionIds;
+      this.salesRecords = this.salesRecords.map(item => item.id === newTx.id ? newTx : item);
+      saveStorage(STORAGE_KEYS.SALES, this.salesRecords);
     }
 
     this.addAuditLog('Penjualan', 'Input Transaksi Penjualan', newTx.id, tx.invoiceNo, undefined, `Total: Rp ${tx.priceTotal.toLocaleString('id-ID')} (${tx.paymentStatus})`);
     this.notify();
+    return newTx;
+  }
+
+  public voidSalesTransaction(id: string, reason: string): boolean {
+    const sale = this.salesRecords.find(item => item.id === id);
+    if (!sale || sale.transactionStatus === 'Batal' || !reason.trim() || !sale.preSaleLivestockSnapshots) return false;
+    const now = new Date().toISOString();
+    const snapshots = new Map(sale.preSaleLivestockSnapshots.map(item => [item.livestockId, item]));
+    this.livestock = this.livestock.map(item => {
+      const snapshot = snapshots.get(item.id);
+      return snapshot ? { ...item, status: snapshot.status, notes: snapshot.notes, updatedAt: now } : item;
+    });
+    const linkedIds = new Set(sale.linkedFinanceTransactionIds ?? []);
+    this.financialTransactions = this.financialTransactions.filter(item => !linkedIds.has(item.id));
+    this.salesRecords = this.salesRecords.map(item => item.id === id ? { ...item, transactionStatus: 'Batal', voidedAt: now, voidedBy: this.currentUser.displayName, voidReason: reason.trim() } : item);
+    saveStorage(STORAGE_KEYS.LIVESTOCK, this.livestock);
+    saveStorage(STORAGE_KEYS.FINANCE, this.financialTransactions);
+    saveStorage(STORAGE_KEYS.SALES, this.salesRecords);
+    this.addAuditLog('Penjualan', 'Void Penjualan', id, sale.invoiceNo, `Rp ${sale.priceTotal.toLocaleString('id-ID')}`, reason.trim());
+    this.notify();
+    return true;
   }
 
   // Daily Farm Reports
@@ -1173,9 +1433,34 @@ class StoreService {
 
     this.addAuditLog('Laporan Harian', 'Kirim Laporan Harian', newRpt.id, `Laporan ${rpt.locationName} (${rpt.date})`, undefined, `Populasi Akhir: ${popFinal} ekor`);
     this.notify();
+    return newRpt;
+  }
+
+  public updateDailyReport(id: string, updates: Partial<Omit<DailyReport, 'id' | 'createdAt'>>): boolean {
+    const report = this.dailyReports.find(item => item.id === id);
+    if (!report || report.reportStatus === 'Disetujui' || report.archivedAt) return false;
+    const updated = { ...report, ...updates };
+    updated.popFinal = Math.max(0, updated.popInitial + updated.popPurchase + updated.popBirth + updated.popTransferIn - updated.popSales - updated.popDeath - updated.popTransferOut);
+    this.dailyReports = this.dailyReports.map(item => item.id === id ? updated : item);
+    saveStorage(STORAGE_KEYS.DAILY_REPORTS, this.dailyReports);
+    this.addAuditLog('Laporan Harian', 'Edit Laporan Harian', id, `Laporan ${updated.locationName} (${updated.date})`);
+    this.notify();
+    return true;
+  }
+
+  public archiveDailyReport(id: string): boolean {
+    const report = this.dailyReports.find(item => item.id === id);
+    if (!report || report.reportStatus === 'Disetujui' || report.archivedAt) return false;
+    this.dailyReports = this.dailyReports.map(item => item.id === id ? { ...item, archivedAt: new Date().toISOString(), archivedBy: this.currentUser.displayName } : item);
+    saveStorage(STORAGE_KEYS.DAILY_REPORTS, this.dailyReports);
+    this.addAuditLog('Laporan Harian', 'Arsip Laporan Harian', id, `Laporan ${report.locationName} (${report.date})`);
+    this.notify();
+    return true;
   }
 
   public updateDailyReportStatus(id: string, status: DailyReport['reportStatus'], reviewerName: string) {
+    const report = this.dailyReports.find(item => item.id === id);
+    if (!report || report.archivedAt) return false;
     this.dailyReports = this.dailyReports.map(r => {
       if (r.id === id) {
         return {
@@ -1190,6 +1475,7 @@ class StoreService {
     saveStorage(STORAGE_KEYS.DAILY_REPORTS, this.dailyReports);
     this.addAuditLog('Laporan Harian', `Approval Laporan: ${status}`, id, status);
     this.notify();
+    return true;
   }
 
   // Notifications
@@ -1212,6 +1498,10 @@ class StoreService {
   }
 
   // Reset / Clear Demo Seed
+  public resetForDemo() {
+    this.resetToSeed();
+  }
+
   public resetToSeed() {
     this.locations = INITIAL_LOCATIONS;
     this.pens = INITIAL_PENS;
@@ -1219,6 +1509,7 @@ class StoreService {
     this.weightRecords = INITIAL_WEIGHT_RECORDS;
     this.healthRecords = INITIAL_HEALTH_RECORDS;
     this.breedingRecords = INITIAL_BREEDING_RECORDS;
+    this.birthRecords = [];
     this.deathRecords = [];
     this.transferRecords = [];
     this.salesRecords = [];
@@ -1230,6 +1521,40 @@ class StoreService {
     this.settings = INITIAL_SETTINGS;
 
     Object.values(STORAGE_KEYS).forEach(k => localStorage.removeItem(k));
+    this.notify();
+  }
+
+  public clearAllDemoData() {
+    this.locations = [];
+    this.pens = [];
+    this.livestock = [];
+    this.weightRecords = [];
+    this.healthRecords = [];
+    this.breedingRecords = [];
+    this.birthRecords = [];
+    this.deathRecords = [];
+    this.transferRecords = [];
+    this.salesRecords = [];
+    this.feedInventory = [];
+    this.financialTransactions = [];
+    this.dailyReports = [];
+    this.notifications = [];
+    this.auditLogs = [];
+    saveStorage(STORAGE_KEYS.LOCATIONS, this.locations);
+    saveStorage(STORAGE_KEYS.PENS, this.pens);
+    saveStorage(STORAGE_KEYS.LIVESTOCK, this.livestock);
+    saveStorage(STORAGE_KEYS.WEIGHT, this.weightRecords);
+    saveStorage(STORAGE_KEYS.HEALTH, this.healthRecords);
+    saveStorage(STORAGE_KEYS.BREEDING, this.breedingRecords);
+    saveStorage(STORAGE_KEYS.BIRTHS, this.birthRecords);
+    saveStorage(STORAGE_KEYS.DEATHS, this.deathRecords);
+    saveStorage(STORAGE_KEYS.TRANSFERS, this.transferRecords);
+    saveStorage(STORAGE_KEYS.SALES, this.salesRecords);
+    saveStorage(STORAGE_KEYS.FEED, this.feedInventory);
+    saveStorage(STORAGE_KEYS.FINANCE, this.financialTransactions);
+    saveStorage(STORAGE_KEYS.DAILY_REPORTS, this.dailyReports);
+    saveStorage(STORAGE_KEYS.NOTIFICATIONS, this.notifications);
+    saveStorage(STORAGE_KEYS.AUDIT_LOGS, this.auditLogs);
     this.notify();
   }
 

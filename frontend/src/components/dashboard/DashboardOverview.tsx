@@ -1,19 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import {
   Building2, TrendingUp, TrendingDown, HeartPulse, Scale, ShieldAlert,
-  Wallet, FileSpreadsheet, Sparkles, Plus, CheckCircle2, ArrowRight
+  Wallet, FileSpreadsheet, Plus, CheckCircle2, ArrowRight, Receipt, WalletCards, Clock3
 } from 'lucide-react';
 import { storeService } from '../../services/storeService';
+import { financialDocumentsStore } from '../../services/financialDocuments';
 import { formatRupiah, formatDate } from '../../utils/formatters';
 
 interface DashboardOverviewProps {
-  onOpenOwnerBrief: () => void;
   onOpenQuickAction: () => void;
   onNavigateTab: (tabId: string) => void;
 }
 
 export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
-  onOpenOwnerBrief,
   onOpenQuickAction,
   onNavigateTab
 }) => {
@@ -22,6 +21,7 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
   const [dailyReports, setDailyReports] = useState(storeService.dailyReports);
   const [notifications, setNotifications] = useState(storeService.notifications);
   const [activeLocId, setActiveLocId] = useState(storeService.activeLocationId);
+  const [workflow, setWorkflow] = useState(financialDocumentsStore.snapshot());
 
   useEffect(() => {
     const unsubscribe = storeService.subscribe(() => {
@@ -34,39 +34,29 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
     return unsubscribe;
   }, []);
 
+  useEffect(() => financialDocumentsStore.subscribe(() => setWorkflow(financialDocumentsStore.snapshot())), []);
+
   const criticalNotifs = notifications.filter(n => n.severity === 'critical' || n.severity === 'warning');
 
   return (
     <div className="space-y-6 animate-fade-in pb-12">
       
       {/* Top Header Banner with Professional Polish Styling */}
-      <div className="bg-gradient-to-r from-[#1b4332] via-[#2d6a4f] to-[#1b4332] rounded-xl p-6 text-white shadow-sm border border-[#1b4332]/20 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+      <div className="ranch-hero rounded-xl p-6 shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div>
-          <div className="flex items-center gap-2 mb-1.5">
-            <span className="location-pill">
-              <Building2 className="w-3.5 h-3.5 text-[#1b4332]" />
-              <span>{activeLocId === 'ALL' ? 'SEMUA LOKASI' : locations.find(l => l.id === activeLocId)?.name.toUpperCase()}</span>
-            </span>
-          </div>
-          <h2 className="text-xl sm:text-2xl font-bold tracking-tight">
-            Ringkasan Bisnis Peternakan
+          <p className="ranch-label relative z-10 mb-2 text-[#EFE5D5]">Pusat kendali operasional</p>
+          <h2 className="ranch-heading relative z-10 text-xl sm:text-2xl font-bold tracking-tight text-[#FBF8F2]">
+            Ringkasan peternakan hari ini
           </h2>
-          <p className="text-xs sm:text-sm text-[#d8f3dc] max-w-2xl mt-1 leading-relaxed">
-            Sistem monitorinssg peternakan terpadu. Pantau populasi, kondisi kesehatan, pertumbuhan bobot, dan neraca keuangan dari manapun.
+          <p className="relative z-10 max-w-2xl mt-1 text-xs sm:text-sm text-[#EFE5D5]/80 leading-relaxed">
+            Pantau populasi, kesehatan, aktivitas kandang, dan arus keuangan dari satu tempat.
           </p>
         </div>
 
         <div className="flex flex-wrap items-center gap-2.5 shrink-0">
           <button
-            onClick={onOpenOwnerBrief}
-            className="flex items-center gap-2 px-4 py-2 bg-[#d8f3dc] hover:bg-emerald-200 text-[#1b4332] rounded-lg font-bold text-xs transition shadow-2xs cursor-pointer"
-          >
-            <Sparkles className="w-4 h-4 text-[#1b4332]" />
-            <span>AI Daily Brief</span>
-          </button>
-          <button
             onClick={onOpenQuickAction}
-            className="flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg font-semibold text-xs border border-white/20 transition cursor-pointer"
+            className="ranch-action-secondary relative z-10 bg-white/10! text-[#FBF8F2]! border-white/35!"
           >
             <Plus className="w-4 h-4" />
             <span>Aksi Kandang</span>
@@ -78,15 +68,15 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
       <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         
         {/* Total Active Livestock */}
-        <div className="card-polish hover:border-[#1b4332]/30 transition">
+        <div className="card-polish ranch-kpi hover:border-[#5a2d1f]/30 transition">
           <div className="flex items-center justify-between">
             <span className="stat-label-polish">Total Ternak</span>
-            <div className="p-1.5 rounded-lg bg-[#d8f3dc] text-[#1b4332]">
+            <div className="p-1.5 rounded-lg bg-[#EFE5D5] text-[#5a2d1f]">
               <Building2 className="w-4 h-4" />
             </div>
           </div>
           <div className="stat-value-polish">{metrics.totalActive}</div>
-          <div className="text-[11px] text-[#059669] font-medium mt-1">
+          <div className="text-[11px] text-[#5C6B3C] font-medium mt-1">
             ↑ Sehat: {metrics.healthy} | Sakit: {metrics.sick}
           </div>
         </div>
@@ -106,10 +96,10 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
         </div>
 
         {/* Total Income */}
-        <div className="card-polish hover:border-blue-300 transition">
+        <div className="card-polish ranch-kpi hover:border-[#937A65]/40 transition">
           <div className="flex items-center justify-between">
             <span className="stat-label-polish">Total Pemasukan</span>
-            <div className="p-1.5 rounded-lg bg-blue-50 text-blue-600">
+            <div className="p-1.5 rounded-lg bg-[#EFE5D5] text-[#937A65]">
               <TrendingUp className="w-4 h-4" />
             </div>
           </div>
@@ -118,14 +108,14 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
         </div>
 
         {/* Net Profit */}
-        <div className="card-polish hover:border-[#1b4332]/30 transition">
+        <div className="card-polish ranch-kpi hover:border-[#5a2d1f]/30 transition">
           <div className="flex items-center justify-between">
             <span className="stat-label-polish">Arus Kas Bersih</span>
-            <div className="p-1.5 rounded-lg bg-[#d8f3dc] text-[#1b4332]">
+            <div className="p-1.5 rounded-lg bg-[#EFE5D5] text-[#5a2d1f]">
               <Wallet className="w-4 h-4" />
             </div>
           </div>
-          <div className={`stat-value-polish ${metrics.netProfit >= 0 ? 'text-[#1b4332]' : 'text-rose-600'}`}>
+          <div className={`stat-value-polish ${metrics.netProfit >= 0 ? 'text-[#5A2D1F]' : 'text-rose-600'}`}>
             {formatRupiah(metrics.netProfit)}
           </div>
           <div className="text-[11px] text-slate-500 font-medium mt-1">
@@ -133,6 +123,22 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
           </div>
         </div>
 
+      </div>
+
+      {/* Funding and invoice workflow indicators */}
+      <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+        <button onClick={() => onNavigateTab('funding-docs')} className="card-polish text-left transition hover:border-amber-300">
+          <WalletCards className="mb-2 h-5 w-5 text-amber-700"/><p className="text-[10px] font-black uppercase tracking-wider text-slate-500">Menunggu Persetujuan</p><p className="mt-1 text-xl font-black">{workflow.fundRequests.filter(item => ['Diajukan','Diverifikasi Akuntan'].includes(item.status)).length}</p>
+        </button>
+        <button onClick={() => onNavigateTab('funding-docs')} className="card-polish text-left transition hover:border-#D8C7B0">
+          <CheckCircle2 className="mb-2 h-5 w-5 text-#6B3A24"/><p className="text-[10px] font-black uppercase tracking-wider text-slate-500">Dana Disetujui</p><p className="mt-1 text-sm font-black">{formatRupiah(workflow.fundRequests.filter(item => ['Disetujui Owner','Dicairkan','Selesai'].includes(item.status)).reduce((sum,item) => sum + item.total, 0))}</p>
+        </button>
+        <button onClick={() => onNavigateTab('invoices')} className="card-polish text-left transition hover:border-rose-300">
+          <Receipt className="mb-2 h-5 w-5 text-rose-700"/><p className="text-[10px] font-black uppercase tracking-wider text-slate-500">Invoice Belum Lunas</p><p className="mt-1 text-xl font-black">{workflow.invoices.filter(item => item.status === 'Aktif' && item.remainingAmount > 0).length}</p>
+        </button>
+        <button onClick={() => onNavigateTab('invoices')} className="card-polish text-left transition hover:border-blue-300">
+          <Clock3 className="mb-2 h-5 w-5 text-blue-700"/><p className="text-[10px] font-black uppercase tracking-wider text-slate-500">Verifikasi Bayar</p><p className="mt-1 text-xl font-black">{workflow.invoices.flatMap(item => item.payments).filter(item => item.status === 'Menunggu Verifikasi').length}</p>
+        </button>
       </div>
 
       {/* Critical Warnings Alert Bar */}
@@ -153,7 +159,7 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
           </div>
           <button
             onClick={() => onNavigateTab('notifications')}
-            className="px-3 py-1.5 bg-[#1b4332] hover:bg-[#2d6a4f] text-white rounded-lg text-xs font-semibold shrink-0 transition cursor-pointer"
+            className="ranch-action-primary px-3 py-1.5 text-xs shrink-0"
           >
             Lihat Semua Alert
           </button>
@@ -169,7 +175,7 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
           </div>
           <button
             onClick={() => onNavigateTab('livestock')}
-            className="flex items-center gap-1 text-xs font-bold text-[#1b4332] hover:underline transition cursor-pointer"
+            className="flex items-center gap-1 text-xs font-bold text-[#5A2D1F] hover:underline transition cursor-pointer"
           >
             <span>Master Ternak</span>
             <ArrowRight className="w-3.5 h-3.5" />
@@ -196,7 +202,7 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
                 return (
                   <tr key={loc.id} className="hover:bg-slate-50/80 transition">
                     <td className="px-4 py-3 font-bold text-slate-900 flex items-center gap-2">
-                      <Building2 className="w-4 h-4 text-[#1b4332]" />
+                      <Building2 className="w-4 h-4 text-[#5A2D1F]" />
                       <span>{loc.name}</span>
                     </td>
                     <td className="px-4 py-3 text-slate-600">
@@ -207,8 +213,8 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
                       {loc.livestockTypes.join(', ')}
                     </td>
                     <td className="px-4 py-3 text-center font-mono font-bold text-slate-700">{loc.penCount} blok</td>
-                    <td className="px-4 py-3 text-center font-mono font-bold text-[#1b4332] text-sm">{locLivestock.length} ekor</td>
-                    <td className="px-4 py-3 text-center font-bold text-[#166534]">{healthy} ekor</td>
+                    <td className="px-4 py-3 text-center font-mono font-bold text-[#5A2D1F] text-sm">{locLivestock.length} ekor</td>
+                    <td className="px-4 py-3 text-center font-bold text-[#6B3A24]">{healthy} ekor</td>
                     <td className="px-4 py-3 text-center">
                       <span className="badge-success-polish">
                         {loc.status}
@@ -229,12 +235,12 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
         <div className="card-polish space-y-3">
           <div className="flex items-center justify-between">
             <h3 className="text-sm font-bold text-slate-900 flex items-center gap-2">
-              <FileSpreadsheet className="w-4 h-4 text-[#1b4332]" />
+              <FileSpreadsheet className="w-4 h-4 text-[#5A2D1F]" />
               <span>Laporan Harian Kandang Terakhir</span>
             </h3>
             <button
               onClick={() => onNavigateTab('daily-reports')}
-              className="text-xs font-bold text-[#1b4332] hover:underline cursor-pointer"
+              className="text-xs font-bold text-[#5A2D1F] hover:underline cursor-pointer"
             >
               Lihat Laporan
             </button>
@@ -267,31 +273,17 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
           <h3 className="text-sm font-bold text-slate-900">Akses Cepat Modul Utama</h3>
           <div className="grid grid-cols-2 gap-2 text-xs">
             <button
-              onClick={() => onNavigateTab('weight')}
-              className="p-3 rounded-xl bg-slate-50 hover:bg-[#d8f3dc]/40 border border-slate-200 hover:border-[#1b4332]/30 text-left font-bold text-slate-800 flex items-center justify-between transition cursor-pointer"
-            >
-              <span>⚖️ Penimbangan Bobot</span>
-              <ArrowRight className="w-3.5 h-3.5 text-slate-400" />
-            </button>
-            <button
               onClick={() => onNavigateTab('health')}
-              className="p-3 rounded-xl bg-slate-50 hover:bg-[#d8f3dc]/40 border border-slate-200 hover:border-[#1b4332]/30 text-left font-bold text-slate-800 flex items-center justify-between transition cursor-pointer"
+              className="p-3 rounded-xl bg-slate-50 hover:bg-[#EFE5D5]/40 border border-slate-200 hover:border-[#5A2D1F]/30 text-left font-bold text-slate-800 flex items-center justify-between transition cursor-pointer"
             >
-              <span>💉 Kesehatan & Obat</span>
-              <ArrowRight className="w-3.5 h-3.5 text-slate-400" />
-            </button>
-            <button
-              onClick={() => onNavigateTab('breeding')}
-              className="p-3 rounded-xl bg-slate-50 hover:bg-[#d8f3dc]/40 border border-slate-200 hover:border-[#1b4332]/30 text-left font-bold text-slate-800 flex items-center justify-between transition cursor-pointer"
-            >
-              <span>🧬 Breeding & Bunting</span>
+              <span>Kesehatan & Obat</span>
               <ArrowRight className="w-3.5 h-3.5 text-slate-400" />
             </button>
             <button
               onClick={() => onNavigateTab('finance')}
-              className="p-3 rounded-xl bg-slate-50 hover:bg-[#d8f3dc]/40 border border-slate-200 hover:border-[#1b4332]/30 text-left font-bold text-slate-800 flex items-center justify-between transition cursor-pointer"
+              className="p-3 rounded-xl bg-slate-50 hover:bg-[#EFE5D5]/40 border border-slate-200 hover:border-[#5A2D1F]/30 text-left font-bold text-slate-800 flex items-center justify-between transition cursor-pointer"
             >
-              <span>💵 Keuangan & Laba</span>
+              <span>Keuangan & Laba</span>
               <ArrowRight className="w-3.5 h-3.5 text-slate-400" />
             </button>
           </div>

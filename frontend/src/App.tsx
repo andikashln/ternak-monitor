@@ -1,50 +1,81 @@
-import React, { useState, useEffect } from 'react';
-import { Leaf, Loader2, LogIn } from 'lucide-react';
+import React, { lazy, Suspense, useState, useEffect, useRef } from 'react';
+import { Loader2, LogIn } from 'lucide-react';
 import { LoginPage } from './components/auth/LoginPage';
 import { Navbar } from './components/layout/Navbar';
 import { Sidebar } from './components/layout/Sidebar';
 import { BottomNav } from './components/layout/BottomNav';
-import { QuickActionsModal } from './components/layout/QuickActionsModal';
-
-import { DashboardOverview } from './components/dashboard/DashboardOverview';
-import { OwnerDailyBriefModal } from './components/dashboard/OwnerDailyBriefModal';
-
-import { LivestockDatabaseView } from './components/livestock/LivestockDatabaseView';
-import { LivestockFormModal } from './components/livestock/LivestockFormModal';
-import { LivestockDetailModal } from './components/livestock/LivestockDetailModal';
-import { LivestockImportModal } from './components/livestock/LivestockImportModal';
-
-import { WeightMonitoringView } from './components/weight/WeightMonitoringView';
-import { HealthManagementView } from './components/health/HealthManagementView';
-import { BreedingReproductionView } from './components/breeding/BreedingReproductionView';
-import { BirthsDeathsView } from './components/births-deaths/BirthsDeathsView';
-import { PurchasesSalesView } from './components/transactions/PurchasesSalesView';
-import { FeedManagementView } from './components/feed/FeedManagementView';
-import { FinanceView } from './components/finance/FinanceView';
-import { DailyReportsView } from './components/daily-reports/DailyReportsView';
-import { ReportsExportView } from './components/reports/ReportsExportView';
-import { NotificationsView } from './components/notifications/NotificationsView';
-import { AuditLogsView } from './components/audit/AuditLogsView';
-import { SettingsView } from './components/settings/SettingsView';
-import { UserManagementView } from './components/users/UserManagementView';
+import { MobileNavigationDrawer } from './components/layout/MobileNavigationDrawer';
+import { getNavigationLabel } from './components/layout/Sidebar';
+import { SapiPapiLogo } from './components/brand/SapiPapiLogo';
 import { SalesCatalogView } from './components/catalog/SalesCatalogView';
+import { canAccess } from './services/permissions';
 
 import { storeService } from './services/storeService';
 import { authAPI, authSession } from './services/api';
+import { getOneClickDemoSession, getStaticDemoSession, getStaticDemoSessionFromToken, shouldUseStaticDemoFallback } from './services/demoAuth';
 import { LivestockItem, UserProfile } from './types';
+
+const DashboardOverview = lazy(() => import('./components/dashboard/DashboardOverview').then(module => ({ default: module.DashboardOverview })));
+const LivestockDatabaseView = lazy(() => import('./components/livestock/LivestockDatabaseView').then(module => ({ default: module.LivestockDatabaseView })));
+const LivestockFormModal = lazy(() => import('./components/livestock/LivestockFormModal').then(module => ({ default: module.LivestockFormModal })));
+const LivestockDetailModal = lazy(() => import('./components/livestock/LivestockDetailModal').then(module => ({ default: module.LivestockDetailModal })));
+const LivestockImportModal = lazy(() => import('./components/livestock/LivestockImportModal').then(module => ({ default: module.LivestockImportModal })));
+const HealthManagementView = lazy(() => import('./components/health/HealthManagementView').then(module => ({ default: module.HealthManagementView })));
+const BirthsDeathsView = lazy(() => import('./components/births-deaths/BirthsDeathsView').then(module => ({ default: module.BirthsDeathsView })));
+const PurchasesSalesView = lazy(() => import('./components/transactions/PurchasesSalesView').then(module => ({ default: module.PurchasesSalesView })));
+const SalesResultsView = lazy(() => import('./components/sales-results/SalesResultsView').then(module => ({ default: module.SalesResultsView })));
+const ExpenseManagementView = lazy(() => import('./components/expenses/ExpenseManagementView').then(module => ({ default: module.ExpenseManagementView })));
+const FeedManagementView = lazy(() => import('./components/feed/FeedManagementView').then(module => ({ default: module.FeedManagementView })));
+const FinanceView = lazy(() => import('./components/finance/FinanceView').then(module => ({ default: module.FinanceView })));
+const DailyReportsView = lazy(() => import('./components/daily-reports/DailyReportsView').then(module => ({ default: module.DailyReportsView })));
+const ReportsExportView = lazy(() => import('./components/reports/ReportsExportView').then(module => ({ default: module.ReportsExportView })));
+const UserManagementView = lazy(() => import('./components/users/UserManagementView').then(module => ({ default: module.UserManagementView })));
+const SettingsView = lazy(() => import('./components/settings/SettingsView').then(module => ({ default: module.SettingsView })));
+const FinancialDocumentsView = lazy(() => import('./components/finance/FinancialDocumentsView').then(module => ({ default: module.FinancialDocumentsView })));
+const QuickActionsModal = lazy(() => import('./components/layout/QuickActionsModal').then(module => ({ default: module.QuickActionsModal })));
+// Divisi baru (agro multi-divisi)
+const FinanceDashboardView = lazy(() => import('./components/agro/FinanceDashboardView').then(module => ({ default: module.FinanceDashboardView })));
+const ApprovalCenterView = lazy(() => import('./components/agro/ApprovalCenterView').then(module => ({ default: module.ApprovalCenterView })));
+const CashFlowView = lazy(() => import('./components/agro/CashFlowView').then(module => ({ default: module.CashFlowView })));
+const LpjView = lazy(() => import('./components/agro/LpjView').then(module => ({ default: module.LpjView })));
+const CropLongTermView = lazy(() => import('./components/agro/CropLongTermView').then(module => ({ default: module.CropLongTermView })));
+const CropShortTermView = lazy(() => import('./components/agro/CropShortTermView').then(module => ({ default: module.CropShortTermView })));
+const CropActivityView = lazy(() => import('./components/agro/CropActivityView').then(module => ({ default: module.CropActivityView })));
+const GardenDocumentsView = lazy(() => import('./components/agro/GardenDocumentsView').then(module => ({ default: module.GardenDocumentsView })));
+const PondsView = lazy(() => import('./components/agro/PondsView').then(module => ({ default: module.PondsView })));
+const WaterQualityView = lazy(() => import('./components/agro/WaterQualityView').then(module => ({ default: module.WaterQualityView })));
+const FishFeedView = lazy(() => import('./components/agro/FishFeedView').then(module => ({ default: module.FishFeedView })));
+const FishHarvestView = lazy(() => import('./components/agro/FishHarvestView').then(module => ({ default: module.FishHarvestView })));
+const FishDocumentsView = lazy(() => import('./components/agro/FishDocumentsView').then(module => ({ default: module.FishDocumentsView })));
+const WildlifeView = lazy(() => import('./components/agro/WildlifeView').then(module => ({ default: module.WildlifeView })));
+const WildlifeFeedView = lazy(() => import('./components/agro/WildlifeFeedView').then(module => ({ default: module.WildlifeFeedView })));
+const InventoryView = lazy(() => import('./components/agro/InventoryView').then(module => ({ default: module.InventoryView })));
+const PurchaseRequestView = lazy(() => import('./components/agro/PurchaseRequestView').then(module => ({ default: module.PurchaseRequestView })));
+const PurchaseOrderView = lazy(() => import('./components/agro/PurchaseOrderView').then(module => ({ default: module.PurchaseOrderView })));
+const DailyReportView = lazy(() => import('./components/agro/DailyReportView').then(module => ({ default: module.DailyReportView })));
+const TaskManagementView = lazy(() => import('./components/agro/TaskManagementView').then(module => ({ default: module.TaskManagementView })));
+const AttendanceView = lazy(() => import('./components/agro/AttendanceView').then(module => ({ default: module.AttendanceView })));
+const KpiView = lazy(() => import('./components/agro/KpiView').then(module => ({ default: module.KpiView })));
+const MasterDataView = lazy(() => import('./components/agro/MasterDataView').then(module => ({ default: module.MasterDataView })));
+const AuditTrailView = lazy(() => import('./components/agro/AuditTrailView').then(module => ({ default: module.AuditTrailView })));
+
+const PageLoader = () => (
+  <div className="flex min-h-64 items-center justify-center rounded-2xl border border-slate-200 bg-white/70 text-#4A2C1D">
+    <div className="text-center"><Loader2 className="mx-auto h-6 w-6 animate-spin" /><p className="mt-2 text-xs font-bold text-slate-500">Memuat modul...</p></div>
+  </div>
+);
 
 type AuthState = 'checking' | 'authenticated' | 'guest';
 
 export function App() {
+  const workspaceMainRef = useRef<HTMLElement>(null);
   const [activeTab, setActiveTab] = useState<string>('dashboard');
   const [currentUser, setCurrentUser] = useState(storeService.currentUser);
   const [globalSearch, setGlobalSearch] = useState('');
   const [authState, setAuthState] = useState<AuthState>('checking');
   const [showPublicCatalog, setShowPublicCatalog] = useState(false);
-
-  // Modals
-  const [isOwnerBriefOpen, setIsOwnerBriefOpen] = useState(false);
   const [isQuickActionOpen, setIsQuickActionOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   
   const [isAddLivestockOpen, setIsAddLivestockOpen] = useState(false);
   const [editLivestockItem, setEditLivestockItem] = useState<LivestockItem | null>(null);
@@ -59,13 +90,23 @@ export function App() {
     window.addEventListener('auth:unauthorized', handleUnauthorized);
 
     const restoreSession = async () => {
-      if (!authSession.getToken()) {
+      const token = authSession.getToken();
+      if (!token) {
         setAuthState('guest');
+        return;
+      }
+      const staticDemoSession = getStaticDemoSessionFromToken(token);
+      if (staticDemoSession) {
+        storeService.setCurrentUser(staticDemoSession.user);
+        setActiveTab(staticDemoSession.user.role === 'MITRA' ? 'livestock' : 'dashboard');
+        setAuthState('authenticated');
         return;
       }
       try {
         const response = await authAPI.getProfile();
-        storeService.setCurrentUser(response.data.data as UserProfile);
+        const profile = response.data?.data as UserProfile | undefined;
+        if (!profile?.uid || !profile.role) throw new Error('Respons profil pengguna tidak valid.');
+        storeService.setCurrentUser(profile);
         setAuthState('authenticated');
       } catch {
         authSession.clear();
@@ -85,10 +126,25 @@ export function App() {
       setActiveTab('catalog');
     } else if (currentUser.role !== 'USER' && activeTab === 'catalog') {
       setActiveTab('dashboard');
+    } else if (currentUser.role !== 'USER' && !canAccess(currentUser.role, activeTab as never)) {
+      const firstAllowed = ['dashboard', 'livestock', 'finance', 'feed'].find(tab => canAccess(currentUser.role, tab as never));
+      if (firstAllowed && activeTab !== firstAllowed) setActiveTab(firstAllowed);
     }
   }, [activeTab, currentUser.role]);
 
+  useEffect(() => {
+    workspaceMainRef.current?.scrollTo({ top: 0, behavior: 'auto' });
+  }, [activeTab]);
+
   const handleLogin = async (email: string, password: string) => {
+    const exactDemoSession = getStaticDemoSession(email, password);
+    if (exactDemoSession) {
+      authSession.setToken(exactDemoSession.token);
+      storeService.setCurrentUser(exactDemoSession.user);
+      setActiveTab(exactDemoSession.user.role === 'MITRA' ? 'livestock' : 'dashboard');
+      setAuthState('authenticated');
+      return;
+    }
     try {
       const response = await authAPI.login(email, password);
       const { token, user } = response.data.data as { token: string; user: UserProfile };
@@ -97,9 +153,27 @@ export function App() {
       setActiveTab(user.role === 'USER' ? 'catalog' : 'dashboard');
       setAuthState('authenticated');
     } catch (error: any) {
+      if (shouldUseStaticDemoFallback(error.response?.status)) {
+        const demoSession = getStaticDemoSession(email, password);
+        if (demoSession) {
+          authSession.setToken(demoSession.token);
+          storeService.setCurrentUser(demoSession.user);
+          setActiveTab('dashboard');
+          setAuthState('authenticated');
+          return;
+        }
+      }
       const message = error.response?.data?.error || 'Tidak dapat terhubung ke server. Periksa koneksi lalu coba kembali.';
       throw new Error(message);
     }
+  };
+
+  const handleDemoLogin = async () => {
+    const demoSession = getOneClickDemoSession();
+    authSession.setToken(demoSession.token);
+    storeService.setCurrentUser(demoSession.user);
+    setActiveTab('dashboard');
+    setAuthState('authenticated');
   };
 
   const handleLogout = async () => {
@@ -110,6 +184,7 @@ export function App() {
     } finally {
       authSession.clear();
       setActiveTab('dashboard');
+      setIsMobileMenuOpen(false);
       setAuthState('guest');
     }
   };
@@ -117,8 +192,6 @@ export function App() {
   const handleSelectQuickAction = (actionKey: string) => {
     if (actionKey === 'add-daily-report') {
       setActiveTab('daily-reports');
-    } else if (actionKey === 'add-weight') {
-      setActiveTab('weight');
     } else if (actionKey === 'add-health') {
       setActiveTab('health');
     } else if (actionKey === 'add-birth') {
@@ -135,7 +208,7 @@ export function App() {
 
   if (authState === 'checking') {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-slate-100 text-emerald-900">
+      <div className="flex min-h-screen items-center justify-center bg-slate-100 text-#4A2C1D">
         <div className="text-center">
           <Loader2 className="mx-auto h-8 w-8 animate-spin" />
           <p className="mt-3 text-xs font-bold">Memeriksa sesi pengguna...</p>
@@ -147,48 +220,39 @@ export function App() {
   if (authState === 'guest') {
     if (showPublicCatalog) {
       return (
-        <div className="min-h-screen bg-slate-100 font-sans text-slate-800 antialiased">
-          <header className="sticky top-0 z-30 border-b border-slate-200 bg-white shadow-2xs">
-            <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-              <div className="flex items-center gap-3">
-                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#1b4332] text-white">
-                  <Leaf className="h-5 w-5" />
-                </div>
-                <div>
-                  <p className="text-sm font-black tracking-tight text-slate-950 sm:text-base">SAPI PAPI FARM</p>
-                  <p className="text-[10px] font-bold text-emerald-800">Katalog Publik Penjualan Sapi</p>
-                </div>
-              </div>
+        <div className="app-surface min-h-screen font-sans text-slate-800 antialiased">
+          <header className="sticky top-0 z-30 border-b border-#2A1810/8 bg-white/92 shadow-sm backdrop-blur-xl">
+            <div className="mx-auto flex h-[4.5rem] max-w-screen-2xl items-center justify-between gap-3 px-4 sm:px-6 lg:px-8">
+              <SapiPapiLogo />
               <button
                 type="button"
                 onClick={() => setShowPublicCatalog(false)}
-                className="flex items-center gap-2 rounded-xl bg-[#1b4332] px-4 py-2.5 text-xs font-black text-white transition hover:bg-[#245b43]"
+                className="flex min-h-10 items-center gap-2 rounded-xl bg-#4A2C1D px-3.5 text-xs font-black text-white shadow-sm transition hover:bg-#5A2D1F sm:px-4"
               >
-                <LogIn className="h-4 w-4" /> Login Pengelola
+                <LogIn className="h-4 w-4" /> <span className="hidden sm:inline">Login Pengelola</span><span className="sm:hidden">Login</span>
               </button>
             </div>
           </header>
-          <main className="mx-auto w-full max-w-7xl p-4 sm:p-6 lg:p-8">
+          <main className="mx-auto w-full max-w-screen-2xl p-4 sm:p-6 lg:p-8">
             <SalesCatalogView />
           </main>
         </div>
       );
     }
-    return <LoginPage onLogin={handleLogin} onOpenCatalog={() => setShowPublicCatalog(true)} />;
+    return <LoginPage onLogin={handleLogin} onDemoLogin={handleDemoLogin} onOpenCatalog={() => setShowPublicCatalog(true)} />;
   }
 
   if (currentUser.role === 'USER') {
     return (
-      <div className="min-h-screen bg-slate-100 font-sans text-slate-800 antialiased">
+      <div className="app-surface min-h-screen font-sans text-slate-800 antialiased">
         <Navbar
-          onOpenOwnerBrief={() => undefined}
+          pageTitle="Katalog Penjualan"
           onOpenQuickAction={() => undefined}
           onSearchChange={query => setGlobalSearch(query)}
-          onOpenNotifications={() => undefined}
-          onOpenUsers={() => undefined}
+        onOpenUsers={() => undefined}
           onLogout={handleLogout}
         />
-        <main className="mx-auto w-full max-w-7xl p-4 sm:p-6 lg:p-8">
+        <main className="mx-auto w-full max-w-screen-2xl p-4 sm:p-6 lg:p-8">
           <SalesCatalogView globalSearchQuery={globalSearch} />
         </main>
       </div>
@@ -196,19 +260,19 @@ export function App() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-100 font-sans text-slate-800 antialiased flex flex-col selection:bg-emerald-900 selection:text-white">
+    <div className="app-surface flex h-dvh min-h-screen flex-col overflow-hidden font-sans text-slate-800 antialiased selection:bg-#4A2C1D selection:text-white">
       
       {/* Top Navbar */}
       <Navbar
-        onOpenOwnerBrief={() => setIsOwnerBriefOpen(true)}
+        pageTitle={getNavigationLabel(activeTab)}
+        onOpenMenu={() => setIsMobileMenuOpen(true)}
         onOpenQuickAction={() => setIsQuickActionOpen(true)}
         onSearchChange={query => setGlobalSearch(query)}
-        onOpenNotifications={() => setActiveTab('notifications')}
         onOpenUsers={() => setActiveTab('users')}
         onLogout={handleLogout}
       />
 
-      <div className="flex-1 flex overflow-hidden">
+      <div className="flex min-h-0 flex-1 overflow-hidden">
         {/* Left Desktop Sidebar */}
         <Sidebar
           activeTab={activeTab}
@@ -217,11 +281,12 @@ export function App() {
         />
 
         {/* Main Content Area */}
-        <main className="flex-1 p-4 sm:p-6 lg:p-8 overflow-y-auto max-w-7xl mx-auto w-full">
+        <main ref={workspaceMainRef} className="workspace-main scrollbar-subtle min-w-0 flex-1 overflow-y-auto px-3 py-4 pb-28 sm:px-5 sm:py-5 lg:px-7 lg:py-6 lg:pb-8 2xl:px-10">
+          <div className="mx-auto w-full max-w-[94rem]">
+          <Suspense fallback={<PageLoader />}>
           
           {activeTab === 'dashboard' && (
             <DashboardOverview
-              onOpenOwnerBrief={() => setIsOwnerBriefOpen(true)}
               onOpenQuickAction={() => setIsQuickActionOpen(true)}
               onNavigateTab={tab => setActiveTab(tab)}
             />
@@ -243,11 +308,9 @@ export function App() {
             />
           )}
 
-          {activeTab === 'weight' && <WeightMonitoringView />}
           {activeTab === 'health' && <HealthManagementView />}
-          {activeTab === 'breeding' && <BreedingReproductionView />}
           {activeTab === 'births-deaths' && <BirthsDeathsView />}
-          {activeTab === 'transactions' && (currentUser.role === 'OWNER' || currentUser.role === 'ADMIN') && (
+          {activeTab === 'transactions' && canAccess(currentUser.role, 'transactions') && (
             <PurchasesSalesView
               onOpenAddLivestock={() => {
                 setEditLivestockItem(null);
@@ -255,15 +318,43 @@ export function App() {
               }}
             />
           )}
-          {activeTab === 'feed' && <FeedManagementView />}
-          {activeTab === 'finance' && <FinanceView />}
-          {activeTab === 'daily-reports' && <DailyReportsView />}
-          {activeTab === 'reports' && <ReportsExportView />}
-          {activeTab === 'notifications' && <NotificationsView />}
-          {activeTab === 'audit' && <AuditLogsView />}
-          {activeTab === 'settings' && <SettingsView />}
-          {activeTab === 'users' && (currentUser.role === 'OWNER' || currentUser.role === 'ADMIN') && <UserManagementView />}
-
+          {activeTab === 'sales-results' && canAccess(currentUser.role, 'sales-results') && <SalesResultsView />}
+          {activeTab === 'expenses' && canAccess(currentUser.role, 'expenses') && <ExpenseManagementView onOpenFinance={() => setActiveTab('finance')} />}
+          {activeTab === 'feed' && canAccess(currentUser.role, 'feed') && <FeedManagementView />}
+          {activeTab === 'finance' && canAccess(currentUser.role, 'finance') && <FinanceView />}
+          {activeTab === 'daily-reports' && canAccess(currentUser.role, 'daily-reports') && <DailyReportsView />}
+          {activeTab === 'reports' && canAccess(currentUser.role, 'reports') && <ReportsExportView />}
+          {activeTab === 'users' && canAccess(currentUser.role, 'users') && <UserManagementView />}
+          {activeTab === 'settings' && currentUser.role === 'OWNER' && <SettingsView />}
+          {activeTab === 'funding-docs' && canAccess(currentUser.role, 'funding-docs') && <FinancialDocumentsView initialTab="funding" />}
+          {activeTab === 'invoices' && canAccess(currentUser.role, 'invoices') && <FinancialDocumentsView initialTab="invoices" />}
+          {/* Divisi baru (agro multi-divisi) */}
+          {activeTab === 'finance-dashboard' && canAccess(currentUser.role, 'finance-dashboard') && <FinanceDashboardView />}
+          {activeTab === 'approval-center' && canAccess(currentUser.role, 'approval-center') && <ApprovalCenterView />}
+          {activeTab === 'cash-flow' && canAccess(currentUser.role, 'cash-flow') && <CashFlowView />}
+          {activeTab === 'lpj' && canAccess(currentUser.role, 'lpj') && <LpjView />}
+          {activeTab === 'crop-longterm' && canAccess(currentUser.role, 'crop-longterm') && <CropLongTermView />}
+          {activeTab === 'crop-shortterm' && canAccess(currentUser.role, 'crop-shortterm') && <CropShortTermView />}
+          {activeTab === 'crop-activity' && canAccess(currentUser.role, 'crop-activity') && <CropActivityView />}
+          {activeTab === 'garden-docs' && canAccess(currentUser.role, 'garden-docs') && <GardenDocumentsView />}
+          {activeTab === 'ponds' && canAccess(currentUser.role, 'ponds') && <PondsView />}
+          {activeTab === 'water-quality' && canAccess(currentUser.role, 'water-quality') && <WaterQualityView />}
+          {activeTab === 'fish-feed' && canAccess(currentUser.role, 'fish-feed') && <FishFeedView />}
+          {activeTab === 'fish-harvest' && canAccess(currentUser.role, 'fish-harvest') && <FishHarvestView />}
+          {activeTab === 'fish-docs' && canAccess(currentUser.role, 'fish-docs') && <FishDocumentsView />}
+          {activeTab === 'wildlife' && canAccess(currentUser.role, 'wildlife') && <WildlifeView />}
+          {activeTab === 'wildlife-feed' && canAccess(currentUser.role, 'wildlife-feed') && <WildlifeFeedView />}
+          {activeTab === 'inventory' && canAccess(currentUser.role, 'inventory') && <InventoryView />}
+          {activeTab === 'purchase-request' && canAccess(currentUser.role, 'purchase-request') && <PurchaseRequestView />}
+          {activeTab === 'purchase-order' && canAccess(currentUser.role, 'purchase-order') && <PurchaseOrderView />}
+          {activeTab === 'daily-report' && canAccess(currentUser.role, 'daily-report') && <DailyReportView />}
+          {activeTab === 'task-management' && canAccess(currentUser.role, 'task-management') && <TaskManagementView />}
+          {activeTab === 'attendance' && canAccess(currentUser.role, 'attendance') && <AttendanceView />}
+          {activeTab === 'kpi' && canAccess(currentUser.role, 'kpi') && <KpiView />}
+          {activeTab === 'master-data' && canAccess(currentUser.role, 'master-data') && <MasterDataView />}
+          {activeTab === 'audit-trail' && canAccess(currentUser.role, 'audit-trail') && <AuditTrailView />}
+          </Suspense>
+          </div>
         </main>
       </div>
 
@@ -272,36 +363,26 @@ export function App() {
         activeTab={activeTab}
         setActiveTab={setActiveTab}
         onOpenQuickAction={() => setIsQuickActionOpen(true)}
+        role={currentUser.role}
+      />
+
+      <MobileNavigationDrawer
+        isOpen={isMobileMenuOpen}
+        activeTab={activeTab}
+        currentUser={currentUser}
+        onClose={() => setIsMobileMenuOpen(false)}
+        onNavigate={setActiveTab}
+        onSearchChange={setGlobalSearch}
+        onLogout={handleLogout}
       />
 
       {/* MODALS */}
-      <OwnerDailyBriefModal
-        isOpen={isOwnerBriefOpen}
-        onClose={() => setIsOwnerBriefOpen(false)}
-      />
-
-      <QuickActionsModal
-        isOpen={isQuickActionOpen}
-        onClose={() => setIsQuickActionOpen(false)}
-        onSelectAction={handleSelectQuickAction}
-      />
-
-      <LivestockFormModal
-        isOpen={isAddLivestockOpen}
-        onClose={() => setIsAddLivestockOpen(false)}
-        editItem={editLivestockItem}
-      />
-
-      <LivestockDetailModal
-        isOpen={Boolean(detailLivestockItem)}
-        onClose={() => setDetailLivestockItem(null)}
-        livestock={detailLivestockItem}
-      />
-
-      <LivestockImportModal
-        isOpen={isImportModalOpen}
-        onClose={() => setIsImportModalOpen(false)}
-      />
+      <Suspense fallback={null}>
+        {isQuickActionOpen && <QuickActionsModal isOpen onClose={() => setIsQuickActionOpen(false)} onSelectAction={handleSelectQuickAction} />}
+        {isAddLivestockOpen && <LivestockFormModal isOpen onClose={() => setIsAddLivestockOpen(false)} editItem={editLivestockItem} />}
+        {detailLivestockItem && <LivestockDetailModal isOpen onClose={() => setDetailLivestockItem(null)} livestock={detailLivestockItem} />}
+        {isImportModalOpen && <LivestockImportModal isOpen onClose={() => setIsImportModalOpen(false)} />}
+      </Suspense>
 
     </div>
   );

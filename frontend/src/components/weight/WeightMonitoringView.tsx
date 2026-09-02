@@ -101,7 +101,7 @@ export const WeightMonitoringView: React.FC = () => {
       <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-2xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
           <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-            <Scale className="w-5 h-5 text-emerald-800" />
+            <Scale className="w-5 h-5 text-#5A2D1F" />
             <span>Monitoring Penimbangan Bobot Ternak</span>
           </h2>
           <p className="text-xs text-slate-500">
@@ -111,7 +111,7 @@ export const WeightMonitoringView: React.FC = () => {
 
         <button
           onClick={handleOpenModal}
-          className="flex items-center gap-1.5 px-4 py-2 bg-emerald-900 hover:bg-emerald-800 text-white text-xs font-bold rounded-xl transition cursor-pointer"
+          className="flex items-center gap-1.5 px-4 py-2 bg-#4A2C1D hover:bg-#5A2D1F text-white text-xs font-bold rounded-xl transition cursor-pointer"
         >
           <Plus className="w-4 h-4" />
           <span>+ Input Penimbangan</span>
@@ -128,7 +128,7 @@ export const WeightMonitoringView: React.FC = () => {
               value={search}
               onChange={e => setSearch(e.target.value)}
               placeholder="Cari Ear Tag..."
-              className="w-full pl-9 pr-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs focus:ring-2 focus:ring-emerald-800 focus:outline-none"
+              className="w-full pl-9 pr-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs focus:ring-2 focus:ring-#5A2D1F focus:outline-none"
             />
           </div>
           <span className="text-xs font-bold text-slate-500">Total {filteredLogs.length} Rekaman</span>
@@ -157,7 +157,7 @@ export const WeightMonitoringView: React.FC = () => {
                   <td className="p-3.5 text-slate-900 font-mono font-bold text-sm">{w.weightKg} kg</td>
                   <td className="p-3.5 font-bold">
                     <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] ${
-                      w.gainKg >= 0 ? 'bg-emerald-100 text-emerald-900' : 'bg-rose-100 text-rose-900 animate-pulse'
+                      w.gainKg >= 0 ? 'bg-#F5EFE6 text-#4A2C1D' : 'bg-rose-100 text-rose-900 animate-pulse'
                     }`}>
                       {w.gainKg >= 0 ? <TrendingUp className="w-3.5 h-3.5" /> : <TrendingDown className="w-3.5 h-3.5" />}
                       {w.gainKg >= 0 ? `+${w.gainKg}` : w.gainKg} kg
@@ -205,11 +205,11 @@ export const WeightMonitoringView: React.FC = () => {
       {isModalOpen && (
         <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center p-3 sm:p-4">
           <div className="bg-white rounded-2xl max-w-md w-full overflow-hidden shadow-2xl border border-slate-200">
-            <div className="p-4 bg-emerald-900 text-white flex items-center justify-between">
+            <div className="p-4 bg-#4A2C1D text-white flex items-center justify-between">
               <h3 className="text-base font-bold">
                 {editingRecordId ? 'Edit Rekaman Penimbangan' : 'Catat Penimbangan Bobot Baru'}
               </h3>
-              <button onClick={() => setIsModalOpen(false)} className="p-1 hover:bg-emerald-800 rounded">
+              <button onClick={() => setIsModalOpen(false)} className="p-1 hover:bg-#5A2D1F rounded">
                 <X className="w-5 h-5" />
               </button>
             </div>
@@ -221,7 +221,7 @@ export const WeightMonitoringView: React.FC = () => {
                   value={selectedLivestockId}
                   onChange={e => setSelectedLivestockId(e.target.value)}
                   required
-                  className="w-full px-3 py-2 border border-slate-300 rounded-lg font-bold focus:ring-2 focus:ring-emerald-800 focus:outline-none"
+                  className="w-full px-3 py-2 border border-slate-300 rounded-lg font-bold focus:ring-2 focus:ring-#5A2D1F focus:outline-none"
                 >
                   {livestock.map(l => (
                     <option key={l.id} value={l.id}>
@@ -238,7 +238,7 @@ export const WeightMonitoringView: React.FC = () => {
                   value={weighDate}
                   onChange={e => setWeighDate(e.target.value)}
                   required
-                  className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-800 focus:outline-none"
+                  className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-#5A2D1F focus:outline-none"
                 />
               </div>
 
@@ -251,7 +251,7 @@ export const WeightMonitoringView: React.FC = () => {
                   onChange={e => setNewWeightKg(e.target.value)}
                   required
                   placeholder="e.g. 345"
-                  className="w-full px-3 py-2 border border-slate-300 rounded-lg font-mono font-bold text-sm focus:ring-2 focus:ring-emerald-800 focus:outline-none"
+                  className="w-full px-3 py-2 border border-slate-300 rounded-lg font-mono font-bold text-sm focus:ring-2 focus:ring-#5A2D1F focus:outline-none"
                 />
               </div>
 
@@ -261,7 +261,7 @@ export const WeightMonitoringView: React.FC = () => {
                   type="text"
                   value={officerName}
                   onChange={e => setOfficerName(e.target.value)}
-                  className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-800 focus:outline-none"
+                  className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-#5A2D1F focus:outline-none"
                 />
               </div>
 
@@ -271,7 +271,7 @@ export const WeightMonitoringView: React.FC = () => {
                   value={notes}
                   onChange={e => setNotes(e.target.value)}
                   rows={2}
-                  className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-800 focus:outline-none"
+                  className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-#5A2D1F focus:outline-none"
                   placeholder="Nafsu makan, suplemen tambahan..."
                 />
               </div>
@@ -286,7 +286,7 @@ export const WeightMonitoringView: React.FC = () => {
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2 bg-emerald-900 text-white font-bold rounded-lg hover:bg-emerald-800"
+                  className="px-5 py-2 bg-#4A2C1D text-white font-bold rounded-lg hover:bg-#5A2D1F"
                 >
                   {editingRecordId ? 'Simpan Perubahan' : 'Simpan Penimbangan'}
                 </button>

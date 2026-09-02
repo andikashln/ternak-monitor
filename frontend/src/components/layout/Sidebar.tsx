@@ -1,10 +1,15 @@
 import React from 'react';
 import {
-  LayoutDashboard, Database, Scale, HeartPulse, Dna, Baby,
-  ShoppingCart, Wheat, Wallet,
-  FileSpreadsheet, FileText, History, Bell, Settings, ShieldCheck, Users
+  Activity, BadgeDollarSign, Baby, ChevronRight, ClipboardList, Database, FileBarChart,
+  HeartPulse, LayoutDashboard, ReceiptText, ShoppingCart,
+  Users, Wallet, Wheat, Settings, WalletCards, FileText,
+  // Divisi baru
+  Landmark, Scale, ShieldCheck, Banknote, Sprout, Leaf, Tractor, Trees,
+  Fish, Droplets, Waves, Anchor, Bird, PawPrint, Package, PackagePlus,
+  ClipboardCheck, UserCheck, Gauge, BookOpenCheck, FolderCog, ScrollText,
 } from 'lucide-react';
 import { UserRole } from '../../types';
+import { canAccess } from '../../services/permissions';
 
 interface SidebarProps {
   activeTab: string;
@@ -12,176 +17,182 @@ interface SidebarProps {
   role: UserRole;
 }
 
-interface NavMenuItem {
+export interface NavMenuItem {
   id: string;
   label: string;
-  icon: React.ReactNode;
+  description: string;
+  icon: React.ComponentType<{ className?: string; strokeWidth?: number }>;
   allowedRoles: UserRole[];
-  badge?: string;
 }
 
-export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab, role }) => {
-  const menuItems: NavMenuItem[] = [
-    {
-      id: 'dashboard',
-      label: 'Dashboard Owner',
-      icon: <LayoutDashboard className="w-4 h-4" />,
-      allowedRoles: ['OWNER', 'ADMIN']
-    },
-    {
-      id: 'livestock',
-      label: 'Database Ternak',
-      icon: <Database className="w-4 h-4" />,
-      allowedRoles: ['OWNER', 'ADMIN']
-    },
-    {
-      id: 'weight',
-      label: 'Monitoring Bobot',
-      icon: <Scale className="w-4 h-4" />,
-      allowedRoles: ['OWNER', 'ADMIN']
-    },
-    {
-      id: 'health',
-      label: 'Kesehatan & Obat',
-      icon: <HeartPulse className="w-4 h-4" />,
-      allowedRoles: ['OWNER', 'ADMIN']
-    },
-    {
-      id: 'breeding',
-      label: 'Breeding & Reproduksi',
-      icon: <Dna className="w-4 h-4" />,
-      allowedRoles: ['OWNER', 'ADMIN']
-    },
-    {
-      id: 'births-deaths',
-      label: 'Kelahiran & Kematian',
-      icon: <Baby className="w-4 h-4" />,
-      allowedRoles: ['OWNER', 'ADMIN']
-    },
-    {
-      id: 'transactions',
-      label: 'POS & Katalog Ternak',
-      icon: <ShoppingCart className="w-4 h-4" />,
-      allowedRoles: ['OWNER', 'ADMIN']
-    },
-    {
-      id: 'feed',
-      label: 'Manajemen Pakan',
-      icon: <Wheat className="w-4 h-4" />,
-      allowedRoles: ['OWNER', 'ADMIN']
-    },
-    {
-      id: 'finance',
-      label: 'Keuangan & Laba Rugi',
-      icon: <Wallet className="w-4 h-4" />,
-      allowedRoles: ['OWNER', 'ADMIN']
-    },
-    {
-      id: 'daily-reports',
-      label: 'Laporan Harian',
-      icon: <FileSpreadsheet className="w-4 h-4" />,
-      badge: 'UTAMA',
-      allowedRoles: ['OWNER', 'ADMIN']
-    },
-    {
-      id: 'reports',
-      label: 'Laporan & Export',
-      icon: <FileText className="w-4 h-4" />,
-      allowedRoles: ['OWNER', 'ADMIN']
-    },
-    {
-      id: 'notifications',
-      label: 'Notifikasi & Alert',
-      icon: <Bell className="w-4 h-4" />,
-      allowedRoles: ['OWNER', 'ADMIN']
-    },
-    {
-      id: 'users',
-      label: 'Manajemen Pengguna',
-      icon: <Users className="w-4 h-4" />,
-      allowedRoles: ['OWNER', 'ADMIN']
-    },
-    {
-      id: 'audit',
-      label: 'Audit Log Sistem',
-      icon: <History className="w-4 h-4" />,
-      allowedRoles: ['OWNER']
-    },
-    {
-      id: 'settings',
-      label: 'Pengaturan Usaha',
-      icon: <Settings className="w-4 h-4" />,
-      allowedRoles: ['OWNER']
-    }
-  ];
+export interface NavSection {
+  label: string;
+  items: NavMenuItem[];
+}
 
-  const filteredMenu = menuItems.filter(item => item.allowedRoles.includes(role));
+export const navigationSections: NavSection[] = [
+  {
+    label: 'Ringkasan',
+    items: [
+      { id: 'dashboard', label: 'Dashboard', description: 'Kondisi farm hari ini', icon: LayoutDashboard, allowedRoles: ['OWNER', 'MANAGER', 'ACCOUNTANT'] },
+    ],
+  },
+  {
+    label: 'Finance control',
+    items: [
+      { id: 'finance-dashboard', label: 'Dashboard Finance', description: 'Kas & laba ringkas', icon: Landmark, allowedRoles: ['OWNER', 'MANAGER', 'ACCOUNTANT'] },
+      { id: 'approval-center', label: 'Approval Center', description: 'Persetujuan terpusat', icon: ShieldCheck, allowedRoles: ['OWNER', 'MANAGER', 'ACCOUNTANT'] },
+      { id: 'cash-flow', label: 'Kas Masuk & Keluar', description: 'Arus kas harian', icon: Banknote, allowedRoles: ['OWNER', 'MANAGER', 'ACCOUNTANT'] },
+      { id: 'lpj', label: 'LPJ Pertanggungjawaban', description: 'Laporan pertanggungjawaban', icon: Scale, allowedRoles: ['OWNER', 'MANAGER', 'ACCOUNTANT'] },
+      { id: 'funding-docs', label: 'Pengajuan Dana', description: 'Verifikasi & persetujuan', icon: WalletCards, allowedRoles: ['OWNER', 'MANAGER', 'ACCOUNTANT', 'MITRA'] },
+      { id: 'invoices', label: 'Invoice & Bukti Bayar', description: 'Tagihan, DP & bukti bayar', icon: FileText, allowedRoles: ['OWNER', 'MANAGER', 'ACCOUNTANT'] },
+    ],
+  },
+  {
+    label: 'Peternakan sapi',
+    items: [
+      { id: 'livestock', label: 'Data Sapi & Mutasi', description: 'Identitas, populasi & mutasi', icon: Database, allowedRoles: ['OWNER', 'MANAGER', 'MITRA'] },
+      { id: 'feed', label: 'Pakan & Timbangan', description: 'Stok pakan & penimbangan', icon: Wheat, allowedRoles: ['OWNER', 'MANAGER', 'MITRA'] },
+      { id: 'health', label: 'Kesehatan', description: 'Rekam medis & obat', icon: HeartPulse, allowedRoles: ['OWNER', 'MANAGER'] },
+      { id: 'births-deaths', label: 'Kelahiran & Kematian', description: 'Perubahan populasi', icon: Baby, allowedRoles: ['OWNER', 'MANAGER'] },
+    ],
+  },
+  {
+    label: 'Kebun & pertanian',
+    items: [
+      { id: 'crop-longterm', label: 'Tanaman Jangka Panjang', description: 'Sawit & tanaman tahunan', icon: Trees, allowedRoles: ['OWNER', 'MANAGER', 'MITRA'] },
+      { id: 'crop-shortterm', label: 'Sayuran Jangka Pendek', description: 'Hortikultura musiman', icon: Sprout, allowedRoles: ['OWNER', 'MANAGER', 'MITRA'] },
+      { id: 'crop-activity', label: 'Aktivitas & Pemupukan', description: 'Perawatan & pemupukan', icon: Tractor, allowedRoles: ['OWNER', 'MANAGER', 'MITRA'] },
+      { id: 'garden-docs', label: 'Invoice & Surat Jalan Kebun', description: 'Dokumen & SOP kebun', icon: Leaf, allowedRoles: ['OWNER', 'MANAGER'] },
+    ],
+  },
+  {
+    label: 'Perikanan & bioflok',
+    items: [
+      { id: 'ponds', label: 'Semua Kolam & Bioflok', description: 'Kolam & populasi ikan', icon: Waves, allowedRoles: ['OWNER', 'MANAGER', 'MITRA'] },
+      { id: 'water-quality', label: 'Kualitas Air (pH/DO/Suhu)', description: 'Monitoring parameter air', icon: Droplets, allowedRoles: ['OWNER', 'MANAGER', 'MITRA'] },
+      { id: 'fish-feed', label: 'Log Pakan & FCR Kolam', description: 'Pakan & konversi', icon: Fish, allowedRoles: ['OWNER', 'MANAGER', 'MITRA'] },
+      { id: 'fish-harvest', label: 'Panen & Penjualan Ikan', description: 'Hasil panen & penjualan', icon: Anchor, allowedRoles: ['OWNER', 'MANAGER', 'MITRA'] },
+      { id: 'fish-docs', label: 'Invoice & Surat Jalan Ikan', description: 'Dokumen & SOP kolam', icon: FileText, allowedRoles: ['OWNER', 'MANAGER'] },
+    ],
+  },
+  {
+    label: 'Satwa & aviari',
+    items: [
+      { id: 'wildlife', label: 'Koleksi Satwa & Aviari', description: 'Satwa & burung koleksi', icon: Bird, allowedRoles: ['OWNER', 'MANAGER', 'MITRA'] },
+      { id: 'wildlife-feed', label: 'Jadwal & Checklist Pakan', description: 'Jadwal pakan satwa', icon: PawPrint, allowedRoles: ['OWNER', 'MANAGER', 'MITRA'] },
+    ],
+  },
+  {
+    label: 'Bisnis & keuangan',
+    items: [
+      { id: 'transactions', label: 'Jual & Beli', description: 'Transaksi ternak', icon: ShoppingCart, allowedRoles: ['OWNER', 'MANAGER', 'ACCOUNTANT'] },
+      { id: 'sales-results', label: 'Hasil Penjualan', description: 'HPP, biaya & laba bersih', icon: BadgeDollarSign, allowedRoles: ['OWNER', 'MANAGER', 'ACCOUNTANT'] },
+      { id: 'finance', label: 'Laporan Laba Rugi', description: 'Pemasukan, biaya & laba', icon: Wallet, allowedRoles: ['OWNER', 'MANAGER', 'ACCOUNTANT'] },
+      { id: 'expenses', label: 'Pengeluaran', description: 'Biaya operasional', icon: ReceiptText, allowedRoles: ['OWNER', 'MANAGER', 'ACCOUNTANT'] },
+    ],
+  },
+  {
+    label: 'Inventory & purchasing',
+    items: [
+      { id: 'inventory', label: 'Stok & Mutasi Barang', description: 'Inventori & mutasi stok', icon: Package, allowedRoles: ['OWNER', 'MANAGER', 'ACCOUNTANT'] },
+      { id: 'purchase-request', label: 'Purchase Request & PO', description: 'Permintaan & pesanan', icon: PackagePlus, allowedRoles: ['OWNER', 'MANAGER', 'ACCOUNTANT'] },
+    ],
+  },
+  {
+    label: 'Operasional',
+    items: [
+      { id: 'daily-report', label: 'Daily Report', description: 'Laporan harian divisi', icon: ClipboardCheck, allowedRoles: ['OWNER', 'MANAGER', 'MITRA'] },
+      { id: 'task-management', label: 'Task Management', description: 'Penugasan & progres', icon: ClipboardList, allowedRoles: ['OWNER', 'MANAGER', 'MITRA'] },
+      { id: 'attendance', label: 'Absensi Pekerja', description: 'Kehadiran harian', icon: UserCheck, allowedRoles: ['OWNER', 'MANAGER'] },
+      { id: 'kpi', label: 'KPI Score', description: 'Penilaian kinerja', icon: Gauge, allowedRoles: ['OWNER', 'MANAGER'] },
+    ],
+  },
+  {
+    label: 'Laporan',
+    items: [
+      { id: 'daily-reports', label: 'Laporan Kandang', description: 'Aktivitas harian', icon: ClipboardList, allowedRoles: ['OWNER', 'MANAGER'] },
+      { id: 'reports', label: 'Laporan & Google Sheets', description: 'Dokumen PDF & Excel', icon: FileBarChart, allowedRoles: ['OWNER', 'MANAGER', 'ACCOUNTANT'] },
+    ],
+  },
+  {
+    label: 'Report & system',
+    items: [
+      { id: 'master-data', label: 'Master Data & Role', description: 'Data master & peran', icon: FolderCog, allowedRoles: ['OWNER', 'DEVELOPER'] },
+      { id: 'audit-trail', label: 'Audit Trail Log', description: 'Riwayat aktivitas', icon: ScrollText, allowedRoles: ['OWNER', 'DEVELOPER'] },
+      { id: 'users', label: 'Pengguna', description: 'Akun & hak akses', icon: Users, allowedRoles: ['OWNER', 'DEVELOPER'] },
+      { id: 'settings', label: 'Pengaturan', description: 'Profil farm & reset demo', icon: Settings, allowedRoles: ['OWNER', 'DEVELOPER'] },
+    ],
+  },
+];
 
-  return (
-    <aside className="w-60 bg-[#1b4332] text-white min-h-[calc(100vh-4rem)] hidden md:flex flex-col border-r border-white/10 shrink-0">
-      
-      {/* Brand Logo Header */}
-      <div className="p-5 flex items-center gap-3 border-b border-white/10">
-        <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center text-[#1b4332] font-bold text-sm shadow-sm shrink-0">
-          TM
-        </div>
-        <div>
-          <span className="text-base font-bold tracking-tight text-white block leading-none">
-            SAPI PAPI FARM
+export const getNavigationLabel = (tabId: string) => (
+  navigationSections.flatMap(section => section.items).find(item => item.id === tabId)?.label ?? 'Dashboard'
+);
+
+export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab, role }) => (
+  <aside className="app-sidebar hidden w-[17.5rem] shrink-0 flex-col border-r bg-white/90 lg:flex">
+    <div className="mx-4 mt-5 rounded-xl border border-[#d2ad76]/70 bg-[#f9ebcc]/65 p-3.5">
+      <div className="flex items-center gap-3">
+        <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-#4A2C1D text-white shadow-sm">
+          <Activity className="h-5 w-5" />
+        </span>
+        <span className="min-w-0">
+          <span className="block ranch-label">Status sistem</span>
+          <span className="mt-0.5 flex items-center gap-1.5 text-xs font-extrabold text-slate-900">
+            <span className="h-2 w-2 rounded-full bg-[#5C6B3C] ring-4 ring-[#EFE5D5]" /> Operasional aktif
           </span>
-          <span className="text-[10px] text-[#d8f3dc] font-medium tracking-wide">
-            Ternak Monitor
-          </span>
-        </div>
-      </div>
-
-      {/* Role Access Bar */}
-      <div className="px-4 py-2.5 bg-black/15 flex items-center justify-between border-b border-white/5">
-        <div className="flex items-center gap-1.5 text-white/80">
-          <ShieldCheck className="w-3.5 h-3.5 text-[#d8f3dc]" />
-          <span className="text-[11px] font-medium">Akses Terotorisasi</span>
-        </div>
-        <span className="px-2 py-0.5 rounded bg-[#d8f3dc]/20 text-[#d8f3dc] text-[10px] font-bold border border-[#d8f3dc]/30 uppercase">
-          {role}
         </span>
       </div>
+    </div>
 
-      {/* Main Navigation Items */}
-      <nav className="flex-1 py-3 space-y-0.5 overflow-y-auto">
-        {filteredMenu.map(item => {
-          const isActive = activeTab === item.id;
-          return (
-            <button
-              key={item.id}
-              onClick={() => setActiveTab(item.id)}
-              className={`w-full flex items-center justify-between px-5 py-2.5 text-xs transition cursor-pointer text-left border-l-4 ${
-                isActive
-                  ? 'bg-white/10 border-[#d8f3dc] text-white font-semibold opacity-100'
-                  : 'border-transparent text-white/75 hover:opacity-100 hover:bg-white/5'
-              }`}
-            >
-              <div className="flex items-center gap-3">
-                <span className={isActive ? 'text-[#d8f3dc]' : 'text-white/60'}>
-                  {item.icon}
-                </span>
-                <span>{item.label}</span>
-              </div>
-              {item.badge && (
-                <span className="px-1.5 py-0.5 rounded text-[9px] font-bold bg-[#f59e0b]/20 text-amber-300 border border-amber-400/30">
-                  {item.badge}
-                </span>
-              )}
-            </button>
-          );
-        })}
-      </nav>
+    <nav aria-label="Navigasi utama" className="scrollbar-subtle flex-1 overflow-y-auto px-3 py-4">
+      {navigationSections.map(section => {
+        const visibleItems = section.items.filter(item => item.allowedRoles.includes(role) || (role === 'ADMIN' && canAccess('ADMIN', item.id as never)));
+        if (visibleItems.length === 0) return null;
+        return (
+          <div key={section.label} className="mb-5 last:mb-2">
+            <p className="mb-1.5 px-3 text-[9px] font-black uppercase tracking-[0.2em] text-slate-400">{section.label}</p>
+            <div className="space-y-1">
+              {visibleItems.map(item => {
+                const Icon = item.icon;
+                const isActive = activeTab === item.id;
+                return (
+                  <button
+                    key={item.id}
+                    type="button"
+                    onClick={() => setActiveTab(item.id)}
+                    aria-current={isActive ? 'page' : undefined}
+                    className={`group flex w-full items-center gap-3 rounded-xl px-2.5 py-2 text-left transition-all ${
+                      isActive
+                        ? 'bg-[#5a2d1f] text-white shadow-md shadow-[#5a2d1f]/15'
+                        : 'text-slate-600 hover:bg-[#f9ebcc] hover:text-[#5a2d1f]'
+                    }`}
+                  >
+                    <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg ${
+                      isActive ? 'bg-white/12 text-white' : 'bg-[#f4ead3] text-slate-500 group-hover:bg-white group-hover:text-[#5a2d1f]'
+                    }`}>
+                      <Icon className="h-[18px] w-[18px]" strokeWidth={2} />
+                    </span>
+                    <span className="min-w-0 flex-1">
+                      <span className="block truncate text-xs font-extrabold">{item.label}</span>
+                      <span className={`mt-0.5 block truncate text-[9px] font-medium ${isActive ? 'text-#F5EFE6/80' : 'text-slate-400'}`}>
+                        {item.description}
+                      </span>
+                    </span>
+                    <ChevronRight className={`h-3.5 w-3.5 shrink-0 ${isActive ? 'text-#EFE5D5' : 'text-slate-300'}`} />
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        );
+      })}
+    </nav>
 
-      {/* Footer info */}
-      <div className="p-4 border-t border-white/10 text-[11px] text-white/50">
-        <p className="font-semibold text-white/80">Role: {role}</p>
-        <p className="text-[10px] text-[#d8f3dc]/70 mt-0.5">SAPI PAPI FARM v2.5</p>
-      </div>
-
-    </aside>
-  );
-};
+    <div className="border-t border-slate-100 px-5 py-4">
+      <p className="text-[10px] font-bold text-slate-500">Sapi Papi Farm</p>
+      <p className="mt-0.5 text-[9px] text-slate-400">Ternak Monitor · v2.5</p>
+    </div>
+  </aside>
+);

@@ -147,7 +147,7 @@ export const HealthManagementView: React.FC = () => {
                 <span className="font-mono font-black text-slate-900 text-base">{log.tagId}</span>
                 <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${
                   log.status === 'Sakit' ? 'bg-rose-100 text-rose-800' :
-                  log.status === 'Isolasi' ? 'bg-amber-100 text-amber-800' : 'bg-emerald-100 text-emerald-800'
+                  log.status === 'Isolasi' ? 'bg-amber-100 text-amber-800' : 'bg-#F5EFE6 text-#5A2D1F'
                 }`}>
                   {log.status}
                 </span>

@@ -1,203 +1,106 @@
-import React, { useState, useEffect } from 'react';
-import { Building2, Bell, Search, Sparkles, ChevronDown, LogOut, PlusCircle, ShieldCheck, Users } from 'lucide-react';
+import React, { useEffect, useRef, useState } from 'react';
+import { ChevronDown, LogOut, Menu, Plus, Search, ShieldCheck, Users } from 'lucide-react';
 import { storeService } from '../../services/storeService';
+import { SapiPapiLogo } from '../brand/SapiPapiLogo';
+import { ROLE_LABELS } from '../../services/permissions';
 
 interface NavbarProps {
-  onOpenOwnerBrief: () => void;
+  pageTitle?: string;
+  onOpenMenu?: () => void;
   onOpenQuickAction: () => void;
   onSearchChange: (query: string) => void;
-  onOpenNotifications: () => void;
   onOpenUsers: () => void;
   onLogout: () => void | Promise<void>;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
-  onOpenOwnerBrief,
-  onOpenQuickAction,
-  onSearchChange,
-  onOpenNotifications,
-  onOpenUsers,
-  onLogout
+  pageTitle = 'Dashboard', onOpenMenu, onOpenQuickAction, onSearchChange,
+  onOpenUsers, onLogout,
 }) => {
   const [currentUser, setCurrentUser] = useState(storeService.currentUser);
-  const [locations, setLocations] = useState(storeService.locations);
-  const [activeLocId, setActiveLocId] = useState(storeService.activeLocationId);
-  const [notifications, setNotifications] = useState(storeService.notifications);
   const [searchVal, setSearchVal] = useState('');
   const [showProfileDropdown, setShowProfileDropdown] = useState(false);
+  const profileRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => storeService.subscribe(() => {
+    setCurrentUser(storeService.currentUser);
+  }), []);
 
   useEffect(() => {
-    const unsubscribe = storeService.subscribe(() => {
-      setCurrentUser(storeService.currentUser);
-      setLocations(storeService.locations);
-      setActiveLocId(storeService.activeLocationId);
-      setNotifications(storeService.notifications);
-    });
-    return unsubscribe;
-  }, []);
+    if (!showProfileDropdown) return undefined;
+    const closeMenu = (event: MouseEvent) => {
+      if (profileRef.current && !profileRef.current.contains(event.target as Node)) setShowProfileDropdown(false);
+    };
+    const closeOnEscape = (event: KeyboardEvent) => event.key === 'Escape' && setShowProfileDropdown(false);
+    document.addEventListener('mousedown', closeMenu);
+    window.addEventListener('keydown', closeOnEscape);
+    return () => {
+      document.removeEventListener('mousedown', closeMenu);
+      window.removeEventListener('keydown', closeOnEscape);
+    };
+  }, [showProfileDropdown]);
 
-  const unreadCount = notifications.filter(n => !n.isRead).length;
-
-  const handleLocationChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const locId = e.target.value;
-    storeService.setActiveLocation(locId);
-  };
-
-  const handleSearchInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchVal(e.target.value);
-    onSearchChange(e.target.value);
-  };
+  const initials = currentUser.displayName.split(' ').map(name => name[0]).join('').slice(0, 2).toUpperCase();
 
   return (
-    <header className="sticky top-0 z-30 bg-white border-b border-[#e2e8f0] shadow-2xs">
-      <div className="px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
-        
-        {/* Left: App Identity & Active Location Switcher */}
-        <div className="flex items-center gap-3">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-[#1b4332] text-white flex items-center justify-center font-bold text-sm shadow-xs">
-              TM
-            </div>
-            <div className="hidden sm:block">
-              <h1 className="text-base font-bold text-slate-900 tracking-tight leading-none">
-                SAPI PAPI FARM
-              </h1>
-              <p className="text-[11px] text-[#1b4332] font-semibold">
-                Sistem Peternakan Terpadu
-              </p>
-            </div>
-          </div>
+    <header className="app-navbar z-40 shrink-0 border-b bg-white/92 backdrop-blur-xl">
+      <div className="flex h-[4.5rem] items-center gap-3 px-3 sm:px-5 lg:px-6">
+        <button type="button" onClick={onOpenMenu} className="icon-button lg:hidden" aria-label="Buka menu navigasi">
+          <Menu className="h-5 w-5" />
+        </button>
 
-          {/* Location Picker with Professional Polish Pill Style */}
-          {currentUser.role !== 'USER' && <div className="relative flex items-center ml-2 sm:ml-4">
-            <Building2 className="w-3.5 h-3.5 text-[#1b4332] absolute left-3 pointer-events-none" />
-            <select
-              value={activeLocId}
-              onChange={handleLocationChange}
-              aria-label="Pilih Lokasi Peternakan"
-              className="pl-8 pr-7 py-1 bg-[#d8f3dc] hover:bg-[#c7f0cc] text-[#1b4332] rounded-full text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-[#1b4332] transition cursor-pointer appearance-none border border-[#b7e4c7]"
-            >
-              <option value="ALL">📍 SEMUA LOKASI ({locations.length})</option>
-              {locations.map(loc => (
-                <option key={loc.id} value={loc.id}>
-                  📍 {loc.name.toUpperCase()}
-                </option>
-              ))}
-            </select>
-          </div>}
+        <div className="hidden w-[15.75rem] shrink-0 lg:block"><SapiPapiLogo /></div>
+        <div className="min-w-0 flex-1 lg:hidden">
+          <p className="ranch-label truncate">Ternak Monitor</p>
+          <h1 className="ranch-heading truncate text-base font-black">{pageTitle}</h1>
         </div>
 
-        {/* Center: Global Search Bar */}
-        <div className="flex-1 max-w-md hidden md:block">
-          <div className="relative">
-            <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+        <div className="mx-auto hidden w-full max-w-xl flex-1 md:block">
+          <label className="relative block">
+            <span className="sr-only">Cari data peternakan</span>
+            <Search className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
             <input
-              type="text"
               value={searchVal}
-              onChange={handleSearchInput}
-              placeholder={currentUser.role === 'USER' ? 'Cari sapi, ras, Ear Tag, atau lokasi...' : 'Cari Ear Tag, Pembeli, No. Transaksi, Lokasi...'}
-              className="w-full pl-9 pr-4 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#1b4332] transition"
+              onChange={event => { setSearchVal(event.target.value); onSearchChange(event.target.value); }}
+              placeholder="Cari ear tag, pembeli, transaksi..."
+              className="ranch-input h-10 w-full pl-10 pr-4 text-xs outline-none transition focus:bg-white"
             />
-          </div>
+          </label>
         </div>
 
-        {/* Right: Actions, AI Brief, Notifications, Role Switcher */}
-        <div className="flex items-center gap-2 sm:gap-3">
-
-          {/* Quick Action (+ Button) */}
-          {currentUser.role !== 'USER' && <button
-            onClick={onOpenQuickAction}
-            className="flex items-center gap-1.5 px-3 py-1.5 bg-[#1b4332] hover:bg-[#2d6a4f] text-white rounded-lg text-xs font-semibold transition shadow-2xs cursor-pointer"
-          >
-            <PlusCircle className="w-4 h-4 text-[#d8f3dc]" />
-            <span className="hidden sm:inline">+ Aksi Kandang</span>
-          </button>}
-
-          {/* Owner Daily Brief Gemini Button */}
-          {currentUser.role === 'OWNER' && (
-            <button
-              onClick={onOpenOwnerBrief}
-              className="flex items-center gap-1.5 px-3 py-1.5 bg-[#d8f3dc] hover:bg-[#c7f0cc] text-[#1b4332] border border-[#b7e4c7] rounded-lg text-xs font-bold transition cursor-pointer shadow-2xs"
-              title="Owner Daily Brief Powered by Gemini AI"
-            >
-              <Sparkles className="w-4 h-4 text-[#1b4332] animate-pulse" />
-              <span className="hidden md:inline">AI Daily Brief</span>
+        <div className="ml-auto flex items-center gap-1.5 sm:gap-2">
+          {currentUser.role !== 'USER' && (
+            <button type="button" onClick={onOpenQuickAction} className="ranch-action-primary hidden px-3.5 text-xs shadow-md sm:inline-flex">
+              <Plus className="h-4 w-4" /> Catat Data
             </button>
           )}
-
-          {/* Notification Center Bell */}
-          {currentUser.role !== 'USER' && <button
-            onClick={onOpenNotifications}
-            aria-label="Pemberitahuan"
-            className="relative p-2 text-slate-600 hover:text-[#1b4332] hover:bg-slate-100 rounded-lg transition cursor-pointer"
-          >
-            <Bell className="w-5 h-5" />
-            {unreadCount > 0 && (
-              <span className="absolute top-1 right-1 w-4 h-4 bg-[#ef4444] text-white text-[10px] font-bold rounded-full flex items-center justify-center">
-                {unreadCount}
+          <div ref={profileRef} className="relative">
+            <button type="button" onClick={() => setShowProfileDropdown(value => !value)} className="flex min-h-10 items-center gap-2 rounded-xl border border-slate-200 bg-white p-1.5 pr-2 transition hover:border-#EFE5D5 hover:bg-#FBF8F2" aria-expanded={showProfileDropdown} aria-label="Menu profil">
+              <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-#F5EFE6 text-[10px] font-black text-#4A2C1D">{initials}</span>
+              <span className="hidden max-w-28 text-left xl:block">
+                <span className="block truncate text-[11px] font-black text-slate-800">{currentUser.displayName}</span>
+                <span className="block text-[9px] font-bold text-slate-400">{ROLE_LABELS[currentUser.role]}</span>
               </span>
-            )}
-          </button>}
-
-          {/* Authenticated user profile */}
-          <div className="relative">
-            <button
-              onClick={() => setShowProfileDropdown(!showProfileDropdown)}
-              className="flex items-center gap-2 pl-2 pr-1.5 py-1 rounded-lg hover:bg-slate-100 border border-slate-200 transition cursor-pointer"
-            >
-              <div className="w-7 h-7 rounded-full bg-[#e2e8f0] text-slate-700 flex items-center justify-center text-xs font-bold">
-                {currentUser.displayName.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase()}
-              </div>
-              <div className="hidden lg:block text-left">
-                <p className="text-xs font-semibold text-slate-900 leading-tight">
-                  {currentUser.displayName}
-                </p>
-                <p className="text-[10px] font-bold text-[#1b4332] uppercase tracking-wider">
-                  Role: {currentUser.role}
-                </p>
-              </div>
-              <ChevronDown className="w-3.5 h-3.5 text-slate-500" />
+              <ChevronDown className="hidden h-3.5 w-3.5 text-slate-400 sm:block" />
             </button>
 
             {showProfileDropdown && (
-              <div className="absolute right-0 mt-2 w-56 bg-white border border-slate-200 rounded-xl shadow-lg py-2 z-50">
-                <div className="px-3 py-2 border-b border-slate-100">
-                  <p className="text-xs font-bold text-slate-900">{currentUser.displayName}</p>
-                  <p className="text-[11px] text-slate-500">{currentUser.email}</p>
+              <div className="absolute right-0 mt-2 w-64 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl shadow-slate-900/10">
+                <div className="border-b border-slate-100 bg-slate-50/80 px-4 py-3">
+                  <p className="text-xs font-black text-slate-950">{currentUser.displayName}</p>
+                  <p className="mt-0.5 truncate text-[10px] text-slate-500">{currentUser.email}</p>
                 </div>
-
-                <div className="mx-3 my-2 flex items-center gap-2 rounded-lg bg-emerald-50 px-3 py-2 text-xs font-bold text-emerald-900">
-                  <ShieldCheck className="h-4 w-4" />
-                  <span>Hak akses: {currentUser.role}</span>
-                </div>
-
+                <div className="m-3 flex items-center gap-2 rounded-xl bg-#FBF8F2 px-3 py-2.5 text-[10px] font-bold text-#4A2C1D"><ShieldCheck className="h-4 w-4" /> Hak akses {ROLE_LABELS[currentUser.role]}</div>
                 {(currentUser.role === 'OWNER' || currentUser.role === 'ADMIN') && (
-                  <button
-                    onClick={() => { setShowProfileDropdown(false); onOpenUsers(); }}
-                    className="mx-2 flex w-[calc(100%-1rem)] items-center gap-2 rounded-lg px-2 py-2 text-left text-xs font-bold text-slate-700 transition hover:bg-slate-100"
-                  >
-                    <Users className="h-4 w-4" /> Manajemen Pengguna
-                  </button>
+                  <button type="button" onClick={() => { setShowProfileDropdown(false); onOpenUsers(); }} className="mx-2 flex min-h-10 w-[calc(100%-1rem)] items-center gap-2 rounded-xl px-3 text-left text-xs font-bold text-slate-700 hover:bg-slate-100"><Users className="h-4 w-4" /> Kelola pengguna</button>
                 )}
-
-                <div className="border-t border-slate-100 mt-2 pt-1 px-2">
-                  <button
-                    onClick={() => {
-                      setShowProfileDropdown(false);
-                      void onLogout();
-                    }}
-                    className="flex w-full items-center gap-2 rounded-lg px-2 py-2 text-left text-xs font-bold text-rose-700 transition hover:bg-rose-50"
-                  >
-                    <LogOut className="h-4 w-4" />
-                    Keluar dari aplikasi
-                  </button>
+                <div className="mt-2 border-t border-slate-100 p-2">
+                  <button type="button" onClick={() => { setShowProfileDropdown(false); void onLogout(); }} className="flex min-h-10 w-full items-center gap-2 rounded-xl px-3 text-left text-xs font-bold text-rose-700 hover:bg-rose-50"><LogOut className="h-4 w-4" /> Keluar</button>
                 </div>
               </div>
             )}
           </div>
-
         </div>
-
       </div>
     </header>
   );
