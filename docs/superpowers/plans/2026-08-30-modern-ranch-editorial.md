@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Implement Variant A — Modern Ranch Editorial across Sapi Papi Farm while preserving all data, safe CRUD, finance calculations, demo login, routing, and PWA behavior.
+**Goal:** Implement Variant A — Modern Ranch Editorial across Sapi Farm Riau while preserving all data, safe CRUD, finance calculations, demo login, routing, and PWA behavior.
 
 **Architecture:** Keep the existing React component tree and introduce a small ranch presentation layer through global CSS tokens plus reusable semantic classes. Apply the visual direction to the shell, login, dashboard, and finance surfaces without changing service or domain code. Decorative elements remain CSS/SVG-only, non-interactive, and absent behind dense data tables.
 

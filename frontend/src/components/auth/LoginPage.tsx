@@ -56,7 +56,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onDemoLogin, onOp
             <Leaf className="h-6 w-6 text-[#EFE5D5]" />
           </div>
           <div>
-            <p className="text-xl font-black tracking-tight">SAPI PAPI FARM</p>
+            <p className="text-xl font-black tracking-tight">SAPI FARM RIAU</p>
             <p className="text-xs font-semibold tracking-wide text-[#EFE5D5]">Sistem Peternakan Terpadu</p>
           </div>
         </div>
@@ -86,7 +86,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onDemoLogin, onOp
               <Leaf className="h-5 w-5" />
             </div>
             <div>
-              <p className="font-black tracking-tight">SAPI PAPI FARM</p>
+              <p className="font-black tracking-tight">SAPI FARM RIAU</p>
               <p className="text-[11px] font-semibold text-[#5a2d1f]">Sistem Peternakan Terpadu</p>
             </div>
           </div>
@@ -168,7 +168,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onDemoLogin, onOp
               {isSubmitting && <Loader2 className="h-4 w-4 animate-spin" />}
               {isSubmitting ? 'Membuka Demo...' : 'Login Demo Sekali Klik'}
             </button>
-            <p className="mt-2 text-center text-[11px] text-slate-500">Masuk ke data contoh Sapi Papi Farm tanpa mengisi akun.</p>
+            <p className="mt-2 text-center text-[11px] text-slate-500">Masuk ke data contoh Sapi Farm Riau tanpa mengisi akun.</p>
 
             <div className="my-5 flex items-center gap-3 text-[10px] font-bold uppercase tracking-wider text-slate-400">
               <span className="h-px flex-1 bg-slate-200" /> atau <span className="h-px flex-1 bg-slate-200" />
@@ -195,7 +195,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onDemoLogin, onOp
             )}
           </div>
 
-          <p className="mt-6 text-center text-[11px] text-slate-400">© 2026 Sapi Papi Farm · Ternak Monitor</p>
+          <p className="mt-6 text-center text-[11px] text-slate-400">© 2026 Sapi Farm Riau · Ternak Monitor</p>
         </div>
       </section>
     </main>

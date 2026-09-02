@@ -6,7 +6,7 @@ interface SapiPapiLogoProps {
 }
 
 /**
- * Logo asli Sapi Papi Farm (line-art cow + barn, monokrom coklat).
+ * Logo asli Sapi Farm Riau (line-art cow + barn, monokrom coklat).
  * - 'mark'   : icon saja (untuk sidebar / favicon konteks kecil)
  * - 'lockup' : icon + teks "SAPI PAPI — FARM"
  */
@@ -18,7 +18,7 @@ export const SapiPapiLogo: React.FC<SapiPapiLogoProps> = ({
     return (
       <img
         src="/icons/icon-64x64.png"
-        alt="Logo Sapi Papi Farm"
+        alt="Logo Sapi Farm Riau"
         className={`shrink-0 ${className}`}
         style={{ height: 36, width: 36 }}
       />
@@ -29,7 +29,7 @@ export const SapiPapiLogo: React.FC<SapiPapiLogoProps> = ({
     <div className={`inline-flex items-center gap-2.5 ${className}`}>
       <img
         src="/icons/icon-64x64.png"
-        alt="Logo Sapi Papi Farm"
+        alt="Logo Sapi Farm Riau"
         className="h-9 w-9 shrink-0"
       />
       <span className="min-w-0 leading-tight">

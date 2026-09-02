@@ -1,4 +1,4 @@
-# Cowboy Theme Variants — Sapi Papi Farm
+# Cowboy Theme Variants — Sapi Farm Riau
 
 Tanggal: 2026-08-30  
 Status: Design spec — menunggu review pengguna  
@@ -6,7 +6,7 @@ Target: `/home/ubuntu/ternak-monitor/.worktrees/safe-crud-video`
 
 ## Tujuan
 
-Membuat tiga variant visual bertema cowboy/western untuk Sapi Papi Farm tanpa mengubah kontrak data, safe CRUD, autentikasi demo, PWA, atau alur keuangan. Setiap variant harus terasa sengaja dirancang untuk aplikasi peternakan, bukan template landing page atau poster AI yang ditempelkan ke dashboard.
+Membuat tiga variant visual bertema cowboy/western untuk Sapi Farm Riau tanpa mengubah kontrak data, safe CRUD, autentikasi demo, PWA, atau alur keuangan. Setiap variant harus terasa sengaja dirancang untuk aplikasi peternakan, bukan template landing page atau poster AI yang ditempelkan ke dashboard.
 
 ## Prinsip bersama
 
@@ -144,7 +144,7 @@ Dua mode visual dengan satu design token base: operational workspace yang bersih
 
 - Keseimbangan terbaik antara branding dan usability.
 - Surface area CSS dan QA lebih besar karena dua mode.
-- Cocok jika Sapi Papi Farm membutuhkan wajah publik yang kuat sekaligus workspace harian yang efisien.
+- Cocok jika Sapi Farm Riau membutuhkan wajah publik yang kuat sekaligus workspace harian yang efisien.
 
 ---
 

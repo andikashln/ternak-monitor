@@ -59,7 +59,7 @@ function ensureDevelopmentUsers() {
   const password = process.env.DEMO_USER_PASSWORD || 'TernakDemo2026!';
   const now = new Date().toISOString();
   const accounts: Array<[string, string, UserRole]> = [
-    [process.env.DEMO_USER_EMAIL || 'owner@ternak.local', process.env.DEMO_USER_NAME || 'Owner Sapi Papi Farm', 'OWNER'],
+    [process.env.DEMO_USER_EMAIL || 'owner@ternak.local', process.env.DEMO_USER_NAME || 'Owner Sapi Farm Riau', 'OWNER'],
     ['admin@ternak.local', 'Administrator Farm', 'ADMIN'],
     ['user@ternak.local', 'Pengguna Katalog', 'USER'],
   ];

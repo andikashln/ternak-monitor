@@ -248,7 +248,7 @@ async function journey(p) {
   await overlay(p);
   await sub(
     p,
-    "Sapi Papi Farm — tutorial CRUD aman dengan data demo lokal",
+    "Sapi Farm Riau — tutorial CRUD aman dengan data demo lokal",
     1400,
   );
   await button(p, "Isi akun development", 350);

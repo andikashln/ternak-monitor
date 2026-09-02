@@ -356,7 +356,7 @@ export function App() {
           </Suspense>
 
           <footer className="mt-8 flex flex-col items-center gap-1 border-t border-[#e7dcc8] pt-5 pb-2 text-center">
-            <p className="text-[11px] font-black uppercase tracking-[0.2em] text-[#4A2C1D]">PAPI FARM SOEMATRA</p>
+            <p className="text-[11px] font-black uppercase tracking-[0.2em] text-[#4A2C1D]">SAPI FARM RIAU</p>
             <p className="text-[10px] text-slate-400">Ternak Monitor · Sistem manajemen peternakan terpadu</p>
           </footer>
 

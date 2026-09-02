@@ -11,7 +11,7 @@ export default defineConfig(() => ({
     VitePWA({
       registerType: 'autoUpdate',
       manifest: {
-        name: 'Sapi Papi Farm',
+        name: 'Sapi Farm Riau',
         short_name: 'Sapi Papi',
         description: 'Pencatatan dan monitoring operasional peternakan.',
         theme_color: '#5A2D1F',
