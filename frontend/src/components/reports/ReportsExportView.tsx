@@ -67,7 +67,7 @@ export const ReportsExportView: React.FC = () => {
       {/* Header */}
       <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-2xs">
         <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-          <FileText className="w-5 h-5 text-emerald-800" />
+          <FileText className="w-5 h-5 text-#5A2D1F" />
           <span>Pusat Laporan & Ekspor Data (PDF & Excel)</span>
         </h2>
         <p className="text-xs text-slate-500">
@@ -82,7 +82,7 @@ export const ReportsExportView: React.FC = () => {
           <select
             value={reportType}
             onChange={e => setReportType(e.target.value as any)}
-            className="w-full px-3 py-2 border border-slate-300 rounded-xl text-xs font-bold focus:ring-2 focus:ring-emerald-800 focus:outline-none cursor-pointer"
+            className="w-full px-3 py-2 border border-slate-300 rounded-xl text-xs font-bold focus:ring-2 focus:ring-#5A2D1F focus:outline-none cursor-pointer"
           >
             <option value="livestock">🐄 Master Database Populasi Ternak</option>
             <option value="finance">💵 Laporan Keuangan & Buku Kas</option>
@@ -97,7 +97,7 @@ export const ReportsExportView: React.FC = () => {
               type="date"
               value={startDate}
               onChange={e => setStartDate(e.target.value)}
-              className="w-full px-3 py-2 border border-slate-300 rounded-xl text-xs focus:ring-2 focus:ring-emerald-800 focus:outline-none"
+              className="w-full px-3 py-2 border border-slate-300 rounded-xl text-xs focus:ring-2 focus:ring-#5A2D1F focus:outline-none"
             />
           </div>
           <div>
@@ -106,7 +106,7 @@ export const ReportsExportView: React.FC = () => {
               type="date"
               value={endDate}
               onChange={e => setEndDate(e.target.value)}
-              className="w-full px-3 py-2 border border-slate-300 rounded-xl text-xs focus:ring-2 focus:ring-emerald-800 focus:outline-none"
+              className="w-full px-3 py-2 border border-slate-300 rounded-xl text-xs focus:ring-2 focus:ring-#5A2D1F focus:outline-none"
             />
           </div>
         </div>
@@ -114,7 +114,7 @@ export const ReportsExportView: React.FC = () => {
         <div className="pt-2 flex items-center gap-3">
           <button
             onClick={handleExportExcel}
-            className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-emerald-800 hover:bg-emerald-900 text-white font-bold text-xs rounded-xl transition cursor-pointer shadow-xs"
+            className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-#5A2D1F hover:bg-#4A2C1D text-white font-bold text-xs rounded-xl transition cursor-pointer shadow-xs"
           >
             <FileSpreadsheet className="w-4 h-4" />
             <span>Unduh Excel (.XLSX)</span>

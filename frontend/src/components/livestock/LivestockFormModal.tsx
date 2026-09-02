@@ -192,16 +192,16 @@ export const LivestockFormModal: React.FC<LivestockFormModalProps> = ({
       <div className="bg-white rounded-2xl max-w-2xl w-full overflow-hidden shadow-2xl border border-slate-200 flex flex-col max-h-[90vh]">
         
         {/* Header */}
-        <div className="p-4 bg-emerald-900 text-white flex items-center justify-between">
+        <div className="p-4 bg-#4A2C1D text-white flex items-center justify-between">
           <div>
             <h3 className="text-base font-bold">
               {editItem ? `Edit Data Ternak (${editItem.tagId})` : 'Tambah Ternak Baru'}
             </h3>
-            <p className="text-xs text-emerald-200">Isi formulir pendaftaran ternak ke master database</p>
+            <p className="text-xs text-#EFE5D5">Isi formulir pendaftaran ternak ke master database</p>
           </div>
           <button
             onClick={onClose}
-            className="p-1 text-emerald-200 hover:text-white hover:bg-emerald-800 rounded-lg transition"
+            className="p-1 text-#EFE5D5 hover:text-white hover:bg-#5A2D1F rounded-lg transition"
           >
             <X className="w-5 h-5" />
           </button>
@@ -238,7 +238,7 @@ export const LivestockFormModal: React.FC<LivestockFormModalProps> = ({
                 )}
               </div>
               <div className="grid grid-cols-2 gap-1.5">
-                <label className="flex items-center justify-center gap-1 px-2 py-1.5 rounded-lg bg-emerald-900 text-white text-[10px] font-bold cursor-pointer hover:bg-emerald-800">
+                <label className="flex items-center justify-center gap-1 px-2 py-1.5 rounded-lg bg-#4A2C1D text-white text-[10px] font-bold cursor-pointer hover:bg-#5A2D1F">
                   <Upload className="w-3.5 h-3.5" /> Galeri
                   <input type="file" accept="image/jpeg,image/png,image/webp" onChange={handlePhotoUpload} className="hidden" />
                 </label>
@@ -268,7 +268,7 @@ export const LivestockFormModal: React.FC<LivestockFormModalProps> = ({
                     value={tagId}
                     onChange={e => setTagId(e.target.value)}
                     required
-                    className="w-full px-3 py-1.5 border border-slate-300 rounded-lg text-xs font-mono font-bold focus:ring-2 focus:ring-emerald-800 focus:outline-none"
+                    className="w-full px-3 py-1.5 border border-slate-300 rounded-lg text-xs font-mono font-bold focus:ring-2 focus:ring-#5A2D1F focus:outline-none"
                     placeholder="e.g. SP-0030"
                   />
                 </div>
@@ -277,7 +277,7 @@ export const LivestockFormModal: React.FC<LivestockFormModalProps> = ({
                   <select
                     value={type}
                     onChange={e => setType(e.target.value as LivestockType)}
-                    className="w-full px-3 py-1.5 border border-slate-300 rounded-lg text-xs font-semibold focus:ring-2 focus:ring-emerald-800 focus:outline-none"
+                    className="w-full px-3 py-1.5 border border-slate-300 rounded-lg text-xs font-semibold focus:ring-2 focus:ring-#5A2D1F focus:outline-none"
                   >
                     <option value="Sapi">Sapi</option>
                     <option value="Kerbau">Kerbau</option>
@@ -294,7 +294,7 @@ export const LivestockFormModal: React.FC<LivestockFormModalProps> = ({
                     type="text"
                     value={breed}
                     onChange={e => setBreed(e.target.value)}
-                    className="w-full px-3 py-1.5 border border-slate-300 rounded-lg text-xs focus:ring-2 focus:ring-emerald-800 focus:outline-none"
+                    className="w-full px-3 py-1.5 border border-slate-300 rounded-lg text-xs focus:ring-2 focus:ring-#5A2D1F focus:outline-none"
                     placeholder="Simmental, Limosin, BX, PO, Toraya"
                   />
                 </div>
@@ -303,7 +303,7 @@ export const LivestockFormModal: React.FC<LivestockFormModalProps> = ({
                   <select
                     value={gender}
                     onChange={e => setGender(e.target.value as GenderType)}
-                    className="w-full px-3 py-1.5 border border-slate-300 rounded-lg text-xs font-semibold focus:ring-2 focus:ring-emerald-800 focus:outline-none"
+                    className="w-full px-3 py-1.5 border border-slate-300 rounded-lg text-xs font-semibold focus:ring-2 focus:ring-#5A2D1F focus:outline-none"
                   >
                     <option value="Jantan">Jantan</option>
                     <option value="Betina">Betina</option>
@@ -321,7 +321,7 @@ export const LivestockFormModal: React.FC<LivestockFormModalProps> = ({
                 value={locationId}
                 onChange={e => setLocationId(e.target.value)}
                 required
-                className="w-full px-3 py-1.5 border border-slate-300 rounded-lg text-xs font-bold focus:ring-2 focus:ring-emerald-800 focus:outline-none"
+                className="w-full px-3 py-1.5 border border-slate-300 rounded-lg text-xs font-bold focus:ring-2 focus:ring-#5A2D1F focus:outline-none"
               >
                 {locations.map(loc => (
                   <option key={loc.id} value={loc.id}>{loc.name}</option>
@@ -336,7 +336,7 @@ export const LivestockFormModal: React.FC<LivestockFormModalProps> = ({
                 value={initialWeightKg}
                 onChange={e => setInitialWeightKg(e.target.value)}
                 required
-                className="w-full px-3 py-1.5 border border-slate-300 rounded-lg text-xs font-bold focus:ring-2 focus:ring-emerald-800 focus:outline-none"
+                className="w-full px-3 py-1.5 border border-slate-300 rounded-lg text-xs font-bold focus:ring-2 focus:ring-#5A2D1F focus:outline-none"
                 placeholder="300"
               />
             </div>
@@ -347,7 +347,7 @@ export const LivestockFormModal: React.FC<LivestockFormModalProps> = ({
                 type="number"
                 value={acquisitionPrice}
                 onChange={e => setAcquisitionPrice(e.target.value)}
-                className="w-full px-3 py-1.5 border border-slate-300 rounded-lg text-xs focus:ring-2 focus:ring-emerald-800 focus:outline-none"
+                className="w-full px-3 py-1.5 border border-slate-300 rounded-lg text-xs focus:ring-2 focus:ring-#5A2D1F focus:outline-none"
                 placeholder="18000000"
               />
             </div>
@@ -359,7 +359,7 @@ export const LivestockFormModal: React.FC<LivestockFormModalProps> = ({
                 min="0"
                 value={sellingPrice}
                 onChange={e => setSellingPrice(e.target.value)}
-                className="w-full px-3 py-1.5 border border-slate-300 rounded-lg text-xs focus:ring-2 focus:ring-emerald-800 focus:outline-none"
+                className="w-full px-3 py-1.5 border border-slate-300 rounded-lg text-xs focus:ring-2 focus:ring-#5A2D1F focus:outline-none"
                 placeholder="22000000"
               />
             </div>
@@ -386,7 +386,7 @@ export const LivestockFormModal: React.FC<LivestockFormModalProps> = ({
               <select
                 value={conditionCategory}
                 onChange={e => setConditionCategory(e.target.value as ConditionCategoryType)}
-                className="w-full px-3 py-1.5 border border-slate-300 rounded-lg text-xs font-semibold focus:ring-2 focus:ring-emerald-800 focus:outline-none"
+                className="w-full px-3 py-1.5 border border-slate-300 rounded-lg text-xs font-semibold focus:ring-2 focus:ring-#5A2D1F focus:outline-none"
               >
                 <option value="Baik">Baik (Sehat & Optimal)</option>
                 <option value="Standar">Standar</option>
@@ -399,7 +399,7 @@ export const LivestockFormModal: React.FC<LivestockFormModalProps> = ({
               <select
                 value={healthStatus}
                 onChange={e => setHealthStatus(e.target.value as HealthStatusType)}
-                className="w-full px-3 py-1.5 border border-slate-300 rounded-lg text-xs font-semibold focus:ring-2 focus:ring-emerald-800 focus:outline-none"
+                className="w-full px-3 py-1.5 border border-slate-300 rounded-lg text-xs font-semibold focus:ring-2 focus:ring-#5A2D1F focus:outline-none"
               >
                 <option value="Sehat">Sehat</option>
                 <option value="Perlu Pemantauan">Perlu Pemantauan</option>
@@ -413,7 +413,7 @@ export const LivestockFormModal: React.FC<LivestockFormModalProps> = ({
               <select
                 value={status}
                 onChange={e => setStatus(e.target.value as LivestockStatusType)}
-                className="w-full px-3 py-1.5 border border-slate-300 rounded-lg text-xs font-semibold focus:ring-2 focus:ring-emerald-800 focus:outline-none"
+                className="w-full px-3 py-1.5 border border-slate-300 rounded-lg text-xs font-semibold focus:ring-2 focus:ring-#5A2D1F focus:outline-none"
               >
                 <option value="Aktif">Aktif</option>
                 <option value="Sakit">Sakit</option>
@@ -432,7 +432,7 @@ export const LivestockFormModal: React.FC<LivestockFormModalProps> = ({
                 type="text"
                 value={motherTag}
                 onChange={e => setMotherTag(e.target.value)}
-                className="w-full px-3 py-1.5 border border-slate-300 rounded-lg text-xs focus:ring-2 focus:ring-emerald-800 focus:outline-none"
+                className="w-full px-3 py-1.5 border border-slate-300 rounded-lg text-xs focus:ring-2 focus:ring-#5A2D1F focus:outline-none"
                 placeholder="e.g. SP-0010"
               />
             </div>
@@ -442,7 +442,7 @@ export const LivestockFormModal: React.FC<LivestockFormModalProps> = ({
                 type="text"
                 value={fatherTag}
                 onChange={e => setFatherTag(e.target.value)}
-                className="w-full px-3 py-1.5 border border-slate-300 rounded-lg text-xs focus:ring-2 focus:ring-emerald-800 focus:outline-none"
+                className="w-full px-3 py-1.5 border border-slate-300 rounded-lg text-xs focus:ring-2 focus:ring-#5A2D1F focus:outline-none"
                 placeholder="e.g. Pejantan Limosin A1"
               />
             </div>
@@ -454,7 +454,7 @@ export const LivestockFormModal: React.FC<LivestockFormModalProps> = ({
               value={notes}
               onChange={e => setNotes(e.target.value)}
               rows={2}
-              className="w-full px-3 py-1.5 border border-slate-300 rounded-lg text-xs focus:ring-2 focus:ring-emerald-800 focus:outline-none"
+              className="w-full px-3 py-1.5 border border-slate-300 rounded-lg text-xs focus:ring-2 focus:ring-#5A2D1F focus:outline-none"
               placeholder="Warna bulu, bercak, kondisi pusar, atau catatan khusus..."
             />
           </div>
@@ -469,7 +469,7 @@ export const LivestockFormModal: React.FC<LivestockFormModalProps> = ({
             </button>
             <button
               type="submit"
-              className="flex items-center gap-1.5 px-5 py-2 text-xs font-bold text-white bg-emerald-900 rounded-lg hover:bg-emerald-800 transition cursor-pointer"
+              className="flex items-center gap-1.5 px-5 py-2 text-xs font-bold text-white bg-#4A2C1D rounded-lg hover:bg-#5A2D1F transition cursor-pointer"
             >
               <Check className="w-4 h-4" />
               <span>{editItem ? 'Simpan Perubahan' : 'Daftarkan Ternak'}</span>

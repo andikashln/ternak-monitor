@@ -75,8 +75,8 @@ export const Navbar: React.FC<NavbarProps> = ({
             </button>
           )}
           <div ref={profileRef} className="relative">
-            <button type="button" onClick={() => setShowProfileDropdown(value => !value)} className="flex min-h-10 items-center gap-2 rounded-xl border border-slate-200 bg-white p-1.5 pr-2 transition hover:border-emerald-200 hover:bg-emerald-50" aria-expanded={showProfileDropdown} aria-label="Menu profil">
-              <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-emerald-100 text-[10px] font-black text-emerald-900">{initials}</span>
+            <button type="button" onClick={() => setShowProfileDropdown(value => !value)} className="flex min-h-10 items-center gap-2 rounded-xl border border-slate-200 bg-white p-1.5 pr-2 transition hover:border-#EFE5D5 hover:bg-#FBF8F2" aria-expanded={showProfileDropdown} aria-label="Menu profil">
+              <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-#F5EFE6 text-[10px] font-black text-#4A2C1D">{initials}</span>
               <span className="hidden max-w-28 text-left xl:block">
                 <span className="block truncate text-[11px] font-black text-slate-800">{currentUser.displayName}</span>
                 <span className="block text-[9px] font-bold text-slate-400">{ROLE_LABELS[currentUser.role]}</span>
@@ -90,7 +90,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                   <p className="text-xs font-black text-slate-950">{currentUser.displayName}</p>
                   <p className="mt-0.5 truncate text-[10px] text-slate-500">{currentUser.email}</p>
                 </div>
-                <div className="m-3 flex items-center gap-2 rounded-xl bg-emerald-50 px-3 py-2.5 text-[10px] font-bold text-emerald-900"><ShieldCheck className="h-4 w-4" /> Hak akses {ROLE_LABELS[currentUser.role]}</div>
+                <div className="m-3 flex items-center gap-2 rounded-xl bg-#FBF8F2 px-3 py-2.5 text-[10px] font-bold text-#4A2C1D"><ShieldCheck className="h-4 w-4" /> Hak akses {ROLE_LABELS[currentUser.role]}</div>
                 {(currentUser.role === 'OWNER' || currentUser.role === 'ADMIN') && (
                   <button type="button" onClick={() => { setShowProfileDropdown(false); onOpenUsers(); }} className="mx-2 flex min-h-10 w-[calc(100%-1rem)] items-center gap-2 rounded-xl px-3 text-left text-xs font-bold text-slate-700 hover:bg-slate-100"><Users className="h-4 w-4" /> Kelola pengguna</button>
                 )}

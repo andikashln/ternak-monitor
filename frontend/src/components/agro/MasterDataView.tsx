@@ -95,7 +95,7 @@ export const MasterDataView: React.FC = () => {
 
       <AgroCard className="border-[#d2ad76]/50 bg-[#f9ebcc]/50">
         <p className="flex items-center gap-2 text-sm font-black text-[#5a2d1f]"><ShieldCheck className="h-4 w-4" />Hak Akses Pengelolaan</p>
-        <p className="mt-1 text-sm text-slate-600">Pengelolaan master data (tambah, ubah, hapus, aktif/nonaktif) merupakan kewenangan khusus. Hanya pengguna dengan peran <span className="font-black text-[#174a3a]">DEVELOPER</span> (dan ADMIN) yang dapat mengubah data referensi sistem. Perubahan akan tercatat di Audit Trail.</p>
+        <p className="mt-1 text-sm text-slate-600">Pengelolaan master data (tambah, ubah, hapus, aktif/nonaktif) merupakan kewenangan khusus. Hanya pengguna dengan peran <span className="font-black text-[#5A2D1F]">DEVELOPER</span> (dan ADMIN) yang dapat mengubah data referensi sistem. Perubahan akan tercatat di Audit Trail.</p>
         <p className="mt-1 text-xs text-slate-500">Peran Anda saat ini: <span className="font-black">{role}</span>.</p>
       </AgroCard>
 

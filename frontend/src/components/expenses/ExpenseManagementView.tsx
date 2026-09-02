@@ -128,11 +128,11 @@ export const ExpenseManagementView: React.FC<ExpenseManagementViewProps> = ({ on
       <header className="flex flex-col gap-4 rounded-2xl border border-slate-200 bg-white p-4 shadow-2xs sm:flex-row sm:items-center sm:justify-between sm:p-5">
         <div>
           <h2 className="flex items-center gap-2 text-lg font-black text-slate-900">
-            <WalletCards className="h-5 w-5 text-emerald-800" /> Pengelola Pengeluaran
+            <WalletCards className="h-5 w-5 text-#5A2D1F" /> Pengelola Pengeluaran
           </h2>
           <p className="mt-1 text-[11px] leading-relaxed text-slate-500 sm:text-xs">Kelola biaya pakan, kesehatan, tenaga kerja, transportasi, dan operasional lainnya.</p>
         </div>
-        <button type="button" onClick={onOpenFinance} className="inline-flex w-fit items-center gap-2 rounded-xl border border-emerald-200 bg-emerald-50 px-3.5 py-2.5 text-xs font-bold text-emerald-900 transition hover:bg-emerald-100">
+        <button type="button" onClick={onOpenFinance} className="inline-flex w-fit items-center gap-2 rounded-xl border border-#EFE5D5 bg-#FBF8F2 px-3.5 py-2.5 text-xs font-bold text-#4A2C1D transition hover:bg-#F5EFE6">
           Buka Laporan Laba Rugi <ArrowRight className="h-4 w-4" />
         </button>
       </header>
@@ -140,7 +140,7 @@ export const ExpenseManagementView: React.FC<ExpenseManagementViewProps> = ({ on
       <section className="rounded-2xl border border-slate-200 bg-white p-4 shadow-2xs">
         <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
           <div>
-            <p className="text-[9px] font-black uppercase tracking-[0.16em] text-emerald-700">Periode bulanan</p>
+            <p className="text-[9px] font-black uppercase tracking-[0.16em] text-#6B3A24">Periode bulanan</p>
             <h3 className="mt-1 text-base font-black capitalize text-slate-900">{periodLabel}</h3>
             <p className="mt-0.5 text-[10px] text-slate-500">{expenses.length} transaksi pengeluaran tercatat</p>
           </div>
@@ -149,7 +149,7 @@ export const ExpenseManagementView: React.FC<ExpenseManagementViewProps> = ({ on
               <span className="text-[10px] font-bold text-slate-500">Periode</span>
               <input type="month" value={selectedPeriod} onChange={event => setSelectedPeriod(event.target.value || currentPeriod)} className="bg-transparent text-xs font-bold text-slate-800 outline-none" aria-label="Pilih periode pengeluaran" />
             </label>
-            <button type="button" onClick={() => openNewExpense()} className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-emerald-900 px-4 py-2.5 text-xs font-bold text-white transition hover:bg-emerald-800">
+            <button type="button" onClick={() => openNewExpense()} className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-#4A2C1D px-4 py-2.5 text-xs font-bold text-white transition hover:bg-#5A2D1F">
               <Plus className="h-4 w-4" /> Catat Pengeluaran
             </button>
           </div>
@@ -160,7 +160,7 @@ export const ExpenseManagementView: React.FC<ExpenseManagementViewProps> = ({ on
             <span className="text-[9px] font-bold uppercase tracking-wider text-slate-400">Total pengeluaran bulan ini</span>
             <strong className="mt-1 block font-mono text-2xl font-black">{formatRupiah(totalExpense)}</strong>
           </div>
-          <ReceiptText className="h-6 w-6 text-emerald-300" />
+          <ReceiptText className="h-6 w-6 text-#D8C7B0" />
         </div>
       </section>
 
@@ -247,31 +247,31 @@ export const ExpenseManagementView: React.FC<ExpenseManagementViewProps> = ({ on
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-end justify-center bg-slate-900/60 p-0 backdrop-blur-xs sm:items-center sm:p-4">
           <div className="max-h-[94dvh] w-full max-w-lg overflow-y-auto rounded-t-2xl border border-slate-200 bg-white shadow-2xl sm:max-h-[92vh] sm:rounded-2xl">
-            <div className="sticky top-0 flex items-center justify-between bg-emerald-900 p-4 font-bold text-white">
+            <div className="sticky top-0 flex items-center justify-between bg-#4A2C1D p-4 font-bold text-white">
               <h3>{editingId ? 'Edit Pengeluaran' : 'Catat Pengeluaran'}</h3>
-              <button type="button" onClick={() => setIsModalOpen(false)} className="rounded p-1 hover:bg-emerald-800" aria-label="Tutup form"><X className="h-5 w-5" /></button>
+              <button type="button" onClick={() => setIsModalOpen(false)} className="rounded p-1 hover:bg-#5A2D1F" aria-label="Tutup form"><X className="h-5 w-5" /></button>
             </div>
             <form onSubmit={saveExpense} className="space-y-3 p-4 text-xs sm:p-5">
               <div>
                 <label className="mb-1 block font-bold text-slate-700">Kategori *</label>
-                <select value={category} onChange={event => setCategory(event.target.value as OperationalExpenseCategory)} className="w-full rounded-lg border border-slate-300 px-3 py-2.5 font-bold outline-none focus:ring-2 focus:ring-emerald-800">
+                <select value={category} onChange={event => setCategory(event.target.value as OperationalExpenseCategory)} className="w-full rounded-lg border border-slate-300 px-3 py-2.5 font-bold outline-none focus:ring-2 focus:ring-#5A2D1F">
                   {expenseCategories.map(item => <option key={item.value} value={item.value}>{item.label}</option>)}
                 </select>
               </div>
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                <div><label className="mb-1 block font-bold text-slate-700">Tanggal *</label><input type="date" value={date} onChange={event => setDate(event.target.value)} required className="w-full rounded-lg border border-slate-300 px-3 py-2 outline-none focus:ring-2 focus:ring-emerald-800" /></div>
-                <div><label className="mb-1 block font-bold text-slate-700">Nomor Referensi *</label><input value={invoiceNo} onChange={event => setInvoiceNo(event.target.value)} required className="w-full rounded-lg border border-slate-300 px-3 py-2 font-mono outline-none focus:ring-2 focus:ring-emerald-800" /></div>
+                <div><label className="mb-1 block font-bold text-slate-700">Tanggal *</label><input type="date" value={date} onChange={event => setDate(event.target.value)} required className="w-full rounded-lg border border-slate-300 px-3 py-2 outline-none focus:ring-2 focus:ring-#5A2D1F" /></div>
+                <div><label className="mb-1 block font-bold text-slate-700">Nomor Referensi *</label><input value={invoiceNo} onChange={event => setInvoiceNo(event.target.value)} required className="w-full rounded-lg border border-slate-300 px-3 py-2 font-mono outline-none focus:ring-2 focus:ring-#5A2D1F" /></div>
               </div>
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                <div><label className="mb-1 block font-bold text-slate-700">Nominal *</label><input type="number" min="1" value={amount} onChange={event => setAmount(event.target.value)} required placeholder="Contoh: 500000" className="w-full rounded-lg border border-slate-300 px-3 py-2 font-mono font-bold outline-none focus:ring-2 focus:ring-emerald-800" /></div>
-                <div><label className="mb-1 block font-bold text-slate-700">Lokasi *</label><select value={locationId} onChange={event => setLocationId(event.target.value)} required className="w-full rounded-lg border border-slate-300 px-3 py-2 outline-none focus:ring-2 focus:ring-emerald-800">{locations.map(location => <option key={location.id} value={location.id}>{location.name}</option>)}</select></div>
+                <div><label className="mb-1 block font-bold text-slate-700">Nominal *</label><input type="number" min="1" value={amount} onChange={event => setAmount(event.target.value)} required placeholder="Contoh: 500000" className="w-full rounded-lg border border-slate-300 px-3 py-2 font-mono font-bold outline-none focus:ring-2 focus:ring-#5A2D1F" /></div>
+                <div><label className="mb-1 block font-bold text-slate-700">Lokasi *</label><select value={locationId} onChange={event => setLocationId(event.target.value)} required className="w-full rounded-lg border border-slate-300 px-3 py-2 outline-none focus:ring-2 focus:ring-#5A2D1F">{locations.map(location => <option key={location.id} value={location.id}>{location.name}</option>)}</select></div>
               </div>
-              <div><label className="mb-1 block font-bold text-slate-700">Keterangan *</label><input value={description} onChange={event => setDescription(event.target.value)} required placeholder="Contoh: Pembelian konsentrat 10 karung" className="w-full rounded-lg border border-slate-300 px-3 py-2 outline-none focus:ring-2 focus:ring-emerald-800" /></div>
+              <div><label className="mb-1 block font-bold text-slate-700">Keterangan *</label><input value={description} onChange={event => setDescription(event.target.value)} required placeholder="Contoh: Pembelian konsentrat 10 karung" className="w-full rounded-lg border border-slate-300 px-3 py-2 outline-none focus:ring-2 focus:ring-#5A2D1F" /></div>
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                <div><label className="mb-1 block font-bold text-slate-700">Metode Pembayaran</label><select value={paymentMethod} onChange={event => setPaymentMethod(event.target.value)} className="w-full rounded-lg border border-slate-300 px-3 py-2 outline-none focus:ring-2 focus:ring-emerald-800"><option value="Transfer Bank">Transfer Bank</option><option value="Tunai">Tunai</option><option value="Giro">Giro</option></select></div>
-                <div><label className="mb-1 block font-bold text-slate-700">Penerima</label><input value={payeePayer} onChange={event => setPayeePayer(event.target.value)} placeholder="Supplier atau penerima" className="w-full rounded-lg border border-slate-300 px-3 py-2 outline-none focus:ring-2 focus:ring-emerald-800" /></div>
+                <div><label className="mb-1 block font-bold text-slate-700">Metode Pembayaran</label><select value={paymentMethod} onChange={event => setPaymentMethod(event.target.value)} className="w-full rounded-lg border border-slate-300 px-3 py-2 outline-none focus:ring-2 focus:ring-#5A2D1F"><option value="Transfer Bank">Transfer Bank</option><option value="Tunai">Tunai</option><option value="Giro">Giro</option></select></div>
+                <div><label className="mb-1 block font-bold text-slate-700">Penerima</label><input value={payeePayer} onChange={event => setPayeePayer(event.target.value)} placeholder="Supplier atau penerima" className="w-full rounded-lg border border-slate-300 px-3 py-2 outline-none focus:ring-2 focus:ring-#5A2D1F" /></div>
               </div>
-              <div className="flex justify-end gap-2 border-t border-slate-100 pt-4"><button type="button" onClick={() => setIsModalOpen(false)} className="rounded-lg border border-slate-300 px-4 py-2 font-semibold text-slate-700">Batal</button><button type="submit" className="rounded-lg bg-emerald-900 px-5 py-2 font-bold text-white hover:bg-emerald-800">{editingId ? 'Simpan Perubahan' : 'Simpan Pengeluaran'}</button></div>
+              <div className="flex justify-end gap-2 border-t border-slate-100 pt-4"><button type="button" onClick={() => setIsModalOpen(false)} className="rounded-lg border border-slate-300 px-4 py-2 font-semibold text-slate-700">Batal</button><button type="submit" className="rounded-lg bg-#4A2C1D px-5 py-2 font-bold text-white hover:bg-#5A2D1F">{editingId ? 'Simpan Perubahan' : 'Simpan Pengeluaran'}</button></div>
             </form>
           </div>
         </div>

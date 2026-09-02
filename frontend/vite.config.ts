@@ -14,13 +14,13 @@ export default defineConfig(() => ({
         name: 'Sapi Papi Farm',
         short_name: 'Sapi Papi',
         description: 'Pencatatan dan monitoring operasional peternakan.',
-        theme_color: '#174a3a',
-        background_color: '#f5fbf7',
+        theme_color: '#5A2D1F',
+        background_color: '#F5EFE6',
         display: 'standalone',
         start_url: '/',
         icons: [
-          { src: '/icons/sapi-papi-192.svg', sizes: '192x192', type: 'image/svg+xml', purpose: 'any' },
-          { src: '/icons/sapi-papi-512.svg', sizes: '512x512', type: 'image/svg+xml', purpose: 'any maskable' },
+          { src: '/icons/icon-192x192.png', sizes: '192x192', type: 'image/png', purpose: 'any' },
+          { src: '/icons/icon-512x512.png', sizes: '512x512', type: 'image/png', purpose: 'any maskable' },
         ],
       },
       workbox: {

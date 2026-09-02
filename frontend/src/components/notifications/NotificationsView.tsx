@@ -24,7 +24,7 @@ export const NotificationsView: React.FC = () => {
       <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-2xs flex items-center justify-between">
         <div>
           <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-            <Bell className="w-5 h-5 text-emerald-800" />
+            <Bell className="w-5 h-5 text-#5A2D1F" />
             <span>Pusat Notifikasi & Peringatan Dini Sistem</span>
           </h2>
           <p className="text-xs text-slate-500">

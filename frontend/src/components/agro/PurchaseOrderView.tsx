@@ -86,7 +86,7 @@ export const PurchaseOrderView: React.FC = () => {
       <td className="px-4 py-3">
         <div className="flex flex-wrap gap-1">
           {o.status === 'Draft' && <AgroButton variant="ghost" onClick={() => setStatus(o, 'Dipesan')}><Truck className="h-4 w-4 text-blue-600" />Pesan</AgroButton>}
-          {o.status === 'Dipesan' && <AgroButton variant="ghost" onClick={() => setStatus(o, 'Diterima')}><CheckCircle2 className="h-4 w-4 text-emerald-600" />Terima</AgroButton>}
+          {o.status === 'Dipesan' && <AgroButton variant="ghost" onClick={() => setStatus(o, 'Diterima')}><CheckCircle2 className="h-4 w-4 text-#7A4A30" />Terima</AgroButton>}
           {(o.status === 'Draft' || o.status === 'Dipesan') && <AgroButton variant="ghost" onClick={() => setStatus(o, 'Batal')}><XCircle className="h-4 w-4 text-rose-500" />Batal</AgroButton>}
           {(o.status === 'Draft') && (
             <>

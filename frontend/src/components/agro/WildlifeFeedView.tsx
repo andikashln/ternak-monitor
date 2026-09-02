@@ -127,7 +127,7 @@ export const WildlifeFeedView: React.FC = () => {
               <td className="px-4 py-3">
                 <div className="flex gap-1">
                   {f.status !== 'Selesai' && (
-                    <AgroButton variant="outline" onClick={() => markDone(f)} className="px-2 py-1.5"><CheckCircle2 className="h-4 w-4 text-emerald-600" />Selesai</AgroButton>
+                    <AgroButton variant="outline" onClick={() => markDone(f)} className="px-2 py-1.5"><CheckCircle2 className="h-4 w-4 text-#7A4A30" />Selesai</AgroButton>
                   )}
                   <AgroButton variant="ghost" onClick={() => openEdit(f)}><Pencil className="h-4 w-4" /></AgroButton>
                   <AgroButton variant="ghost" onClick={() => agroStore.remove('wildlifeFeeds', f.id)}><Trash2 className="h-4 w-4 text-rose-500" /></AgroButton>

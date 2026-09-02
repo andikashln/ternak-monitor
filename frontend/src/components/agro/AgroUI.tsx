@@ -10,7 +10,7 @@ export const AgroHeader: React.FC<{ kicker: string; title: string; subtitle?: st
   <div className="rounded-3xl bg-[#5a2d1f] p-5 text-white shadow-lg sm:p-7">
     <div className="flex flex-wrap items-end justify-between gap-4">
       <div>
-        <p className="text-xs font-black uppercase tracking-[.2em] text-[#f3ddb0]">{kicker}</p>
+        <p className="text-xs font-black uppercase tracking-[.2em] text-[#EFE5D5]">{kicker}</p>
         <h2 className="mt-2 text-2xl font-black">{title}</h2>
         {subtitle && <p className="mt-2 text-sm text-white/70">{subtitle}</p>}
       </div>
@@ -46,7 +46,7 @@ export const AgroTable: React.FC<{ headers: string[]; children: ReactNode }> = (
 
 export const StatusBadge: React.FC<{ value: string; tone?: 'green' | 'amber' | 'red' | 'blue' | 'violet' | 'slate' }> = ({ value, tone = 'slate' }) => {
   const tones: Record<string, string> = {
-    green: 'bg-emerald-50 text-emerald-800',
+    green: 'bg-#FBF8F2 text-#5A2D1F',
     amber: 'bg-amber-100 text-amber-900',
     red: 'bg-rose-50 text-rose-700',
     blue: 'bg-blue-50 text-blue-800',

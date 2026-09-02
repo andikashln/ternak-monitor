@@ -94,7 +94,7 @@ export const PurchaseRequestView: React.FC = () => {
         <div className="flex flex-wrap gap-1">
           {r.status === 'Diajukan' && (
             <>
-              <AgroButton variant="ghost" onClick={() => setStatus(r, 'Disetujui')}><CheckCircle2 className="h-4 w-4 text-emerald-600" />Setujui</AgroButton>
+              <AgroButton variant="ghost" onClick={() => setStatus(r, 'Disetujui')}><CheckCircle2 className="h-4 w-4 text-#7A4A30" />Setujui</AgroButton>
               <AgroButton variant="ghost" onClick={() => setStatus(r, 'Ditolak')}><XCircle className="h-4 w-4 text-rose-500" />Tolak</AgroButton>
             </>
           )}

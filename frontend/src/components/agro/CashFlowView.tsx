@@ -102,7 +102,7 @@ export const CashFlowView: React.FC = () => {
               <td className="px-4 py-3 text-slate-700">{t.description}</td>
               <td className="px-4 py-3 text-slate-500">{t.sourceDivision}</td>
               <td className="px-4 py-3 text-slate-500">{t.paymentMethod}</td>
-              <td className={`px-4 py-3 font-black ${t.type === 'Masuk' ? 'text-emerald-700' : 'text-rose-700'}`}>{formatRupiah(t.amount)}</td>
+              <td className={`px-4 py-3 font-black ${t.type === 'Masuk' ? 'text-#6B3A24' : 'text-rose-700'}`}>{formatRupiah(t.amount)}</td>
               <td className="px-4 py-3">
                 <div className="flex gap-1">
                   <AgroButton variant="ghost" onClick={() => openEdit(t)}><Pencil className="h-4 w-4" /></AgroButton>

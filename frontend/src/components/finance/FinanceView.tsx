@@ -153,7 +153,7 @@ export const FinanceView: React.FC = () => {
       <header className="ranch-panel rounded-2xl border p-4 sm:p-5">
         <div>
           <h2 className="ranch-heading flex items-center gap-2 text-lg font-bold">
-            <Wallet className="h-5 w-5 text-emerald-800" />
+            <Wallet className="h-5 w-5 text-#5A2D1F" />
             <span>Laporan Laba Rugi</span>
           </h2>
           <p className="mt-1 text-[11px] leading-relaxed text-slate-500 sm:text-xs">Catat pemasukan penjualan sapi dan seluruh pengeluaran operasional peternakan.</p>
@@ -162,7 +162,7 @@ export const FinanceView: React.FC = () => {
 
       <section className="ranch-panel flex flex-col gap-3 rounded-2xl border p-4 lg:flex-row lg:items-center lg:justify-between">
         <div>
-          <p className="text-[10px] font-black uppercase tracking-[0.16em] text-emerald-700">Ringkasan {granularity === 'month' ? 'bulanan' : 'tahunan'}</p>
+          <p className="text-[10px] font-black uppercase tracking-[0.16em] text-#6B3A24">Ringkasan {granularity === 'month' ? 'bulanan' : 'tahunan'}</p>
           <h3 className="mt-1 text-base font-black capitalize text-slate-900">Periode {periodLabel}</h3>
           <p className="mt-0.5 text-[10px] text-slate-500">Angka ringkasan dan daftar transaksi mengikuti periode yang dipilih.</p>
         </div>
@@ -198,7 +198,7 @@ export const FinanceView: React.FC = () => {
           <button
             type="button"
             onClick={() => handleOpenModal('Penjualan Ternak')}
-            className="flex items-center justify-center gap-1.5 rounded-xl bg-emerald-900 px-3.5 py-2.5 text-xs font-bold text-white transition hover:bg-emerald-800"
+            className="flex items-center justify-center gap-1.5 rounded-xl bg-#4A2C1D px-3.5 py-2.5 text-xs font-bold text-white transition hover:bg-#5A2D1F"
           >
             <Plus className="h-4 w-4" /> <span><span className="hidden sm:inline">Catat </span>Penjualan</span>
           </button>
@@ -213,12 +213,12 @@ export const FinanceView: React.FC = () => {
       </section>
 
       <section className="grid grid-cols-2 gap-2.5 sm:grid-cols-4 sm:gap-3">
-        <article className="rounded-2xl border border-emerald-200 bg-white p-4 shadow-2xs sm:p-5">
+        <article className="rounded-2xl border border-#EFE5D5 bg-white p-4 shadow-2xs sm:p-5">
           <div className="flex items-center justify-between">
             <span className="text-[10px] font-black uppercase tracking-wider text-slate-500">Pemasukan</span>
-            <ArrowUpRight className="h-4 w-4 text-emerald-700" />
+            <ArrowUpRight className="h-4 w-4 text-#6B3A24" />
           </div>
-          <strong className="mt-2 block font-mono text-lg font-black text-emerald-800">{formatRupiah(totalIncome)}</strong>
+          <strong className="mt-2 block font-mono text-lg font-black text-#5A2D1F">{formatRupiah(totalIncome)}</strong>
           <p className="mt-1 text-[10px] text-slate-400">Kas masuk pada periode</p>
         </article>
 
@@ -231,21 +231,21 @@ export const FinanceView: React.FC = () => {
           <p className="mt-1 text-[10px] text-slate-400">HPP dan biaya operasional</p>
         </article>
 
-        <article className={`rounded-2xl border bg-white p-4 shadow-2xs sm:p-5 ${grossProfit >= 0 ? 'border-emerald-200' : 'border-rose-200'}`}>
+        <article className={`rounded-2xl border bg-white p-4 shadow-2xs sm:p-5 ${grossProfit >= 0 ? 'border-#EFE5D5' : 'border-rose-200'}`}>
           <div className="flex items-center justify-between">
             <span className="text-[10px] font-black uppercase tracking-wider text-slate-500">Laba Kotor</span>
-            <span className={`rounded-full px-2 py-1 text-[9px] font-black ${grossProfit >= 0 ? 'bg-emerald-50 text-emerald-800' : 'bg-rose-50 text-rose-700'}`}>{grossProfit >= 0 ? 'LABA' : 'RUGI'}</span>
+            <span className={`rounded-full px-2 py-1 text-[9px] font-black ${grossProfit >= 0 ? 'bg-#FBF8F2 text-#5A2D1F' : 'bg-rose-50 text-rose-700'}`}>{grossProfit >= 0 ? 'LABA' : 'RUGI'}</span>
           </div>
-          <strong className={`mt-2 block font-mono text-lg font-black ${grossProfit >= 0 ? 'text-emerald-800' : 'text-rose-600'}`}>{formatRupiah(grossProfit)}</strong>
+          <strong className={`mt-2 block font-mono text-lg font-black ${grossProfit >= 0 ? 'text-#5A2D1F' : 'text-rose-600'}`}>{formatRupiah(grossProfit)}</strong>
           <p className="mt-1 text-[10px] text-slate-400">Penjualan dikurangi HPP ternak</p>
         </article>
 
-        <article className={`rounded-2xl border bg-white p-4 shadow-2xs sm:p-5 ${netProfit >= 0 ? 'border-emerald-200' : 'border-rose-200'}`}>
+        <article className={`rounded-2xl border bg-white p-4 shadow-2xs sm:p-5 ${netProfit >= 0 ? 'border-#EFE5D5' : 'border-rose-200'}`}>
           <div className="flex items-center justify-between">
             <span className="text-[10px] font-black uppercase tracking-wider text-slate-500">Laba Bersih</span>
-            <span className={`rounded-full px-2 py-1 text-[9px] font-black ${netProfit >= 0 ? 'bg-emerald-50 text-emerald-800' : 'bg-rose-50 text-rose-700'}`}>{netProfit >= 0 ? 'LABA' : 'RUGI'}</span>
+            <span className={`rounded-full px-2 py-1 text-[9px] font-black ${netProfit >= 0 ? 'bg-#FBF8F2 text-#5A2D1F' : 'bg-rose-50 text-rose-700'}`}>{netProfit >= 0 ? 'LABA' : 'RUGI'}</span>
           </div>
-          <strong className={`mt-2 block font-mono text-lg font-black ${netProfit >= 0 ? 'text-emerald-800' : 'text-rose-600'}`}>{formatRupiah(netProfit)}</strong>
+          <strong className={`mt-2 block font-mono text-lg font-black ${netProfit >= 0 ? 'text-#5A2D1F' : 'text-rose-600'}`}>{formatRupiah(netProfit)}</strong>
           <p className="mt-1 text-[10px] text-slate-400">Laba kotor dikurangi operasional</p>
         </article>
       </section>
@@ -265,7 +265,7 @@ export const FinanceView: React.FC = () => {
               <div key={item.category} className="bg-white p-3.5 sm:p-4">
                 <span className="block text-[9px] font-bold uppercase tracking-wider text-slate-400">{isIncome ? 'Pemasukan' : 'Pengeluaran'}</span>
                 <span className="mt-1 block text-xs font-black text-slate-800">{item.label}</span>
-                <span className={`mt-2 block font-mono text-sm font-black ${isIncome ? 'text-emerald-800' : 'text-rose-600'}`}>
+                <span className={`mt-2 block font-mono text-sm font-black ${isIncome ? 'text-#5A2D1F' : 'text-rose-600'}`}>
                   {isIncome ? '+' : '-'}{formatRupiah(categoryTotal)}
                 </span>
               </div>
@@ -290,12 +290,12 @@ export const FinanceView: React.FC = () => {
               <article key={transaction.id} className="p-4">
                 <div className="flex items-start justify-between gap-3">
                   <div className="min-w-0">
-                    <span className={`inline-flex rounded-md px-2 py-1 text-[9px] font-bold ${isIncome ? 'bg-emerald-50 text-emerald-800' : 'bg-rose-50 text-rose-700'}`}>
+                    <span className={`inline-flex rounded-md px-2 py-1 text-[9px] font-bold ${isIncome ? 'bg-#FBF8F2 text-#5A2D1F' : 'bg-rose-50 text-rose-700'}`}>
                       {getCategoryLabel(transaction.category)}
                     </span>
                     <p className="mt-2 line-clamp-2 text-xs font-bold leading-relaxed text-slate-800">{transaction.description}</p>
                   </div>
-                  <strong className={`shrink-0 whitespace-nowrap font-mono text-sm font-black ${isIncome ? 'text-emerald-800' : 'text-rose-600'}`}>
+                  <strong className={`shrink-0 whitespace-nowrap font-mono text-sm font-black ${isIncome ? 'text-#5A2D1F' : 'text-rose-600'}`}>
                     {isIncome ? '+' : '-'}{formatRupiah(transaction.amount)}
                   </strong>
                 </div>
@@ -349,7 +349,7 @@ export const FinanceView: React.FC = () => {
                   </td>
                   <td className="min-w-52 p-3.5 font-semibold text-slate-700">{transaction.description}</td>
                   <td className="whitespace-nowrap p-3.5 text-slate-600">{transaction.locationName}</td>
-                  <td className={`whitespace-nowrap p-3.5 text-right font-mono text-sm font-black ${transaction.type === 'income' ? 'text-emerald-800' : 'text-rose-600'}`}>
+                  <td className={`whitespace-nowrap p-3.5 text-right font-mono text-sm font-black ${transaction.type === 'income' ? 'text-#5A2D1F' : 'text-rose-600'}`}>
                     {transaction.type === 'income' ? '+' : '-'}{formatRupiah(transaction.amount)}
                   </td>
                   <td className="whitespace-nowrap p-3.5 text-slate-500">{transaction.paymentMethod}</td>
@@ -378,9 +378,9 @@ export const FinanceView: React.FC = () => {
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-end justify-center bg-slate-900/60 p-0 backdrop-blur-xs sm:items-center sm:p-4">
           <div className="max-h-[94dvh] w-full max-w-lg overflow-y-auto rounded-t-2xl border border-slate-200 bg-white shadow-2xl sm:max-h-[92vh] sm:rounded-2xl">
-            <div className="sticky top-0 flex items-center justify-between bg-emerald-900 p-4 font-bold text-white">
+            <div className="sticky top-0 flex items-center justify-between bg-#4A2C1D p-4 font-bold text-white">
               <h3>{editingTransactionId ? 'Edit Transaksi' : 'Catat Transaksi'}</h3>
-              <button type="button" onClick={() => setIsModalOpen(false)} className="rounded p-1 hover:bg-emerald-800" aria-label="Tutup form">
+              <button type="button" onClick={() => setIsModalOpen(false)} className="rounded p-1 hover:bg-#5A2D1F" aria-label="Tutup form">
                 <X className="h-5 w-5" />
               </button>
             </div>
@@ -388,10 +388,10 @@ export const FinanceView: React.FC = () => {
             <form onSubmit={handleSaveTransaction} className="space-y-3 p-4 text-xs sm:space-y-4 sm:p-5">
               <div>
                 <label className="mb-1 block font-bold text-slate-700">Kategori *</label>
-                <select value={category} onChange={event => setCategory(event.target.value as FinancialCategoryType)} className="w-full rounded-lg border border-slate-300 px-3 py-2.5 font-bold outline-none focus:ring-2 focus:ring-emerald-800">
+                <select value={category} onChange={event => setCategory(event.target.value as FinancialCategoryType)} className="w-full rounded-lg border border-slate-300 px-3 py-2.5 font-bold outline-none focus:ring-2 focus:ring-#5A2D1F">
                   {categoryOptions.map(option => <option key={option.value} value={option.value}>{option.label}</option>)}
                 </select>
-                <div className={`mt-2 rounded-lg px-3 py-2 text-[10px] font-semibold ${transactionType === 'income' ? 'bg-emerald-50 text-emerald-800' : 'bg-rose-50 text-rose-700'}`}>
+                <div className={`mt-2 rounded-lg px-3 py-2 text-[10px] font-semibold ${transactionType === 'income' ? 'bg-#FBF8F2 text-#5A2D1F' : 'bg-rose-50 text-rose-700'}`}>
                   {transactionType === 'income' ? 'Dicatat sebagai PEMASUKAN.' : 'Dicatat sebagai PENGELUARAN.'}
                 </div>
               </div>
@@ -399,22 +399,22 @@ export const FinanceView: React.FC = () => {
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 <div>
                   <label className="mb-1 block font-bold text-slate-700">Nomor Invoice / Referensi *</label>
-                  <input value={invoiceNo} onChange={event => setInvoiceNo(event.target.value)} required className="w-full rounded-lg border border-slate-300 px-3 py-2 font-mono outline-none focus:ring-2 focus:ring-emerald-800" />
+                  <input value={invoiceNo} onChange={event => setInvoiceNo(event.target.value)} required className="w-full rounded-lg border border-slate-300 px-3 py-2 font-mono outline-none focus:ring-2 focus:ring-#5A2D1F" />
                 </div>
                 <div>
                   <label className="mb-1 block font-bold text-slate-700">Tanggal *</label>
-                  <input type="date" value={transactionDate} onChange={event => setTransactionDate(event.target.value)} required className="w-full rounded-lg border border-slate-300 px-3 py-2 outline-none focus:ring-2 focus:ring-emerald-800" />
+                  <input type="date" value={transactionDate} onChange={event => setTransactionDate(event.target.value)} required className="w-full rounded-lg border border-slate-300 px-3 py-2 outline-none focus:ring-2 focus:ring-#5A2D1F" />
                 </div>
               </div>
 
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 <div>
                   <label className="mb-1 block font-bold text-slate-700">Nominal *</label>
-                  <input type="number" min="1" value={amount} onChange={event => setAmount(event.target.value)} required placeholder="Contoh: 500000" className="w-full rounded-lg border border-slate-300 px-3 py-2 font-mono font-bold outline-none focus:ring-2 focus:ring-emerald-800" />
+                  <input type="number" min="1" value={amount} onChange={event => setAmount(event.target.value)} required placeholder="Contoh: 500000" className="w-full rounded-lg border border-slate-300 px-3 py-2 font-mono font-bold outline-none focus:ring-2 focus:ring-#5A2D1F" />
                 </div>
                 <div>
                   <label className="mb-1 block font-bold text-slate-700">Lokasi Kandang *</label>
-                  <select value={locationId} onChange={event => setLocationId(event.target.value)} required className="w-full rounded-lg border border-slate-300 px-3 py-2 outline-none focus:ring-2 focus:ring-emerald-800">
+                  <select value={locationId} onChange={event => setLocationId(event.target.value)} required className="w-full rounded-lg border border-slate-300 px-3 py-2 outline-none focus:ring-2 focus:ring-#5A2D1F">
                     {locations.map(location => <option key={location.id} value={location.id}>{location.name}</option>)}
                   </select>
                 </div>
@@ -422,13 +422,13 @@ export const FinanceView: React.FC = () => {
 
               <div>
                 <label className="mb-1 block font-bold text-slate-700">Keterangan *</label>
-                <input value={description} onChange={event => setDescription(event.target.value)} required placeholder="Jelaskan transaksi secara singkat" className="w-full rounded-lg border border-slate-300 px-3 py-2 outline-none focus:ring-2 focus:ring-emerald-800" />
+                <input value={description} onChange={event => setDescription(event.target.value)} required placeholder="Jelaskan transaksi secara singkat" className="w-full rounded-lg border border-slate-300 px-3 py-2 outline-none focus:ring-2 focus:ring-#5A2D1F" />
               </div>
 
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 <div>
                   <label className="mb-1 block font-bold text-slate-700">Metode Pembayaran</label>
-                  <select value={paymentMethod} onChange={event => setPaymentMethod(event.target.value)} className="w-full rounded-lg border border-slate-300 px-3 py-2 outline-none focus:ring-2 focus:ring-emerald-800">
+                  <select value={paymentMethod} onChange={event => setPaymentMethod(event.target.value)} className="w-full rounded-lg border border-slate-300 px-3 py-2 outline-none focus:ring-2 focus:ring-#5A2D1F">
                     <option value="Transfer Bank">Transfer Bank</option>
                     <option value="Tunai">Tunai</option>
                     <option value="Giro">Giro</option>
@@ -436,13 +436,13 @@ export const FinanceView: React.FC = () => {
                 </div>
                 <div>
                   <label className="mb-1 block font-bold text-slate-700">Penerima / Pembayar</label>
-                  <input value={payeePayer} onChange={event => setPayeePayer(event.target.value)} placeholder="Nama pihak terkait" className="w-full rounded-lg border border-slate-300 px-3 py-2 outline-none focus:ring-2 focus:ring-emerald-800" />
+                  <input value={payeePayer} onChange={event => setPayeePayer(event.target.value)} placeholder="Nama pihak terkait" className="w-full rounded-lg border border-slate-300 px-3 py-2 outline-none focus:ring-2 focus:ring-#5A2D1F" />
                 </div>
               </div>
 
               <div className="flex justify-end gap-2 border-t border-slate-100 pt-4">
                 <button type="button" onClick={() => setIsModalOpen(false)} className="rounded-lg border border-slate-300 px-4 py-2 font-semibold text-slate-700">Batal</button>
-                <button type="submit" className="rounded-lg bg-emerald-900 px-5 py-2 font-bold text-white hover:bg-emerald-800">{editingTransactionId ? 'Simpan Perubahan' : 'Simpan Transaksi'}</button>
+                <button type="submit" className="rounded-lg bg-#4A2C1D px-5 py-2 font-bold text-white hover:bg-#5A2D1F">{editingTransactionId ? 'Simpan Perubahan' : 'Simpan Transaksi'}</button>
               </div>
             </form>
           </div>

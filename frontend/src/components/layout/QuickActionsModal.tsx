@@ -22,15 +22,15 @@ export const QuickActionsModal: React.FC<QuickActionsModalProps> = ({
       id: 'add-daily-report',
       label: '+ LAPORAN HARIAN',
       desc: 'Input laporan populasi, aktivitas, & biaya harian kandang',
-      color: 'bg-emerald-900 text-white border-emerald-800 hover:bg-emerald-800',
+      color: 'bg-#4A2C1D text-white border-#5A2D1F hover:bg-#5A2D1F',
       icon: <FileSpreadsheet className="w-6 h-6 text-amber-400" />
     },
     {
       id: 'add-weight',
       label: '+ TIMBANG BOBOT',
       desc: 'Catat timbangan bobot ternak rutin',
-      color: 'bg-emerald-50 text-emerald-900 border-emerald-200 hover:bg-emerald-100',
-      icon: <Scale className="w-6 h-6 text-emerald-800" />
+      color: 'bg-#FBF8F2 text-#4A2C1D border-#EFE5D5 hover:bg-#F5EFE6',
+      icon: <Scale className="w-6 h-6 text-#5A2D1F" />
     },
     {
       id: 'add-health',
@@ -74,14 +74,14 @@ export const QuickActionsModal: React.FC<QuickActionsModalProps> = ({
       <div className="bg-white rounded-2xl max-w-lg w-full overflow-hidden shadow-2xl border border-slate-200 max-h-[90vh] flex flex-col">
         
         {/* Header */}
-        <div className="p-4 bg-emerald-900 text-white flex items-center justify-between">
+        <div className="p-4 bg-#4A2C1D text-white flex items-center justify-between">
           <div>
             <h3 className="text-base font-bold">Aksi Cepat Petugas Kandang</h3>
-            <p className="text-xs text-emerald-200">Pilih tindakan operasional untuk diinput</p>
+            <p className="text-xs text-#EFE5D5">Pilih tindakan operasional untuk diinput</p>
           </div>
           <button
             onClick={onClose}
-            className="p-1 text-emerald-200 hover:text-white hover:bg-emerald-800 rounded-lg transition"
+            className="p-1 text-#EFE5D5 hover:text-white hover:bg-#5A2D1F rounded-lg transition"
           >
             <X className="w-5 h-5" />
           </button>

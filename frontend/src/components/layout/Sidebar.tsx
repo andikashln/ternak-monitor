@@ -134,13 +134,13 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab, role 
   <aside className="app-sidebar hidden w-[17.5rem] shrink-0 flex-col border-r bg-white/90 lg:flex">
     <div className="mx-4 mt-5 rounded-xl border border-[#d2ad76]/70 bg-[#f9ebcc]/65 p-3.5">
       <div className="flex items-center gap-3">
-        <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-900 text-white shadow-sm">
+        <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-#4A2C1D text-white shadow-sm">
           <Activity className="h-5 w-5" />
         </span>
         <span className="min-w-0">
           <span className="block ranch-label">Status sistem</span>
           <span className="mt-0.5 flex items-center gap-1.5 text-xs font-extrabold text-slate-900">
-            <span className="h-2 w-2 rounded-full bg-[#69704a] ring-4 ring-[#ead0a0]" /> Operasional aktif
+            <span className="h-2 w-2 rounded-full bg-[#5C6B3C] ring-4 ring-[#EFE5D5]" /> Operasional aktif
           </span>
         </span>
       </div>
@@ -176,11 +176,11 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab, role 
                     </span>
                     <span className="min-w-0 flex-1">
                       <span className="block truncate text-xs font-extrabold">{item.label}</span>
-                      <span className={`mt-0.5 block truncate text-[9px] font-medium ${isActive ? 'text-emerald-100/80' : 'text-slate-400'}`}>
+                      <span className={`mt-0.5 block truncate text-[9px] font-medium ${isActive ? 'text-#F5EFE6/80' : 'text-slate-400'}`}>
                         {item.description}
                       </span>
                     </span>
-                    <ChevronRight className={`h-3.5 w-3.5 shrink-0 ${isActive ? 'text-emerald-200' : 'text-slate-300'}`} />
+                    <ChevronRight className={`h-3.5 w-3.5 shrink-0 ${isActive ? 'text-#EFE5D5' : 'text-slate-300'}`} />
                   </button>
                 );
               })}

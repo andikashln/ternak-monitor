@@ -61,7 +61,7 @@ export async function exportToExcel(data: Record<string, any>[], filename: strin
   const { default: writeXlsxFile } = await import('write-excel-file');
   const keys = data.length > 0 ? Object.keys(data[0]) : [];
   const rows = [
-    keys.map(key => ({ value: key, fontWeight: 'bold' as const, backgroundColor: '#14532D', color: '#FFFFFF' })),
+    keys.map(key => ({ value: key, fontWeight: 'bold' as const, backgroundColor: '#5A2D1F', color: '#FFFFFF' })),
     ...data.map(row => keys.map(key => ({ value: row[key] == null ? '' : String(row[key]) }))),
   ];
   await writeXlsxFile(rows, { fileName: `${filename}.xlsx` });

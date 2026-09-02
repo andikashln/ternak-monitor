@@ -44,11 +44,11 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
       {/* Top Header Banner with Professional Polish Styling */}
       <div className="ranch-hero rounded-xl p-6 shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div>
-          <p className="ranch-label relative z-10 mb-2 text-[#f3ddb0]">Pusat kendali operasional</p>
-          <h2 className="ranch-heading relative z-10 text-xl sm:text-2xl font-bold tracking-tight text-[#fff8e8]">
+          <p className="ranch-label relative z-10 mb-2 text-[#EFE5D5]">Pusat kendali operasional</p>
+          <h2 className="ranch-heading relative z-10 text-xl sm:text-2xl font-bold tracking-tight text-[#FBF8F2]">
             Ringkasan peternakan hari ini
           </h2>
-          <p className="relative z-10 max-w-2xl mt-1 text-xs sm:text-sm text-[#f3ddb0]/80 leading-relaxed">
+          <p className="relative z-10 max-w-2xl mt-1 text-xs sm:text-sm text-[#EFE5D5]/80 leading-relaxed">
             Pantau populasi, kesehatan, aktivitas kandang, dan arus keuangan dari satu tempat.
           </p>
         </div>
@@ -56,7 +56,7 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
         <div className="flex flex-wrap items-center gap-2.5 shrink-0">
           <button
             onClick={onOpenQuickAction}
-            className="ranch-action-secondary relative z-10 bg-white/10! text-[#fff8e8]! border-white/35!"
+            className="ranch-action-secondary relative z-10 bg-white/10! text-[#FBF8F2]! border-white/35!"
           >
             <Plus className="w-4 h-4" />
             <span>Aksi Kandang</span>
@@ -71,12 +71,12 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
         <div className="card-polish ranch-kpi hover:border-[#5a2d1f]/30 transition">
           <div className="flex items-center justify-between">
             <span className="stat-label-polish">Total Ternak</span>
-            <div className="p-1.5 rounded-lg bg-[#ead0a0] text-[#5a2d1f]">
+            <div className="p-1.5 rounded-lg bg-[#EFE5D5] text-[#5a2d1f]">
               <Building2 className="w-4 h-4" />
             </div>
           </div>
           <div className="stat-value-polish">{metrics.totalActive}</div>
-          <div className="text-[11px] text-[#69704a] font-medium mt-1">
+          <div className="text-[11px] text-[#5C6B3C] font-medium mt-1">
             ↑ Sehat: {metrics.healthy} | Sakit: {metrics.sick}
           </div>
         </div>
@@ -96,10 +96,10 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
         </div>
 
         {/* Total Income */}
-        <div className="card-polish ranch-kpi hover:border-[#315864]/40 transition">
+        <div className="card-polish ranch-kpi hover:border-[#937A65]/40 transition">
           <div className="flex items-center justify-between">
             <span className="stat-label-polish">Total Pemasukan</span>
-            <div className="p-1.5 rounded-lg bg-[#dce8e9] text-[#315864]">
+            <div className="p-1.5 rounded-lg bg-[#EFE5D5] text-[#937A65]">
               <TrendingUp className="w-4 h-4" />
             </div>
           </div>
@@ -111,11 +111,11 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
         <div className="card-polish ranch-kpi hover:border-[#5a2d1f]/30 transition">
           <div className="flex items-center justify-between">
             <span className="stat-label-polish">Arus Kas Bersih</span>
-            <div className="p-1.5 rounded-lg bg-[#ead0a0] text-[#5a2d1f]">
+            <div className="p-1.5 rounded-lg bg-[#EFE5D5] text-[#5a2d1f]">
               <Wallet className="w-4 h-4" />
             </div>
           </div>
-          <div className={`stat-value-polish ${metrics.netProfit >= 0 ? 'text-[#1b4332]' : 'text-rose-600'}`}>
+          <div className={`stat-value-polish ${metrics.netProfit >= 0 ? 'text-[#5A2D1F]' : 'text-rose-600'}`}>
             {formatRupiah(metrics.netProfit)}
           </div>
           <div className="text-[11px] text-slate-500 font-medium mt-1">
@@ -130,8 +130,8 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
         <button onClick={() => onNavigateTab('funding-docs')} className="card-polish text-left transition hover:border-amber-300">
           <WalletCards className="mb-2 h-5 w-5 text-amber-700"/><p className="text-[10px] font-black uppercase tracking-wider text-slate-500">Menunggu Persetujuan</p><p className="mt-1 text-xl font-black">{workflow.fundRequests.filter(item => ['Diajukan','Diverifikasi Akuntan'].includes(item.status)).length}</p>
         </button>
-        <button onClick={() => onNavigateTab('funding-docs')} className="card-polish text-left transition hover:border-emerald-300">
-          <CheckCircle2 className="mb-2 h-5 w-5 text-emerald-700"/><p className="text-[10px] font-black uppercase tracking-wider text-slate-500">Dana Disetujui</p><p className="mt-1 text-sm font-black">{formatRupiah(workflow.fundRequests.filter(item => ['Disetujui Owner','Dicairkan','Selesai'].includes(item.status)).reduce((sum,item) => sum + item.total, 0))}</p>
+        <button onClick={() => onNavigateTab('funding-docs')} className="card-polish text-left transition hover:border-#D8C7B0">
+          <CheckCircle2 className="mb-2 h-5 w-5 text-#6B3A24"/><p className="text-[10px] font-black uppercase tracking-wider text-slate-500">Dana Disetujui</p><p className="mt-1 text-sm font-black">{formatRupiah(workflow.fundRequests.filter(item => ['Disetujui Owner','Dicairkan','Selesai'].includes(item.status)).reduce((sum,item) => sum + item.total, 0))}</p>
         </button>
         <button onClick={() => onNavigateTab('invoices')} className="card-polish text-left transition hover:border-rose-300">
           <Receipt className="mb-2 h-5 w-5 text-rose-700"/><p className="text-[10px] font-black uppercase tracking-wider text-slate-500">Invoice Belum Lunas</p><p className="mt-1 text-xl font-black">{workflow.invoices.filter(item => item.status === 'Aktif' && item.remainingAmount > 0).length}</p>
@@ -175,7 +175,7 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
           </div>
           <button
             onClick={() => onNavigateTab('livestock')}
-            className="flex items-center gap-1 text-xs font-bold text-[#1b4332] hover:underline transition cursor-pointer"
+            className="flex items-center gap-1 text-xs font-bold text-[#5A2D1F] hover:underline transition cursor-pointer"
           >
             <span>Master Ternak</span>
             <ArrowRight className="w-3.5 h-3.5" />
@@ -202,7 +202,7 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
                 return (
                   <tr key={loc.id} className="hover:bg-slate-50/80 transition">
                     <td className="px-4 py-3 font-bold text-slate-900 flex items-center gap-2">
-                      <Building2 className="w-4 h-4 text-[#1b4332]" />
+                      <Building2 className="w-4 h-4 text-[#5A2D1F]" />
                       <span>{loc.name}</span>
                     </td>
                     <td className="px-4 py-3 text-slate-600">
@@ -213,8 +213,8 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
                       {loc.livestockTypes.join(', ')}
                     </td>
                     <td className="px-4 py-3 text-center font-mono font-bold text-slate-700">{loc.penCount} blok</td>
-                    <td className="px-4 py-3 text-center font-mono font-bold text-[#1b4332] text-sm">{locLivestock.length} ekor</td>
-                    <td className="px-4 py-3 text-center font-bold text-[#166534]">{healthy} ekor</td>
+                    <td className="px-4 py-3 text-center font-mono font-bold text-[#5A2D1F] text-sm">{locLivestock.length} ekor</td>
+                    <td className="px-4 py-3 text-center font-bold text-[#6B3A24]">{healthy} ekor</td>
                     <td className="px-4 py-3 text-center">
                       <span className="badge-success-polish">
                         {loc.status}
@@ -235,12 +235,12 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
         <div className="card-polish space-y-3">
           <div className="flex items-center justify-between">
             <h3 className="text-sm font-bold text-slate-900 flex items-center gap-2">
-              <FileSpreadsheet className="w-4 h-4 text-[#1b4332]" />
+              <FileSpreadsheet className="w-4 h-4 text-[#5A2D1F]" />
               <span>Laporan Harian Kandang Terakhir</span>
             </h3>
             <button
               onClick={() => onNavigateTab('daily-reports')}
-              className="text-xs font-bold text-[#1b4332] hover:underline cursor-pointer"
+              className="text-xs font-bold text-[#5A2D1F] hover:underline cursor-pointer"
             >
               Lihat Laporan
             </button>
@@ -274,14 +274,14 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
           <div className="grid grid-cols-2 gap-2 text-xs">
             <button
               onClick={() => onNavigateTab('health')}
-              className="p-3 rounded-xl bg-slate-50 hover:bg-[#d8f3dc]/40 border border-slate-200 hover:border-[#1b4332]/30 text-left font-bold text-slate-800 flex items-center justify-between transition cursor-pointer"
+              className="p-3 rounded-xl bg-slate-50 hover:bg-[#EFE5D5]/40 border border-slate-200 hover:border-[#5A2D1F]/30 text-left font-bold text-slate-800 flex items-center justify-between transition cursor-pointer"
             >
               <span>Kesehatan & Obat</span>
               <ArrowRight className="w-3.5 h-3.5 text-slate-400" />
             </button>
             <button
               onClick={() => onNavigateTab('finance')}
-              className="p-3 rounded-xl bg-slate-50 hover:bg-[#d8f3dc]/40 border border-slate-200 hover:border-[#1b4332]/30 text-left font-bold text-slate-800 flex items-center justify-between transition cursor-pointer"
+              className="p-3 rounded-xl bg-slate-50 hover:bg-[#EFE5D5]/40 border border-slate-200 hover:border-[#5A2D1F]/30 text-left font-bold text-slate-800 flex items-center justify-between transition cursor-pointer"
             >
               <span>Keuangan & Laba</span>
               <ArrowRight className="w-3.5 h-3.5 text-slate-400" />

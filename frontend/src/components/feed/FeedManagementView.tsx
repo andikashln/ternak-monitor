@@ -110,7 +110,7 @@ export const FeedManagementView: React.FC = () => {
 
         <button
           onClick={handleOpenModal}
-          className="flex items-center gap-1.5 px-4 py-2 bg-emerald-900 hover:bg-emerald-800 text-white text-xs font-bold rounded-xl transition cursor-pointer"
+          className="flex items-center gap-1.5 px-4 py-2 bg-#4A2C1D hover:bg-#5A2D1F text-white text-xs font-bold rounded-xl transition cursor-pointer"
         >
           <Plus className="w-4 h-4" />
           <span>+ Tambah Stok Pakan</span>
@@ -136,7 +136,7 @@ export const FeedManagementView: React.FC = () => {
                     <AlertTriangle className="w-3 h-3" /> Stok Rendah
                   </span>
                 ) : (
-                  <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-900">
+                  <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-#F5EFE6 text-#4A2C1D">
                     Aman
                   </span>
                 )}
@@ -169,7 +169,7 @@ export const FeedManagementView: React.FC = () => {
 
               <div className="p-3 bg-slate-50 rounded-xl text-[11px] text-slate-600 space-y-0.5">
                 <div className="grid grid-cols-2 gap-2 pb-2 mb-2 border-b border-slate-200">
-                  <span className="flex items-center gap-1 text-emerald-700 font-bold"><ArrowDownToLine className="w-3 h-3" /> Masuk: {f.stockIn ?? f.stockQty} {f.unit}</span>
+                  <span className="flex items-center gap-1 text-#6B3A24 font-bold"><ArrowDownToLine className="w-3 h-3" /> Masuk: {f.stockIn ?? f.stockQty} {f.unit}</span>
                   <span className="flex items-center gap-1 text-rose-600 font-bold"><ArrowUpFromLine className="w-3 h-3" /> Keluar: {f.stockOut ?? 0} {f.unit}</span>
                 </div>
                 <p><span className="font-semibold">Harga Satuan:</span> {formatRupiah(f.unitPrice)}/{f.unit}</p>
@@ -184,9 +184,9 @@ export const FeedManagementView: React.FC = () => {
       {isModalOpen && (
         <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center p-3 sm:p-4">
           <div className="bg-white rounded-2xl max-w-md w-full overflow-hidden shadow-2xl border border-slate-200">
-            <div className="p-4 bg-emerald-900 text-white flex items-center justify-between font-bold">
+            <div className="p-4 bg-#4A2C1D text-white flex items-center justify-between font-bold">
               <h3>{editingFeedId ? 'Edit Stok Pakan' : 'Input Stok Pakan Baru'}</h3>
-              <button onClick={() => setIsModalOpen(false)} className="p-1 hover:bg-emerald-800 rounded">
+              <button onClick={() => setIsModalOpen(false)} className="p-1 hover:bg-#5A2D1F rounded">
                 <X className="w-5 h-5" />
               </button>
             </div>
@@ -199,7 +199,7 @@ export const FeedManagementView: React.FC = () => {
                   value={locationId}
                   onChange={e => setLocationId(e.target.value)}
                   required
-                  className="w-full px-3 py-2 border border-slate-300 rounded-lg font-bold focus:ring-2 focus:ring-emerald-800 focus:outline-none"
+                  className="w-full px-3 py-2 border border-slate-300 rounded-lg font-bold focus:ring-2 focus:ring-#5A2D1F focus:outline-none"
                 >
                   {locations.map(l => (
                     <option key={l.id} value={l.id}>{l.name}</option>
@@ -214,7 +214,7 @@ export const FeedManagementView: React.FC = () => {
                   value={feedType}
                   onChange={e => setFeedType(e.target.value)}
                   required
-                  className="w-full px-3 py-2 border border-slate-300 rounded-lg font-bold focus:ring-2 focus:ring-emerald-800 focus:outline-none"
+                  className="w-full px-3 py-2 border border-slate-300 rounded-lg font-bold focus:ring-2 focus:ring-#5A2D1F focus:outline-none"
                   placeholder="e.g. Konsentrat Gemuk, Silase, Mineral Block"
                 />
               </div>
@@ -228,7 +228,7 @@ export const FeedManagementView: React.FC = () => {
                     value={stockIn}
                     onChange={e => setStockIn(e.target.value)}
                     required
-                    className="w-full px-3 py-2 border border-slate-300 rounded-lg font-mono font-bold focus:ring-2 focus:ring-emerald-800 focus:outline-none"
+                    className="w-full px-3 py-2 border border-slate-300 rounded-lg font-mono font-bold focus:ring-2 focus:ring-#5A2D1F focus:outline-none"
                   />
                 </div>
                 <div>
@@ -239,7 +239,7 @@ export const FeedManagementView: React.FC = () => {
                     value={stockOut}
                     onChange={e => setStockOut(e.target.value)}
                     required
-                    className="w-full px-3 py-2 border border-slate-300 rounded-lg font-mono font-bold focus:ring-2 focus:ring-emerald-800 focus:outline-none"
+                    className="w-full px-3 py-2 border border-slate-300 rounded-lg font-mono font-bold focus:ring-2 focus:ring-#5A2D1F focus:outline-none"
                   />
                 </div>
               </div>
@@ -251,7 +251,7 @@ export const FeedManagementView: React.FC = () => {
                   value={unit}
                   onChange={e => setUnit(e.target.value)}
                   required
-                  className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-800 focus:outline-none"
+                  className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-#5A2D1F focus:outline-none"
                   placeholder="kg, ton, karung"
                 />
                 <p className="mt-1 text-[10px] text-slate-500">Sisa stok otomatis: {(parseFloat(stockIn) || 0) - (parseFloat(stockOut) || 0)} {unit}</p>
@@ -265,7 +265,7 @@ export const FeedManagementView: React.FC = () => {
                     value={minStock}
                     onChange={e => setMinStock(e.target.value)}
                     required
-                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-800 focus:outline-none"
+                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-#5A2D1F focus:outline-none"
                   />
                 </div>
                 <div>
@@ -274,7 +274,7 @@ export const FeedManagementView: React.FC = () => {
                     type="number"
                     value={unitPrice}
                     onChange={e => setUnitPrice(e.target.value)}
-                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-800 focus:outline-none"
+                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-#5A2D1F focus:outline-none"
                   />
                 </div>
               </div>
@@ -285,7 +285,7 @@ export const FeedManagementView: React.FC = () => {
                   type="text"
                   value={supplier}
                   onChange={e => setSupplier(e.target.value)}
-                  className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-800 focus:outline-none"
+                  className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-#5A2D1F focus:outline-none"
                 />
               </div>
 
@@ -299,7 +299,7 @@ export const FeedManagementView: React.FC = () => {
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2 bg-emerald-900 text-white font-bold rounded-lg hover:bg-emerald-800"
+                  className="px-5 py-2 bg-#4A2C1D text-white font-bold rounded-lg hover:bg-#5A2D1F"
                 >
                   {editingFeedId ? 'Simpan Perubahan' : 'Simpan Pakan'}
                 </button>

@@ -63,7 +63,7 @@ export const BreedingReproductionView: React.FC = () => {
       <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-2xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
           <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-            <Dna className="w-5 h-5 text-emerald-800" />
+            <Dna className="w-5 h-5 text-#5A2D1F" />
             <span>Breeding, Perkawinan & Kebuntingan</span>
           </h2>
           <p className="text-xs text-slate-500">
@@ -73,7 +73,7 @@ export const BreedingReproductionView: React.FC = () => {
 
         <button
           onClick={handleOpenModal}
-          className="flex items-center gap-1.5 px-4 py-2 bg-emerald-900 hover:bg-emerald-800 text-white text-xs font-bold rounded-xl transition cursor-pointer"
+          className="flex items-center gap-1.5 px-4 py-2 bg-#4A2C1D hover:bg-#5A2D1F text-white text-xs font-bold rounded-xl transition cursor-pointer"
         >
           <Plus className="w-4 h-4" />
           <span>+ Catat Perkawinan / IB</span>
@@ -86,7 +86,7 @@ export const BreedingReproductionView: React.FC = () => {
           <div key={rec.id} className="bg-white p-5 rounded-2xl border border-slate-200 shadow-2xs space-y-3">
             <div className="flex items-center justify-between border-b border-slate-100 pb-3">
               <span className="font-mono font-black text-amber-800 text-base">Induk: {rec.motherTag}</span>
-              <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800">
+              <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-#F5EFE6 text-#5A2D1F">
                 {rec.pregStatus}
               </span>
             </div>
@@ -111,9 +111,9 @@ export const BreedingReproductionView: React.FC = () => {
       {isModalOpen && (
         <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center p-3 sm:p-4">
           <div className="bg-white rounded-2xl max-w-md w-full overflow-hidden shadow-2xl border border-slate-200">
-            <div className="p-4 bg-emerald-900 text-white flex items-center justify-between">
+            <div className="p-4 bg-#4A2C1D text-white flex items-center justify-between">
               <h3 className="text-base font-bold">Catat Perkawinan & Kebuntingan</h3>
-              <button onClick={() => setIsModalOpen(false)} className="p-1 hover:bg-emerald-800 rounded">
+              <button onClick={() => setIsModalOpen(false)} className="p-1 hover:bg-#5A2D1F rounded">
                 <X className="w-5 h-5" />
               </button>
             </div>
@@ -125,7 +125,7 @@ export const BreedingReproductionView: React.FC = () => {
                   value={motherId}
                   onChange={e => setMotherId(e.target.value)}
                   required
-                  className="w-full px-3 py-2 border border-slate-300 rounded-lg font-bold focus:ring-2 focus:ring-emerald-800 focus:outline-none"
+                  className="w-full px-3 py-2 border border-slate-300 rounded-lg font-bold focus:ring-2 focus:ring-#5A2D1F focus:outline-none"
                 >
                   {females.map(f => (
                     <option key={f.id} value={f.id}>{f.tagId} — {f.type} ({f.breed})</option>
@@ -141,7 +141,7 @@ export const BreedingReproductionView: React.FC = () => {
                     value={matingDate}
                     onChange={e => setMatingDate(e.target.value)}
                     required
-                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-800 focus:outline-none"
+                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-#5A2D1F focus:outline-none"
                   />
                 </div>
                 <div>
@@ -149,7 +149,7 @@ export const BreedingReproductionView: React.FC = () => {
                   <select
                     value={method}
                     onChange={e => setMethod(e.target.value as any)}
-                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-800 focus:outline-none"
+                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-#5A2D1F focus:outline-none"
                   >
                     <option value="Inseminasi Buatan (IB)">Inseminasi Buatan (IB)</option>
                     <option value="Alami">Kawin Alami</option>
@@ -163,7 +163,7 @@ export const BreedingReproductionView: React.FC = () => {
                   type="text"
                   value={fatherTag}
                   onChange={e => setFatherTag(e.target.value)}
-                  className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-800 focus:outline-none"
+                  className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-#5A2D1F focus:outline-none"
                 />
               </div>
 
@@ -173,7 +173,7 @@ export const BreedingReproductionView: React.FC = () => {
                   <select
                     value={pregStatus}
                     onChange={e => setPregStatus(e.target.value as any)}
-                    className="w-full px-3 py-2 border border-slate-300 rounded-lg font-bold focus:ring-2 focus:ring-emerald-800 focus:outline-none"
+                    className="w-full px-3 py-2 border border-slate-300 rounded-lg font-bold focus:ring-2 focus:ring-#5A2D1F focus:outline-none"
                   >
                     <option value="Positif">Positif Bunting</option>
                     <option value="Belum Diketahui">Belum Diketahui / USG</option>
@@ -186,7 +186,7 @@ export const BreedingReproductionView: React.FC = () => {
                     type="date"
                     value={estBirthDate}
                     onChange={e => setEstBirthDate(e.target.value)}
-                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-800 focus:outline-none"
+                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-#5A2D1F focus:outline-none"
                   />
                 </div>
               </div>
@@ -197,7 +197,7 @@ export const BreedingReproductionView: React.FC = () => {
                   value={notes}
                   onChange={e => setNotes(e.target.value)}
                   rows={2}
-                  className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-800 focus:outline-none"
+                  className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-#5A2D1F focus:outline-none"
                 />
               </div>
 
@@ -211,7 +211,7 @@ export const BreedingReproductionView: React.FC = () => {
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2 bg-emerald-900 text-white font-bold rounded-lg hover:bg-emerald-800"
+                  className="px-5 py-2 bg-#4A2C1D text-white font-bold rounded-lg hover:bg-#5A2D1F"
                 >
                   Simpan Perkawinan
                 </button>

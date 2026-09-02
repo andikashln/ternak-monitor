@@ -73,7 +73,7 @@ export const SettingsView: React.FC = () => {
       {/* Header */}
       <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-2xs">
         <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-          <Settings className="w-5 h-5 text-emerald-800" />
+          <Settings className="w-5 h-5 text-#5A2D1F" />
           <span>Pengaturan Perusahaan & Master Lokasi Kandang</span>
         </h2>
         <p className="text-xs text-slate-500">
@@ -94,7 +94,7 @@ export const SettingsView: React.FC = () => {
               value={settings.companyName}
               onChange={e => setSettings({ ...settings, companyName: e.target.value })}
               required
-              className="w-full px-3 py-2 border border-slate-300 rounded-lg font-bold focus:ring-2 focus:ring-emerald-800 focus:outline-none"
+              className="w-full px-3 py-2 border border-slate-300 rounded-lg font-bold focus:ring-2 focus:ring-#5A2D1F focus:outline-none"
             />
           </div>
 
@@ -104,7 +104,7 @@ export const SettingsView: React.FC = () => {
               type="text"
               value={settings.tagline}
               onChange={e => setSettings({ ...settings, tagline: e.target.value })}
-              className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-800 focus:outline-none"
+              className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-#5A2D1F focus:outline-none"
             />
           </div>
 
@@ -115,7 +115,7 @@ export const SettingsView: React.FC = () => {
                 type="text"
                 value={settings.ownerName}
                 onChange={e => setSettings({ ...settings, ownerName: e.target.value })}
-                className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-800 focus:outline-none"
+                className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-#5A2D1F focus:outline-none"
               />
             </div>
             <div>
@@ -124,7 +124,7 @@ export const SettingsView: React.FC = () => {
                 type="text"
                 value={settings.phone}
                 onChange={e => setSettings({ ...settings, phone: e.target.value })}
-                className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-800 focus:outline-none"
+                className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-#5A2D1F focus:outline-none"
               />
             </div>
           </div>
@@ -135,15 +135,15 @@ export const SettingsView: React.FC = () => {
               value={settings.address}
               onChange={e => setSettings({ ...settings, address: e.target.value })}
               rows={2}
-              className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-800 focus:outline-none"
+              className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-#5A2D1F focus:outline-none"
             />
           </div>
 
           <div className="flex items-center justify-between pt-2">
-            {saved && <span className="text-emerald-700 font-bold">✓ Berhasil disimpan!</span>}
+            {saved && <span className="text-#6B3A24 font-bold">✓ Berhasil disimpan!</span>}
             <button
               type="submit"
-              className="ml-auto flex items-center gap-1.5 px-5 py-2 bg-emerald-900 text-white font-bold rounded-lg hover:bg-emerald-800 transition cursor-pointer"
+              className="ml-auto flex items-center gap-1.5 px-5 py-2 bg-#4A2C1D text-white font-bold rounded-lg hover:bg-#5A2D1F transition cursor-pointer"
             >
               <Save className="w-4 h-4" />
               <span>Simpan Profil</span>
@@ -163,7 +163,7 @@ export const SettingsView: React.FC = () => {
                   <h4 className="font-bold text-slate-900 text-xs">📍 {loc.name}</h4>
                   <p className="text-[11px] text-slate-500">PIC: {loc.picName} ({loc.picPhone})</p>
                 </div>
-                <div className="flex items-center gap-1"><span className={`px-2 py-0.5 rounded text-[10px] font-bold ${loc.status === 'Aktif' ? 'bg-emerald-100 text-emerald-900' : 'bg-slate-200 text-slate-600'}`}>{loc.status}</span>
+                <div className="flex items-center gap-1"><span className={`px-2 py-0.5 rounded text-[10px] font-bold ${loc.status === 'Aktif' ? 'bg-#F5EFE6 text-#4A2C1D' : 'bg-slate-200 text-slate-600'}`}>{loc.status}</span>
                   <button type="button" onClick={() => handleEditLocation(loc.id)} aria-label={`Edit lokasi ${loc.name}`} className="p-1 text-blue-700 hover:bg-blue-50 rounded"><Pencil className="w-4 h-4" /></button>
                   {loc.status === 'Aktif' && <button type="button" onClick={() => handleDeactivateLocation(loc.id)} aria-label={`Nonaktifkan lokasi ${loc.name}`} className="p-1 text-rose-700 hover:bg-rose-50 rounded"><Ban className="w-4 h-4" /></button>}
                 </div>

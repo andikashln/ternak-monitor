@@ -19,7 +19,7 @@ export const AuditLogsView: React.FC = () => {
       {/* Header */}
       <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-2xs">
         <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-          <History className="w-5 h-5 text-emerald-800" />
+          <History className="w-5 h-5 text-#5A2D1F" />
           <span>Audit Log Keamanan & Jejak Aktivitas Pengguna</span>
         </h2>
         <p className="text-xs text-slate-500">
@@ -52,10 +52,10 @@ export const AuditLogsView: React.FC = () => {
                   <td className="p-3.5 text-slate-500 font-mono text-[11px]">{formatDateTime(log.timestamp)}</td>
                   <td className="p-3.5 font-bold text-slate-900">
                     <div>{log.userName}</div>
-                    <span className="text-[10px] text-emerald-800 font-bold bg-emerald-50 px-1.5 py-0.2 rounded border border-emerald-200">{log.userRole}</span>
+                    <span className="text-[10px] text-#5A2D1F font-bold bg-#FBF8F2 px-1.5 py-0.2 rounded border border-#EFE5D5">{log.userRole}</span>
                   </td>
                   <td className="p-3.5 font-bold text-slate-800">{log.module}</td>
-                  <td className="p-3.5 text-emerald-800 font-semibold">{log.action}</td>
+                  <td className="p-3.5 text-#5A2D1F font-semibold">{log.action}</td>
                   <td className="p-3.5 font-mono text-slate-700">{log.targetName}</td>
                   <td className="p-3.5 text-slate-600">
                     {log.afterValue || log.beforeValue || '-'}

@@ -117,7 +117,7 @@ export const TaskManagementView: React.FC = () => {
                     <p className="mt-2 text-[11px] text-slate-500">👤 {t.assignee}{t.relatedModule ? ` · ${t.relatedModule}` : ''}</p>
                     <p className="text-[11px] text-slate-500">📅 {formatDate(t.dueDate).split(',')[0]}</p>
                     <div className="mt-2 flex flex-wrap gap-1">
-                      {col.status !== 'Selesai' && <AgroButton variant="ghost" onClick={() => setStatus(t, 'Selesai')}><CheckCircle2 className="h-4 w-4 text-emerald-600" /></AgroButton>}
+                      {col.status !== 'Selesai' && <AgroButton variant="ghost" onClick={() => setStatus(t, 'Selesai')}><CheckCircle2 className="h-4 w-4 text-#7A4A30" /></AgroButton>}
                       <AgroButton variant="ghost" onClick={() => openEdit(t)}><Pencil className="h-4 w-4" /></AgroButton>
                       <AgroButton variant="ghost" onClick={() => remove(t)}><Trash2 className="h-4 w-4 text-rose-500" /></AgroButton>
                     </div>

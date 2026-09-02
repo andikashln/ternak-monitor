@@ -124,7 +124,7 @@ export const LivestockDatabaseView: React.FC<LivestockDatabaseViewProps> = ({
         <div className="flex flex-wrap items-center gap-2 w-full md:w-auto">
           <button
             onClick={onOpenAddModal}
-            className="flex items-center gap-1.5 px-3.5 py-2 bg-emerald-900 hover:bg-emerald-800 text-white font-bold rounded-xl text-xs transition shadow-xs cursor-pointer"
+            className="flex items-center gap-1.5 px-3.5 py-2 bg-#4A2C1D hover:bg-#5A2D1F text-white font-bold rounded-xl text-xs transition shadow-xs cursor-pointer"
           >
             <Plus className="w-4 h-4" />
             <span>+ Tambah Ternak</span>
@@ -132,7 +132,7 @@ export const LivestockDatabaseView: React.FC<LivestockDatabaseViewProps> = ({
 
           <button
             onClick={onOpenImportModal}
-            className="flex items-center gap-1.5 px-3 py-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-900 font-semibold border border-emerald-200 rounded-xl text-xs transition cursor-pointer"
+            className="flex items-center gap-1.5 px-3 py-2 bg-#FBF8F2 hover:bg-#F5EFE6 text-#4A2C1D font-semibold border border-#EFE5D5 rounded-xl text-xs transition cursor-pointer"
           >
             <Upload className="w-4 h-4" />
             <span>Import CSV/Excel</span>
@@ -166,7 +166,7 @@ export const LivestockDatabaseView: React.FC<LivestockDatabaseViewProps> = ({
               value={search}
               onChange={e => setSearch(e.target.value)}
               placeholder="Cari Ear Tag / QR..."
-              className="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-emerald-800 focus:outline-none"
+              className="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-#5A2D1F focus:outline-none"
             />
           </div>
 
@@ -175,7 +175,7 @@ export const LivestockDatabaseView: React.FC<LivestockDatabaseViewProps> = ({
             value={locFilter}
             onChange={e => setLocFilter(e.target.value)}
             aria-label="Filter berdasarkan lokasi peternakan"
-            className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:ring-2 focus:ring-emerald-800 focus:outline-none cursor-pointer"
+            className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:ring-2 focus:ring-#5A2D1F focus:outline-none cursor-pointer"
           >
             <option value="ALL">📍 Semua Lokasi</option>
             {locations.map(l => (
@@ -188,7 +188,7 @@ export const LivestockDatabaseView: React.FC<LivestockDatabaseViewProps> = ({
             value={typeFilter}
             onChange={e => setTypeFilter(e.target.value)}
             aria-label="Filter berdasarkan jenis ternak"
-            className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:ring-2 focus:ring-emerald-800 focus:outline-none cursor-pointer"
+            className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:ring-2 focus:ring-#5A2D1F focus:outline-none cursor-pointer"
           >
             <option value="ALL">🐄 Semua Jenis (Sapi/Kerbau)</option>
             <option value="Sapi">Sapi</option>
@@ -200,7 +200,7 @@ export const LivestockDatabaseView: React.FC<LivestockDatabaseViewProps> = ({
             value={genderFilter}
             onChange={e => setGenderFilter(e.target.value)}
             aria-label="Filter berdasarkan jenis kelamin ternak"
-            className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:ring-2 focus:ring-emerald-800 focus:outline-none cursor-pointer"
+            className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:ring-2 focus:ring-#5A2D1F focus:outline-none cursor-pointer"
           >
             <option value="ALL">♂♀ Semua Kelamin</option>
             <option value="Jantan">Jantan</option>
@@ -212,7 +212,7 @@ export const LivestockDatabaseView: React.FC<LivestockDatabaseViewProps> = ({
             value={healthFilter}
             onChange={e => setHealthFilter(e.target.value)}
             aria-label="Filter berdasarkan status kesehatan ternak"
-            className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:ring-2 focus:ring-emerald-800 focus:outline-none cursor-pointer"
+            className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:ring-2 focus:ring-#5A2D1F focus:outline-none cursor-pointer"
           >
             <option value="ALL">💚 Semua Kesehatan</option>
             <option value="Sehat">Sehat</option>
@@ -247,7 +247,7 @@ export const LivestockDatabaseView: React.FC<LivestockDatabaseViewProps> = ({
                 <tr key={item.id} className="hover:bg-slate-50 transition">
                   <td className="p-3.5 font-bold">
                     <div className="flex items-center gap-2.5">
-                      <div className="w-9 h-9 rounded-lg bg-emerald-950 text-amber-300 font-bold flex items-center justify-center text-xs overflow-hidden shrink-0">
+                      <div className="w-9 h-9 rounded-lg bg-#2A1810 text-amber-300 font-bold flex items-center justify-center text-xs overflow-hidden shrink-0">
                         {item.photoUrl ? (
                           <img src={item.photoUrl} alt={item.tagId} className="w-full h-full object-cover" />
                         ) : (
@@ -268,7 +268,7 @@ export const LivestockDatabaseView: React.FC<LivestockDatabaseViewProps> = ({
 
                   <td className="p-3.5 whitespace-nowrap">
                     <span className="text-[10px] text-slate-400 block">Beli: {item.acquisitionPrice.toLocaleString('id-ID')}</span>
-                    <span className="text-[11px] font-bold text-emerald-800 block">Jual: {(item.sellingPrice ?? 0).toLocaleString('id-ID')}</span>
+                    <span className="text-[11px] font-bold text-#5A2D1F block">Jual: {(item.sellingPrice ?? 0).toLocaleString('id-ID')}</span>
                   </td>
 
                   <td className="p-3.5 text-slate-700">
@@ -285,7 +285,7 @@ export const LivestockDatabaseView: React.FC<LivestockDatabaseViewProps> = ({
 
                   <td className="p-3.5 text-slate-700 font-semibold">
                     <div className="flex items-center gap-1">
-                      <Building2 className="w-3.5 h-3.5 text-emerald-800" />
+                      <Building2 className="w-3.5 h-3.5 text-#5A2D1F" />
                       <span>{item.locationName}</span>
                     </div>
                     {item.penName && <span className="text-[10px] text-slate-400 block">{item.penName}</span>}
@@ -298,7 +298,7 @@ export const LivestockDatabaseView: React.FC<LivestockDatabaseViewProps> = ({
 
                   <td className="p-3.5 text-center">
                     <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold ${
-                      item.healthStatus === 'Sehat' ? 'bg-emerald-100 text-emerald-900' :
+                      item.healthStatus === 'Sehat' ? 'bg-#F5EFE6 text-#4A2C1D' :
                       item.healthStatus === 'Sakit' ? 'bg-rose-100 text-rose-900' : 'bg-amber-100 text-amber-900'
                     }`}>
                       {item.healthStatus}
@@ -315,7 +315,7 @@ export const LivestockDatabaseView: React.FC<LivestockDatabaseViewProps> = ({
                     <div className="flex items-center justify-end gap-1">
                       <button
                         onClick={() => onOpenDetailModal(item)}
-                        className="p-1.5 text-slate-600 hover:text-emerald-800 hover:bg-emerald-50 rounded-lg transition cursor-pointer"
+                        className="p-1.5 text-slate-600 hover:text-#5A2D1F hover:bg-#FBF8F2 rounded-lg transition cursor-pointer"
                         title="Lihat Profile Detail"
                       >
                         <Eye className="w-4 h-4" />

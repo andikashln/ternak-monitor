@@ -108,7 +108,7 @@ export const DailyReportsView: React.FC = () => {
       <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-2xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
           <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-            <FileSpreadsheet className="w-5 h-5 text-emerald-800" />
+            <FileSpreadsheet className="w-5 h-5 text-#5A2D1F" />
             <span>Laporan Harian Operasional Kandang (Daily Farm Report)</span>
           </h2>
           <p className="text-xs text-slate-500">
@@ -118,7 +118,7 @@ export const DailyReportsView: React.FC = () => {
 
         <button
           onClick={handleOpenModal}
-          className="flex items-center gap-1.5 px-4 py-2 bg-emerald-900 hover:bg-emerald-800 text-white text-xs font-bold rounded-xl transition cursor-pointer"
+          className="flex items-center gap-1.5 px-4 py-2 bg-#4A2C1D hover:bg-#5A2D1F text-white text-xs font-bold rounded-xl transition cursor-pointer"
         >
           <Plus className="w-4 h-4" />
           <span>+ Buat Laporan Harian</span>
@@ -136,7 +136,7 @@ export const DailyReportsView: React.FC = () => {
               </div>
               <div className="flex items-center gap-2">
                 <span className={`px-2.5 py-0.5 rounded text-[11px] font-bold ${
-                  rpt.reportStatus === 'Disetujui' ? 'bg-emerald-100 text-emerald-900' : 'bg-blue-100 text-blue-900'
+                  rpt.reportStatus === 'Disetujui' ? 'bg-#F5EFE6 text-#4A2C1D' : 'bg-blue-100 text-blue-900'
                 }`}>
                   Status: {rpt.reportStatus}
                 </span>
@@ -144,7 +144,7 @@ export const DailyReportsView: React.FC = () => {
                 {storeService.currentUser.role === 'OWNER' && rpt.reportStatus !== 'Disetujui' && (
                   <button
                     onClick={() => handleApprove(rpt.id)}
-                    className="px-3 py-1 bg-emerald-800 hover:bg-emerald-900 text-white text-xs font-bold rounded-lg transition cursor-pointer"
+                    className="px-3 py-1 bg-#5A2D1F hover:bg-#4A2C1D text-white text-xs font-bold rounded-lg transition cursor-pointer"
                   >
                     ✓ Setujui Laporan
                   </button>
@@ -163,9 +163,9 @@ export const DailyReportsView: React.FC = () => {
               </span>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-slate-800 font-bold">
                 <div>Awal: <span className="text-slate-900">{rpt.popInitial}</span></div>
-                <div>+ Masuk (Beli/Lahir/Tf): <span className="text-emerald-700">+{rpt.popPurchase + rpt.popBirth + rpt.popTransferIn}</span></div>
+                <div>+ Masuk (Beli/Lahir/Tf): <span className="text-#6B3A24">+{rpt.popPurchase + rpt.popBirth + rpt.popTransferIn}</span></div>
                 <div>- Keluar (Jual/Mati/Tf): <span className="text-rose-600">-{rpt.popSales + rpt.popDeath + rpt.popTransferOut}</span></div>
-                <div className="text-emerald-900 font-black">
+                <div className="text-#4A2C1D font-black">
                   = Populasi Akhir: <span className="text-base font-black">{rpt.popFinal} ekor</span>
                 </div>
               </div>
@@ -174,7 +174,7 @@ export const DailyReportsView: React.FC = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs text-slate-700">
               <div>
                 <span className="font-bold text-slate-900 block">Kondisi Kesehatan:</span>
-                <p>Sehat: <span className="font-bold text-emerald-700">{rpt.healthyCount}</span> | Sakit: <span className="font-bold text-rose-600">{rpt.sickCount}</span> | Isolasi: {rpt.isolationCount}</p>
+                <p>Sehat: <span className="font-bold text-#6B3A24">{rpt.healthyCount}</span> | Sakit: <span className="font-bold text-rose-600">{rpt.sickCount}</span> | Isolasi: {rpt.isolationCount}</p>
               </div>
               <div>
                 <span className="font-bold text-slate-900 block">Aktivitas & Catatan Petugas:</span>
@@ -185,7 +185,7 @@ export const DailyReportsView: React.FC = () => {
 
             <div className="text-[10px] text-slate-400 pt-2 border-t border-slate-100 flex items-center justify-between">
               <span>Dilaporkan oleh: <strong className="text-slate-600">{rpt.createdBy}</strong></span>
-              {rpt.reviewedBy && <span>Disetujui oleh: <strong className="text-emerald-800">{rpt.reviewedBy}</strong> ({formatDate(rpt.reviewedAt)})</span>}
+              {rpt.reviewedBy && <span>Disetujui oleh: <strong className="text-#5A2D1F">{rpt.reviewedBy}</strong> ({formatDate(rpt.reviewedAt)})</span>}
             </div>
           </div>
         ))}
@@ -195,9 +195,9 @@ export const DailyReportsView: React.FC = () => {
       {isModalOpen && (
         <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center p-3 sm:p-4">
           <div className="bg-white rounded-2xl max-w-lg w-full overflow-hidden shadow-2xl border border-slate-200">
-            <div className="p-4 bg-emerald-900 text-white flex items-center justify-between font-bold">
+            <div className="p-4 bg-#4A2C1D text-white flex items-center justify-between font-bold">
               <h3>{editingReportId ? 'Edit Laporan Harian' : 'Form Laporan Harian Kandang'}</h3>
-              <button onClick={() => setIsModalOpen(false)} className="p-1 hover:bg-emerald-800 rounded">
+              <button onClick={() => setIsModalOpen(false)} className="p-1 hover:bg-#5A2D1F rounded">
                 <X className="w-5 h-5" />
               </button>
             </div>
@@ -210,7 +210,7 @@ export const DailyReportsView: React.FC = () => {
                     value={locationId}
                     onChange={e => setLocationId(e.target.value)}
                     required
-                    className="w-full px-3 py-2 border border-slate-300 rounded-lg font-bold focus:ring-2 focus:ring-emerald-800 focus:outline-none"
+                    className="w-full px-3 py-2 border border-slate-300 rounded-lg font-bold focus:ring-2 focus:ring-#5A2D1F focus:outline-none"
                   >
                     {locations.map(l => (
                       <option key={l.id} value={l.id}>{l.name}</option>
@@ -224,7 +224,7 @@ export const DailyReportsView: React.FC = () => {
                     value={date}
                     onChange={e => setDate(e.target.value)}
                     required
-                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-800 focus:outline-none"
+                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-#5A2D1F focus:outline-none"
                   />
                 </div>
               </div>
@@ -244,7 +244,7 @@ export const DailyReportsView: React.FC = () => {
                     />
                   </div>
                   <div>
-                    <label className="block text-[10px] text-emerald-700 font-semibold">+ Pembelian</label>
+                    <label className="block text-[10px] text-#6B3A24 font-semibold">+ Pembelian</label>
                     <input
                       type="number"
                       value={popPurchase}
@@ -253,7 +253,7 @@ export const DailyReportsView: React.FC = () => {
                     />
                   </div>
                   <div>
-                    <label className="block text-[10px] text-emerald-700 font-semibold">+ Kelahiran</label>
+                    <label className="block text-[10px] text-#6B3A24 font-semibold">+ Kelahiran</label>
                     <input
                       type="number"
                       value={popBirth}
@@ -262,7 +262,7 @@ export const DailyReportsView: React.FC = () => {
                     />
                   </div>
                   <div>
-                    <label className="block text-[10px] text-emerald-700 font-semibold">+ Transfer In</label>
+                    <label className="block text-[10px] text-#6B3A24 font-semibold">+ Transfer In</label>
                     <input
                       type="number"
                       value={popTransferIn}
@@ -302,7 +302,7 @@ export const DailyReportsView: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="p-2 bg-emerald-100/80 rounded text-center text-xs font-bold text-emerald-950 font-mono">
+                <div className="p-2 bg-#F5EFE6/80 rounded text-center text-xs font-bold text-#2A1810 font-mono">
                   HASIL KALKULASI POPULASI AKHIR: {popFinalCalculated} EKOR
                 </div>
               </div>
@@ -344,7 +344,7 @@ export const DailyReportsView: React.FC = () => {
                   value={activitiesText}
                   onChange={e => setActivitiesText(e.target.value)}
                   rows={2}
-                  className="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-800"
+                  className="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-#5A2D1F"
                 />
               </div>
               <div>
@@ -366,7 +366,7 @@ export const DailyReportsView: React.FC = () => {
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2 bg-emerald-900 text-white font-bold rounded-lg hover:bg-emerald-800"
+                  className="px-5 py-2 bg-#4A2C1D text-white font-bold rounded-lg hover:bg-#5A2D1F"
                 >
                   {editingReportId ? 'Simpan Perubahan' : reportStatus === 'Draft' ? 'Simpan Draft' : 'Kirim Laporan Harian'}
                 </button>

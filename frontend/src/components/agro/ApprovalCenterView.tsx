@@ -78,7 +78,7 @@ export const ApprovalCenterView: React.FC = () => {
                   <>
                     <button
                       onClick={() => decide(a.id, 'Disetujui')}
-                      className="inline-flex items-center gap-1 rounded-lg bg-emerald-50 px-3 py-2 text-xs font-bold text-emerald-800 hover:bg-emerald-100"
+                      className="inline-flex items-center gap-1 rounded-lg bg-#FBF8F2 px-3 py-2 text-xs font-bold text-#5A2D1F hover:bg-#F5EFE6"
                     >
                       <CheckCircle2 className="h-4 w-4" />Setujui
                     </button>

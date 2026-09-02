@@ -143,7 +143,7 @@ export const FishHarvestView: React.FC = () => {
               <td className="px-4 py-3 text-xs">{h.averageWeightKg}</td>
               <td className="px-4 py-3 text-xs">{h.buyerName}</td>
               <td className="px-4 py-3 text-xs">{formatRupiah(h.pricePerKg)}</td>
-              <td className="px-4 py-3 font-black text-emerald-800">{formatRupiah(h.totalRevenue)}</td>
+              <td className="px-4 py-3 font-black text-#5A2D1F">{formatRupiah(h.totalRevenue)}</td>
               <td className="px-4 py-3">
                 <div className="flex gap-1">
                   <AgroButton variant="ghost" onClick={() => openEdit(h)}><Pencil className="h-4 w-4" /></AgroButton>
