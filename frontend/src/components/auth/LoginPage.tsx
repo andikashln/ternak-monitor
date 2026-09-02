@@ -62,7 +62,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onDemoLogin, onOp
         </div>
 
         <div className="relative max-w-xl">
-          <span className="mb-5 inline-flex rounded-full border border-#EFE5D5/20 bg-white/5 px-3 py-1 text-xs font-bold text-[#EFE5D5]">
+          <span className="mb-5 inline-flex rounded-full border border-[#EFE5D5]/20 bg-white/5 px-3 py-1 text-xs font-bold text-[#EFE5D5]">
             TERNAK MONITOR
           </span>
           <h1 className="text-4xl font-black leading-tight tracking-tight xl:text-5xl">
@@ -152,7 +152,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onDemoLogin, onOp
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#5a2d1f] px-4 py-3 text-sm font-black text-white shadow-lg shadow-#2A1810/10 transition hover:bg-[#245b43] disabled:cursor-not-allowed disabled:opacity-60"
+                className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#5a2d1f] px-4 py-3 text-sm font-black text-white shadow-lg shadow-[#2A1810]/10 transition hover:bg-[#245b43] disabled:cursor-not-allowed disabled:opacity-60"
               >
                 {isSubmitting && <Loader2 className="h-4 w-4 animate-spin" />}
                 {isSubmitting ? 'Memverifikasi...' : 'Masuk ke Dashboard'}
@@ -163,7 +163,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onDemoLogin, onOp
               type="button"
               onClick={handleDemoLogin}
               disabled={isSubmitting}
-              className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl border border-#D8C7B0 bg-#FBF8F2 px-4 py-3 text-sm font-black text-#2A1810 transition hover:bg-[#EFE5D5] disabled:cursor-not-allowed disabled:opacity-60"
+              className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl border border-[#D8C7B0] bg-[#FBF8F2] px-4 py-3 text-sm font-black text-[#2A1810] transition hover:bg-[#EFE5D5] disabled:cursor-not-allowed disabled:opacity-60"
             >
               {isSubmitting && <Loader2 className="h-4 w-4 animate-spin" />}
               {isSubmitting ? 'Membuka Demo...' : 'Login Demo Sekali Klik'}

@@ -46,7 +46,7 @@ export const AgroTable: React.FC<{ headers: string[]; children: ReactNode }> = (
 
 export const StatusBadge: React.FC<{ value: string; tone?: 'green' | 'amber' | 'red' | 'blue' | 'violet' | 'slate' }> = ({ value, tone = 'slate' }) => {
   const tones: Record<string, string> = {
-    green: 'bg-#FBF8F2 text-#5A2D1F',
+    green: 'bg-[#FBF8F2] text-[#5A2D1F]',
     amber: 'bg-amber-100 text-amber-900',
     red: 'bg-rose-50 text-rose-700',
     blue: 'bg-blue-50 text-blue-800',

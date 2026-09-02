@@ -22,15 +22,15 @@ export const QuickActionsModal: React.FC<QuickActionsModalProps> = ({
       id: 'add-daily-report',
       label: '+ LAPORAN HARIAN',
       desc: 'Input laporan populasi, aktivitas, & biaya harian kandang',
-      color: 'bg-#4A2C1D text-white border-#5A2D1F hover:bg-#5A2D1F',
-      icon: <FileSpreadsheet className="w-6 h-6 text-amber-400" />
+      color: 'bg-[#4A2C1D] text-white border-[#5A2D1F] hover:bg-[#5A2D1F]',
+      icon: <FileSpreadsheet className="w-6 h-6 text-[#F5EFE6]" />
     },
     {
       id: 'add-weight',
       label: '+ TIMBANG BOBOT',
       desc: 'Catat timbangan bobot ternak rutin',
-      color: 'bg-#FBF8F2 text-#4A2C1D border-#EFE5D5 hover:bg-#F5EFE6',
-      icon: <Scale className="w-6 h-6 text-#5A2D1F" />
+      color: 'bg-[#FBF8F2] text-[#4A2C1D] border-[#EFE5D5] hover:bg-[#F5EFE6]',
+      icon: <Scale className="w-6 h-6 text-[#5A2D1F]" />
     },
     {
       id: 'add-health',
@@ -74,14 +74,20 @@ export const QuickActionsModal: React.FC<QuickActionsModalProps> = ({
       <div className="bg-white rounded-2xl max-w-lg w-full overflow-hidden shadow-2xl border border-slate-200 max-h-[90vh] flex flex-col">
         
         {/* Header */}
-        <div className="p-4 bg-#4A2C1D text-white flex items-center justify-between">
-          <div>
-            <h3 className="text-base font-bold">Aksi Cepat Petugas Kandang</h3>
-            <p className="text-xs text-#EFE5D5">Pilih tindakan operasional untuk diinput</p>
+        <div className="px-4 pt-4 pb-3 bg-[#4A2C1D] text-white flex items-center justify-between gap-3">
+          <div className="flex items-center gap-2.5 min-w-0">
+            <div className="p-2 rounded-lg bg-white/15 shrink-0">
+              <FileSpreadsheet className="w-5 h-5 text-[#F5EFE6]" />
+            </div>
+            <div className="min-w-0">
+              <h3 className="text-sm font-bold leading-tight">Aksi Cepat Petugas Kandang</h3>
+              <p className="text-[11px] text-[#EFE5D5] mt-0.5">Pilih tindakan operasional untuk diinput</p>
+            </div>
           </div>
           <button
             onClick={onClose}
-            className="p-1 text-#EFE5D5 hover:text-white hover:bg-#5A2D1F rounded-lg transition"
+            className="p-1.5 text-[#EFE5D5] hover:text-white hover:bg-white/10 rounded-lg transition shrink-0"
+            aria-label="Tutup"
           >
             <X className="w-5 h-5" />
           </button>

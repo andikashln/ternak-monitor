@@ -134,7 +134,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab, role 
   <aside className="app-sidebar hidden w-[17.5rem] shrink-0 flex-col border-r bg-white/90 lg:flex">
     <div className="mx-4 mt-5 rounded-xl border border-[#d2ad76]/70 bg-[#f9ebcc]/65 p-3.5">
       <div className="flex items-center gap-3">
-        <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-#4A2C1D text-white shadow-sm">
+        <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#4A2C1D] text-white shadow-sm">
           <Activity className="h-5 w-5" />
         </span>
         <span className="min-w-0">
@@ -176,11 +176,11 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab, role 
                     </span>
                     <span className="min-w-0 flex-1">
                       <span className="block truncate text-xs font-extrabold">{item.label}</span>
-                      <span className={`mt-0.5 block truncate text-[9px] font-medium ${isActive ? 'text-#F5EFE6/80' : 'text-slate-400'}`}>
+                      <span className={`mt-0.5 block truncate text-[9px] font-medium ${isActive ? 'text-[#F5EFE6]/80' : 'text-slate-400'}`}>
                         {item.description}
                       </span>
                     </span>
-                    <ChevronRight className={`h-3.5 w-3.5 shrink-0 ${isActive ? 'text-#EFE5D5' : 'text-slate-300'}`} />
+                    <ChevronRight className={`h-3.5 w-3.5 shrink-0 ${isActive ? 'text-[#EFE5D5]' : 'text-slate-300'}`} />
                   </button>
                 );
               })}

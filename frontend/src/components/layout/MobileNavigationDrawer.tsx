@@ -78,7 +78,7 @@ export const MobileNavigationDrawer: React.FC<MobileNavigationDrawerProps> = ({
                           <span className="block text-sm font-extrabold">{item.label}</span>
                           <span className={`block text-[11px] ${isActive ? 'text-[#EFE5D5]/75' : 'text-slate-400'}`}>{item.description}</span>
                         </span>
-                        <ChevronRight className={`h-4 w-4 ${isActive ? 'text-#EFE5D5' : 'text-slate-300'}`} />
+                        <ChevronRight className={`h-4 w-4 ${isActive ? 'text-[#EFE5D5]' : 'text-slate-300'}`} />
                       </button>
                     );
                   })}

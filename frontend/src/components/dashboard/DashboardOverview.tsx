@@ -130,8 +130,8 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
         <button onClick={() => onNavigateTab('funding-docs')} className="card-polish text-left transition hover:border-amber-300">
           <WalletCards className="mb-2 h-5 w-5 text-amber-700"/><p className="text-[10px] font-black uppercase tracking-wider text-slate-500">Menunggu Persetujuan</p><p className="mt-1 text-xl font-black">{workflow.fundRequests.filter(item => ['Diajukan','Diverifikasi Akuntan'].includes(item.status)).length}</p>
         </button>
-        <button onClick={() => onNavigateTab('funding-docs')} className="card-polish text-left transition hover:border-#D8C7B0">
-          <CheckCircle2 className="mb-2 h-5 w-5 text-#6B3A24"/><p className="text-[10px] font-black uppercase tracking-wider text-slate-500">Dana Disetujui</p><p className="mt-1 text-sm font-black">{formatRupiah(workflow.fundRequests.filter(item => ['Disetujui Owner','Dicairkan','Selesai'].includes(item.status)).reduce((sum,item) => sum + item.total, 0))}</p>
+        <button onClick={() => onNavigateTab('funding-docs')} className="card-polish text-left transition hover:border-[#D8C7B0]">
+          <CheckCircle2 className="mb-2 h-5 w-5 text-[#6B3A24]"/><p className="text-[10px] font-black uppercase tracking-wider text-slate-500">Dana Disetujui</p><p className="mt-1 text-sm font-black">{formatRupiah(workflow.fundRequests.filter(item => ['Disetujui Owner','Dicairkan','Selesai'].includes(item.status)).reduce((sum,item) => sum + item.total, 0))}</p>
         </button>
         <button onClick={() => onNavigateTab('invoices')} className="card-polish text-left transition hover:border-rose-300">
           <Receipt className="mb-2 h-5 w-5 text-rose-700"/><p className="text-[10px] font-black uppercase tracking-wider text-slate-500">Invoice Belum Lunas</p><p className="mt-1 text-xl font-black">{workflow.invoices.filter(item => item.status === 'Aktif' && item.remainingAmount > 0).length}</p>
