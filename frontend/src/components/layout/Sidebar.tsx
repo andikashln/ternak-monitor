@@ -191,7 +191,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab, role 
     </nav>
 
     <div className="border-t border-slate-100 px-5 py-4">
-      <p className="text-[10px] font-bold text-slate-500">Sapi Papi Farm</p>
+      <p className="text-[10px] font-black uppercase tracking-[0.15em] text-[#4A2C1D]">PAPI FARM SOEMATRA</p>
       <p className="mt-0.5 text-[9px] text-slate-400">Ternak Monitor · v2.5</p>
     </div>
   </aside>
