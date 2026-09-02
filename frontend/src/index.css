@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 /* Re-map Tailwind default cool-gray/blue scales to warm monochrome brown palette
-   so the whole app stays on-brand (Sapi Farm Riau). */
+   so the whole app stays on-brand (Papi Farm Riau). */
 @theme {
   --color-slate-50: #FBF8F2;
   --color-slate-100: #F5EFE6;

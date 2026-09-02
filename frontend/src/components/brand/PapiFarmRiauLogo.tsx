@@ -1,16 +1,16 @@
 import React from 'react';
 
-interface SapiPapiLogoProps {
+interface PapiFarmRiauLogoProps {
   variant?: 'mark' | 'lockup';
   className?: string;
 }
 
 /**
- * Logo asli Sapi Farm Riau (line-art cow + barn, monokrom coklat).
+ * Logo asli Papi Farm Riau (line-art cow + barn, monokrom coklat).
  * - 'mark'   : icon saja (untuk sidebar / favicon konteks kecil)
- * - 'lockup' : icon + teks "SAPI PAPI — FARM"
+ * - 'lockup' : icon + teks "PAPI FARM — FARM"
  */
-export const SapiPapiLogo: React.FC<SapiPapiLogoProps> = ({
+export const PapiFarmRiauLogo: React.FC<PapiFarmRiauLogoProps> = ({
   variant = 'lockup',
   className = '',
 }) => {
@@ -18,7 +18,7 @@ export const SapiPapiLogo: React.FC<SapiPapiLogoProps> = ({
     return (
       <img
         src="/icons/icon-64x64.png"
-        alt="Logo Sapi Farm Riau"
+        alt="Logo Papi Farm Riau"
         className={`shrink-0 ${className}`}
         style={{ height: 36, width: 36 }}
       />
@@ -29,15 +29,15 @@ export const SapiPapiLogo: React.FC<SapiPapiLogoProps> = ({
     <div className={`inline-flex items-center gap-2.5 ${className}`}>
       <img
         src="/icons/icon-64x64.png"
-        alt="Logo Sapi Farm Riau"
+        alt="Logo Papi Farm Riau"
         className="h-9 w-9 shrink-0"
       />
       <span className="min-w-0 leading-tight">
         <span className="block text-sm font-extrabold tracking-tight text-[#24150F]">
-          SAPI PAPI
+          PAPI FARM
         </span>
         <span className="block text-[10px] font-bold tracking-[0.18em] text-[#937A65]">
-          FARM
+          RIAU
         </span>
       </span>
     </div>

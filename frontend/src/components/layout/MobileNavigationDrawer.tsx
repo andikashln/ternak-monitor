@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { ChevronRight, LogOut, Search, X } from 'lucide-react';
 import { UserProfile } from '../../types';
-import { SapiPapiLogo } from '../brand/SapiPapiLogo';
+import { PapiFarmRiauLogo } from '../brand/PapiFarmRiauLogo';
 import { navigationSections } from './Sidebar';
 
 interface MobileNavigationDrawerProps {
@@ -43,7 +43,7 @@ export const MobileNavigationDrawer: React.FC<MobileNavigationDrawerProps> = ({
       <button type="button" aria-label="Tutup menu" onClick={onClose} className="absolute inset-0 bg-slate-950/45 backdrop-blur-[2px]" />
       <aside className="drawer-enter absolute inset-y-0 left-0 flex w-[min(88vw,22rem)] flex-col bg-[#fbfdfb] shadow-2xl">
         <div className="flex items-center justify-between border-b border-slate-200 px-4 py-4">
-          <SapiPapiLogo />
+          <PapiFarmRiauLogo />
           <button type="button" onClick={onClose} className="icon-button" aria-label="Tutup menu navigasi"><X className="h-5 w-5" /></button>
         </div>
 

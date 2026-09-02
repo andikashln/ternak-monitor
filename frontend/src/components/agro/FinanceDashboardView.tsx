@@ -23,7 +23,7 @@ export const FinanceDashboardView: React.FC = () => {
       <AgroHeader
         kicker="Finance Control"
         title="Dashboard Keuangan"
-        subtitle="Ringkasan arus kas, saldo, dan aktivitas persetujuan terkini Sapi Farm Riau."
+        subtitle="Ringkasan arus kas, saldo, dan aktivitas persetujuan terkini Papi Farm Riau."
       />
 
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">

@@ -73,7 +73,7 @@ export async function initializeDatabase() {
         `INSERT INTO users (email, password_hash, display_name, role, status)
          VALUES ($1, $2, $3, 'OWNER', 'Aktif')
          ON CONFLICT (email) DO NOTHING`,
-        [bootstrapEmail.toLowerCase(), hashPassword(bootstrapPassword), process.env.BOOTSTRAP_OWNER_NAME || 'Owner Sapi Farm Riau']
+        [bootstrapEmail.toLowerCase(), hashPassword(bootstrapPassword), process.env.BOOTSTRAP_OWNER_NAME || 'Owner Papi Farm Riau']
       );
     }
 

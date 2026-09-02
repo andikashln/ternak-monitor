@@ -6,7 +6,7 @@ import { Sidebar } from './components/layout/Sidebar';
 import { BottomNav } from './components/layout/BottomNav';
 import { MobileNavigationDrawer } from './components/layout/MobileNavigationDrawer';
 import { getNavigationLabel } from './components/layout/Sidebar';
-import { SapiPapiLogo } from './components/brand/SapiPapiLogo';
+import { PapiFarmRiauLogo } from './components/brand/PapiFarmRiauLogo';
 import { SalesCatalogView } from './components/catalog/SalesCatalogView';
 import { canAccess } from './services/permissions';
 
@@ -223,7 +223,7 @@ export function App() {
         <div className="app-surface min-h-screen font-sans text-slate-800 antialiased">
           <header className="sticky top-0 z-30 border-b border-#2A1810/8 bg-white/92 shadow-sm backdrop-blur-xl">
             <div className="mx-auto flex h-[4.5rem] max-w-screen-2xl items-center justify-between gap-3 px-4 sm:px-6 lg:px-8">
-              <SapiPapiLogo />
+              <PapiFarmRiauLogo />
               <button
                 type="button"
                 onClick={() => setShowPublicCatalog(false)}
@@ -356,7 +356,7 @@ export function App() {
           </Suspense>
 
           <footer className="mt-8 flex flex-col items-center gap-1 border-t border-[#e7dcc8] pt-5 pb-2 text-center">
-            <p className="text-[11px] font-black uppercase tracking-[0.2em] text-[#4A2C1D]">SAPI FARM RIAU</p>
+            <p className="text-[11px] font-black uppercase tracking-[0.2em] text-[#4A2C1D]">PAPI FARM RIAU</p>
             <p className="text-[10px] text-slate-400">Ternak Monitor · Integrated Farm</p>
           </footer>
 

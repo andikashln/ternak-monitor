@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ChevronDown, LogOut, Menu, Plus, Search, ShieldCheck, Users } from 'lucide-react';
 import { storeService } from '../../services/storeService';
-import { SapiPapiLogo } from '../brand/SapiPapiLogo';
+import { PapiFarmRiauLogo } from '../brand/PapiFarmRiauLogo';
 import { ROLE_LABELS } from '../../services/permissions';
 
 interface NavbarProps {
@@ -49,7 +49,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           <Menu className="h-5 w-5" />
         </button>
 
-        <div className="hidden w-[15.75rem] shrink-0 lg:block"><SapiPapiLogo /></div>
+        <div className="hidden w-[15.75rem] shrink-0 lg:block"><PapiFarmRiauLogo /></div>
         <div className="min-w-0 flex-1 lg:hidden">
           <p className="ranch-label">Ternak Monitor</p>
           <h1 className="ranch-heading text-base font-black leading-tight">{pageTitle}</h1>
