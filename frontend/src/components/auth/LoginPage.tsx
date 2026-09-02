@@ -57,7 +57,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onDemoLogin, onOp
           </div>
           <div>
             <p className="text-xl font-black tracking-tight">SAPI FARM RIAU</p>
-            <p className="text-xs font-semibold tracking-wide text-[#EFE5D5]">Sistem Peternakan Terpadu</p>
+            <p className="text-xs font-semibold tracking-wide text-[#EFE5D5]">Integrated Farm</p>
           </div>
         </div>
 
@@ -87,7 +87,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onDemoLogin, onOp
             </div>
             <div>
               <p className="font-black tracking-tight">SAPI FARM RIAU</p>
-              <p className="text-[11px] font-semibold text-[#5a2d1f]">Sistem Peternakan Terpadu</p>
+              <p className="text-[11px] font-semibold text-[#5a2d1f]">Integrated Farm</p>
             </div>
           </div>
 
