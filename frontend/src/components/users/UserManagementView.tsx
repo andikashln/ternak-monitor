@@ -4,9 +4,9 @@ import { usersAPI } from '../../services/api';
 import { storeService } from '../../services/storeService';
 import { ManagedUser, UserRole } from '../../types';
 
-const ALL_ROLES: UserRole[] = ['OWNER', 'MANAGER', 'ACCOUNTANT', 'MITRA'];
+const ALL_ROLES: UserRole[] = ['OWNER', 'MANAGER', 'ACCOUNTANT', 'MITRA', 'ADMIN', 'DEVELOPER'];
 const roleLabels: Record<UserRole, string> = {
-  OWNER: 'Owner', MANAGER: 'Manager', ACCOUNTANT: 'Akuntan', MITRA: 'Mitra', ADMIN: 'Administrator', USER: 'Customer',
+  OWNER: 'Owner', MANAGER: 'Manager', ACCOUNTANT: 'Akuntan', MITRA: 'Mitra', ADMIN: 'Administrator', USER: 'Customer', DEVELOPER: 'Developer',
 };
 
 const emptyForm = {

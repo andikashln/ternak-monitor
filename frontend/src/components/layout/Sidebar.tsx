@@ -3,6 +3,10 @@ import {
   Activity, BadgeDollarSign, Baby, ChevronRight, ClipboardList, Database, FileBarChart,
   HeartPulse, LayoutDashboard, ReceiptText, ShoppingCart,
   Users, Wallet, Wheat, Settings, WalletCards, FileText,
+  // Divisi baru
+  Landmark, Scale, ShieldCheck, Banknote, Sprout, Leaf, Tractor, Trees,
+  Fish, Droplets, Waves, Anchor, Bird, PawPrint, Package, PackagePlus,
+  ClipboardCheck, UserCheck, Gauge, BookOpenCheck, FolderCog, ScrollText,
 } from 'lucide-react';
 import { UserRole } from '../../types';
 import { canAccess } from '../../services/permissions';
@@ -34,11 +38,49 @@ export const navigationSections: NavSection[] = [
     ],
   },
   {
-    label: 'Operasional ternak',
+    label: 'Finance control',
     items: [
-      { id: 'livestock', label: 'Database Ternak', description: 'Identitas & populasi', icon: Database, allowedRoles: ['OWNER', 'MANAGER', 'MITRA'] },
+      { id: 'finance-dashboard', label: 'Dashboard Finance', description: 'Kas & laba ringkas', icon: Landmark, allowedRoles: ['OWNER', 'MANAGER', 'ACCOUNTANT'] },
+      { id: 'approval-center', label: 'Approval Center', description: 'Persetujuan terpusat', icon: ShieldCheck, allowedRoles: ['OWNER', 'MANAGER', 'ACCOUNTANT'] },
+      { id: 'cash-flow', label: 'Kas Masuk & Keluar', description: 'Arus kas harian', icon: Banknote, allowedRoles: ['OWNER', 'MANAGER', 'ACCOUNTANT'] },
+      { id: 'lpj', label: 'LPJ Pertanggungjawaban', description: 'Laporan pertanggungjawaban', icon: Scale, allowedRoles: ['OWNER', 'MANAGER', 'ACCOUNTANT'] },
+      { id: 'funding-docs', label: 'Pengajuan Dana', description: 'Verifikasi & persetujuan', icon: WalletCards, allowedRoles: ['OWNER', 'MANAGER', 'ACCOUNTANT', 'MITRA'] },
+      { id: 'invoices', label: 'Invoice & Bukti Bayar', description: 'Tagihan, DP & bukti bayar', icon: FileText, allowedRoles: ['OWNER', 'MANAGER', 'ACCOUNTANT'] },
+    ],
+  },
+  {
+    label: 'Peternakan sapi',
+    items: [
+      { id: 'livestock', label: 'Data Sapi & Mutasi', description: 'Identitas, populasi & mutasi', icon: Database, allowedRoles: ['OWNER', 'MANAGER', 'MITRA'] },
+      { id: 'feed', label: 'Pakan & Timbangan', description: 'Stok pakan & penimbangan', icon: Wheat, allowedRoles: ['OWNER', 'MANAGER', 'MITRA'] },
       { id: 'health', label: 'Kesehatan', description: 'Rekam medis & obat', icon: HeartPulse, allowedRoles: ['OWNER', 'MANAGER'] },
       { id: 'births-deaths', label: 'Kelahiran & Kematian', description: 'Perubahan populasi', icon: Baby, allowedRoles: ['OWNER', 'MANAGER'] },
+    ],
+  },
+  {
+    label: 'Kebun & pertanian',
+    items: [
+      { id: 'crop-longterm', label: 'Tanaman Jangka Panjang', description: 'Sawit & tanaman tahunan', icon: Trees, allowedRoles: ['OWNER', 'MANAGER', 'MITRA'] },
+      { id: 'crop-shortterm', label: 'Sayuran Jangka Pendek', description: 'Hortikultura musiman', icon: Sprout, allowedRoles: ['OWNER', 'MANAGER', 'MITRA'] },
+      { id: 'crop-activity', label: 'Aktivitas & Pemupukan', description: 'Perawatan & pemupukan', icon: Tractor, allowedRoles: ['OWNER', 'MANAGER', 'MITRA'] },
+      { id: 'garden-docs', label: 'Invoice & Surat Jalan Kebun', description: 'Dokumen & SOP kebun', icon: Leaf, allowedRoles: ['OWNER', 'MANAGER'] },
+    ],
+  },
+  {
+    label: 'Perikanan & bioflok',
+    items: [
+      { id: 'ponds', label: 'Semua Kolam & Bioflok', description: 'Kolam & populasi ikan', icon: Waves, allowedRoles: ['OWNER', 'MANAGER', 'MITRA'] },
+      { id: 'water-quality', label: 'Kualitas Air (pH/DO/Suhu)', description: 'Monitoring parameter air', icon: Droplets, allowedRoles: ['OWNER', 'MANAGER', 'MITRA'] },
+      { id: 'fish-feed', label: 'Log Pakan & FCR Kolam', description: 'Pakan & konversi', icon: Fish, allowedRoles: ['OWNER', 'MANAGER', 'MITRA'] },
+      { id: 'fish-harvest', label: 'Panen & Penjualan Ikan', description: 'Hasil panen & penjualan', icon: Anchor, allowedRoles: ['OWNER', 'MANAGER', 'MITRA'] },
+      { id: 'fish-docs', label: 'Invoice & Surat Jalan Ikan', description: 'Dokumen & SOP kolam', icon: FileText, allowedRoles: ['OWNER', 'MANAGER'] },
+    ],
+  },
+  {
+    label: 'Satwa & aviari',
+    items: [
+      { id: 'wildlife', label: 'Koleksi Satwa & Aviari', description: 'Satwa & burung koleksi', icon: Bird, allowedRoles: ['OWNER', 'MANAGER', 'MITRA'] },
+      { id: 'wildlife-feed', label: 'Jadwal & Checklist Pakan', description: 'Jadwal pakan satwa', icon: PawPrint, allowedRoles: ['OWNER', 'MANAGER', 'MITRA'] },
     ],
   },
   {
@@ -48,23 +90,38 @@ export const navigationSections: NavSection[] = [
       { id: 'sales-results', label: 'Hasil Penjualan', description: 'HPP, biaya & laba bersih', icon: BadgeDollarSign, allowedRoles: ['OWNER', 'MANAGER', 'ACCOUNTANT'] },
       { id: 'finance', label: 'Laporan Laba Rugi', description: 'Pemasukan, biaya & laba', icon: Wallet, allowedRoles: ['OWNER', 'MANAGER', 'ACCOUNTANT'] },
       { id: 'expenses', label: 'Pengeluaran', description: 'Biaya operasional', icon: ReceiptText, allowedRoles: ['OWNER', 'MANAGER', 'ACCOUNTANT'] },
-      { id: 'feed', label: 'Pakan Ternak', description: 'Stok & pemakaian pakan', icon: Wheat, allowedRoles: ['OWNER', 'MANAGER', 'MITRA'] },
-      { id: 'funding-docs', label: 'Pengajuan Dana', description: 'Verifikasi & persetujuan', icon: WalletCards, allowedRoles: ['OWNER', 'MANAGER', 'ACCOUNTANT', 'MITRA'] },
-      { id: 'invoices', label: 'Invoice & Pembayaran', description: 'Tagihan, DP & bukti bayar', icon: FileText, allowedRoles: ['OWNER', 'MANAGER', 'ACCOUNTANT'] },
+    ],
+  },
+  {
+    label: 'Inventory & purchasing',
+    items: [
+      { id: 'inventory', label: 'Stok & Mutasi Barang', description: 'Inventori & mutasi stok', icon: Package, allowedRoles: ['OWNER', 'MANAGER', 'ACCOUNTANT'] },
+      { id: 'purchase-request', label: 'Purchase Request & PO', description: 'Permintaan & pesanan', icon: PackagePlus, allowedRoles: ['OWNER', 'MANAGER', 'ACCOUNTANT'] },
+    ],
+  },
+  {
+    label: 'Operasional',
+    items: [
+      { id: 'daily-report', label: 'Daily Report', description: 'Laporan harian divisi', icon: ClipboardCheck, allowedRoles: ['OWNER', 'MANAGER', 'MITRA'] },
+      { id: 'task-management', label: 'Task Management', description: 'Penugasan & progres', icon: ClipboardList, allowedRoles: ['OWNER', 'MANAGER', 'MITRA'] },
+      { id: 'attendance', label: 'Absensi Pekerja', description: 'Kehadiran harian', icon: UserCheck, allowedRoles: ['OWNER', 'MANAGER'] },
+      { id: 'kpi', label: 'KPI Score', description: 'Penilaian kinerja', icon: Gauge, allowedRoles: ['OWNER', 'MANAGER'] },
     ],
   },
   {
     label: 'Laporan',
     items: [
       { id: 'daily-reports', label: 'Laporan Kandang', description: 'Aktivitas harian', icon: ClipboardList, allowedRoles: ['OWNER', 'MANAGER'] },
-      { id: 'reports', label: 'Ekspor Laporan', description: 'Dokumen PDF & Excel', icon: FileBarChart, allowedRoles: ['OWNER', 'MANAGER', 'ACCOUNTANT'] },
+      { id: 'reports', label: 'Laporan & Google Sheets', description: 'Dokumen PDF & Excel', icon: FileBarChart, allowedRoles: ['OWNER', 'MANAGER', 'ACCOUNTANT'] },
     ],
   },
   {
-    label: 'Sistem',
+    label: 'Report & system',
     items: [
-      { id: 'users', label: 'Pengguna', description: 'Akun & hak akses', icon: Users, allowedRoles: ['OWNER'] },
-      { id: 'settings', label: 'Pengaturan', description: 'Profil farm & reset demo', icon: Settings, allowedRoles: ['OWNER'] },
+      { id: 'master-data', label: 'Master Data & Role', description: 'Data master & peran', icon: FolderCog, allowedRoles: ['OWNER', 'DEVELOPER'] },
+      { id: 'audit-trail', label: 'Audit Trail Log', description: 'Riwayat aktivitas', icon: ScrollText, allowedRoles: ['OWNER', 'DEVELOPER'] },
+      { id: 'users', label: 'Pengguna', description: 'Akun & hak akses', icon: Users, allowedRoles: ['OWNER', 'DEVELOPER'] },
+      { id: 'settings', label: 'Pengaturan', description: 'Profil farm & reset demo', icon: Settings, allowedRoles: ['OWNER', 'DEVELOPER'] },
     ],
   },
 ];

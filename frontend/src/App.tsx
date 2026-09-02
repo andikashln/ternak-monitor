@@ -33,6 +33,31 @@ const UserManagementView = lazy(() => import('./components/users/UserManagementV
 const SettingsView = lazy(() => import('./components/settings/SettingsView').then(module => ({ default: module.SettingsView })));
 const FinancialDocumentsView = lazy(() => import('./components/finance/FinancialDocumentsView').then(module => ({ default: module.FinancialDocumentsView })));
 const QuickActionsModal = lazy(() => import('./components/layout/QuickActionsModal').then(module => ({ default: module.QuickActionsModal })));
+// Divisi baru (agro multi-divisi)
+const FinanceDashboardView = lazy(() => import('./components/agro/FinanceDashboardView').then(module => ({ default: module.FinanceDashboardView })));
+const ApprovalCenterView = lazy(() => import('./components/agro/ApprovalCenterView').then(module => ({ default: module.ApprovalCenterView })));
+const CashFlowView = lazy(() => import('./components/agro/CashFlowView').then(module => ({ default: module.CashFlowView })));
+const LpjView = lazy(() => import('./components/agro/LpjView').then(module => ({ default: module.LpjView })));
+const CropLongTermView = lazy(() => import('./components/agro/CropLongTermView').then(module => ({ default: module.CropLongTermView })));
+const CropShortTermView = lazy(() => import('./components/agro/CropShortTermView').then(module => ({ default: module.CropShortTermView })));
+const CropActivityView = lazy(() => import('./components/agro/CropActivityView').then(module => ({ default: module.CropActivityView })));
+const GardenDocumentsView = lazy(() => import('./components/agro/GardenDocumentsView').then(module => ({ default: module.GardenDocumentsView })));
+const PondsView = lazy(() => import('./components/agro/PondsView').then(module => ({ default: module.PondsView })));
+const WaterQualityView = lazy(() => import('./components/agro/WaterQualityView').then(module => ({ default: module.WaterQualityView })));
+const FishFeedView = lazy(() => import('./components/agro/FishFeedView').then(module => ({ default: module.FishFeedView })));
+const FishHarvestView = lazy(() => import('./components/agro/FishHarvestView').then(module => ({ default: module.FishHarvestView })));
+const FishDocumentsView = lazy(() => import('./components/agro/FishDocumentsView').then(module => ({ default: module.FishDocumentsView })));
+const WildlifeView = lazy(() => import('./components/agro/WildlifeView').then(module => ({ default: module.WildlifeView })));
+const WildlifeFeedView = lazy(() => import('./components/agro/WildlifeFeedView').then(module => ({ default: module.WildlifeFeedView })));
+const InventoryView = lazy(() => import('./components/agro/InventoryView').then(module => ({ default: module.InventoryView })));
+const PurchaseRequestView = lazy(() => import('./components/agro/PurchaseRequestView').then(module => ({ default: module.PurchaseRequestView })));
+const PurchaseOrderView = lazy(() => import('./components/agro/PurchaseOrderView').then(module => ({ default: module.PurchaseOrderView })));
+const DailyReportView = lazy(() => import('./components/agro/DailyReportView').then(module => ({ default: module.DailyReportView })));
+const TaskManagementView = lazy(() => import('./components/agro/TaskManagementView').then(module => ({ default: module.TaskManagementView })));
+const AttendanceView = lazy(() => import('./components/agro/AttendanceView').then(module => ({ default: module.AttendanceView })));
+const KpiView = lazy(() => import('./components/agro/KpiView').then(module => ({ default: module.KpiView })));
+const MasterDataView = lazy(() => import('./components/agro/MasterDataView').then(module => ({ default: module.MasterDataView })));
+const AuditTrailView = lazy(() => import('./components/agro/AuditTrailView').then(module => ({ default: module.AuditTrailView })));
 
 const PageLoader = () => (
   <div className="flex min-h-64 items-center justify-center rounded-2xl border border-slate-200 bg-white/70 text-emerald-900">
@@ -303,6 +328,31 @@ export function App() {
           {activeTab === 'settings' && currentUser.role === 'OWNER' && <SettingsView />}
           {activeTab === 'funding-docs' && canAccess(currentUser.role, 'funding-docs') && <FinancialDocumentsView initialTab="funding" />}
           {activeTab === 'invoices' && canAccess(currentUser.role, 'invoices') && <FinancialDocumentsView initialTab="invoices" />}
+          {/* Divisi baru (agro multi-divisi) */}
+          {activeTab === 'finance-dashboard' && canAccess(currentUser.role, 'finance-dashboard') && <FinanceDashboardView />}
+          {activeTab === 'approval-center' && canAccess(currentUser.role, 'approval-center') && <ApprovalCenterView />}
+          {activeTab === 'cash-flow' && canAccess(currentUser.role, 'cash-flow') && <CashFlowView />}
+          {activeTab === 'lpj' && canAccess(currentUser.role, 'lpj') && <LpjView />}
+          {activeTab === 'crop-longterm' && canAccess(currentUser.role, 'crop-longterm') && <CropLongTermView />}
+          {activeTab === 'crop-shortterm' && canAccess(currentUser.role, 'crop-shortterm') && <CropShortTermView />}
+          {activeTab === 'crop-activity' && canAccess(currentUser.role, 'crop-activity') && <CropActivityView />}
+          {activeTab === 'garden-docs' && canAccess(currentUser.role, 'garden-docs') && <GardenDocumentsView />}
+          {activeTab === 'ponds' && canAccess(currentUser.role, 'ponds') && <PondsView />}
+          {activeTab === 'water-quality' && canAccess(currentUser.role, 'water-quality') && <WaterQualityView />}
+          {activeTab === 'fish-feed' && canAccess(currentUser.role, 'fish-feed') && <FishFeedView />}
+          {activeTab === 'fish-harvest' && canAccess(currentUser.role, 'fish-harvest') && <FishHarvestView />}
+          {activeTab === 'fish-docs' && canAccess(currentUser.role, 'fish-docs') && <FishDocumentsView />}
+          {activeTab === 'wildlife' && canAccess(currentUser.role, 'wildlife') && <WildlifeView />}
+          {activeTab === 'wildlife-feed' && canAccess(currentUser.role, 'wildlife-feed') && <WildlifeFeedView />}
+          {activeTab === 'inventory' && canAccess(currentUser.role, 'inventory') && <InventoryView />}
+          {activeTab === 'purchase-request' && canAccess(currentUser.role, 'purchase-request') && <PurchaseRequestView />}
+          {activeTab === 'purchase-order' && canAccess(currentUser.role, 'purchase-order') && <PurchaseOrderView />}
+          {activeTab === 'daily-report' && canAccess(currentUser.role, 'daily-report') && <DailyReportView />}
+          {activeTab === 'task-management' && canAccess(currentUser.role, 'task-management') && <TaskManagementView />}
+          {activeTab === 'attendance' && canAccess(currentUser.role, 'attendance') && <AttendanceView />}
+          {activeTab === 'kpi' && canAccess(currentUser.role, 'kpi') && <KpiView />}
+          {activeTab === 'master-data' && canAccess(currentUser.role, 'master-data') && <MasterDataView />}
+          {activeTab === 'audit-trail' && canAccess(currentUser.role, 'audit-trail') && <AuditTrailView />}
           </Suspense>
           </div>
         </main>
