@@ -6,6 +6,8 @@ export type WorkspaceModule =
   | 'reports' | 'funding-docs' | 'invoices' | 'users' | 'settings'
   // FINANCE CONTROL
   | 'finance-dashboard' | 'approval-center' | 'cash-flow' | 'lpj'
+  // PETERNAKAN SAPI
+  | 'livestock-docs'
   // KEBUN & PERTANIAN
   | 'crop-longterm' | 'crop-shortterm' | 'crop-activity' | 'garden-docs'
   // PERIKANAN & BIOFLOK
@@ -34,6 +36,7 @@ const FULL_ACCESS: WorkspaceModule[] = [
   'sales-results', 'finance', 'expenses', 'feed', 'weight', 'notifications', 'daily-reports', 'reports',
   'funding-docs', 'invoices', 'users', 'settings',
   'finance-dashboard', 'approval-center', 'cash-flow', 'lpj',
+  'livestock-docs',
   'crop-longterm', 'crop-shortterm', 'crop-activity', 'garden-docs',
   'ponds', 'water-quality', 'fish-feed', 'fish-harvest', 'fish-docs',
   'wildlife', 'wildlife-feed',

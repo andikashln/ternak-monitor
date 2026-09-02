@@ -390,7 +390,7 @@ export interface CropActivityRecord {
 
 export interface GardenDocumentRecord {
   id: string;
-  docType: 'Invoice Kebun' | 'Surat Jalan' | 'SOP' | 'Foto Dokumentasi';
+  docType: 'Invoice Sapi' | 'Invoice Kebun' | 'Invoice Ikan' | 'Surat Jalan' | 'SOP' | 'Foto Dokumentasi';
   title: string;
   date: string;
   partyName: string;

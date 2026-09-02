@@ -57,6 +57,7 @@ export const navigationSections: NavSection[] = [
       { id: 'weight', label: 'Timbang Bobot', description: 'Catat & pantau bobot ternak', icon: Scale, allowedRoles: ['OWNER', 'MANAGER', 'MITRA'] },
       { id: 'health', label: 'Kesehatan', description: 'Rekam medis & obat', icon: HeartPulse, allowedRoles: ['OWNER', 'MANAGER'] },
       { id: 'births-deaths', label: 'Kelahiran & Kematian', description: 'Perubahan populasi', icon: Baby, allowedRoles: ['OWNER', 'MANAGER'] },
+      { id: 'livestock-docs', label: 'Invoice & Surat Jalan Sapi', description: 'Dokumen & SOP peternakan', icon: FileText, allowedRoles: ['OWNER', 'MANAGER'] },
     ],
   },
   {

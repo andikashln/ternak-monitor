@@ -44,6 +44,7 @@ const CropLongTermView = lazy(() => import('./components/agro/CropLongTermView')
 const CropShortTermView = lazy(() => import('./components/agro/CropShortTermView').then(module => ({ default: module.CropShortTermView })));
 const CropActivityView = lazy(() => import('./components/agro/CropActivityView').then(module => ({ default: module.CropActivityView })));
 const GardenDocumentsView = lazy(() => import('./components/agro/GardenDocumentsView').then(module => ({ default: module.GardenDocumentsView })));
+const LivestockDocumentsView = lazy(() => import('./components/agro/LivestockDocumentsView').then(module => ({ default: module.LivestockDocumentsView })));
 const PondsView = lazy(() => import('./components/agro/PondsView').then(module => ({ default: module.PondsView })));
 const WaterQualityView = lazy(() => import('./components/agro/WaterQualityView').then(module => ({ default: module.WaterQualityView })));
 const FishFeedView = lazy(() => import('./components/agro/FishFeedView').then(module => ({ default: module.FishFeedView })));
@@ -345,6 +346,7 @@ export function App() {
           {activeTab === 'crop-shortterm' && canAccess(currentUser.role, 'crop-shortterm') && <CropShortTermView />}
           {activeTab === 'crop-activity' && canAccess(currentUser.role, 'crop-activity') && <CropActivityView />}
           {activeTab === 'garden-docs' && canAccess(currentUser.role, 'garden-docs') && <GardenDocumentsView />}
+          {activeTab === 'livestock-docs' && canAccess(currentUser.role, 'livestock-docs') && <LivestockDocumentsView />}
           {activeTab === 'ponds' && canAccess(currentUser.role, 'ponds') && <PondsView />}
           {activeTab === 'water-quality' && canAccess(currentUser.role, 'water-quality') && <WaterQualityView />}
           {activeTab === 'fish-feed' && canAccess(currentUser.role, 'fish-feed') && <FishFeedView />}

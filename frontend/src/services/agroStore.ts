@@ -55,6 +55,9 @@ const INITIAL: AgroState = {
     { id: 'gd-2', docType: 'SOP', title: 'SOP Pemupukan Kelapa Sawit', date: '2026-07-01', partyName: 'Internal', notes: 'Standar dosis per hektar.', createdAt: '2026-07-01T08:00:00Z' },
     { id: 'gd-3', docType: 'Surat Jalan', title: 'Surat Jalan Panen Ikan Nila', date: '2026-08-10', partyName: 'Pasar Sore', fileName: 'sj-ikan-nila-0810.pdf', notes: 'Panen parsial kolam bioflok A2.', createdAt: '2026-08-10T08:00:00Z' },
     { id: 'gd-4', docType: 'SOP', title: 'SOP Monitoring Kualitas Air Kolam Bioflok', date: '2026-06-15', partyName: 'Internal', notes: 'Parameter pH, DO, suhu, amonia harian.', createdAt: '2026-06-15T08:00:00Z' },
+    { id: 'gd-5', docType: 'Invoice Sapi', title: 'Invoice Penjualan Sapi Limousin', date: '2026-08-20', partyName: 'H. Abdul Rahman', fileName: 'inv-sapi-limousin-0820.pdf', notes: '2 ekor sapi limousin, total Rp 43.500.000.', createdAt: '2026-08-20T08:00:00Z' },
+    { id: 'gd-6', docType: 'Surat Jalan', title: 'Surat Jalan Pengiriman Sapi Simental', date: '2026-08-22', partyName: 'PT Ternak Nusantara', fileName: 'sj-sapi-simental-0822.pdf', notes: '3 ekor sapi simental ke kandang Pekanbaru.', createdAt: '2026-08-22T08:00:00Z' },
+    { id: 'gd-7', docType: 'SOP', title: 'SOP Pemberian Pakan Sapi Penggemukan', date: '2026-07-10', partyName: 'Internal', notes: 'Rasio konsentrat & hijauan per bobot badan.', createdAt: '2026-07-10T08:00:00Z' },
   ],
   ponds: [
     { id: 'pond-1', name: 'Kolam Bioflok A1', locationId: 'loc-ras', locationName: 'RAS', type: 'Bioflok', species: 'Nila', areaM2: 50, volumeM3: 60, stockingDate: '2026-06-01', stockingCount: 2000, estimatedHarvestDate: '2026-10-01', status: 'Aktif', notes: 'Padat tebar 40 ekor/m3.', createdAt: '2026-06-01T08:00:00Z', updatedAt: '2026-08-01T08:00:00Z' },
