@@ -1,5 +1,53 @@
 @import "tailwindcss";
 
+/* Re-map Tailwind default cool-gray/blue scales to warm monochrome brown palette
+   so the whole app stays on-brand (Sapi Papi Farm). */
+@theme {
+  --color-slate-50: #FBF8F2;
+  --color-slate-100: #F5EFE6;
+  --color-slate-200: #EFE5D5;
+  --color-slate-300: #D8C7B0;
+  --color-slate-400: #B9A691;
+  --color-slate-500: #937A65;
+  --color-slate-600: #7A4A30;
+  --color-slate-700: #6B3A24;
+  --color-slate-800: #4A2C1D;
+  --color-slate-900: #24150F;
+
+  --color-gray-50: #FBF8F2;
+  --color-gray-100: #F5EFE6;
+  --color-gray-200: #EFE5D5;
+  --color-gray-300: #D8C7B0;
+  --color-gray-400: #B9A691;
+  --color-gray-500: #937A65;
+  --color-gray-600: #7A4A30;
+  --color-gray-700: #6B3A24;
+  --color-gray-800: #4A2C1D;
+  --color-gray-900: #24150F;
+
+  --color-blue-50: #F5EFE6;
+  --color-blue-100: #EFE5D5;
+  --color-blue-200: #D8C7B0;
+  --color-blue-300: #B9A691;
+  --color-blue-400: #937A65;
+  --color-blue-500: #937A65;
+  --color-blue-600: #7A4A30;
+  --color-blue-700: #6B3A24;
+  --color-blue-800: #4A2C1D;
+  --color-blue-900: #24150F;
+
+  --color-rose-50: #F5EFE6;
+  --color-rose-100: #EFE5D5;
+  --color-rose-200: #D8C7B0;
+  --color-rose-300: #B9A691;
+  --color-rose-400: #937A65;
+  --color-rose-500: #7A3326;
+  --color-rose-600: #7A3326;
+  --color-rose-700: #6B2A20;
+  --color-rose-800: #5A241B;
+  --color-rose-900: #4A1E16;
+}
+
 :root {
   --ink: #24150F;
   --coffee: #4A2C1D;
@@ -110,7 +158,6 @@ textarea:focus-visible {
 }
 
 .ranch-heading {
-  color: var(--text);
   font-family: 'Fraunces', Georgia, 'Times New Roman', serif;
   letter-spacing: -.02em;
 }
@@ -171,10 +218,14 @@ textarea:focus-visible {
 }
 
 .stat-value-polish {
-  font-size: 24px;
+  font-size: clamp(18px, 4.5vw, 24px);
   font-weight: 800;
   color: var(--text);
   margin-top: 4px;
+  line-height: 1.15;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  white-space: normal;
 }
 
 .animate-fade-in {
