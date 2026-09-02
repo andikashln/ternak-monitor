@@ -198,6 +198,10 @@ export function App() {
       setActiveTab('births-deaths');
     } else if (actionKey === 'add-death') {
       setActiveTab('births-deaths');
+    } else if (actionKey === 'add-weight') {
+      setActiveTab('feed');
+    } else if (actionKey === 'add-feed') {
+      setActiveTab('feed');
     } else if (actionKey === 'add-finance') {
       setActiveTab('finance');
     } else if (actionKey === 'add-livestock') {

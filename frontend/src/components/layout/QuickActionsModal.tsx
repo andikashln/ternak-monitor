@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   X, FileSpreadsheet, Scale, HeartPulse, Baby, Skull,
-  PlusCircle, Wallet
+  PlusCircle, Wallet, Wheat
 } from 'lucide-react';
 
 interface QuickActionsModalProps {
@@ -31,6 +31,13 @@ export const QuickActionsModal: React.FC<QuickActionsModalProps> = ({
       desc: 'Catat timbangan bobot ternak rutin',
       color: 'bg-[#FBF8F2] text-[#4A2C1D] border-[#EFE5D5] hover:bg-[#F5EFE6]',
       icon: <Scale className="w-6 h-6 text-[#5A2D1F]" />
+    },
+    {
+      id: 'add-feed',
+      label: '+ INPUT PAKAN',
+      desc: 'Tambah stok pakan & catat masuk/keluar',
+      color: 'bg-[#FBF8F2] text-[#4A2C1D] border-[#EFE5D5] hover:bg-[#F5EFE6]',
+      icon: <Wheat className="w-6 h-6 text-[#5A2D1F]" />
     },
     {
       id: 'add-health',

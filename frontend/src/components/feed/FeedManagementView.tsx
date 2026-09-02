@@ -98,7 +98,7 @@ export const FeedManagementView: React.FC = () => {
       
       {/* Header */}
       <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-2xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-        <div>
+        <div className="min-w-0">
           <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
             <Wheat className="w-5 h-5 text-amber-600" />
             <span>Stok & Stok Opname Pakan Peternakan</span>
@@ -110,7 +110,7 @@ export const FeedManagementView: React.FC = () => {
 
         <button
           onClick={handleOpenModal}
-          className="flex items-center gap-1.5 px-4 py-2 bg-[#4A2C1D] hover:bg-[#5A2D1F] text-white text-xs font-bold rounded-xl transition cursor-pointer"
+          className="w-full sm:w-auto flex items-center justify-center gap-1.5 px-4 py-2.5 bg-[#4A2C1D] hover:bg-[#5A2D1F] text-white text-xs font-bold rounded-xl transition cursor-pointer shrink-0"
         >
           <Plus className="w-4 h-4" />
           <span>+ Tambah Stok Pakan</span>
