@@ -26,7 +26,7 @@ export const AgroCard: React.FC<{ children: ReactNode; className?: string }> = (
 export const AgroStat: React.FC<{ label: string; value: string; hint?: string; accent?: boolean }> = ({ label, value, hint, accent }) => (
   <AgroCard className={accent ? 'border-[#d2ad76]/70 bg-[#f9ebcc]/60' : ''}>
     <p className="text-[10px] font-black uppercase tracking-wider text-slate-400">{label}</p>
-    <p className="mt-1 text-2xl font-black text-slate-900">{value}</p>
+    <p className="mt-1 text-lg sm:text-xl font-black text-slate-900 leading-tight break-words whitespace-normal">{value}</p>
     {hint && <p className="mt-0.5 text-[11px] text-slate-500">{hint}</p>}
   </AgroCard>
 );
