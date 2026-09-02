@@ -79,16 +79,31 @@ const seedState = (): WorkflowState => {
     status: 'Diverifikasi Akuntan', createdAt: '2026-09-01T08:00:00.000Z', verifiedBy: 'Sari Keuangan',
   };
 
+  // Pengajuan dana milik Mitra demo (uid = 'demo-mitra-local') agar role MITRA
+  // melihat minimal satu pengajuan di daftarnya.
+  const mitraFundItems: LineItem[] = [
+    { description: 'Pembelian bibit lele 1000 ekor', quantity: 1000, unit: 'ekor', unitPrice: 350 },
+  ];
+  const mitraFundRequest: FundRequest = {
+    category: 'Pembelian Ternak', location: 'Sontang', purpose: 'Pembelian bibit lele untuk kolam baru', neededDate: '2026-09-05',
+    paymentMethod: 'Transfer Bank', notes: 'Restocking kolam bioflok.',
+    items: mitraFundItems, id: 'fund-demo-2', requestNo: 'REQ-DANA/2026/09/0002',
+    requesterId: 'demo-mitra-local', requesterName: 'Mitra Papi Farm Riau', requesterRole: 'MITRA', total: sumItems(mitraFundItems),
+    status: 'Diajukan', createdAt: '2026-09-02T08:00:00.000Z',
+  };
+
   return {
-    fundRequests: [fundRequest],
+    fundRequests: [fundRequest, mitraFundRequest],
     invoices: [inv1, inv2],
     audits: [
       { id: 'audit-demo-1', at: '2026-08-30T10:05:00.000Z', actor: 'Owner Papi Farm Riau', role: 'OWNER', action: 'Buat Invoice', targetId: 'invoice-demo-1', detail: 'INV-JUAL/2026/08/0001' },
       { id: 'audit-demo-2', at: '2026-09-01T08:05:00.000Z', actor: 'Sari Keuangan', role: 'ACCOUNTANT', action: 'Verifikasi Pengajuan', targetId: 'fund-demo-1', detail: 'REQ-DANA/2026/09/0001' },
+      { id: 'audit-demo-3', at: '2026-09-02T08:05:00.000Z', actor: 'Mitra Papi Farm Riau', role: 'MITRA', action: 'Ajukan Dana', targetId: 'fund-demo-2', detail: 'REQ-DANA/2026/09/0002' },
     ],
     alerts: [
       { id: 'alert-demo-1', at: '2026-09-01T08:05:00.000Z', title: 'Verifikasi Pengajuan', message: 'Sari Keuangan: REQ-DANA/2026/09/0001', targetId: 'fund-demo-1' },
       { id: 'alert-demo-2', at: '2026-08-31T09:00:00.000Z', title: 'Verifikasi Pembayaran', message: 'Pembayaran INV-JUAL/2026/08/0001 telah terverifikasi.', targetId: 'invoice-demo-1' },
+      { id: 'alert-demo-3', at: '2026-09-02T08:05:00.000Z', title: 'Ajukan Dana', message: 'Mitra Papi Farm Riau: REQ-DANA/2026/09/0002', targetId: 'fund-demo-2' },
     ],
   };
 };
@@ -110,9 +125,11 @@ export class FinancialDocumentsStore {
   constructor(private storage: Storage = defaultStorage) {
     try {
       const stored = JSON.parse(storage.getItem(STORAGE_KEY) || 'null');
-      // Jika belum pernah ada data tersimpan, pakai seed demo; jika ada (termasuk hasil reset),
-      // hormati data yang tersimpan.
-      this.state = stored ? { ...emptyState(), ...stored } : seedState();
+      // Jika belum pernah ada data, ATAU data lama yang tersimpan kosong total
+      // (hasil emptyState versi lama), pakai seed demo supaya halaman tidak kosong.
+      const isEmpty = !stored ||
+        (!(stored.fundRequests?.length) && !(stored.invoices?.length) && !(stored.audits?.length) && !(stored.alerts?.length));
+      this.state = isEmpty ? seedState() : { ...emptyState(), ...stored };
     }
     catch { this.state = seedState(); }
   }

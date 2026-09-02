@@ -6,6 +6,11 @@ import {
 } from '../types';
 
 // Initial Demo Seed Data
+// Helper: tanggal dalam bulan berjalan (agar data seed selalu muncul di filter periode default).
+const nowDate = new Date();
+const thisMonth = `${nowDate.getFullYear()}-${String(nowDate.getMonth() + 1).padStart(2, '0')}`;
+const demoDay = (day: number) => `${thisMonth}-${String(day).padStart(2, '0')}`;
+
 const INITIAL_LOCATIONS: LocationItem[] = [
   {
     id: 'loc-kulim',
@@ -287,8 +292,8 @@ const INITIAL_BREEDING_RECORDS: BreedingRecord[] = [
 const INITIAL_FINANCE: FinancialTransaction[] = [
   {
     id: 'fin-001',
-    invoiceNo: 'TRX-IN-202608-01',
-    date: '2026-08-05',
+    invoiceNo: `TRX-IN-${thisMonth.replace('-', '')}-01`,
+    date: demoDay(1),
     type: 'income',
     category: 'Penjualan Ternak',
     description: 'DP Penjualan Sapi Limosin SP-0019',
@@ -302,8 +307,8 @@ const INITIAL_FINANCE: FinancialTransaction[] = [
   },
   {
     id: 'fin-002',
-    invoiceNo: 'TRX-OUT-202608-01',
-    date: '2026-08-08',
+    invoiceNo: `TRX-OUT-${thisMonth.replace('-', '')}-01`,
+    date: demoDay(2),
     type: 'expense',
     category: 'Pakan',
     description: 'Pembelian 5 Ton Konsentrat Pakan Sapi',
@@ -317,8 +322,8 @@ const INITIAL_FINANCE: FinancialTransaction[] = [
   },
   {
     id: 'fin-003',
-    invoiceNo: 'TRX-OUT-202608-02',
-    date: '2026-08-09',
+    invoiceNo: `TRX-OUT-${thisMonth.replace('-', '')}-02`,
+    date: demoDay(3),
     type: 'expense',
     category: 'Obat & Vitamin',
     description: 'Pembelian Vaksin & Antibiotik Peternakan',
@@ -329,6 +334,28 @@ const INITIAL_FINANCE: FinancialTransaction[] = [
     payeePayer: 'Apotek Vet Riau',
     createdBy: 'Rahmat Hidayat',
     createdAt: '2026-08-09T16:00:00Z'
+  }
+];
+
+const INITIAL_SALES: SalesRecord[] = [
+  {
+    id: 'sales-001',
+    invoiceNo: 'INV-SALE-0001',
+    date: demoDay(2),
+    buyerName: 'H. Suwandi',
+    buyerPhone: '0812-1111-2222',
+    livestockIds: ['liv-001', 'liv-002'],
+    weightTotalKg: 850,
+    priceTotal: 30000000,
+    acquisitionCostTotal: 22000000,
+    paymentMethod: 'Transfer Bank',
+    paymentStatus: 'Lunas',
+    locationId: 'loc-kulim',
+    locationName: 'Kulim',
+    salesRep: 'Owner',
+    transactionStatus: 'Selesai',
+    createdBy: 'Owner',
+    createdAt: '2026-08-05T10:00:00Z'
   }
 ];
 
@@ -520,6 +547,23 @@ function loadStorage<T>(key: string, fallback: T): T {
   }
 }
 
+// Untuk array seed: gabungkan seed dengan data tersimpan (dedupe by id).
+// Ini memastikan item seed baru tetap muncul walaupun localStorage lama sudah
+// menyimpan array kosong atau versi lama tanpa item baru.
+function loadArrayStorage<T extends { id: string }>(key: string, seed: T[]): T[] {
+  try {
+    const data = localStorage.getItem(key);
+    if (!data) return seed;
+    const saved = JSON.parse(data) as T[];
+    if (!Array.isArray(saved)) return seed;
+    const savedIds = new Set(saved.map(x => x.id));
+    const extra = seed.filter(x => !savedIds.has(x.id));
+    return extra.length ? [...saved, ...extra] : saved;
+  } catch {
+    return seed;
+  }
+}
+
 function saveStorage<T>(key: string, value: T): void {
   try {
     localStorage.setItem(key, JSON.stringify(value));
@@ -551,9 +595,9 @@ class StoreService {
   public birthRecords: BirthRecord[] = loadStorage(STORAGE_KEYS.BIRTHS, []);
   public deathRecords: DeathRecord[] = loadStorage(STORAGE_KEYS.DEATHS, []);
   public transferRecords: TransferRecord[] = loadStorage(STORAGE_KEYS.TRANSFERS, []);
-  public salesRecords: SalesRecord[] = loadStorage(STORAGE_KEYS.SALES, []);
-  public feedInventory: FeedInventory[] = loadStorage(STORAGE_KEYS.FEED, INITIAL_FEED);
-  public financialTransactions: FinancialTransaction[] = loadStorage(STORAGE_KEYS.FINANCE, INITIAL_FINANCE);
+  public salesRecords: SalesRecord[] = loadArrayStorage(STORAGE_KEYS.SALES, INITIAL_SALES);
+  public feedInventory: FeedInventory[] = loadArrayStorage(STORAGE_KEYS.FEED, INITIAL_FEED);
+  public financialTransactions: FinancialTransaction[] = loadArrayStorage(STORAGE_KEYS.FINANCE, INITIAL_FINANCE);
   public dailyReports: DailyReport[] = loadStorage(STORAGE_KEYS.DAILY_REPORTS, INITIAL_DAILY_REPORTS);
   public notifications: NotificationItem[] = loadStorage(STORAGE_KEYS.NOTIFICATIONS, INITIAL_NOTIFICATIONS);
   public auditLogs: AuditLogItem[] = loadStorage(STORAGE_KEYS.AUDIT_LOGS, INITIAL_AUDIT_LOGS);

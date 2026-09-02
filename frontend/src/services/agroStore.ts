@@ -53,6 +53,8 @@ const INITIAL: AgroState = {
   gardenDocuments: [
     { id: 'gd-1', docType: 'Surat Jalan', title: 'Surat Jalan Pengiriman Sawit', date: '2026-08-18', partyName: 'PT Sinar Sawit', fileName: 'sj-sawit-0818.pdf', notes: '10 ton TBS.', createdAt: '2026-08-18T08:00:00Z' },
     { id: 'gd-2', docType: 'SOP', title: 'SOP Pemupukan Kelapa Sawit', date: '2026-07-01', partyName: 'Internal', notes: 'Standar dosis per hektar.', createdAt: '2026-07-01T08:00:00Z' },
+    { id: 'gd-3', docType: 'Surat Jalan', title: 'Surat Jalan Panen Ikan Nila', date: '2026-08-10', partyName: 'Pasar Sore', fileName: 'sj-ikan-nila-0810.pdf', notes: 'Panen parsial kolam bioflok A2.', createdAt: '2026-08-10T08:00:00Z' },
+    { id: 'gd-4', docType: 'SOP', title: 'SOP Monitoring Kualitas Air Kolam Bioflok', date: '2026-06-15', partyName: 'Internal', notes: 'Parameter pH, DO, suhu, amonia harian.', createdAt: '2026-06-15T08:00:00Z' },
   ],
   ponds: [
     { id: 'pond-1', name: 'Kolam Bioflok A1', locationId: 'loc-ras', locationName: 'RAS', type: 'Bioflok', species: 'Nila', areaM2: 50, volumeM3: 60, stockingDate: '2026-06-01', stockingCount: 2000, estimatedHarvestDate: '2026-10-01', status: 'Aktif', notes: 'Padat tebar 40 ekor/m3.', createdAt: '2026-06-01T08:00:00Z', updatedAt: '2026-08-01T08:00:00Z' },
@@ -128,7 +130,22 @@ const INITIAL: AgroState = {
 function load(): AgroState {
   try {
     const raw = localStorage.getItem(KEY);
-    if (raw) return { ...INITIAL, ...JSON.parse(raw) };
+    if (raw) {
+      const saved = JSON.parse(raw);
+      const merged: AgroState = { ...INITIAL, ...saved };
+      // Gabungkan seed baru dengan data tersimpan untuk array koleksi yang mungkin
+      // ditambah item baru di versi berikutnya. Dedupe by id, data tersimpan menang.
+      (Object.keys(INITIAL) as (keyof AgroState)[]).forEach(key => {
+        const seedArr = INITIAL[key] as Array<{ id: string }> | undefined;
+        const savedArr = merged[key] as Array<{ id: string }> | undefined;
+        if (Array.isArray(seedArr) && Array.isArray(savedArr)) {
+          const savedIds = new Set(savedArr.map(x => x.id));
+          const extra = seedArr.filter(x => !savedIds.has(x.id));
+          if (extra.length) (merged[key] as unknown[]) = [...savedArr, ...extra];
+        }
+      });
+      return merged;
+    }
   } catch { /* ignore */ }
   return INITIAL;
 }
