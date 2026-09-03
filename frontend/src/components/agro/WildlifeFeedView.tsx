@@ -10,7 +10,7 @@ import {
 const today = () => new Date().toISOString().slice(0, 10);
 
 interface FeedDraft {
-  wildlifeId: string;
+  wildlifeId?: string;
   wildlifeName: string;
   scheduleTime: string;
   feedType: string;
@@ -60,17 +60,14 @@ export const WildlifeFeedView: React.FC = () => {
     setShowForm(true);
   };
 
-  const pickWildlife = (name: string) => {
-    const w = wildlife.find(x => x.name === name);
-    setDraft({ ...draft, wildlifeName: name, wildlifeId: w?.id ?? '' });
-  };
-
   const save = () => {
     if (!draft.wildlifeName.trim()) return;
+    // Resolve wildlifeId dari nama bila cocok dengan koleksi satwa; kosong bila nama bebas.
+    const matched = wildlife.find(x => x.name.toLowerCase() === draft.wildlifeName.trim().toLowerCase());
     const now = new Date().toISOString();
     const base = {
-      wildlifeId: draft.wildlifeId,
-      wildlifeName: draft.wildlifeName,
+      wildlifeId: matched?.id ?? draft.wildlifeId,
+      wildlifeName: draft.wildlifeName.trim(),
       scheduleTime: draft.scheduleTime,
       feedType: draft.feedType.trim(),
       feedAmount: draft.feedAmount.trim(),
@@ -140,7 +137,7 @@ export const WildlifeFeedView: React.FC = () => {
 
       {showForm && (
         <AgroModal title={editingId ? 'Edit Jadwal Pakan' : 'Jadwal Pakan Baru'} onClose={() => setShowForm(false)}>
-          <AgroSelect label="Satwa" value={draft.wildlifeName} onChange={pickWildlife} options={wildlife.map(w => w.name)} />
+          <AgroField label="Satwa" value={draft.wildlifeName} onChange={v => setDraft({ ...draft, wildlifeName: v, wildlifeId: '' })} placeholder="cth. Burung Merak" />
           <AgroField label="Waktu" type="time" value={draft.scheduleTime} onChange={v => setDraft({ ...draft, scheduleTime: v })} />
           <AgroField label="Jenis Pakan" value={draft.feedType} onChange={v => setDraft({ ...draft, feedType: v })} placeholder="cth. Biji-bijian campur" />
           <AgroField label="Jumlah" value={draft.feedAmount} onChange={v => setDraft({ ...draft, feedAmount: v })} placeholder="cth. 500 g" />

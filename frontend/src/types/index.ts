@@ -485,7 +485,7 @@ export interface WildlifeRecord {
 
 export interface WildlifeFeedSchedule {
   id: string;
-  wildlifeId: string;
+  wildlifeId?: string;
   wildlifeName: string;
   scheduleTime: string;
   feedType: string;
