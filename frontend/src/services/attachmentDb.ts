@@ -1,4 +1,4 @@
-const DB_NAME = 'sapi-papi-demo-attachments';
+const DB_NAME = 'duta-agro-demo-attachments';
 const STORE_NAME = 'attachments';
 const MAX_FILE_SIZE = 5 * 1024 * 1024;
 const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'application/pdf'];

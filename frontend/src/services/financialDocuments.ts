@@ -28,7 +28,7 @@ export interface WorkflowAudit { id: string; at: string; actor: string; role: Us
 export interface WorkflowAlert { id: string; at: string; title: string; message: string; targetId: string }
 interface WorkflowState { fundRequests: FundRequest[]; invoices: Invoice[]; audits: WorkflowAudit[]; alerts: WorkflowAlert[] }
 
-const STORAGE_KEY = 'sapi_papi_financial_documents_v1';
+const STORAGE_KEY = 'duta_agro_financial_documents_v1';
 const emptyState = (): WorkflowState => ({ fundRequests: [], invoices: [], audits: [], alerts: [] });
 const now = () => new Date().toISOString();
 const id = (prefix: string) => `${prefix}-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
@@ -49,8 +49,8 @@ const seedState = (): WorkflowState => {
     items: inv1Items, id: 'invoice-demo-1', invoiceNo: 'INV-JUAL/2026/08/0001',
     subtotal: inv1Subtotal, taxAmount: 0, total: inv1Subtotal, paidAmount: 15_000_000, remainingAmount: inv1Subtotal - 15_000_000,
     paymentStatus: 'Sebagian', status: 'Aktif',
-    payments: [{ id: 'payment-demo-1', amount: 15_000_000, method: 'Transfer Bank', paidAt: '2026-08-31T09:00:00.000Z', status: 'Terverifikasi', submittedBy: 'Owner Papi Farm Riau', attachmentIds: [] }],
-    createdBy: 'Owner Papi Farm Riau', createdAt: '2026-08-30T10:00:00.000Z',
+    payments: [{ id: 'payment-demo-1', amount: 15_000_000, method: 'Transfer Bank', paidAt: '2026-08-31T09:00:00.000Z', status: 'Terverifikasi', submittedBy: 'Owner PT.Duta Agro Nusantara', attachmentIds: [] }],
+    createdBy: 'Owner PT.Duta Agro Nusantara', createdAt: '2026-08-30T10:00:00.000Z',
   };
 
   const inv2Items: LineItem[] = [
@@ -64,7 +64,7 @@ const seedState = (): WorkflowState => {
     items: inv2Items, id: 'invoice-demo-2', invoiceNo: 'INV-BELI/2026/08/0001',
     subtotal: inv2Subtotal, taxAmount: 0, total: inv2Subtotal, paidAmount: 0, remainingAmount: inv2Subtotal,
     paymentStatus: 'Belum Dibayar', status: 'Aktif', payments: [],
-    createdBy: 'Manager Papi Farm Riau', createdAt: '2026-08-28T08:30:00.000Z',
+    createdBy: 'Manager PT.Duta Agro Nusantara', createdAt: '2026-08-28T08:30:00.000Z',
   };
 
   const fundItems: LineItem[] = [
@@ -88,7 +88,7 @@ const seedState = (): WorkflowState => {
     category: 'Pembelian Ternak', location: 'Sontang', purpose: 'Pembelian bibit lele untuk kolam baru', neededDate: '2026-09-05',
     paymentMethod: 'Transfer Bank', notes: 'Restocking kolam bioflok.',
     items: mitraFundItems, id: 'fund-demo-2', requestNo: 'REQ-DANA/2026/09/0002',
-    requesterId: 'demo-mitra-local', requesterName: 'Mitra Papi Farm Riau', requesterRole: 'MITRA', total: sumItems(mitraFundItems),
+    requesterId: 'demo-mitra-local', requesterName: 'Mitra PT.Duta Agro Nusantara', requesterRole: 'MITRA', total: sumItems(mitraFundItems),
     status: 'Diajukan', createdAt: '2026-09-02T08:00:00.000Z',
   };
 
@@ -96,14 +96,14 @@ const seedState = (): WorkflowState => {
     fundRequests: [fundRequest, mitraFundRequest],
     invoices: [inv1, inv2],
     audits: [
-      { id: 'audit-demo-1', at: '2026-08-30T10:05:00.000Z', actor: 'Owner Papi Farm Riau', role: 'OWNER', action: 'Buat Invoice', targetId: 'invoice-demo-1', detail: 'INV-JUAL/2026/08/0001' },
+      { id: 'audit-demo-1', at: '2026-08-30T10:05:00.000Z', actor: 'Owner PT.Duta Agro Nusantara', role: 'OWNER', action: 'Buat Invoice', targetId: 'invoice-demo-1', detail: 'INV-JUAL/2026/08/0001' },
       { id: 'audit-demo-2', at: '2026-09-01T08:05:00.000Z', actor: 'Sari Keuangan', role: 'ACCOUNTANT', action: 'Verifikasi Pengajuan', targetId: 'fund-demo-1', detail: 'REQ-DANA/2026/09/0001' },
-      { id: 'audit-demo-3', at: '2026-09-02T08:05:00.000Z', actor: 'Mitra Papi Farm Riau', role: 'MITRA', action: 'Ajukan Dana', targetId: 'fund-demo-2', detail: 'REQ-DANA/2026/09/0002' },
+      { id: 'audit-demo-3', at: '2026-09-02T08:05:00.000Z', actor: 'Mitra PT.Duta Agro Nusantara', role: 'MITRA', action: 'Ajukan Dana', targetId: 'fund-demo-2', detail: 'REQ-DANA/2026/09/0002' },
     ],
     alerts: [
       { id: 'alert-demo-1', at: '2026-09-01T08:05:00.000Z', title: 'Verifikasi Pengajuan', message: 'Sari Keuangan: REQ-DANA/2026/09/0001', targetId: 'fund-demo-1' },
       { id: 'alert-demo-2', at: '2026-08-31T09:00:00.000Z', title: 'Verifikasi Pembayaran', message: 'Pembayaran INV-JUAL/2026/08/0001 telah terverifikasi.', targetId: 'invoice-demo-1' },
-      { id: 'alert-demo-3', at: '2026-09-02T08:05:00.000Z', title: 'Ajukan Dana', message: 'Mitra Papi Farm Riau: REQ-DANA/2026/09/0002', targetId: 'fund-demo-2' },
+      { id: 'alert-demo-3', at: '2026-09-02T08:05:00.000Z', title: 'Ajukan Dana', message: 'Mitra PT.Duta Agro Nusantara: REQ-DANA/2026/09/0002', targetId: 'fund-demo-2' },
     ],
   };
 };

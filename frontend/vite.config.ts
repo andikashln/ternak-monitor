@@ -11,8 +11,8 @@ export default defineConfig(() => ({
     VitePWA({
       registerType: 'autoUpdate',
       manifest: {
-        name: 'Papi Farm Riau',
-        short_name: 'Papi Farm Riau',
+        name: 'PT.Duta Agro Nusantara',
+        short_name: 'PT.Duta Agro Nusantara',
         description: 'Pencatatan dan monitoring operasional peternakan.',
         theme_color: '#5A2D1F',
         background_color: '#F5EFE6',

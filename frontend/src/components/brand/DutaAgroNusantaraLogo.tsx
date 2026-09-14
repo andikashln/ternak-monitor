@@ -1,16 +1,16 @@
 import React from 'react';
 
-interface PapiFarmRiauLogoProps {
+interface DutaAgroNusantaraLogoProps {
   variant?: 'mark' | 'lockup';
   className?: string;
 }
 
 /**
- * Logo asli Papi Farm Riau (line-art cow + barn, monokrom coklat).
+ * Logo PT.Duta Agro Nusantara (line-art cow + barn, monokrom coklat).
  * - 'mark'   : icon saja (untuk sidebar / favicon konteks kecil)
- * - 'lockup' : icon + teks "PAPI FARM — FARM"
+ * - 'lockup' : icon + teks "PT.DUTA AGRO — NUSANTARA"
  */
-export const PapiFarmRiauLogo: React.FC<PapiFarmRiauLogoProps> = ({
+export const DutaAgroNusantaraLogo: React.FC<DutaAgroNusantaraLogoProps> = ({
   variant = 'lockup',
   className = '',
 }) => {
@@ -18,7 +18,7 @@ export const PapiFarmRiauLogo: React.FC<PapiFarmRiauLogoProps> = ({
     return (
       <img
         src="/icons/icon-64x64.png"
-        alt="Logo Papi Farm Riau"
+        alt="Logo PT.Duta Agro Nusantara"
         className={`shrink-0 ${className}`}
         style={{ height: 36, width: 36 }}
       />
@@ -29,15 +29,15 @@ export const PapiFarmRiauLogo: React.FC<PapiFarmRiauLogoProps> = ({
     <div className={`inline-flex items-center gap-2.5 ${className}`}>
       <img
         src="/icons/icon-64x64.png"
-        alt="Logo Papi Farm Riau"
+        alt="Logo PT.Duta Agro Nusantara"
         className="h-9 w-9 shrink-0"
       />
       <span className="min-w-0 leading-tight">
         <span className="block text-sm font-extrabold tracking-tight text-[#24150F]">
-          PAPI FARM
+          PT.DUTA AGRO
         </span>
         <span className="block text-[10px] font-bold tracking-[0.18em] text-[#937A65]">
-          RIAU
+          NUSANTARA
         </span>
       </span>
     </div>

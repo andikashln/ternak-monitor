@@ -3,10 +3,10 @@ import { getOneClickDemoSession, getStaticDemoSession, getStaticDemoSessionFromT
 
 describe('static demo authentication', () => {
   it.each([
-    ['owner@papifarmriau.farm', 'OWNER'],
-    ['manager@papifarmriau.farm', 'MANAGER'],
-    ['akuntan@papifarmriau.farm', 'ACCOUNTANT'],
-    ['mitra@papifarmriau.farm', 'MITRA'],
+    ['owner@dutaagronusantara.farm', 'OWNER'],
+    ['manager@dutaagronusantara.farm', 'MANAGER'],
+    ['akuntan@dutaagronusantara.farm', 'ACCOUNTANT'],
+    ['mitra@dutaagronusantara.farm', 'MITRA'],
   ] as const)('returns the documented %s session', (email, role) => {
     expect(getStaticDemoSession(email, 'Demo123!')).toMatchObject({
       token: `static-demo-${role.toLowerCase()}-session`,
@@ -15,20 +15,20 @@ describe('static demo authentication', () => {
   });
 
   it('returns a one-click owner session without exposing credentials to the UI', () => {
-    expect(getOneClickDemoSession()).toMatchObject({ user: { role: 'OWNER', email: 'owner@papifarmriau.farm' } });
+    expect(getOneClickDemoSession()).toMatchObject({ user: { role: 'OWNER', email: 'owner@dutaagronusantara.farm' } });
   });
 
   it('restores a documented demo session from its persisted token', () => {
     expect(getStaticDemoSessionFromToken('static-demo-mitra-session')).toMatchObject({
       token: 'static-demo-mitra-session',
-      user: { email: 'mitra@papifarmriau.farm', role: 'MITRA' },
+      user: { email: 'mitra@dutaagronusantara.farm', role: 'MITRA' },
     });
     expect(getStaticDemoSessionFromToken('unknown-token')).toBeNull();
   });
 
   it('rejects invalid credentials instead of bypassing authentication', () => {
-    expect(getStaticDemoSession('owner@papifarmriau.farm', 'salah')).toBeNull();
-    expect(getStaticDemoSession('unknown@papifarmriau.farm', 'Demo123!')).toBeNull();
+    expect(getStaticDemoSession('owner@dutaagronusantara.farm', 'salah')).toBeNull();
+    expect(getStaticDemoSession('unknown@dutaagronusantara.farm', 'Demo123!')).toBeNull();
   });
 
   it('permits fallback only when a static deployment cannot serve API requests', () => {

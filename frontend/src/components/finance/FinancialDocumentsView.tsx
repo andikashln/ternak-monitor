@@ -42,7 +42,7 @@ export const FinancialDocumentsView: React.FC<{ initialTab?: 'funding' | 'invoic
 
   const exportPdf = (invoiceId: string) => {
     const item = financialDocumentsStore.getInvoice(invoiceId); if (!item) return;
-    const pdf = new jsPDF(); pdf.setFontSize(18); pdf.text('PAPI FARM RIAU', 18, 20); pdf.setFontSize(11);
+    const pdf = new jsPDF(); pdf.setFontSize(18); pdf.text('PT.DUTA AGRO NUSANTARA', 18, 20); pdf.setFontSize(11);
     pdf.text(`Invoice: ${item.invoiceNo}`, 18, 32); pdf.text(`Pelanggan/Vendor: ${item.partyName}`, 18, 40); pdf.text(`Tanggal: ${item.issueDate} | Jatuh tempo: ${item.dueDate}`, 18, 48);
     let y = 62; item.items.forEach((line, index) => { pdf.text(`${index + 1}. ${line.description} — ${line.quantity} ${line.unit} x ${formatRupiah(line.unitPrice)}`, 18, y); y += 8; });
     pdf.text(`Subtotal: ${formatRupiah(item.subtotal)}`, 18, y + 6); pdf.text(`Pajak: ${formatRupiah(item.taxAmount)}`, 18, y + 14); pdf.setFontSize(14); pdf.text(`TOTAL: ${formatRupiah(item.total)}`, 18, y + 26); pdf.setFontSize(11); pdf.text(`Dibayar: ${formatRupiah(item.paidAmount)} | Sisa: ${formatRupiah(item.remainingAmount)}`, 18, y + 36);
@@ -52,7 +52,7 @@ export const FinancialDocumentsView: React.FC<{ initialTab?: 'funding' | 'invoic
   const printInvoice = (invoiceId: string) => {
     const item = financialDocumentsStore.getInvoice(invoiceId); if (!item) return;
     const popup = window.open('', '_blank'); if (!popup) return; popup.opener = null;
-    popup.document.write(`<title>${escapeHtml(item.invoiceNo)}</title><style>body{font-family:Arial;padding:40px;color:#24150f}h1{color:#5a2d1f}table{width:100%;border-collapse:collapse}td,th{padding:8px;border-bottom:1px solid #ddd;text-align:left}.total{font-size:20px;font-weight:bold}</style><h1>PAPI FARM RIAU</h1><h2>${escapeHtml(item.invoiceNo)}</h2><p>${escapeHtml(item.partyName)} · ${escapeHtml(item.partyContact)}</p><p>Tanggal ${escapeHtml(item.issueDate)} · Jatuh tempo ${escapeHtml(item.dueDate)}</p><table><tr><th>Rincian</th><th>Qty</th><th>Harga</th></tr>${item.items.map(line => `<tr><td>${escapeHtml(line.description)}</td><td>${line.quantity} ${escapeHtml(line.unit)}</td><td>${formatRupiah(line.unitPrice)}</td></tr>`).join('')}</table><p class="total">Total ${formatRupiah(item.total)}</p><p>Dibayar ${formatRupiah(item.paidAmount)} · Sisa ${formatRupiah(item.remainingAmount)}</p>`); popup.document.close(); popup.print();
+    popup.document.write(`<title>${escapeHtml(item.invoiceNo)}</title><style>body{font-family:Arial;padding:40px;color:#24150f}h1{color:#5a2d1f}table{width:100%;border-collapse:collapse}td,th{padding:8px;border-bottom:1px solid #ddd;text-align:left}.total{font-size:20px;font-weight:bold}</style><h1>PT.DUTA AGRO NUSANTARA</h1><h2>${escapeHtml(item.invoiceNo)}</h2><p>${escapeHtml(item.partyName)} · ${escapeHtml(item.partyContact)}</p><p>Tanggal ${escapeHtml(item.issueDate)} · Jatuh tempo ${escapeHtml(item.dueDate)}</p><table><tr><th>Rincian</th><th>Qty</th><th>Harga</th></tr>${item.items.map(line => `<tr><td>${escapeHtml(line.description)}</td><td>${line.quantity} ${escapeHtml(line.unit)}</td><td>${formatRupiah(line.unitPrice)}</td></tr>`).join('')}</table><p class="total">Total ${formatRupiah(item.total)}</p><p>Dibayar ${formatRupiah(item.paidAmount)} · Sisa ${formatRupiah(item.remainingAmount)}</p>`); popup.document.close(); popup.print();
   };
 
   return <div className="space-y-5 pb-16">

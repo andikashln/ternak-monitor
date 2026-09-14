@@ -3,10 +3,10 @@ import type { UserProfile } from '../types';
 const DEMO_PASSWORD = 'Demo123!';
 
 const DEMO_ACCOUNTS: Array<{ email: string; displayName: string; role: UserProfile['role'] }> = [
-  { email: 'owner@papifarmriau.farm', displayName: 'Owner Papi Farm Riau', role: 'OWNER' },
-  { email: 'manager@papifarmriau.farm', displayName: 'Manager Papi Farm Riau', role: 'MANAGER' },
-  { email: 'akuntan@papifarmriau.farm', displayName: 'Akuntan Papi Farm Riau', role: 'ACCOUNTANT' },
-  { email: 'mitra@papifarmriau.farm', displayName: 'Mitra Papi Farm Riau', role: 'MITRA' },
+  { email: 'owner@dutaagronusantara.farm', displayName: 'Owner PT.Duta Agro Nusantara', role: 'OWNER' },
+  { email: 'manager@dutaagronusantara.farm', displayName: 'Manager PT.Duta Agro Nusantara', role: 'MANAGER' },
+  { email: 'akuntan@dutaagronusantara.farm', displayName: 'Akuntan PT.Duta Agro Nusantara', role: 'ACCOUNTANT' },
+  { email: 'mitra@dutaagronusantara.farm', displayName: 'Mitra PT.Duta Agro Nusantara', role: 'MITRA' },
 ];
 
 function sessionFor(account: typeof DEMO_ACCOUNTS[number]): StaticDemoSession {

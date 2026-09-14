@@ -533,9 +533,9 @@ const STORAGE_KEYS = {
 
 const INITIAL_USERS: ManagedUser[] = [
   { uid: 'u-owner-1', displayName: 'Bapak H. Hendra Owner', email: 'andikashalihin01@gmail.com', role: 'OWNER', locationIds: [], phone: '0812-3456-7890', status: 'Aktif', createdAt: '2026-01-01T08:00:00Z' },
-  { uid: 'u-manager-1', displayName: 'Andika Shalihin', email: 'manager@papifarmriau.farm', role: 'MANAGER', locationIds: ['loc-kulim'], phone: '0812-0000-0001', status: 'Aktif', createdAt: '2026-01-05T08:00:00Z' },
-  { uid: 'u-akuntan-1', displayName: 'Sari Keuangan', email: 'akuntan@papifarmriau.farm', role: 'ACCOUNTANT', locationIds: [], phone: '0812-0000-0002', status: 'Aktif', createdAt: '2026-01-06T08:00:00Z' },
-  { uid: 'u-mitra-1', displayName: 'Mitra Sontang', email: 'mitra@papifarmriau.farm', role: 'MITRA', locationIds: ['loc-sontang'], phone: '0812-0000-0003', status: 'Aktif', createdAt: '2026-01-07T08:00:00Z' },
+  { uid: 'u-manager-1', displayName: 'Andika Shalihin', email: 'manager@dutaagronusantara.farm', role: 'MANAGER', locationIds: ['loc-kulim'], phone: '0812-0000-0001', status: 'Aktif', createdAt: '2026-01-05T08:00:00Z' },
+  { uid: 'u-akuntan-1', displayName: 'Sari Keuangan', email: 'akuntan@dutaagronusantara.farm', role: 'ACCOUNTANT', locationIds: [], phone: '0812-0000-0002', status: 'Aktif', createdAt: '2026-01-06T08:00:00Z' },
+  { uid: 'u-mitra-1', displayName: 'Mitra Sontang', email: 'mitra@dutaagronusantara.farm', role: 'MITRA', locationIds: ['loc-sontang'], phone: '0812-0000-0003', status: 'Aktif', createdAt: '2026-01-07T08:00:00Z' },
 ];
 
 function loadStorage<T>(key: string, fallback: T): T {
