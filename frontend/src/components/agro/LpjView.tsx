@@ -105,7 +105,7 @@ export const LpjView: React.FC = () => {
             <AgroCard key={r.id}>
               <div className="flex flex-wrap items-start justify-between gap-3">
                 <div>
-                  <p className="text-xs font-black text-[#5a2d1f]">{r.referenceNo} · {r.division}</p>
+                  <p className="text-xs font-black text-[#0F5132]">{r.referenceNo} · {r.division}</p>
                   <h4 className="mt-1 font-black text-slate-900">{r.title}</h4>
                   <p className="mt-0.5 text-xs text-slate-500">Periode {r.periodStart} s/d {r.periodEnd} · Oleh {r.submittedBy}</p>
                 </div>
@@ -153,10 +153,10 @@ export const LpjView: React.FC = () => {
                 </div>
               ))}
             </div>
-            <button onClick={() => setItems(prev => [...prev, emptyItem()])} className="mt-2 inline-flex items-center gap-1 text-xs font-black text-[#5a2d1f]"><Plus className="h-4 w-4" />Tambah Rincian</button>
+            <button onClick={() => setItems(prev => [...prev, emptyItem()])} className="mt-2 inline-flex items-center gap-1 text-xs font-black text-[#0F5132]"><Plus className="h-4 w-4" />Tambah Rincian</button>
           </div>
 
-          <div className="rounded-xl bg-[#f9ebcc]/60 p-3 text-xs font-bold text-slate-700">
+          <div className="rounded-xl bg-[#FBF3DF]/60 p-3 text-xs font-bold text-slate-700">
             Terpakai: {formatRupiah(totalSpent)} · Sisa: {formatRupiah(remaining)}
           </div>
 

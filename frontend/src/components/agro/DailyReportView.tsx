@@ -114,8 +114,8 @@ export const DailyReportView: React.FC = () => {
             <AgroField label="Tanggal" type="date" value={draft.date} onChange={v => setField({ date: v })} />
             <AgroSelect label="Lokasi" value={draft.locationName} onChange={v => { const loc = locations.find(l => l.name === v); setField({ locationName: v, locationId: loc?.id ?? '' }); }} options={locations.map(l => l.name)} />
           </div>
-          <AgroCard className="border-[#d2ad76]/50 bg-[#f9ebcc]/40">
-            <p className="text-xs font-black text-[#5a2d1f]">Saldo Populasi</p>
+          <AgroCard className="border-[#E3B341]/50 bg-[#FBF3DF]/40">
+            <p className="text-xs font-black text-[#0F5132]">Saldo Populasi</p>
             <div className="mt-2 grid grid-cols-2 gap-3">
               <AgroField label="Populasi Awal" type="number" value={draft.popInitial} onChange={v => setField({ popInitial: v })} />
               <AgroField label="Pembelian" type="number" value={draft.popPurchase} onChange={v => setField({ popPurchase: v })} />

@@ -74,7 +74,7 @@ export const GardenDocumentsView: React.FC = () => {
             <AgroCard key={d.id}>
               <div className="flex items-start justify-between gap-3">
                 <div className="flex items-start gap-3">
-                  <div className="rounded-xl bg-[#f9ebcc] p-2 text-[#5a2d1f]"><FileText className="h-5 w-5" /></div>
+                  <div className="rounded-xl bg-[#FBF3DF] p-2 text-[#0F5132]"><FileText className="h-5 w-5" /></div>
                   <div>
                     <span className="inline-flex rounded-full bg-slate-100 px-2.5 py-1 text-[10px] font-black text-slate-600">{d.docType}</span>
                     <h4 className="mt-1 font-black text-slate-900">{d.title}</h4>

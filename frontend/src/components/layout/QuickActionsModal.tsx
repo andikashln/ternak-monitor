@@ -22,22 +22,22 @@ export const QuickActionsModal: React.FC<QuickActionsModalProps> = ({
       id: 'add-daily-report',
       label: '+ LAPORAN HARIAN',
       desc: 'Input laporan populasi, aktivitas, & biaya harian kandang',
-      color: 'bg-[#4A2C1D] text-white border-[#5A2D1F] hover:bg-[#5A2D1F]',
-      icon: <FileSpreadsheet className="w-6 h-6 text-[#F5EFE6]" />
+      color: 'bg-[#0A3D26] text-white border-[#0F5132] hover:bg-[#0F5132]',
+      icon: <FileSpreadsheet className="w-6 h-6 text-[#F7F9F8]" />
     },
     {
       id: 'add-weight',
       label: '+ TIMBANG BOBOT',
       desc: 'Catat timbangan bobot ternak rutin',
-      color: 'bg-[#FBF8F2] text-[#4A2C1D] border-[#EFE5D5] hover:bg-[#F5EFE6]',
-      icon: <Scale className="w-6 h-6 text-[#5A2D1F]" />
+      color: 'bg-[#FFFFFF] text-[#0A3D26] border-[#EEF2F0] hover:bg-[#F7F9F8]',
+      icon: <Scale className="w-6 h-6 text-[#0F5132]" />
     },
     {
       id: 'add-feed',
       label: '+ INPUT PAKAN',
       desc: 'Tambah stok pakan & catat masuk/keluar',
-      color: 'bg-[#FBF8F2] text-[#4A2C1D] border-[#EFE5D5] hover:bg-[#F5EFE6]',
-      icon: <Wheat className="w-6 h-6 text-[#5A2D1F]" />
+      color: 'bg-[#FFFFFF] text-[#0A3D26] border-[#EEF2F0] hover:bg-[#F7F9F8]',
+      icon: <Wheat className="w-6 h-6 text-[#0F5132]" />
     },
     {
       id: 'add-health',
@@ -81,19 +81,19 @@ export const QuickActionsModal: React.FC<QuickActionsModalProps> = ({
       <div className="bg-white rounded-2xl max-w-lg w-full overflow-hidden shadow-2xl border border-slate-200 max-h-[90vh] flex flex-col">
         
         {/* Header */}
-        <div className="px-4 pt-4 pb-3 bg-[#4A2C1D] text-white flex items-center justify-between gap-3">
+        <div className="px-4 pt-4 pb-3 bg-[#0A3D26] text-white flex items-center justify-between gap-3">
           <div className="flex items-center gap-2.5 min-w-0">
             <div className="p-2 rounded-lg bg-white/15 shrink-0">
-              <FileSpreadsheet className="w-5 h-5 text-[#F5EFE6]" />
+              <FileSpreadsheet className="w-5 h-5 text-[#F7F9F8]" />
             </div>
             <div className="min-w-0">
               <h3 className="text-sm font-bold leading-tight">Aksi Cepat Petugas Kandang</h3>
-              <p className="text-[11px] text-[#EFE5D5] mt-0.5">Pilih tindakan operasional untuk diinput</p>
+              <p className="text-[11px] text-[#EEF2F0] mt-0.5">Pilih tindakan operasional untuk diinput</p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 text-[#EFE5D5] hover:text-white hover:bg-white/10 rounded-lg transition shrink-0"
+            className="p-1.5 text-[#EEF2F0] hover:text-white hover:bg-white/10 rounded-lg transition shrink-0"
             aria-label="Tutup"
           >
             <X className="w-5 h-5" />

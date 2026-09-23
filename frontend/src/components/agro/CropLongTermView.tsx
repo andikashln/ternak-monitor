@@ -79,7 +79,7 @@ export const CropLongTermView: React.FC = () => {
         <AgroTable headers={['Nama', 'Varietas', 'Lokasi', 'Luas (m²)', 'Tanggal Tanam', 'Estimasi Panen', 'Status', 'Aksi']}>
           {filtered.map(c => (
             <tr key={c.id} className="hover:bg-slate-50">
-              <td className="px-4 py-3 font-bold text-[#5a2d1f]">{c.name}</td>
+              <td className="px-4 py-3 font-bold text-[#0F5132]">{c.name}</td>
               <td className="px-4 py-3 text-slate-700">{c.variety}</td>
               <td className="px-4 py-3 text-slate-500">{c.locationName}</td>
               <td className="px-4 py-3 text-slate-700">{c.plotAreaM2.toLocaleString('id-ID')}</td>

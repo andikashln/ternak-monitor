@@ -37,21 +37,21 @@ export const FinanceDashboardView: React.FC = () => {
         <AgroCard>
           <div className="mb-3 flex items-center justify-between">
             <h3 className="text-sm font-black text-slate-900">Transaksi Kas Terbaru</h3>
-            <Wallet className="h-4 w-4 text-[#5a2d1f]" />
+            <Wallet className="h-4 w-4 text-[#0F5132]" />
           </div>
           <div className="space-y-2">
             {recentTxs.map(t => (
               <div key={t.id} className="flex items-center justify-between rounded-xl bg-slate-50 px-3 py-2.5">
                 <div className="flex items-center gap-2">
                   {t.type === 'Masuk'
-                    ? <ArrowDownCircle className="h-4 w-4 text-[#7A4A30]" />
+                    ? <ArrowDownCircle className="h-4 w-4 text-[#177245]" />
                     : <ArrowUpCircle className="h-4 w-4 text-rose-600" />}
                   <div>
                     <p className="text-xs font-bold text-slate-800">{t.description}</p>
                     <p className="text-[10px] text-slate-500">{t.referenceNo} · {formatDateTime(t.createdAt)}</p>
                   </div>
                 </div>
-                <p className={`text-sm font-black ${t.type === 'Masuk' ? 'text-[#6B3A24]' : 'text-rose-700'}`}>
+                <p className={`text-sm font-black ${t.type === 'Masuk' ? 'text-[#0E9F6E]' : 'text-rose-700'}`}>
                   {t.type === 'Masuk' ? '+' : '-'}{formatRupiah(t.amount)}
                 </p>
               </div>
@@ -63,7 +63,7 @@ export const FinanceDashboardView: React.FC = () => {
         <AgroCard>
           <div className="mb-3 flex items-center justify-between">
             <h3 className="text-sm font-black text-slate-900">Persetujuan Terbaru</h3>
-            <Scale className="h-4 w-4 text-[#5a2d1f]" />
+            <Scale className="h-4 w-4 text-[#0F5132]" />
           </div>
           <div className="space-y-2">
             {recentApprovals.map(a => (
@@ -82,7 +82,7 @@ export const FinanceDashboardView: React.FC = () => {
 
       <AgroCard>
         <div className="mb-3 flex items-center gap-2">
-          <TrendingUp className="h-4 w-4 text-[#5a2d1f]" />
+          <TrendingUp className="h-4 w-4 text-[#0F5132]" />
           <h3 className="text-sm font-black text-slate-900">Ringkasan Per Divisi</h3>
         </div>
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
@@ -92,8 +92,8 @@ export const FinanceDashboardView: React.FC = () => {
             const keluar = divTxs.filter(t => t.type === 'Keluar').reduce((s, t) => s + t.amount, 0);
             return (
               <div key={div} className="rounded-xl border border-slate-100 p-3">
-                <p className="text-xs font-black text-[#5a2d1f]">{div}</p>
-                <p className="mt-1 text-sm font-bold text-[#6B3A24]">+{formatRupiah(masuk)}</p>
+                <p className="text-xs font-black text-[#0F5132]">{div}</p>
+                <p className="mt-1 text-sm font-bold text-[#0E9F6E]">+{formatRupiah(masuk)}</p>
                 <p className="text-sm font-bold text-rose-700">-{formatRupiah(keluar)}</p>
               </div>
             );

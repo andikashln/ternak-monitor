@@ -172,8 +172,8 @@ export const InventoryView: React.FC = () => {
       )}
 
       <div className="flex gap-2 rounded-2xl border bg-white p-2">
-        <button onClick={() => setTab('inventory')} className={`flex-1 rounded-xl px-4 py-3 text-xs font-black ${tab === 'inventory' ? 'bg-[#5a2d1f] text-white' : 'text-slate-500'}`}><Package className="mr-2 inline h-4 w-4" />Daftar Barang</button>
-        <button onClick={() => setTab('mutasi')} className={`flex-1 rounded-xl px-4 py-3 text-xs font-black ${tab === 'mutasi' ? 'bg-[#5a2d1f] text-white' : 'text-slate-500'}`}><ArrowUpCircle className="mr-2 inline h-4 w-4" />Riwayat Mutasi</button>
+        <button onClick={() => setTab('inventory')} className={`flex-1 rounded-xl px-4 py-3 text-xs font-black ${tab === 'inventory' ? 'bg-[#0F5132] text-white' : 'text-slate-500'}`}><Package className="mr-2 inline h-4 w-4" />Daftar Barang</button>
+        <button onClick={() => setTab('mutasi')} className={`flex-1 rounded-xl px-4 py-3 text-xs font-black ${tab === 'mutasi' ? 'bg-[#0F5132] text-white' : 'text-slate-500'}`}><ArrowUpCircle className="mr-2 inline h-4 w-4" />Riwayat Mutasi</button>
       </div>
 
       {tab === 'inventory' && (

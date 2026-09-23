@@ -48,7 +48,7 @@ export const ApprovalCenterView: React.FC = () => {
           <button
             key={t}
             onClick={() => setTab(t)}
-            className={`flex-1 rounded-xl px-4 py-3 text-xs font-black ${tab === t ? 'bg-[#5a2d1f] text-white' : 'text-slate-500'}`}
+            className={`flex-1 rounded-xl px-4 py-3 text-xs font-black ${tab === t ? 'bg-[#0F5132] text-white' : 'text-slate-500'}`}
           >
             {t} ({counts[t]})
           </button>
@@ -62,7 +62,7 @@ export const ApprovalCenterView: React.FC = () => {
           <AgroCard key={a.id}>
             <div className="flex flex-wrap items-start justify-between gap-3">
               <div>
-                <p className="text-xs font-black text-[#5a2d1f]">{a.referenceNo} · {a.type}</p>
+                <p className="text-xs font-black text-[#0F5132]">{a.referenceNo} · {a.type}</p>
                 <h4 className="mt-1 font-black text-slate-900">{a.title}</h4>
                 <p className="mt-0.5 text-xs text-slate-500">Pengaju: {a.requester} · {formatDateTime(a.requestedAt)}</p>
                 {a.notes && <p className="mt-1 text-xs text-slate-600">{a.notes}</p>}
@@ -78,7 +78,7 @@ export const ApprovalCenterView: React.FC = () => {
                   <>
                     <button
                       onClick={() => decide(a.id, 'Disetujui')}
-                      className="inline-flex items-center gap-1 rounded-lg bg-[#FBF8F2] px-3 py-2 text-xs font-bold text-[#5A2D1F] hover:bg-[#F5EFE6]"
+                      className="inline-flex items-center gap-1 rounded-lg bg-[#FFFFFF] px-3 py-2 text-xs font-bold text-[#0F5132] hover:bg-[#F7F9F8]"
                     >
                       <CheckCircle2 className="h-4 w-4" />Setujui
                     </button>

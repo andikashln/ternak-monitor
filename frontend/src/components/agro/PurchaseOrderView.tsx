@@ -86,7 +86,7 @@ export const PurchaseOrderView: React.FC = () => {
       <td className="px-4 py-3">
         <div className="flex flex-wrap gap-1">
           {o.status === 'Draft' && <AgroButton variant="ghost" onClick={() => setStatus(o, 'Dipesan')}><Truck className="h-4 w-4 text-blue-600" />Pesan</AgroButton>}
-          {o.status === 'Dipesan' && <AgroButton variant="ghost" onClick={() => setStatus(o, 'Diterima')}><CheckCircle2 className="h-4 w-4 text-[#7A4A30]" />Terima</AgroButton>}
+          {o.status === 'Dipesan' && <AgroButton variant="ghost" onClick={() => setStatus(o, 'Diterima')}><CheckCircle2 className="h-4 w-4 text-[#177245]" />Terima</AgroButton>}
           {(o.status === 'Draft' || o.status === 'Dipesan') && <AgroButton variant="ghost" onClick={() => setStatus(o, 'Batal')}><XCircle className="h-4 w-4 text-rose-500" />Batal</AgroButton>}
           {(o.status === 'Draft') && (
             <>
@@ -134,7 +134,7 @@ export const PurchaseOrderView: React.FC = () => {
             <AgroField label="Satuan" value={draft.unit} onChange={v => setField({ unit: v })} />
           </div>
           <AgroField label="Harga Satuan" type="number" value={draft.unitPrice} onChange={v => setField({ unitPrice: v })} />
-          <div className="rounded-xl bg-[#f9ebcc]/60 p-3 text-sm font-black text-[#5a2d1f]">Total Otomatis: {formatRupiah(totalAmount)}</div>
+          <div className="rounded-xl bg-[#FBF3DF]/60 p-3 text-sm font-black text-[#0F5132]">Total Otomatis: {formatRupiah(totalAmount)}</div>
           <div className="grid grid-cols-2 gap-3">
             <AgroField label="Tanggal Pesan" type="date" value={draft.orderDate} onChange={v => setField({ orderDate: v })} />
             <AgroField label="Estimasi Tiba" type="date" value={draft.expectedDeliveryDate} onChange={v => setField({ expectedDeliveryDate: v })} />
