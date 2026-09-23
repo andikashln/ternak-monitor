@@ -59,8 +59,8 @@ Deno.serve(async (req) => {
 
     const signedUrl = await getSignedUrl(client, command, { expiresIn: 600 });
 
-    // Public URL (asumsi bucket public read via R2.dev atau custom domain).
-    const publicUrl = `${accountId}.r2.cloudflarestorage.com/${bucket}/${key}`;
+    // Public URL (bucket public read via R2.dev subdomain).
+    const publicUrl = `https://pub-5cfac080756045ef86a9ae28918026a8.r2.dev/${key}`;
 
     return new Response(
       JSON.stringify({ signedUrl, key, publicUrl }),
