@@ -72,13 +72,13 @@ export const MobileNavigationDrawer: React.FC<MobileNavigationDrawerProps> = ({
                     const Icon = item.icon;
                     const isActive = activeTab === item.id;
                     return (
-                      <button key={item.id} type="button" onClick={() => handleNavigate(item.id)} className={`flex min-h-12 w-full items-center gap-3 rounded-xl px-3 py-2 text-left ${isActive ? 'bg-[#0F5132] text-white shadow-sm' : 'text-slate-700 hover:bg-[#FBF3DF]'}`}>
-                        <Icon className={`h-5 w-5 shrink-0 ${isActive ? 'text-[#EEF2F0]' : 'text-[#0F5132]'}`} />
+                      <button key={item.id} type="button" onClick={() => handleNavigate(item.id)} className={`flex min-h-12 w-full items-center gap-3 rounded-xl px-3 py-2 text-left ${isActive ? 'bg-[#1B5E20] text-white shadow-sm' : 'text-slate-700 hover:bg-[#FBF6E9]'}`}>
+                        <Icon className={`h-5 w-5 shrink-0 ${isActive ? 'text-[#F1F5F9]' : 'text-[#1B5E20]'}`} />
                         <span className="min-w-0 flex-1">
                           <span className="block text-sm font-extrabold">{item.label}</span>
-                          <span className={`block text-[11px] ${isActive ? 'text-[#EEF2F0]/75' : 'text-slate-400'}`}>{item.description}</span>
+                          <span className={`block text-[11px] ${isActive ? 'text-[#F1F5F9]/75' : 'text-slate-400'}`}>{item.description}</span>
                         </span>
-                        <ChevronRight className={`h-4 w-4 ${isActive ? 'text-[#EEF2F0]' : 'text-slate-300'}`} />
+                        <ChevronRight className={`h-4 w-4 ${isActive ? 'text-[#F1F5F9]' : 'text-slate-300'}`} />
                       </button>
                     );
                   })}
@@ -90,7 +90,7 @@ export const MobileNavigationDrawer: React.FC<MobileNavigationDrawerProps> = ({
 
         <div className="border-t border-slate-200 bg-white p-4 pb-[max(1rem,env(safe-area-inset-bottom))]">
           <div className="mb-3 flex items-center gap-3">
-            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#EEF2F0] text-xs font-black text-[#0F5132]">{currentUser.displayName.split(' ').map(name => name[0]).join('').slice(0, 2).toUpperCase()}</span>
+            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#F1F5F9] text-xs font-black text-[#1B5E20]">{currentUser.displayName.split(' ').map(name => name[0]).join('').slice(0, 2).toUpperCase()}</span>
             <span className="min-w-0 flex-1">
               <span className="block truncate text-sm font-black text-slate-900">{currentUser.displayName}</span>
               <span className="block truncate text-[11px] text-slate-500">{currentUser.role} · {currentUser.email}</span>

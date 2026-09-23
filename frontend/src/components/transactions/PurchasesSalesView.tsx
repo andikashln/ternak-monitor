@@ -115,7 +115,7 @@ export const PurchasesSalesView: React.FC<PurchasesSalesViewProps> = ({ onOpenAd
       <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-2xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
           <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-            <ShoppingCart className="w-5 h-5 text-[#0F5132]" />
+            <ShoppingCart className="w-5 h-5 text-[#1B5E20]" />
             <span>POS Penjualan & Katalog Ternak</span>
           </h2>
           <p className="text-xs text-slate-500">
@@ -126,14 +126,14 @@ export const PurchasesSalesView: React.FC<PurchasesSalesViewProps> = ({ onOpenAd
         <div className="flex flex-wrap gap-2">
           <button
             onClick={onOpenAddLivestock}
-            className="flex items-center gap-1.5 px-4 py-2 bg-white hover:bg-[#FFFFFF] text-[#0A3D26] border border-[#EEF2F0] text-xs font-bold rounded-xl transition cursor-pointer"
+            className="flex items-center gap-1.5 px-4 py-2 bg-white hover:bg-[#FFFFFF] text-[#123D18] border border-[#F1F5F9] text-xs font-bold rounded-xl transition cursor-pointer"
           >
             <Plus className="w-4 h-4" /> Tambah Ternak Katalog
           </button>
           <button
             onClick={() => handleOpenModal()}
             disabled={livestock.length === 0}
-            className="flex items-center gap-1.5 px-4 py-2 bg-[#0A3D26] hover:bg-[#0F5132] disabled:bg-slate-300 disabled:cursor-not-allowed text-white text-xs font-bold rounded-xl transition cursor-pointer"
+            className="flex items-center gap-1.5 px-4 py-2 bg-[#123D18] hover:bg-[#1B5E20] disabled:bg-slate-300 disabled:cursor-not-allowed text-white text-xs font-bold rounded-xl transition cursor-pointer"
           >
             <Plus className="w-4 h-4" />
             <span>+ Buat Transaksi Penjualan</span>
@@ -149,9 +149,9 @@ export const PurchasesSalesView: React.FC<PurchasesSalesViewProps> = ({ onOpenAd
       <div className="bg-white rounded-2xl border border-slate-200 shadow-2xs overflow-hidden">
         <div className="p-4 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
           <h3 className="text-xs font-bold text-slate-900 flex items-center gap-2">
-            <Store className="w-4 h-4 text-[#0F5132]" /> Katalog Ternak Siap Dijual
+            <Store className="w-4 h-4 text-[#1B5E20]" /> Katalog Ternak Siap Dijual
           </h3>
-          <span className="text-xs font-bold text-[#0F5132]">{livestock.length} ekor tersedia</span>
+          <span className="text-xs font-bold text-[#1B5E20]">{livestock.length} ekor tersedia</span>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
           {livestock.map(item => {
@@ -168,7 +168,7 @@ export const PurchasesSalesView: React.FC<PurchasesSalesViewProps> = ({ onOpenAd
                     <div className="absolute inset-0 bg-slate-900/60 text-white flex items-center justify-center text-xs font-bold">Memproses foto...</div>
                   )}
                   <div className="absolute inset-x-2 bottom-2 flex gap-1.5">
-                    <label className="flex-1 flex items-center justify-center gap-1 px-2 py-1.5 rounded-lg bg-white/95 text-[#0A3D26] text-[10px] font-bold shadow cursor-pointer hover:bg-white">
+                    <label className="flex-1 flex items-center justify-center gap-1 px-2 py-1.5 rounded-lg bg-white/95 text-[#123D18] text-[10px] font-bold shadow cursor-pointer hover:bg-white">
                       <Upload className="w-3.5 h-3.5" /> {item.photoUrl ? 'Ganti Foto' : 'Unggah Foto'}
                       <input
                         type="file"
@@ -199,7 +199,7 @@ export const PurchasesSalesView: React.FC<PurchasesSalesViewProps> = ({ onOpenAd
                       <div className="font-mono font-black text-slate-900">{item.tagId}</div>
                       <div className="text-[11px] text-slate-500">{item.type} {item.breed}</div>
                     </div>
-                    <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#F7F9F8] text-[#0F5132] font-bold">{item.healthStatus}</span>
+                    <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#F8FAFC] text-[#1B5E20] font-bold">{item.healthStatus}</span>
                   </div>
                   <div className="flex items-center gap-3 text-[11px] text-slate-500">
                     <span className="flex items-center gap-1"><Scale className="w-3 h-3" />{item.currentWeightKg} kg</span>
@@ -207,12 +207,12 @@ export const PurchasesSalesView: React.FC<PurchasesSalesViewProps> = ({ onOpenAd
                   </div>
                   <div>
                     <span className="text-[10px] text-slate-400 block">Harga jual</span>
-                    <span className="text-base font-black font-mono text-[#0F5132]">{formatRupiah(salePrice)}</span>
+                    <span className="text-base font-black font-mono text-[#1B5E20]">{formatRupiah(salePrice)}</span>
                   </div>
                   <button
                     type="button"
                     onClick={() => handleOpenModal(item.id)}
-                    className="w-full px-3 py-2 bg-[#0A3D26] hover:bg-[#0F5132] text-white rounded-lg text-xs font-bold cursor-pointer"
+                    className="w-full px-3 py-2 bg-[#123D18] hover:bg-[#1B5E20] text-white rounded-lg text-xs font-bold cursor-pointer"
                   >
                     Pilih & Jual
                   </button>
@@ -226,7 +226,7 @@ export const PurchasesSalesView: React.FC<PurchasesSalesViewProps> = ({ onOpenAd
               <button
                 type="button"
                 onClick={onOpenAddLivestock}
-                className="mt-3 inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-[#0A3D26] text-white font-bold cursor-pointer"
+                className="mt-3 inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-[#123D18] text-white font-bold cursor-pointer"
               >
                 <Plus className="w-4 h-4" /> Tambah Ternak dan Foto
               </button>
@@ -239,7 +239,7 @@ export const PurchasesSalesView: React.FC<PurchasesSalesViewProps> = ({ onOpenAd
       <div className="bg-white rounded-2xl border border-slate-200 shadow-2xs overflow-hidden">
         <div className="p-4 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
           <h3 className="text-xs font-bold text-slate-900">Daftar Transaksi Penjualan</h3>
-          <span className="text-xs font-bold text-[#0F5132]">Total {salesRecords.length} Invoice</span>
+          <span className="text-xs font-bold text-[#1B5E20]">Total {salesRecords.length} Invoice</span>
         </div>
 
         <div className="overflow-x-auto">
@@ -266,10 +266,10 @@ export const PurchasesSalesView: React.FC<PurchasesSalesViewProps> = ({ onOpenAd
                     <div className="text-[10px] text-slate-400 font-normal">{s.buyerPhone}</div>
                   </td>
                   <td className="p-3.5 text-slate-600">{s.locationName}</td>
-                  <td className="p-3.5 font-mono font-black text-[#0F5132] text-sm">{formatRupiah(s.priceTotal)}</td>
+                  <td className="p-3.5 font-mono font-black text-[#1B5E20] text-sm">{formatRupiah(s.priceTotal)}</td>
                   <td className="p-3.5 text-center">
                     <span className={`px-2.5 py-0.5 rounded text-[10px] font-bold ${
-                      s.paymentStatus === 'Lunas' ? 'bg-[#F7F9F8] text-[#0A3D26]' :
+                      s.paymentStatus === 'Lunas' ? 'bg-[#F8FAFC] text-[#123D18]' :
                       s.paymentStatus === 'DP' ? 'bg-amber-100 text-amber-900' : 'bg-rose-100 text-rose-900'
                     }`}>
                       {s.paymentStatus}
@@ -303,9 +303,9 @@ export const PurchasesSalesView: React.FC<PurchasesSalesViewProps> = ({ onOpenAd
       {isModalOpen && (
         <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center p-3 sm:p-4">
           <div className="bg-white rounded-2xl max-w-md w-full overflow-hidden shadow-2xl border border-slate-200">
-            <div className="p-4 bg-[#0A3D26] text-white flex items-center justify-between font-bold">
+            <div className="p-4 bg-[#123D18] text-white flex items-center justify-between font-bold">
               <h3>Input Transaksi Penjualan</h3>
-              <button onClick={() => setIsModalOpen(false)} className="p-1 hover:bg-[#0F5132] rounded">
+              <button onClick={() => setIsModalOpen(false)} className="p-1 hover:bg-[#1B5E20] rounded">
                 <X className="w-5 h-5" />
               </button>
             </div>
@@ -318,7 +318,7 @@ export const PurchasesSalesView: React.FC<PurchasesSalesViewProps> = ({ onOpenAd
                   value={invoiceNo}
                   onChange={e => setInvoiceNo(e.target.value)}
                   required
-                  className="w-full px-3 py-2 border border-slate-300 rounded-lg font-mono font-bold focus:ring-2 focus:ring-[#0F5132] focus:outline-none"
+                  className="w-full px-3 py-2 border border-slate-300 rounded-lg font-mono font-bold focus:ring-2 focus:ring-[#1B5E20] focus:outline-none"
                 />
               </div>
 
@@ -330,7 +330,7 @@ export const PurchasesSalesView: React.FC<PurchasesSalesViewProps> = ({ onOpenAd
                     value={buyerName}
                     onChange={e => setBuyerName(e.target.value)}
                     required
-                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#0F5132] focus:outline-none"
+                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#1B5E20] focus:outline-none"
                   />
                 </div>
                 <div>
@@ -339,7 +339,7 @@ export const PurchasesSalesView: React.FC<PurchasesSalesViewProps> = ({ onOpenAd
                     type="text"
                     value={buyerPhone}
                     onChange={e => setBuyerPhone(e.target.value)}
-                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#0F5132] focus:outline-none"
+                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#1B5E20] focus:outline-none"
                   />
                 </div>
               </div>
@@ -350,7 +350,7 @@ export const PurchasesSalesView: React.FC<PurchasesSalesViewProps> = ({ onOpenAd
                   value={selectedTagIds[0] || ''}
                   onChange={e => handleSelectLivestock(e.target.value)}
                   required
-                  className="w-full px-3 py-2 border border-slate-300 rounded-lg font-bold focus:ring-2 focus:ring-[#0F5132] focus:outline-none"
+                  className="w-full px-3 py-2 border border-slate-300 rounded-lg font-bold focus:ring-2 focus:ring-[#1B5E20] focus:outline-none"
                 >
                   {livestock.map(l => (
                     <option key={l.id} value={l.id}>
@@ -368,7 +368,7 @@ export const PurchasesSalesView: React.FC<PurchasesSalesViewProps> = ({ onOpenAd
                     value={priceTotal}
                     onChange={e => setPriceTotal(e.target.value)}
                     required
-                    className="w-full px-3 py-2 border border-slate-300 rounded-lg font-mono font-bold text-sm focus:ring-2 focus:ring-[#0F5132] focus:outline-none"
+                    className="w-full px-3 py-2 border border-slate-300 rounded-lg font-mono font-bold text-sm focus:ring-2 focus:ring-[#1B5E20] focus:outline-none"
                   />
                 </div>
                 <div>
@@ -376,7 +376,7 @@ export const PurchasesSalesView: React.FC<PurchasesSalesViewProps> = ({ onOpenAd
                   <select
                     value={paymentStatus}
                     onChange={e => setPaymentStatus(e.target.value as 'Lunas' | 'Belum Bayar')}
-                    className="w-full px-3 py-2 border border-slate-300 rounded-lg font-bold focus:ring-2 focus:ring-[#0F5132] focus:outline-none"
+                    className="w-full px-3 py-2 border border-slate-300 rounded-lg font-bold focus:ring-2 focus:ring-[#1B5E20] focus:outline-none"
                   >
                     <option value="Lunas">Lunas</option>
                     <option value="DP" disabled>DP (belum didukung — nominal DP belum dimodelkan)</option>
@@ -390,7 +390,7 @@ export const PurchasesSalesView: React.FC<PurchasesSalesViewProps> = ({ onOpenAd
                 <select
                   value={paymentMethod}
                   onChange={e => setPaymentMethod(e.target.value)}
-                  className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#0F5132] focus:outline-none"
+                  className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#1B5E20] focus:outline-none"
                 >
                   <option value="Transfer Bank">Transfer Bank</option>
                   <option value="Tunai">Tunai / Cash</option>
@@ -408,7 +408,7 @@ export const PurchasesSalesView: React.FC<PurchasesSalesViewProps> = ({ onOpenAd
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2 bg-[#0A3D26] text-white font-bold rounded-lg hover:bg-[#0F5132]"
+                  className="px-5 py-2 bg-[#123D18] text-white font-bold rounded-lg hover:bg-[#1B5E20]"
                 >
                   Simpan Transaksi & Auto Buku Kas
                 </button>

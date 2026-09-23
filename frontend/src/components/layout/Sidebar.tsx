@@ -34,19 +34,19 @@ export const navigationSections: NavSection[] = [
   {
     label: 'Ringkasan',
     items: [
-      { id: 'dashboard', label: 'Dashboard', description: 'Kondisi farm hari ini', icon: LayoutDashboard, allowedRoles: ['OWNER', 'MANAGER', 'ACCOUNTANT'] },
+      { id: 'dashboard', label: 'Dashboard', description: 'Kondisi farm hari ini', icon: LayoutDashboard, allowedRoles: ['OWNER', 'MANAGER', 'ACCOUNTANT', 'MITRA'] },
       { id: 'notifications', label: 'Notifikasi', description: 'Alert & peringatan dini', icon: Bell, allowedRoles: ['OWNER', 'MANAGER', 'ACCOUNTANT', 'MITRA'] },
     ],
   },
   {
     label: 'Finance control',
     items: [
-      { id: 'finance-dashboard', label: 'Dashboard Finance', description: 'Kas & laba ringkas', icon: Landmark, allowedRoles: ['OWNER', 'MANAGER', 'ACCOUNTANT'] },
-      { id: 'approval-center', label: 'Approval Center', description: 'Persetujuan terpusat', icon: ShieldCheck, allowedRoles: ['OWNER', 'MANAGER', 'ACCOUNTANT'] },
-      { id: 'cash-flow', label: 'Kas Masuk & Keluar', description: 'Arus kas harian', icon: Banknote, allowedRoles: ['OWNER', 'MANAGER', 'ACCOUNTANT'] },
-      { id: 'lpj', label: 'LPJ Pertanggungjawaban', description: 'Laporan pertanggungjawaban', icon: Scale, allowedRoles: ['OWNER', 'MANAGER', 'ACCOUNTANT'] },
+      { id: 'finance-dashboard', label: 'Dashboard Finance', description: 'Kas & laba ringkas', icon: Landmark, allowedRoles: ['OWNER', 'ACCOUNTANT'] },
+      { id: 'approval-center', label: 'Approval Center', description: 'Persetujuan terpusat', icon: ShieldCheck, allowedRoles: ['OWNER', 'ACCOUNTANT'] },
+      { id: 'cash-flow', label: 'Kas Masuk & Keluar', description: 'Arus kas harian', icon: Banknote, allowedRoles: ['OWNER', 'ACCOUNTANT'] },
+      { id: 'lpj', label: 'LPJ Pertanggungjawaban', description: 'Laporan pertanggungjawaban', icon: Scale, allowedRoles: ['OWNER', 'ACCOUNTANT'] },
       { id: 'funding-docs', label: 'Pengajuan Dana', description: 'Verifikasi & persetujuan', icon: WalletCards, allowedRoles: ['OWNER', 'MANAGER', 'ACCOUNTANT', 'MITRA'] },
-      { id: 'invoices', label: 'Invoice & Bukti Bayar', description: 'Tagihan, DP & bukti bayar', icon: FileText, allowedRoles: ['OWNER', 'MANAGER', 'ACCOUNTANT'] },
+      { id: 'invoices', label: 'Invoice & Bukti Bayar', description: 'Tagihan, DP & bukti bayar', icon: FileText, allowedRoles: ['OWNER', 'ACCOUNTANT'] },
     ],
   },
   {
@@ -89,18 +89,18 @@ export const navigationSections: NavSection[] = [
   {
     label: 'Bisnis & keuangan',
     items: [
-      { id: 'transactions', label: 'Jual & Beli', description: 'Transaksi ternak', icon: ShoppingCart, allowedRoles: ['OWNER', 'MANAGER', 'ACCOUNTANT'] },
-      { id: 'sales-results', label: 'Hasil Penjualan', description: 'HPP, biaya & laba bersih', icon: BadgeDollarSign, allowedRoles: ['OWNER', 'MANAGER', 'ACCOUNTANT'] },
-      { id: 'finance', label: 'Laporan Laba Rugi', description: 'Pemasukan, biaya & laba', icon: Wallet, allowedRoles: ['OWNER', 'MANAGER', 'ACCOUNTANT'] },
-      { id: 'expenses', label: 'Pengeluaran', description: 'Biaya operasional', icon: ReceiptText, allowedRoles: ['OWNER', 'MANAGER', 'ACCOUNTANT'] },
+      { id: 'transactions', label: 'Jual & Beli', description: 'Transaksi ternak', icon: ShoppingCart, allowedRoles: ['OWNER', 'ACCOUNTANT'] },
+      { id: 'sales-results', label: 'Hasil Penjualan', description: 'HPP, biaya & laba bersih', icon: BadgeDollarSign, allowedRoles: ['OWNER', 'ACCOUNTANT'] },
+      { id: 'finance', label: 'Laporan Laba Rugi', description: 'Pemasukan, biaya & laba', icon: Wallet, allowedRoles: ['OWNER', 'ACCOUNTANT'] },
+      { id: 'expenses', label: 'Pengeluaran', description: 'Biaya operasional', icon: ReceiptText, allowedRoles: ['OWNER', 'ACCOUNTANT'] },
     ],
   },
   {
     label: 'Inventory & purchasing',
     items: [
-      { id: 'inventory', label: 'Stok & Mutasi Barang', description: 'Inventori & mutasi stok', icon: Package, allowedRoles: ['OWNER', 'MANAGER', 'ACCOUNTANT'] },
-      { id: 'purchase-request', label: 'Purchase Request & PO', description: 'Permintaan & pesanan', icon: PackagePlus, allowedRoles: ['OWNER', 'MANAGER', 'ACCOUNTANT'] },
-      { id: 'purchase-order', label: 'Purchase Order (PO)', description: 'Pesanan pembelian', icon: FileStack, allowedRoles: ['OWNER', 'MANAGER', 'ACCOUNTANT'] },
+      { id: 'inventory', label: 'Stok & Mutasi Barang', description: 'Inventori & mutasi stok', icon: Package, allowedRoles: ['OWNER', 'ACCOUNTANT'] },
+      { id: 'purchase-request', label: 'Purchase Request & PO', description: 'Permintaan & pesanan', icon: PackagePlus, allowedRoles: ['OWNER', 'ACCOUNTANT'] },
+      { id: 'purchase-order', label: 'Purchase Order (PO)', description: 'Pesanan pembelian', icon: FileStack, allowedRoles: ['OWNER', 'ACCOUNTANT'] },
     ],
   },
   {
@@ -116,7 +116,7 @@ export const navigationSections: NavSection[] = [
     label: 'Laporan',
     items: [
       { id: 'daily-reports', label: 'Laporan Kandang', description: 'Aktivitas harian', icon: ClipboardList, allowedRoles: ['OWNER', 'MANAGER'] },
-      { id: 'reports', label: 'Laporan & Google Sheets', description: 'Dokumen PDF & Excel', icon: FileBarChart, allowedRoles: ['OWNER', 'MANAGER', 'ACCOUNTANT'] },
+      { id: 'reports', label: 'Laporan & Google Sheets', description: 'Dokumen PDF & Excel', icon: FileBarChart, allowedRoles: ['OWNER', 'ACCOUNTANT'] },
     ],
   },
   {
@@ -135,16 +135,16 @@ export const getNavigationLabel = (tabId: string) => (
 );
 
 export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab, role }) => (
-  <aside className="app-sidebar hidden w-[17.5rem] shrink-0 flex-col border-r bg-white/90 lg:flex">
-    <div className="mx-4 mt-5 rounded-xl border border-[#E3B341]/70 bg-[#FBF3DF]/65 p-3.5">
+  <aside className="app-sidebar hidden w-[17.5rem] shrink-0 flex-col border-r bg-white lg:flex">
+    <div className="mx-4 mt-5 rounded-xl border border-slate-200 bg-slate-50 p-3.5">
       <div className="flex items-center gap-3">
-        <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#0A3D26] text-white shadow-sm">
+        <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#1B5E20] text-white shadow-sm">
           <Activity className="h-5 w-5" />
         </span>
         <span className="min-w-0">
           <span className="block ranch-label">Status sistem</span>
-          <span className="mt-0.5 flex items-center gap-1.5 text-xs font-extrabold text-slate-900">
-            <span className="h-2 w-2 rounded-full bg-[#5C6B3C] ring-4 ring-[#EEF2F0]" /> Operasional aktif
+          <span className="mt-0.5 flex items-center gap-1.5 text-xs font-bold text-slate-900">
+            <span className="h-2 w-2 rounded-full bg-[#22A45D] ring-4 ring-[#ECF5ED]" /> Operasional aktif
           </span>
         </span>
       </div>
@@ -152,11 +152,11 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab, role 
 
     <nav aria-label="Navigasi utama" className="scrollbar-subtle flex-1 overflow-y-auto px-3 py-4">
       {navigationSections.map(section => {
-        const visibleItems = section.items.filter(item => item.allowedRoles.includes(role) || (role === 'ADMIN' && canAccess('ADMIN', item.id as never)));
+        const visibleItems = section.items.filter(item => item.allowedRoles.includes(role));
         if (visibleItems.length === 0) return null;
         return (
           <div key={section.label} className="mb-5 last:mb-2">
-            <p className="mb-1.5 px-3 text-[9px] font-black uppercase tracking-[0.2em] text-slate-400">{section.label}</p>
+            <p className="mb-1.5 px-3 text-[9px] font-bold uppercase tracking-[0.16em] text-slate-400">{section.label}</p>
             <div className="space-y-1">
               {visibleItems.map(item => {
                 const Icon = item.icon;
@@ -169,22 +169,22 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab, role 
                     aria-current={isActive ? 'page' : undefined}
                     className={`group flex w-full items-center gap-3 rounded-xl px-2.5 py-2 text-left transition-all ${
                       isActive
-                        ? 'bg-[#0F5132] text-white shadow-md shadow-[#0F5132]/15'
-                        : 'text-slate-600 hover:bg-[#FBF3DF] hover:text-[#0F5132]'
+                        ? 'bg-[#1B5E20] text-white shadow-md shadow-[#1B5E20]/15'
+                        : 'text-slate-600 hover:bg-slate-100 hover:text-[#1B5E20]'
                     }`}
                   >
                     <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg ${
-                      isActive ? 'bg-white/12 text-white' : 'bg-[#f4ead3] text-slate-500 group-hover:bg-white group-hover:text-[#0F5132]'
+                      isActive ? 'bg-white/15 text-white' : 'bg-slate-100 text-slate-500 group-hover:bg-white group-hover:text-[#1B5E20]'
                     }`}>
                       <Icon className="h-[18px] w-[18px]" strokeWidth={2} />
                     </span>
                     <span className="min-w-0 flex-1">
-                      <span className="block truncate text-xs font-extrabold">{item.label}</span>
-                      <span className={`mt-0.5 block truncate text-[9px] font-medium ${isActive ? 'text-[#F7F9F8]/80' : 'text-slate-400'}`}>
+                      <span className="block truncate text-xs font-bold">{item.label}</span>
+                      <span className={`mt-0.5 block truncate text-[9px] font-medium ${isActive ? 'text-white/80' : 'text-slate-400'}`}>
                         {item.description}
                       </span>
                     </span>
-                    <ChevronRight className={`h-3.5 w-3.5 shrink-0 ${isActive ? 'text-[#EEF2F0]' : 'text-slate-300'}`} />
+                    <ChevronRight className={`h-3.5 w-3.5 shrink-0 ${isActive ? 'text-white/70' : 'text-slate-300'}`} />
                   </button>
                 );
               })}
@@ -195,7 +195,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab, role 
     </nav>
 
     <div className="border-t border-slate-100 px-5 py-4">
-      <p className="text-[10px] font-black uppercase tracking-[0.15em] text-[#0F5132]">PT DUTA AGRI NUSANTARA</p>
+      <p className="text-[10px] font-bold uppercase tracking-[0.15em] text-[#1B5E20]">PT DUTA AGRI NUSANTARA</p>
       <p className="mt-0.5 text-[9px] text-slate-400">One Land. One System. One Future.</p>
     </div>
   </aside>

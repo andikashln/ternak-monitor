@@ -86,7 +86,7 @@ export const CropActivityView: React.FC = () => {
           {filtered.map(a => (
             <tr key={a.id} className="hover:bg-slate-50">
               <td className="px-4 py-3 text-slate-600">{formatDate(a.date)}</td>
-              <td className="px-4 py-3 font-bold text-[#0F5132]">{a.cropName}</td>
+              <td className="px-4 py-3 font-bold text-[#1B5E20]">{a.cropName}</td>
               <td className="px-4 py-3"><StatusBadge value={a.activityType} tone={toneOf(a.activityType)} /></td>
               <td className="px-4 py-3 text-slate-700">{a.materialUsed ?? '-'}</td>
               <td className="px-4 py-3 text-slate-700">{a.quantity ? `${a.quantity} ${a.unit ?? ''}` : '-'}</td>

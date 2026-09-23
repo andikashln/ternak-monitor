@@ -11,16 +11,16 @@ export default defineConfig(() => ({
     VitePWA({
       registerType: 'autoUpdate',
       manifest: {
-        name: 'PT.Duta Agro Nusantara',
-        short_name: 'PT.Duta Agro Nusantara',
+        name: 'PT Duta Agri Nusantara',
+        short_name: 'Duta Agri',
         description: 'Pencatatan dan monitoring operasional peternakan.',
-        theme_color: '#5A2D1F',
-        background_color: '#F5EFE6',
+        theme_color: '#1B5E20',
+        background_color: '#F8FAFC',
         display: 'standalone',
         start_url: '/',
         icons: [
-          { src: '/icons/icon-192x192.png', sizes: '192x192', type: 'image/png', purpose: 'any' },
-          { src: '/icons/icon-512x512.png', sizes: '512x512', type: 'image/png', purpose: 'any maskable' },
+          { src: '/duta-agri-logo.png', sizes: '499x499', type: 'image/png', purpose: 'any' },
+          { src: '/duta-agri-logo.png', sizes: '499x499', type: 'image/png', purpose: 'any maskable' },
         ],
       },
       workbox: {

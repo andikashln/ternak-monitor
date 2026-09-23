@@ -6,7 +6,7 @@ interface DutaAgroNusantaraLogoProps {
 }
 
 /**
- * Logo PT Duta Agri Nusantara (line-art agro, hijau + emas).
+ * Logo PT Duta Agri Nusantara — pakai asset PNG asli (monogram AD hijau + landscape).
  * - 'mark'   : icon saja (sidebar / favicon konteks kecil)
  * - 'lockup' : icon + teks "PT DUTA AGRI — NUSANTARA"
  */
@@ -17,10 +17,10 @@ export const DutaAgroNusantaraLogo: React.FC<DutaAgroNusantaraLogoProps> = ({
   if (variant === 'mark') {
     return (
       <img
-        src="/icons/icon-64x64.png"
+        src="/duta-agri-logo.png"
         alt="Logo PT Duta Agri Nusantara"
         className={`shrink-0 ${className}`}
-        style={{ height: 36, width: 36, borderRadius: 8 }}
+        style={{ height: 36, width: 36, borderRadius: 9, objectFit: 'contain' }}
       />
     );
   }
@@ -28,16 +28,16 @@ export const DutaAgroNusantaraLogo: React.FC<DutaAgroNusantaraLogoProps> = ({
   return (
     <div className={`inline-flex items-center gap-2.5 ${className}`}>
       <img
-        src="/icons/icon-64x64.png"
+        src="/duta-agri-logo.png"
         alt="Logo PT Duta Agri Nusantara"
         className="h-9 w-9 shrink-0"
-        style={{ borderRadius: 9 }}
+        style={{ borderRadius: 9, objectFit: 'contain' }}
       />
       <span className="min-w-0 leading-tight">
-        <span className="block text-sm font-extrabold tracking-tight text-[#0B1F17]">
+        <span className="block text-sm font-bold tracking-tight text-[#0F172A]">
           PT DUTA AGRI
         </span>
-        <span className="block text-[10px] font-bold tracking-[0.18em] text-[#C9971C]">
+        <span className="block text-[10px] font-semibold tracking-[0.16em] text-[#1B5E20]">
           NUSANTARA
         </span>
       </span>

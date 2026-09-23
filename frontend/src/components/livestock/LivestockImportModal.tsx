@@ -150,17 +150,17 @@ export const LivestockImportModal: React.FC<LivestockImportModalProps> = ({ isOp
       <div className="bg-white rounded-2xl max-w-3xl w-full overflow-hidden shadow-2xl border border-slate-200 flex flex-col max-h-[90vh]">
         
         {/* Header */}
-        <div className="p-4 bg-[#0A3D26] text-white flex items-center justify-between">
+        <div className="p-4 bg-[#123D18] text-white flex items-center justify-between">
           <div className="flex items-center gap-2">
             <FileSpreadsheet className="w-5 h-5 text-amber-400" />
             <div>
               <h3 className="text-base font-bold">Import Data Ternak (CSV / Excel)</h3>
-              <p className="text-xs text-[#EEF2F0]">Upload file Excel (.xlsx) atau CSV dengan header data ternak</p>
+              <p className="text-xs text-[#F1F5F9]">Upload file Excel (.xlsx) atau CSV dengan header data ternak</p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-1 text-[#EEF2F0] hover:text-white hover:bg-[#0F5132] rounded-lg transition"
+            className="p-1 text-[#F1F5F9] hover:text-white hover:bg-[#1B5E20] rounded-lg transition"
           >
             <X className="w-5 h-5" />
           </button>
@@ -169,17 +169,17 @@ export const LivestockImportModal: React.FC<LivestockImportModalProps> = ({ isOp
         {/* Body */}
         <div className="p-5 overflow-y-auto flex-1 space-y-4 text-xs">
           {successCount !== null ? (
-            <div className="py-8 text-center space-y-3 bg-[#FFFFFF] rounded-2xl border border-[#EEF2F0] p-6">
-              <div className="w-12 h-12 rounded-full bg-[#0F5132] text-white flex items-center justify-center mx-auto text-xl font-bold">
+            <div className="py-8 text-center space-y-3 bg-[#FFFFFF] rounded-2xl border border-[#F1F5F9] p-6">
+              <div className="w-12 h-12 rounded-full bg-[#1B5E20] text-white flex items-center justify-center mx-auto text-xl font-bold">
                 ✓
               </div>
-              <h4 className="text-base font-bold text-[#0A3D26]">Impor Berhasil!</h4>
+              <h4 className="text-base font-bold text-[#123D18]">Impor Berhasil!</h4>
               <p className="text-slate-600">
-                Sebanyak <span className="font-bold text-[#0A3D26] text-sm">{successCount} ekor ternak</span> berhasil ditambahkan ke database.
+                Sebanyak <span className="font-bold text-[#123D18] text-sm">{successCount} ekor ternak</span> berhasil ditambahkan ke database.
               </p>
               <button
                 onClick={onClose}
-                className="mt-2 px-5 py-2 bg-[#0A3D26] text-white font-bold rounded-lg hover:bg-[#0F5132] transition cursor-pointer"
+                className="mt-2 px-5 py-2 bg-[#123D18] text-white font-bold rounded-lg hover:bg-[#1B5E20] transition cursor-pointer"
               >
                 Selesai
               </button>
@@ -188,7 +188,7 @@ export const LivestockImportModal: React.FC<LivestockImportModalProps> = ({ isOp
             <>
               {/* File Upload Box */}
               <div className="border-2 border-dashed border-slate-300 rounded-2xl p-6 text-center bg-slate-50 hover:bg-slate-100/80 transition relative cursor-pointer">
-                <Upload className="w-8 h-8 text-[#0F5132] mx-auto mb-2" />
+                <Upload className="w-8 h-8 text-[#1B5E20] mx-auto mb-2" />
                 <p className="font-bold text-slate-800 text-xs">
                   {fileName ? `File terpilih: ${fileName}` : 'Pilih file CSV atau Excel (.xlsx)'}
                 </p>
@@ -214,7 +214,7 @@ export const LivestockImportModal: React.FC<LivestockImportModalProps> = ({ isOp
                 <div className="space-y-2">
                   <div className="flex items-center justify-between font-bold text-slate-800 text-xs">
                     <span>Preview Data File ({rows.length} Baris)</span>
-                    <span className="text-[#0F5132] bg-[#FFFFFF] px-2 py-0.5 rounded border border-[#EEF2F0]">
+                    <span className="text-[#1B5E20] bg-[#FFFFFF] px-2 py-0.5 rounded border border-[#F1F5F9]">
                       {rows.filter(r => r.isValid).length} Baris Valid Siap Impor
                     </span>
                   </div>
@@ -237,7 +237,7 @@ export const LivestockImportModal: React.FC<LivestockImportModalProps> = ({ isOp
                           <tr key={i} className={r.isValid ? 'hover:bg-slate-50' : 'bg-rose-50/50'}>
                             <td className="p-2 font-bold">
                               {r.isValid ? (
-                                <span className="text-[#0E9F6E]">✓ Valid</span>
+                                <span className="text-[#1B5E20]">✓ Valid</span>
                               ) : (
                                 <span className="text-rose-600 flex items-center gap-1">
                                   <AlertTriangle className="w-3 h-3" /> Error
@@ -276,7 +276,7 @@ export const LivestockImportModal: React.FC<LivestockImportModalProps> = ({ isOp
               </button>
               <button
                 onClick={handleExecuteImport}
-                className="flex items-center gap-1.5 px-5 py-2 text-xs font-bold text-white bg-[#0A3D26] rounded-lg hover:bg-[#0F5132] transition cursor-pointer"
+                className="flex items-center gap-1.5 px-5 py-2 text-xs font-bold text-white bg-[#123D18] rounded-lg hover:bg-[#1B5E20] transition cursor-pointer"
               >
                 <Check className="w-4 h-4" />
                 <span>Simpan {rows.filter(r => r.isValid).length} Data Valid</span>

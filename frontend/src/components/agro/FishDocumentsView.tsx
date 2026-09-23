@@ -99,8 +99,8 @@ export const FishDocumentsView: React.FC = () => {
 
       <div className="flex flex-wrap items-center gap-3">
         <div className="flex gap-2 rounded-2xl border bg-white p-1">
-          <button onClick={() => setTab('perikanan')} className={`rounded-xl px-4 py-2 text-xs font-black ${tab === 'perikanan' ? 'bg-[#0F5132] text-white' : 'text-slate-500'}`}>Perikanan</button>
-          <button onClick={() => setTab('semua')} className={`rounded-xl px-4 py-2 text-xs font-black ${tab === 'semua' ? 'bg-[#0F5132] text-white' : 'text-slate-500'}`}>Semua Divisi</button>
+          <button onClick={() => setTab('perikanan')} className={`rounded-xl px-4 py-2 text-xs font-black ${tab === 'perikanan' ? 'bg-[#1B5E20] text-white' : 'text-slate-500'}`}>Perikanan</button>
+          <button onClick={() => setTab('semua')} className={`rounded-xl px-4 py-2 text-xs font-black ${tab === 'semua' ? 'bg-[#1B5E20] text-white' : 'text-slate-500'}`}>Semua Divisi</button>
         </div>
         <div className="min-w-[240px] flex-1"><AgroSearch value={search} onChange={setSearch} placeholder="Cari judul / pihak..." /></div>
       </div>

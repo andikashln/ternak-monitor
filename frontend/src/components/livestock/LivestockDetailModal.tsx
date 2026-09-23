@@ -83,13 +83,13 @@ export const LivestockDetailModal: React.FC<LivestockDetailModalProps> = ({
       <div className="bg-white rounded-2xl max-w-3xl w-full overflow-hidden shadow-2xl border border-slate-200 flex flex-col max-h-[90vh]">
         
         {/* Header Profile Summary */}
-        <div className="p-4 sm:p-6 bg-[#0A3D26] text-white flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div className="p-4 sm:p-6 bg-[#123D18] text-white flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div className="flex items-center gap-4">
-            <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden bg-[#0A3D26] border-2 border-[#0E9F6E] shrink-0 shadow-md">
+            <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden bg-[#123D18] border-2 border-[#1B5E20] shrink-0 shadow-md">
               {livestock.photoUrl ? (
                 <img src={livestock.photoUrl} alt={livestock.tagId} className="w-full h-full object-cover" />
               ) : (
-                <div className="w-full h-full flex items-center justify-center text-[#CBD5D0] font-bold text-xl">
+                <div className="w-full h-full flex items-center justify-center text-[#CBD5E1] font-bold text-xl">
                   {livestock.tagId.substring(0, 2)}
                 </div>
               )}
@@ -100,17 +100,17 @@ export const LivestockDetailModal: React.FC<LivestockDetailModalProps> = ({
                   {livestock.tagId}
                 </span>
                 <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${
-                  livestock.status === 'Aktif' ? 'bg-[#F7F9F8] text-[#0A3D26]' :
+                  livestock.status === 'Aktif' ? 'bg-[#F8FAFC] text-[#123D18]' :
                   livestock.status === 'Sakit' ? 'bg-rose-100 text-rose-900' :
                   livestock.status === 'Isolasi' ? 'bg-amber-100 text-amber-900' : 'bg-slate-200 text-slate-800'
                 }`}>
                   {livestock.status}
                 </span>
               </div>
-              <p className="text-xs text-[#F7F9F8] font-medium">
+              <p className="text-xs text-[#F8FAFC] font-medium">
                 {livestock.type} — {livestock.breed} ({livestock.gender})
               </p>
-              <div className="flex flex-wrap items-center gap-3 mt-1.5 text-[11px] text-[#EEF2F0]">
+              <div className="flex flex-wrap items-center gap-3 mt-1.5 text-[11px] text-[#F1F5F9]">
                 <span className="flex items-center gap-1">
                   <Building2 className="w-3.5 h-3.5" />
                   {livestock.locationName}
@@ -123,14 +123,14 @@ export const LivestockDetailModal: React.FC<LivestockDetailModalProps> = ({
             </div>
           </div>
 
-          <div className="flex sm:flex-col items-end justify-between w-full sm:w-auto border-t sm:border-0 border-[#0F5132] pt-2 sm:pt-0">
+          <div className="flex sm:flex-col items-end justify-between w-full sm:w-auto border-t sm:border-0 border-[#1B5E20] pt-2 sm:pt-0">
             <div className="text-left sm:text-right">
-              <span className="text-[10px] text-[#E2E8E5] font-semibold uppercase tracking-wider block">Bobot Terakhir</span>
-              <span className="text-2xl font-black text-amber-400 font-mono">{livestock.currentWeightKg} <span className="text-xs font-normal text-[#EEF2F0]">kg</span></span>
+              <span className="text-[10px] text-[#E2E8F0] font-semibold uppercase tracking-wider block">Bobot Terakhir</span>
+              <span className="text-2xl font-black text-amber-400 font-mono">{livestock.currentWeightKg} <span className="text-xs font-normal text-[#F1F5F9]">kg</span></span>
             </div>
             <button
               onClick={onClose}
-              className="p-1.5 text-[#EEF2F0] hover:text-white hover:bg-[#0F5132] rounded-lg transition"
+              className="p-1.5 text-[#F1F5F9] hover:text-white hover:bg-[#1B5E20] rounded-lg transition"
             >
               <X className="w-6 h-6" />
             </button>
@@ -152,7 +152,7 @@ export const LivestockDetailModal: React.FC<LivestockDetailModalProps> = ({
               onClick={() => setActiveTab(tab.id as any)}
               className={`flex items-center gap-1.5 px-3 py-3 border-b-2 transition cursor-pointer whitespace-nowrap ${
                 activeTab === tab.id
-                  ? 'border-[#0F5132] text-[#0A3D26] font-bold bg-white'
+                  ? 'border-[#1B5E20] text-[#123D18] font-bold bg-white'
                   : 'border-transparent hover:text-slate-900 hover:bg-slate-100/50'
               }`}
             >
@@ -187,11 +187,11 @@ export const LivestockDetailModal: React.FC<LivestockDetailModalProps> = ({
                 </div>
                 <div className="p-3 bg-slate-50 rounded-xl border border-slate-200">
                   <span className="text-[10px] text-slate-500 font-bold uppercase block">Harga Perolehan</span>
-                  <span className="font-semibold text-[#0F5132]">{formatRupiah(livestock.acquisitionPrice)}</span>
+                  <span className="font-semibold text-[#1B5E20]">{formatRupiah(livestock.acquisitionPrice)}</span>
                 </div>
                 <div className="p-3 bg-slate-50 rounded-xl border border-slate-200">
                   <span className="text-[10px] text-slate-500 font-bold uppercase block">Harga Jual</span>
-                  <span className="font-semibold text-[#0F5132]">{formatRupiah(livestock.sellingPrice ?? 0)}</span>
+                  <span className="font-semibold text-[#1B5E20]">{formatRupiah(livestock.sellingPrice ?? 0)}</span>
                 </div>
                 <div className="p-3 bg-slate-50 rounded-xl border border-slate-200">
                   <span className="text-[10px] text-slate-500 font-bold uppercase block">Bobot Awal</span>
@@ -199,8 +199,8 @@ export const LivestockDetailModal: React.FC<LivestockDetailModalProps> = ({
                 </div>
               </div>
 
-              <div className="p-4 bg-[#FFFFFF]/50 rounded-xl border border-[#EEF2F0] space-y-2">
-                <h4 className="font-bold text-[#0A3D26] text-xs">Silsilah Indukan & Pejantan</h4>
+              <div className="p-4 bg-[#FFFFFF]/50 rounded-xl border border-[#F1F5F9] space-y-2">
+                <h4 className="font-bold text-[#123D18] text-xs">Silsilah Indukan & Pejantan</h4>
                 <div className="grid grid-cols-2 gap-3 text-xs">
                   <div>
                     <span className="text-[10px] text-slate-500 font-semibold block">Induk Betina:</span>
@@ -230,9 +230,9 @@ export const LivestockDetailModal: React.FC<LivestockDetailModalProps> = ({
                   <span className="text-[10px] uppercase font-bold text-blue-700 block">Harga Beli Saat Ini</span>
                   <span className="text-base font-black font-mono text-blue-900">{formatRupiah(livestock.acquisitionPrice)}</span>
                 </div>
-                <div className="p-3 rounded-xl bg-[#FFFFFF] border border-[#EEF2F0]">
-                  <span className="text-[10px] uppercase font-bold text-[#0E9F6E] block">Harga Jual Saat Ini</span>
-                  <span className="text-base font-black font-mono text-[#0A3D26]">{formatRupiah(livestock.sellingPrice ?? 0)}</span>
+                <div className="p-3 rounded-xl bg-[#FFFFFF] border border-[#F1F5F9]">
+                  <span className="text-[10px] uppercase font-bold text-[#1B5E20] block">Harga Jual Saat Ini</span>
+                  <span className="text-base font-black font-mono text-[#123D18]">{formatRupiah(livestock.sellingPrice ?? 0)}</span>
                 </div>
                 <div className="p-3 rounded-xl bg-amber-50 border border-amber-200">
                   <span className="text-[10px] uppercase font-bold text-amber-700 block">Estimasi Margin</span>
@@ -265,7 +265,7 @@ export const LivestockDetailModal: React.FC<LivestockDetailModalProps> = ({
                           {history.oldSellingPrice !== undefined && (
                             <span className="block text-[10px] text-slate-400 line-through">{formatRupiah(history.oldSellingPrice)}</span>
                           )}
-                          <span className="font-bold font-mono text-[#0F5132]">{formatRupiah(history.newSellingPrice)}</span>
+                          <span className="font-bold font-mono text-[#1B5E20]">{formatRupiah(history.newSellingPrice)}</span>
                         </td>
                         <td className="p-2.5 font-semibold">{history.changedBy}</td>
                         <td className="p-2.5 text-slate-600">{history.note}</td>
@@ -280,14 +280,14 @@ export const LivestockDetailModal: React.FC<LivestockDetailModalProps> = ({
           {/* TAB 2: BOBOT */}
           {activeTab === 'bobot' && (
             <div className="space-y-3">
-              <div className="p-3 bg-[#FFFFFF] rounded-xl border border-[#EEF2F0] flex items-center justify-between">
+              <div className="p-3 bg-[#FFFFFF] rounded-xl border border-[#F1F5F9] flex items-center justify-between">
                 <div>
-                  <span className="text-[10px] text-[#0F5132] font-bold uppercase block">Total Pertambahan Bobot</span>
-                  <span className="text-lg font-black text-[#0A3D26]">
+                  <span className="text-[10px] text-[#1B5E20] font-bold uppercase block">Total Pertambahan Bobot</span>
+                  <span className="text-lg font-black text-[#123D18]">
                     +{livestock.currentWeightKg - livestock.initialWeightKg} kg
                   </span>
                 </div>
-                <span className="text-xs font-semibold text-[#0E9F6E]">
+                <span className="text-xs font-semibold text-[#1B5E20]">
                   Dari Bobot Awal {livestock.initialWeightKg} kg ➔ {livestock.currentWeightKg} kg
                 </span>
               </div>
@@ -308,7 +308,7 @@ export const LivestockDetailModal: React.FC<LivestockDetailModalProps> = ({
                       <tr key={w.id} className="hover:bg-slate-50">
                         <td className="p-2.5 font-medium text-slate-900">{formatDate(w.weighDate)}</td>
                         <td className="p-2.5 font-bold font-mono text-slate-900">{w.weightKg} kg</td>
-                        <td className={`p-2.5 font-bold ${w.gainKg >= 0 ? 'text-[#0E9F6E]' : 'text-rose-600'}`}>
+                        <td className={`p-2.5 font-bold ${w.gainKg >= 0 ? 'text-[#1B5E20]' : 'text-rose-600'}`}>
                           {w.gainKg >= 0 ? `+${w.gainKg}` : w.gainKg} kg
                         </td>
                         <td className="p-2.5 text-slate-600">{w.officerName}</td>
@@ -363,7 +363,7 @@ export const LivestockDetailModal: React.FC<LivestockDetailModalProps> = ({
                 <div key={b.id} className="p-3.5 bg-amber-50/50 rounded-xl border border-amber-200 space-y-2">
                   <div className="flex items-center justify-between">
                     <span className="font-bold text-amber-900 text-xs">Perkawinan ({b.method})</span>
-                    <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-[#F7F9F8] text-[#0F5132]">
+                    <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-[#F8FAFC] text-[#1B5E20]">
                       {b.pregStatus}
                     </span>
                   </div>
@@ -413,7 +413,7 @@ export const LivestockDetailModal: React.FC<LivestockDetailModalProps> = ({
             <div className="relative pl-6 space-y-4 before:absolute before:left-2.5 before:top-2 before:bottom-2 before:w-0.5 before:bg-slate-200">
               {timelineEvents.map((evt, idx) => (
                 <div key={idx} className="relative group">
-                  <div className="absolute -left-6 top-1 w-3.5 h-3.5 rounded-full bg-[#0F5132] border-2 border-white shadow-xs" />
+                  <div className="absolute -left-6 top-1 w-3.5 h-3.5 rounded-full bg-[#1B5E20] border-2 border-white shadow-xs" />
                   <div className="p-3 bg-slate-50 hover:bg-slate-100/80 rounded-xl border border-slate-200 transition">
                     <div className="flex items-center justify-between">
                       <span className="font-bold text-slate-900 text-xs">{evt.title}</span>

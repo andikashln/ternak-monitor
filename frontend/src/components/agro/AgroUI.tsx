@@ -7,10 +7,10 @@ import { exportToExcel, exportToPDF } from '../../utils/formatters';
 // ============================================================================
 
 export const AgroHeader: React.FC<{ kicker: string; title: string; subtitle?: string; actions?: ReactNode }> = ({ kicker, title, subtitle, actions }) => (
-  <div className="rounded-3xl bg-[#0F5132] p-5 text-white shadow-lg sm:p-7">
+  <div className="rounded-3xl bg-[#1B5E20] p-5 text-white shadow-lg sm:p-7">
     <div className="flex flex-wrap items-end justify-between gap-4">
       <div>
-        <p className="text-xs font-black uppercase tracking-[.2em] text-[#EEF2F0]">{kicker}</p>
+        <p className="text-xs font-black uppercase tracking-[.2em] text-[#F1F5F9]">{kicker}</p>
         <h2 className="mt-2 text-2xl font-black">{title}</h2>
         {subtitle && <p className="mt-2 text-sm text-white/70">{subtitle}</p>}
       </div>
@@ -24,7 +24,7 @@ export const AgroCard: React.FC<{ children: ReactNode; className?: string }> = (
 );
 
 export const AgroStat: React.FC<{ label: string; value: string; hint?: string; accent?: boolean }> = ({ label, value, hint, accent }) => (
-  <AgroCard className={accent ? 'border-[#E3B341]/70 bg-[#FBF3DF]/60' : ''}>
+  <AgroCard className={accent ? 'border-[#E4C25E]/70 bg-[#FBF6E9]/60' : ''}>
     <p className="text-[10px] font-black uppercase tracking-wider text-slate-400">{label}</p>
     <p className="mt-1 text-lg sm:text-xl font-black text-slate-900 leading-tight break-words whitespace-normal">{value}</p>
     {hint && <p className="mt-0.5 text-[11px] text-slate-500">{hint}</p>}
@@ -46,7 +46,7 @@ export const AgroTable: React.FC<{ headers: string[]; children: ReactNode }> = (
 
 export const StatusBadge: React.FC<{ value: string; tone?: 'green' | 'amber' | 'red' | 'blue' | 'violet' | 'slate' }> = ({ value, tone = 'slate' }) => {
   const tones: Record<string, string> = {
-    green: 'bg-[#FFFFFF] text-[#0F5132]',
+    green: 'bg-[#FFFFFF] text-[#1B5E20]',
     amber: 'bg-amber-100 text-amber-900',
     red: 'bg-rose-50 text-rose-700',
     blue: 'bg-blue-50 text-blue-800',
@@ -58,7 +58,7 @@ export const StatusBadge: React.FC<{ value: string; tone?: 'green' | 'amber' | '
 
 export const AgroButton: React.FC<{ onClick: () => void; children: ReactNode; variant?: 'primary' | 'ghost' | 'outline'; className?: string }> = ({ onClick, children, variant = 'primary', className = '' }) => {
   const styles = variant === 'primary'
-    ? 'bg-[#0F5132] text-white hover:bg-[#4a2419]'
+    ? 'bg-[#1B5E20] text-white hover:bg-[#4a2419]'
     : variant === 'outline'
       ? 'border border-slate-300 text-slate-700 hover:bg-slate-50'
       : 'text-slate-600 hover:bg-slate-100';
@@ -72,7 +72,7 @@ export const AgroButton: React.FC<{ onClick: () => void; children: ReactNode; va
 export const AgroSearch: React.FC<{ value: string; onChange: (v: string) => void; placeholder?: string }> = ({ value, onChange, placeholder = 'Cari...' }) => (
   <div className="relative">
     <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
-    <input value={value} onChange={e => onChange(e.target.value)} placeholder={placeholder} className="w-full rounded-xl border border-slate-300 py-2.5 pl-9 pr-3 text-sm outline-none focus:border-[#0F5132]" />
+    <input value={value} onChange={e => onChange(e.target.value)} placeholder={placeholder} className="w-full rounded-xl border border-slate-300 py-2.5 pl-9 pr-3 text-sm outline-none focus:border-[#1B5E20]" />
   </div>
 );
 
@@ -91,7 +91,7 @@ export const AgroModal: React.FC<{ title: string; onClose: () => void; children:
 export const AgroField: React.FC<{ label: string; value: string; onChange: (v: string) => void; type?: string; placeholder?: string }> = ({ label, value, onChange, type = 'text', placeholder }) => (
   <label className="block text-xs font-bold text-slate-700">
     {label}
-    <input type={type} value={value} onChange={e => onChange(e.target.value)} placeholder={placeholder} className="mt-1 w-full rounded-xl border border-slate-300 px-3 py-2.5 outline-none focus:border-[#0F5132]" />
+    <input type={type} value={value} onChange={e => onChange(e.target.value)} placeholder={placeholder} className="mt-1 w-full rounded-xl border border-slate-300 px-3 py-2.5 outline-none focus:border-[#1B5E20]" />
   </label>
 );
 

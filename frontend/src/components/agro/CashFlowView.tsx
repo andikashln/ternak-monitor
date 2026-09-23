@@ -95,14 +95,14 @@ export const CashFlowView: React.FC = () => {
         <AgroTable headers={['Referensi', 'Tanggal', 'Jenis', 'Kategori', 'Deskripsi', 'Divisi', 'Metode', 'Jumlah', 'Aksi']}>
           {filtered.map(t => (
             <tr key={t.id} className="hover:bg-slate-50">
-              <td className="px-4 py-3 font-bold text-[#0F5132]">{t.referenceNo}</td>
+              <td className="px-4 py-3 font-bold text-[#1B5E20]">{t.referenceNo}</td>
               <td className="px-4 py-3 text-slate-600">{t.date}</td>
               <td className="px-4 py-3"><StatusBadge value={t.type} tone={t.type === 'Masuk' ? 'green' : 'red'} /></td>
               <td className="px-4 py-3 text-slate-700">{t.category}</td>
               <td className="px-4 py-3 text-slate-700">{t.description}</td>
               <td className="px-4 py-3 text-slate-500">{t.sourceDivision}</td>
               <td className="px-4 py-3 text-slate-500">{t.paymentMethod}</td>
-              <td className={`px-4 py-3 font-black ${t.type === 'Masuk' ? 'text-[#0E9F6E]' : 'text-rose-700'}`}>{formatRupiah(t.amount)}</td>
+              <td className={`px-4 py-3 font-black ${t.type === 'Masuk' ? 'text-[#1B5E20]' : 'text-rose-700'}`}>{formatRupiah(t.amount)}</td>
               <td className="px-4 py-3">
                 <div className="flex gap-1">
                   <AgroButton variant="ghost" onClick={() => openEdit(t)}><Pencil className="h-4 w-4" /></AgroButton>

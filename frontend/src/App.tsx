@@ -64,7 +64,7 @@ const MasterDataView = lazy(() => import('./components/agro/MasterDataView').the
 const AuditTrailView = lazy(() => import('./components/agro/AuditTrailView').then(module => ({ default: module.AuditTrailView })));
 
 const PageLoader = () => (
-  <div className="flex min-h-64 items-center justify-center rounded-2xl border border-slate-200 bg-white/70 text-[#0A3D26]">
+  <div className="flex min-h-64 items-center justify-center rounded-2xl border border-slate-200 bg-white/70 text-[#123D18]">
     <div className="text-center"><Loader2 className="mx-auto h-6 w-6 animate-spin" /><p className="mt-2 text-xs font-bold text-slate-500">Memuat modul...</p></div>
   </div>
 );
@@ -241,7 +241,7 @@ export function App() {
 
   if (authState === 'checking') {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-slate-100 text-[#0A3D26]">
+      <div className="flex min-h-screen items-center justify-center bg-slate-100 text-[#123D18]">
         <div className="text-center">
           <Loader2 className="mx-auto h-8 w-8 animate-spin" />
           <p className="mt-3 text-xs font-bold">Memeriksa sesi pengguna...</p>
@@ -254,13 +254,13 @@ export function App() {
     if (showPublicCatalog) {
       return (
         <div className="app-surface min-h-screen font-sans text-slate-800 antialiased">
-          <header className="sticky top-0 z-30 border-b border-[#0A3D26]/8 bg-white/92 shadow-sm backdrop-blur-xl">
+          <header className="sticky top-0 z-30 border-b border-[#123D18]/8 bg-white/92 shadow-sm backdrop-blur-xl">
             <div className="mx-auto flex h-[4.5rem] max-w-screen-2xl items-center justify-between gap-3 px-4 sm:px-6 lg:px-8">
               <DutaAgroNusantaraLogo />
               <button
                 type="button"
                 onClick={() => setShowPublicCatalog(false)}
-                className="flex min-h-10 items-center gap-2 rounded-xl bg-[#0A3D26] px-3.5 text-xs font-black text-white shadow-sm transition hover:bg-[#0F5132] sm:px-4"
+                className="flex min-h-10 items-center gap-2 rounded-xl bg-[#123D18] px-3.5 text-xs font-black text-white shadow-sm transition hover:bg-[#1B5E20] sm:px-4"
               >
                 <LogIn className="h-4 w-4" /> <span className="hidden sm:inline">Login Pengelola</span><span className="sm:hidden">Login</span>
               </button>
@@ -293,7 +293,7 @@ export function App() {
   }
 
   return (
-    <div className="app-surface flex h-dvh min-h-screen flex-col overflow-hidden font-sans text-slate-800 antialiased selection:bg-[#0A3D26] selection:text-white">
+    <div className="app-surface flex h-dvh min-h-screen flex-col overflow-hidden font-sans text-slate-800 antialiased selection:bg-[#123D18] selection:text-white">
       
       {/* Top Navbar */}
       <Navbar
@@ -391,8 +391,8 @@ export function App() {
           {activeTab === 'audit-trail' && canAccess(currentUser.role, 'audit-trail') && <AuditTrailView />}
           </Suspense>
 
-          <footer className="mt-8 flex flex-col items-center gap-1 border-t border-[#E2E8E5] pt-5 pb-2 text-center">
-            <p className="text-[11px] font-black uppercase tracking-[0.2em] text-[#0F5132]">PT DUTA AGRI NUSANTARA</p>
+          <footer className="mt-8 flex flex-col items-center gap-1 border-t border-[#E2E8F0] pt-5 pb-2 text-center">
+            <p className="text-[11px] font-black uppercase tracking-[0.2em] text-[#1B5E20]">PT DUTA AGRI NUSANTARA</p>
             <p className="text-[10px] text-slate-400">One Land. One System. One Future.</p>
           </footer>
 
