@@ -3,11 +3,10 @@ import { AlertCircle, Eye, EyeOff, Leaf, Loader2, LockKeyhole, Mail, ShieldCheck
 
 interface LoginPageProps {
   onLogin: (email: string, password: string) => Promise<void>;
-  onDemoLogin: () => Promise<void>;
   onOpenCatalog: () => void;
 }
 
-export const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onDemoLogin, onOpenCatalog }) => {
+export const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onOpenCatalog }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -29,7 +28,16 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onDemoLogin, onOp
 
   return (
     <main className="min-h-screen bg-[#F8FAFC] text-[#0F172A] lg:grid lg:grid-cols-[1.05fr_0.95fr]">
-      <section className="relative hidden overflow-hidden bg-[#1B5E20] px-12 py-14 text-white lg:flex lg:flex-col lg:justify-between">
+      <section className="relative hidden overflow-hidden px-12 py-14 text-white lg:flex lg:flex-col lg:justify-between">
+        <img
+          src="/login-bg.jpg"
+          alt=""
+          aria-hidden="true"
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+        {/* Overlay hijau hutan: gelapkan foto agar teks kontras + identitas brand tetap hijau */}
+        <div className="absolute inset-0 bg-[#1B5E20]/80" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0B2E10]/85 via-transparent to-[#0B2E10]/40" />
         <div className="absolute -right-28 -top-28 h-96 w-96 rounded-full bg-[#C9971C]/12" />
         <div className="absolute -bottom-44 -left-24 h-[34rem] w-[34rem] rounded-full border border-white/15" />
 

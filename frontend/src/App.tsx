@@ -12,7 +12,7 @@ import { canAccess, canEdit } from './services/permissions';
 
 import { storeService } from './services/storeService';
 import { authAPI, authSession } from './services/api';
-import { getOneClickDemoSession, getStaticDemoSession, getStaticDemoSessionFromToken, shouldUseStaticDemoFallback } from './services/demoAuth';
+import { getStaticDemoSession, getStaticDemoSessionFromToken, shouldUseStaticDemoFallback } from './services/demoAuth';
 import { supabaseSignIn, supabaseRestore, supabaseSignOut } from './services/supabase';
 import { LivestockItem, UserProfile } from './types';
 
@@ -196,14 +196,6 @@ export function App() {
     }
   };
 
-  const handleDemoLogin = async () => {
-    const demoSession = getOneClickDemoSession();
-    authSession.setToken(demoSession.token);
-    storeService.setCurrentUser(demoSession.user);
-    setActiveTab('dashboard');
-    setAuthState('authenticated');
-  };
-
   const handleLogout = async () => {
     try {
       await supabaseSignOut();
@@ -272,7 +264,7 @@ export function App() {
         </div>
       );
     }
-    return <LoginPage onLogin={handleLogin} onDemoLogin={handleDemoLogin} onOpenCatalog={() => setShowPublicCatalog(true)} />;
+    return <LoginPage onLogin={handleLogin} onOpenCatalog={() => setShowPublicCatalog(true)} />;
   }
 
   if (currentUser.role === 'USER') {
