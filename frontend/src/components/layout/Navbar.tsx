@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { ChevronDown, LogOut, Menu, Plus, Search, ShieldCheck, Users } from 'lucide-react';
 import { storeService } from '../../services/storeService';
 import { DutaAgroNusantaraLogo } from '../brand/DutaAgroNusantaraLogo';
-import { ROLE_LABELS } from '../../services/permissions';
+import { ROLE_LABELS, canEdit } from '../../services/permissions';
 
 interface NavbarProps {
   pageTitle?: string;
@@ -69,7 +69,7 @@ export const Navbar: React.FC<NavbarProps> = ({
         </div>
 
         <div className="ml-auto flex items-center gap-1.5 sm:gap-2">
-          {currentUser.role !== 'USER' && (
+          {currentUser.role !== 'USER' && canEdit(currentUser.role) && (
             <button type="button" onClick={onOpenQuickAction} className="ranch-action-primary hidden px-3.5 text-xs shadow-md sm:inline-flex">
               <Plus className="h-4 w-4" /> Catat Data
             </button>

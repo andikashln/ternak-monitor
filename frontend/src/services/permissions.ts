@@ -45,9 +45,18 @@ const FULL_ACCESS: WorkspaceModule[] = [
   'master-data', 'audit-trail',
 ];
 
+// Module keuangan — hanya OWNER (penuh) & ACCOUNTANT (view-only) yang boleh akses.
+const FINANCE_MODULES: WorkspaceModule[] = [
+  'finance', 'expenses', 'sales-results', 'transactions',
+  'finance-dashboard', 'approval-center', 'cash-flow', 'lpj',
+  'funding-docs', 'invoices',
+];
+
 // Manager: semua kecuali manajemen pengguna, pengaturan, master data, audit trail (Developer/Owner only)
+// dan TIDAK boleh akses module keuangan (hanya OWNER & ACCOUNTANT).
 const MANAGER_ACCESS: WorkspaceModule[] = FULL_ACCESS.filter(
   module => !['users', 'settings', 'master-data', 'audit-trail'].includes(module)
+    && !FINANCE_MODULES.includes(module)
 );
 
 // Akuntan: fokus keuangan & laporan
@@ -80,6 +89,14 @@ const ROLE_ACCESS: Record<UserRole, WorkspaceModule[]> = {
 
 export function canAccess(role: UserRole, module: WorkspaceModule): boolean {
   return ROLE_ACCESS[role]?.includes(module) ?? false;
+}
+
+/**
+ * Hanya OWNER & DEVELOPER yang boleh mengubah data (tambah/edit/hapus).
+ * Role lain (MANAGER, ACCOUNTANT, MITRA) read-only: boleh melihat, tidak boleh ubah.
+ */
+export function canEdit(role: UserRole): boolean {
+  return role === 'OWNER' || role === 'DEVELOPER';
 }
 
 export function canResetDemoData(role: UserRole): boolean {

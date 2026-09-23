@@ -8,7 +8,7 @@ import { MobileNavigationDrawer } from './components/layout/MobileNavigationDraw
 import { getNavigationLabel } from './components/layout/Sidebar';
 import { DutaAgroNusantaraLogo } from './components/brand/DutaAgroNusantaraLogo';
 import { SalesCatalogView } from './components/catalog/SalesCatalogView';
-import { canAccess } from './services/permissions';
+import { canAccess, canEdit } from './services/permissions';
 
 import { storeService } from './services/storeService';
 import { authAPI, authSession } from './services/api';
@@ -420,10 +420,10 @@ export function App() {
 
       {/* MODALS */}
       <Suspense fallback={null}>
-        {isQuickActionOpen && <QuickActionsModal isOpen onClose={() => setIsQuickActionOpen(false)} onSelectAction={handleSelectQuickAction} />}
-        {isAddLivestockOpen && <LivestockFormModal isOpen onClose={() => setIsAddLivestockOpen(false)} editItem={editLivestockItem} />}
+        {isQuickActionOpen && canEdit(currentUser.role) && <QuickActionsModal isOpen onClose={() => setIsQuickActionOpen(false)} onSelectAction={handleSelectQuickAction} />}
+        {isAddLivestockOpen && canEdit(currentUser.role) && <LivestockFormModal isOpen onClose={() => setIsAddLivestockOpen(false)} editItem={editLivestockItem} />}
         {detailLivestockItem && <LivestockDetailModal isOpen onClose={() => setDetailLivestockItem(null)} livestock={detailLivestockItem} />}
-        {isImportModalOpen && <LivestockImportModal isOpen onClose={() => setIsImportModalOpen(false)} />}
+        {isImportModalOpen && canEdit(currentUser.role) && <LivestockImportModal isOpen onClose={() => setIsImportModalOpen(false)} />}
       </Suspense>
 
     </div>
