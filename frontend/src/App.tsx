@@ -13,6 +13,7 @@ import { canAccess } from './services/permissions';
 import { storeService } from './services/storeService';
 import { authAPI, authSession } from './services/api';
 import { getOneClickDemoSession, getStaticDemoSession, getStaticDemoSessionFromToken, shouldUseStaticDemoFallback } from './services/demoAuth';
+import { supabaseSignIn, supabaseRestore, supabaseSignOut } from './services/supabase';
 import { LivestockItem, UserProfile } from './types';
 
 const DashboardOverview = lazy(() => import('./components/dashboard/DashboardOverview').then(module => ({ default: module.DashboardOverview })));
@@ -93,6 +94,16 @@ export function App() {
     window.addEventListener('auth:unauthorized', handleUnauthorized);
 
     const restoreSession = async () => {
+      // 1) Supabase session (persisted by supabase-js in localStorage).
+      const supabaseResult = await supabaseRestore();
+      if (supabaseResult?.ok) {
+        storeService.setCurrentUser(supabaseResult.user);
+        setActiveTab(supabaseResult.user.role === 'MITRA' ? 'livestock' : 'dashboard');
+        setAuthState('authenticated');
+        return;
+      }
+
+      // 2) Legacy static-demo / backend token fallback.
       const token = authSession.getToken();
       if (!token) {
         setAuthState('guest');
@@ -140,6 +151,20 @@ export function App() {
   }, [activeTab]);
 
   const handleLogin = async (email: string, password: string) => {
+    // 1) Supabase Auth (email + password sungguhan).
+    const supabaseResult = await supabaseSignIn(email, password);
+    if (supabaseResult) {
+      if (supabaseResult.ok) {
+        authSession.setToken(supabaseResult.token);
+        storeService.setCurrentUser(supabaseResult.user);
+        setActiveTab(supabaseResult.user.role === 'MITRA' ? 'livestock' : 'dashboard');
+        setAuthState('authenticated');
+        return;
+      }
+      throw new Error((supabaseResult as { ok: false; error: string }).error);
+    }
+
+    // 2) Fallback: static demo / backend legacy.
     const exactDemoSession = getStaticDemoSession(email, password);
     if (exactDemoSession) {
       authSession.setToken(exactDemoSession.token);
@@ -181,6 +206,7 @@ export function App() {
 
   const handleLogout = async () => {
     try {
+      await supabaseSignOut();
       await authAPI.logout();
     } catch {
       // Local session must still be cleared when the server cannot be reached.
