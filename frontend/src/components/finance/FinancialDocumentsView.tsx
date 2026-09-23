@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { CheckCircle2, FileDown, FileText, Plus, Printer, Receipt, ShieldCheck, Upload, WalletCards, XCircle } from 'lucide-react';
 import { jsPDF } from 'jspdf';
 import { financialDocumentsStore, type Actor, type FundRequestDraft, type InvoiceDraft, type LineItem } from '../../services/financialDocuments';
-import { saveAttachments } from '../../services/attachmentDb';
+import { saveAttachments } from '../../services/r2Storage';
 import { storeService } from '../../services/storeService';
 import { formatRupiah } from '../../utils/formatters';
 
