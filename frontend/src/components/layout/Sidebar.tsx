@@ -124,7 +124,7 @@ export const navigationSections: NavSection[] = [
       { id: 'master-data', label: 'Master Data & Role', description: 'Data master & peran', icon: FolderCog, allowedRoles: ['OWNER', 'DEVELOPER'] },
       { id: 'audit-trail', label: 'Audit Trail Log', description: 'Riwayat aktivitas', icon: ScrollText, allowedRoles: ['OWNER', 'DEVELOPER'] },
       { id: 'users', label: 'Pengguna', description: 'Akun & hak akses', icon: Users, allowedRoles: ['OWNER', 'DEVELOPER'] },
-      { id: 'settings', label: 'Pengaturan', description: 'Profil farm & reset demo', icon: Settings, allowedRoles: ['OWNER', 'DEVELOPER'] },
+      { id: 'settings', label: 'Pengaturan', description: 'Profil farm & lokasi', icon: Settings, allowedRoles: ['OWNER', 'DEVELOPER'] },
     ],
   },
 ];
