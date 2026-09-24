@@ -34,80 +34,6 @@ const now = () => new Date().toISOString();
 const id = (prefix: string) => `${prefix}-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
 const sumItems = (items: LineItem[]) => items.reduce((sum, item) => sum + item.quantity * item.unitPrice, 0);
 
-// Seed data demo: dipakai hanya saat localStorage kosong (belum pernah ada data),
-// supaya halaman Invoice & Pengajuan Dana langsung terlihat "hidup".
-const seedState = (): WorkflowState => {
-  const demoDate = '2026-08-30';
-  const inv1Items: LineItem[] = [
-    { description: 'Sapi Limousin jantan siap potong', quantity: 2, unit: 'ekor', unitPrice: 15_000_000 },
-    { description: 'Sapi Simental betina', quantity: 1, unit: 'ekor', unitPrice: 13_500_000 },
-  ];
-  const inv1Subtotal = sumItems(inv1Items); // 43.500.000
-  const inv1: Invoice = {
-    kind: 'JUAL', partyName: 'H. Abdul Rahman', partyContact: '0812-3456-7890', issueDate: demoDate, dueDate: '2026-09-07',
-    taxPercent: 0, discount: 0, extraCost: 0, notes: 'Penjualan ternak potong lokasi Kulim.',
-    items: inv1Items, id: 'invoice-demo-1', invoiceNo: 'INV-JUAL/2026/08/0001',
-    subtotal: inv1Subtotal, taxAmount: 0, total: inv1Subtotal, paidAmount: 15_000_000, remainingAmount: inv1Subtotal - 15_000_000,
-    paymentStatus: 'Sebagian', status: 'Aktif',
-    payments: [{ id: 'payment-demo-1', amount: 15_000_000, method: 'Transfer Bank', paidAt: '2026-08-31T09:00:00.000Z', status: 'Terverifikasi', submittedBy: 'Owner PT.Duta Agri Nusantara', attachmentIds: [] }],
-    createdBy: 'Owner PT.Duta Agri Nusantara', createdAt: '2026-08-30T10:00:00.000Z',
-  };
-
-  const inv2Items: LineItem[] = [
-    { description: 'Konsentrat Gemuk (50 kg/karung)', quantity: 20, unit: 'karung', unitPrice: 190_000 },
-    { description: 'Mineral block', quantity: 10, unit: 'unit', unitPrice: 45_000 },
-  ];
-  const inv2Subtotal = sumItems(inv2Items); // 3.800.000 + 450.000 = 4.250.000
-  const inv2: Invoice = {
-    kind: 'BELI', partyName: 'PT Feedmill Nusantara', partyContact: '021-555-1234', issueDate: '2026-08-28', dueDate: '2026-09-05',
-    taxPercent: 0, discount: 0, extraCost: 0, notes: 'Pembelian pakan ternak bulan Agustus.',
-    items: inv2Items, id: 'invoice-demo-2', invoiceNo: 'INV-BELI/2026/08/0001',
-    subtotal: inv2Subtotal, taxAmount: 0, total: inv2Subtotal, paidAmount: 0, remainingAmount: inv2Subtotal,
-    paymentStatus: 'Belum Dibayar', status: 'Aktif', payments: [],
-    createdBy: 'Manager PT.Duta Agri Nusantara', createdAt: '2026-08-28T08:30:00.000Z',
-  };
-
-  const fundItems: LineItem[] = [
-    { description: 'Pembelian pakan konsentrat 1 ton', quantity: 1, unit: 'ton', unitPrice: 3_800_000 },
-  ];
-  const fundTotal = sumItems(fundItems);
-  const fundRequest: FundRequest = {
-    category: 'Pakan', location: 'Kulim', purpose: 'Pembelian pakan konsentrat bulan September', neededDate: '2026-09-10',
-    paymentMethod: 'Transfer Bank', notes: 'Untuk kebutuhan pakan 2 minggu ke depan.',
-    items: fundItems, id: 'fund-demo-1', requestNo: 'REQ-DANA/2026/09/0001',
-    requesterId: 'u-manager-1', requesterName: 'Andika Shalihin', requesterRole: 'MANAGER', total: fundTotal,
-    status: 'Diverifikasi Akuntan', createdAt: '2026-09-01T08:00:00.000Z', verifiedBy: 'Sari Keuangan',
-  };
-
-  // Pengajuan dana milik Mitra demo (uid = 'demo-mitra-local') agar role MITRA
-  // melihat minimal satu pengajuan di daftarnya.
-  const mitraFundItems: LineItem[] = [
-    { description: 'Pembelian bibit lele 1000 ekor', quantity: 1000, unit: 'ekor', unitPrice: 350 },
-  ];
-  const mitraFundRequest: FundRequest = {
-    category: 'Pembelian Ternak', location: 'Sontang', purpose: 'Pembelian bibit lele untuk kolam baru', neededDate: '2026-09-05',
-    paymentMethod: 'Transfer Bank', notes: 'Restocking kolam bioflok.',
-    items: mitraFundItems, id: 'fund-demo-2', requestNo: 'REQ-DANA/2026/09/0002',
-    requesterId: 'demo-mitra-local', requesterName: 'Mitra PT.Duta Agri Nusantara', requesterRole: 'MITRA', total: sumItems(mitraFundItems),
-    status: 'Diajukan', createdAt: '2026-09-02T08:00:00.000Z',
-  };
-
-  return {
-    fundRequests: [fundRequest, mitraFundRequest],
-    invoices: [inv1, inv2],
-    audits: [
-      { id: 'audit-demo-1', at: '2026-08-30T10:05:00.000Z', actor: 'Owner PT.Duta Agri Nusantara', role: 'OWNER', action: 'Buat Invoice', targetId: 'invoice-demo-1', detail: 'INV-JUAL/2026/08/0001' },
-      { id: 'audit-demo-2', at: '2026-09-01T08:05:00.000Z', actor: 'Sari Keuangan', role: 'ACCOUNTANT', action: 'Verifikasi Pengajuan', targetId: 'fund-demo-1', detail: 'REQ-DANA/2026/09/0001' },
-      { id: 'audit-demo-3', at: '2026-09-02T08:05:00.000Z', actor: 'Mitra PT.Duta Agri Nusantara', role: 'MITRA', action: 'Ajukan Dana', targetId: 'fund-demo-2', detail: 'REQ-DANA/2026/09/0002' },
-    ],
-    alerts: [
-      { id: 'alert-demo-1', at: '2026-09-01T08:05:00.000Z', title: 'Verifikasi Pengajuan', message: 'Sari Keuangan: REQ-DANA/2026/09/0001', targetId: 'fund-demo-1' },
-      { id: 'alert-demo-2', at: '2026-08-31T09:00:00.000Z', title: 'Verifikasi Pembayaran', message: 'Pembayaran INV-JUAL/2026/08/0001 telah terverifikasi.', targetId: 'invoice-demo-1' },
-      { id: 'alert-demo-3', at: '2026-09-02T08:05:00.000Z', title: 'Ajukan Dana', message: 'Mitra PT.Duta Agri Nusantara: REQ-DANA/2026/09/0002', targetId: 'fund-demo-2' },
-    ],
-  };
-};
-
 const memoryFallback = new Map<string, string>();
 const fallbackStorage: Storage = {
   get length() { return memoryFallback.size; },
@@ -125,18 +51,28 @@ export class FinancialDocumentsStore {
   constructor(private storage: Storage = defaultStorage) {
     try {
       const stored = JSON.parse(storage.getItem(STORAGE_KEY) || 'null');
-      // Jika belum pernah ada data, ATAU data lama yang tersimpan kosong total
-      // (hasil emptyState versi lama), pakai seed demo supaya halaman tidak kosong.
-      const isEmpty = !stored ||
-        (!(stored.fundRequests?.length) && !(stored.invoices?.length) && !(stored.audits?.length) && !(stored.alerts?.length));
-      this.state = isEmpty ? seedState() : { ...emptyState(), ...stored };
+      // Produksi: mulai dari state kosong (tanpa seed demo).
+      this.state = stored ? { ...emptyState(), ...stored } : emptyState();
     }
-    catch { this.state = seedState(); }
+    catch { this.state = emptyState(); }
   }
   subscribe(listener: () => void) { this.listeners.add(listener); return () => { this.listeners.delete(listener); }; }
   snapshot(): WorkflowState { return structuredClone(this.state); }
   getInvoice(invoiceId: string) { return this.state.invoices.find(item => item.id === invoiceId); }
-  private save() { this.storage.setItem(STORAGE_KEY, JSON.stringify(this.state)); this.listeners.forEach(listener => listener()); }
+  private save() { this.storage.setItem(STORAGE_KEY, JSON.stringify(this.state)); this.notifySync(); this.listeners.forEach(listener => listener()); }
+  /** Kirim koleksi berubah ke dataSync (debounced push ke Supabase). */
+  private notifySync() {
+    import('./dataSync').then(({ dataSync }) => {
+      dataSync.onCollectionChanged('findoc:fundRequests');
+      dataSync.onCollectionChanged('findoc:invoices');
+    }).catch(() => {});
+  }
+  /** Ganti koleksi (dipakai dataSync saat pull dari DB / realtime). Tanpa re-sync. */
+  replaceCollection<K extends 'fundRequests' | 'invoices'>(key: K, items: WorkflowState[K]) {
+    this.state[key] = items;
+    try { this.storage.setItem(STORAGE_KEY, JSON.stringify(this.state)); } catch { /* ignore */ }
+    this.listeners.forEach(listener => listener());
+  }
   private audit(actor: Actor, action: string, targetId: string, detail?: string) {
     this.state.audits.unshift({ id: id('audit'), at: now(), actor: actor.name, role: actor.role, action, targetId, detail });
     this.state.alerts.unshift({ id: id('alert'), at: now(), title: action, message: detail ? `${actor.name}: ${detail}` : `Diproses oleh ${actor.name}`, targetId });
@@ -199,7 +135,7 @@ export class FinancialDocumentsStore {
   }
   private mustInvoice(invoiceId: string) { const invoice = this.state.invoices.find(item => item.id === invoiceId); if (!invoice) throw new Error('Invoice tidak ditemukan.'); return invoice; }
   private recalculatePayment(invoice: Invoice) { invoice.paidAmount = invoice.payments.filter(item => item.status === 'Terverifikasi').reduce((sum, item) => sum + item.amount, 0); invoice.remainingAmount = Math.max(0, invoice.total - invoice.paidAmount); invoice.paymentStatus = invoice.remainingAmount === 0 ? 'Lunas' : invoice.paidAmount > 0 ? 'Sebagian' : invoice.payments.some(item => item.status === 'Menunggu Verifikasi') ? 'Menunggu Verifikasi' : 'Belum Dibayar'; }
-  resetAll(actor: Actor) { this.requireRole(actor, ['OWNER'], 'Hanya Owner yang dapat mereset data demo.'); this.state = seedState(); this.storage.removeItem(STORAGE_KEY); this.listeners.forEach(listener => listener()); }
+  resetAll(actor: Actor) { this.requireRole(actor, ['OWNER'], 'Hanya Owner yang dapat mereset data.'); this.state = emptyState(); this.storage.removeItem(STORAGE_KEY); this.listeners.forEach(listener => listener()); }
 }
 
 export const financialDocumentsStore = new FinancialDocumentsStore();

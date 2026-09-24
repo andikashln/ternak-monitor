@@ -578,7 +578,7 @@ function saveStorage<T>(key: string, value: T): void {
     console.error("Failed to save to localStorage:", e);
   }
   // Sinkronisasi ke Supabase (debounced per-key). No-op bila sync nonaktif.
-  import('./dataSync').then(({ dataSync }) => dataSync.onStoreSaved(key)).catch(() => {});
+  import('./dataSync').then(({ dataSync }) => dataSync.onCollectionChanged(key)).catch(() => {});
 }
 
 class StoreService {

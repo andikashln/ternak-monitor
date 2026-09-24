@@ -642,6 +642,15 @@ create table if not exists public.master_data (
   created_at timestamptz not null default now()
 );
 
+-- Kolom payload (JSONB dokumen) untuk finance-control workflow:
+-- fund requests disimpan di approval_requests.payload, invoice di invoices.payload.
+-- Row dokumen = payload NOT NULL; row legacy approvals = payload NULL.
+-- dataSync memfilter pull per-mapping (is null / not null) agar tidak saling
+-- menimpa, dan mengisi kolom meta NOT NULL (type/title, invoice_no/date)
+-- dari dokumen saat push agar constraint terpenuhi.
+alter table public.invoices add column if not exists payload jsonb;
+alter table public.approval_requests add column if not exists payload jsonb;
+
 -- ---------------------------------------------------------------------------
 -- 9) RLS: aktifkan di SEMUA tabel
 -- ---------------------------------------------------------------------------
@@ -903,8 +912,53 @@ from auth.users u
 on conflict (id) do update
   set email = excluded.email, role = excluded.role, updated_at = now();
 
+
 -- ---------------------------------------------------------------------------
--- 12) Seed lokasi produksi (opsional, idempotent)
+-- 13) Supabase Realtime: publikasikan semua tabel utk realtime sync
+-- Idempotent: drop & recreate publication, lalu tambah semua tabel.
+-- ---------------------------------------------------------------------------
+drop publication if exists supabase_realtime;
+create publication supabase_realtime;
+alter publication supabase_realtime add table public.profiles;
+alter publication supabase_realtime add table public.locations;
+alter publication supabase_realtime add table public.pens;
+alter publication supabase_realtime add table public.livestock;
+alter publication supabase_realtime add table public.weight_records;
+alter publication supabase_realtime add table public.health_records;
+alter publication supabase_realtime add table public.breeding_records;
+alter publication supabase_realtime add table public.birth_records;
+alter publication supabase_realtime add table public.death_records;
+alter publication supabase_realtime add table public.transfer_records;
+alter publication supabase_realtime add table public.sales_records;
+alter publication supabase_realtime add table public.feed_inventory;
+alter publication supabase_realtime add table public.financial_transactions;
+alter publication supabase_realtime add table public.daily_reports;
+alter publication supabase_realtime add table public.notifications;
+alter publication supabase_realtime add table public.audit_logs;
+alter publication supabase_realtime add table public.crop_records;
+alter publication supabase_realtime add table public.crop_activities;
+alter publication supabase_realtime add table public.garden_documents;
+alter publication supabase_realtime add table public.ponds;
+alter publication supabase_realtime add table public.water_quality_records;
+alter publication supabase_realtime add table public.fish_feed_logs;
+alter publication supabase_realtime add table public.fish_harvest_records;
+alter publication supabase_realtime add table public.wildlife_records;
+alter publication supabase_realtime add table public.wildlife_feed_schedules;
+alter publication supabase_realtime add table public.inventory_items;
+alter publication supabase_realtime add table public.stock_mutations;
+alter publication supabase_realtime add table public.purchase_requests;
+alter publication supabase_realtime add table public.purchase_orders;
+alter publication supabase_realtime add table public.tasks;
+alter publication supabase_realtime add table public.attendance_records;
+alter publication supabase_realtime add table public.kpi_scores;
+alter publication supabase_realtime add table public.cash_transactions;
+alter publication supabase_realtime add table public.lpj_reports;
+alter publication supabase_realtime add table public.approval_requests;
+alter publication supabase_realtime add table public.invoices;
+alter publication supabase_realtime add table public.master_data;
+
+-- ---------------------------------------------------------------------------
+-- 14) Seed lokasi produksi (opsional, idempotent)
 -- ---------------------------------------------------------------------------
 insert into public.locations (id, name, address, pic_name, pic_phone, livestock_types, pen_count, status, notes)
 values

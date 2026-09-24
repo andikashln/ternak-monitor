@@ -50,15 +50,15 @@ describe('financial workflow', () => {
     expect(store.cancelInvoice(invoice.id, 'Transaksi dibatalkan', { uid: 'owner', name: 'Owner', role: 'OWNER' }).status).toBe('Dibatalkan');
   });
 
-  it('restores seed demo data on owner reset', () => {
+  it('empties all data on owner reset', () => {
     store.createFundRequest(fundDraft, { uid: 'mitra', name: 'Mitra', role: 'MITRA' });
     store.createInvoice(invoiceDraft, { uid: 'acc', name: 'Akuntan', role: 'ACCOUNTANT' });
     store.resetAll({ uid: 'owner', name: 'Owner', role: 'OWNER' });
-    // Reset mengembalikan data ke seed demo awal (bukan kosong), supaya halaman tetap "hidup".
+    // Produksi: reset mengosongkan seluruh data (tanpa seed demo).
     const snapshot = store.snapshot();
-    expect(snapshot.invoices.length).toBeGreaterThan(0);
-    expect(snapshot.fundRequests.length).toBeGreaterThan(0);
-    // Data buatan pengguna pada test di atas sudah hilang (kembali ke seed).
-    expect(snapshot.invoices.some(item => item.invoiceNo.startsWith('INV-JUAL/2026/08/'))).toBe(true);
+    expect(snapshot.invoices.length).toBe(0);
+    expect(snapshot.fundRequests.length).toBe(0);
+    expect(snapshot.audits.length).toBe(0);
+    expect(snapshot.alerts.length).toBe(0);
   });
 });

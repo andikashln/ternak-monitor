@@ -21,6 +21,8 @@ import type {
   BreedingRecord, BirthRecord, DeathRecord, TransferRecord, SalesRecord,
   FeedInventory, FinancialTransaction, DailyReport, NotificationItem, AuditLogItem,
 } from '../types';
+import { agroStore, type AgroState } from './agroStore';
+import { financialDocumentsStore } from './financialDocuments';
 
 // ---------------------------------------------------------------------------
 // Definisi tabel: key localStorage -> tabel DB + kolom whitelist (snake_case).
@@ -31,6 +33,10 @@ type TableDef<T> = {
   columns: string[]; // kolom DB (snake_case) yang dikirim/diterima
   toRow: (item: T) => Record<string, unknown>;
   fromRow: (row: Record<string, unknown>) => T;
+  // Filter opsional saat pull, mis. untuk memisahkan row legacy vs dokumen
+  // JSONB yang berbagi tabel yang sama (approval_requests).
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  pullFilter?: (q: any) => any;
 };
 
 const DATE_NULL = (v: unknown): string | null => (typeof v === 'string' && v ? v : null);
@@ -346,8 +352,119 @@ const MAPPINGS: SyncMapping[] = [
 ];
 
 // ---------------------------------------------------------------------------
-// Engine
+// MAPPING STORE KEDUA: agroStore (divisi kebun/perikanan/satwa/inventory/HR/
+// finance-control). Pola berbeda dari storeService: satu object AgroState
+// dengan 20 koleksi; sync per-koleksi ke tabel DB masing-masing.
+// fromRow dipakai generik camelToSnake/snakeToCamel per-koleksi.
 // ---------------------------------------------------------------------------
+
+type AgroCollection = keyof AgroState;
+
+function agroMapping<K extends AgroCollection>(
+  table: string,
+  collection: K,
+  camelMap: Record<string, keyof AgroState[K][number]>,
+  pullFilter?: TableDef<never>['pullFilter'],
+): SyncMapping {
+  // Peta snake_case kolom DB -> properti camelCase objek aplikasi.
+  const rowMap: Record<string, keyof AgroState[K][number]> = {};
+  for (const [camel, prop] of Object.entries(camelMap)) {
+    rowMap[camel.replace(/[A-Z]/g, (m) => '_' + m.toLowerCase())] = prop;
+  }
+  const def: TableDef<never> = {
+    table,
+    columns: Object.keys(camelMap).map((c) => c.replace(/[A-Z]/g, (m) => '_' + m.toLowerCase())),
+    toRow: (item: never) => camelToSnake(item as unknown as Record<string, unknown>),
+    fromRow: (row: Record<string, unknown>) => snakeToCamel(row, rowMap) as never,
+    pullFilter,
+  };
+  return {
+    key: `agro:${table}`,
+    def,
+    get: () => agroStore.snapshot()[collection] as unknown[],
+    set: (v) => agroStore.replaceCollection(collection, v as never),
+  };
+}
+
+// Financial documents (pengajuan dana & invoice + audit/alerts) disimpan
+// sebagai DOKUMEN JSONB: 1 row per dokumen, isi lengkap di kolom `payload`.
+// Kolom meta tabel (type/title/invoice_no/date) tetap diisi dari dokumen agar
+// constraint NOT NULL/CHECK terpenuhi dan row mudah dibedakan saat query SQL.
+function finDocMapping(table: 'approval_requests' | 'invoices', key: string, list: () => unknown[], setter: (v: unknown[]) => void): SyncMapping {
+  const def: TableDef<never> = {
+    table,
+    columns: ['id', 'payload'],
+    toRow: (item: never) => {
+      const obj = item as unknown as Record<string, unknown>;
+      const row: Record<string, unknown> = { id: String(obj.id), payload: obj };
+      if (table === 'approval_requests') {
+        // FundRequest: type check-in ('Pengajuan Dana'), title dari purpose/notes.
+        row.type = 'Pengajuan Dana';
+        row.title = String(obj.purpose ?? obj.notes ?? 'Pengajuan Dana');
+        row.reference_no = obj.requestNo ?? null;
+        row.requester = obj.requesterName ?? null;
+        row.requested_at = obj.createdAt ?? null;
+        row.status = mapFindocStatus(String(obj.status ?? 'Draft'));
+      } else {
+        // Invoice finance-control: invoice_no/date NOT NULL di tabel.
+        row.invoice_no = String(obj.invoiceNo ?? obj.id);
+        row.doc_type = 'Invoice';
+        row.date = String(obj.issueDate ?? '').slice(0, 10) || null;
+        row.party_name = obj.partyName ?? null;
+        row.status = mapInvoiceStatus(String(obj.paymentStatus ?? 'Belum Dibayar'));
+        row.description = obj.notes ?? null;
+      }
+      return row;
+    },
+    fromRow: (row: Record<string, unknown>) => (row.payload ?? {}) as never,
+    pullFilter: (q) => q.not('payload', 'is', null),
+  };
+  return { key, def, get: list, set: setter };
+}
+
+// Map status aplikasi -> status DB (check constraint longgar di sisi DB).
+function mapFindocStatus(s: string): string {
+  if (s === 'Disetujui Owner' || s === 'Dicairkan' || s === 'Selesai') return 'Disetujui';
+  if (s === 'Ditolak' || s === 'Dibatalkan' || s === 'Perlu Revisi') return 'Ditolak';
+  return 'Menunggu';
+}
+function mapInvoiceStatus(s: string): string {
+  if (s === 'Lunas') return 'Lunas';
+  if (s === 'Sebagian') return 'Sebagian';
+  if (s === 'Ditolak') return 'Ditolak';
+  return 'Belum Bayar';
+}
+
+const AGRO_MAPPINGS: SyncMapping[] = [
+  agroMapping('crop_records', 'crops', { id: 'id', name: 'name', division: 'division', variety: 'variety', locationId: 'locationId', locationName: 'locationName', plotAreaM2: 'plotAreaM2', plantedDate: 'plantedDate', estimatedHarvestDate: 'estimatedHarvestDate', status: 'status', notes: 'notes', createdAt: 'createdAt', updatedAt: 'updatedAt' }),
+  agroMapping('crop_activities', 'cropActivities', { id: 'id', cropId: 'cropId', cropName: 'cropName', activityType: 'activityType', date: 'date', officerName: 'officerName', materialUsed: 'materialUsed', quantity: 'quantity', unit: 'unit', notes: 'notes', createdAt: 'createdAt' }),
+  agroMapping('garden_documents', 'gardenDocuments', { id: 'id', docType: 'docType', title: 'title', date: 'date', partyName: 'partyName', fileName: 'fileName', notes: 'notes', createdAt: 'createdAt' }),
+  agroMapping('ponds', 'ponds', { id: 'id', name: 'name', locationId: 'locationId', locationName: 'locationName', type: 'type', species: 'species', areaM2: 'areaM2', volumeM3: 'volumeM3', stockingDate: 'stockingDate', stockingCount: 'stockingCount', estimatedHarvestDate: 'estimatedHarvestDate', status: 'status', notes: 'notes', createdAt: 'createdAt', updatedAt: 'updatedAt' }),
+  agroMapping('water_quality_records', 'waterQuality', { id: 'id', pondId: 'pondId', pondName: 'pondName', date: 'date', ph: 'ph', dissolvedOxygen: 'dissolvedOxygen', temperature: 'temperature', ammonia: 'ammonia', nitrite: 'nitrite', officerName: 'officerName', notes: 'notes', createdAt: 'createdAt' }),
+  agroMapping('fish_feed_logs', 'fishFeeds', { id: 'id', pondId: 'pondId', pondName: 'pondName', date: 'date', feedType: 'feedType', feedAmountKg: 'feedAmountKg', biomassKg: 'biomassKg', fcr: 'fcr', officerName: 'officerName', notes: 'notes', createdAt: 'createdAt' }),
+  agroMapping('fish_harvest_records', 'fishHarvests', { id: 'id', pondId: 'pondId', pondName: 'pondName', harvestDate: 'harvestDate', totalWeightKg: 'totalWeightKg', totalFishCount: 'totalFishCount', averageWeightKg: 'averageWeightKg', buyerName: 'buyerName', pricePerKg: 'pricePerKg', totalRevenue: 'totalRevenue', notes: 'notes', createdAt: 'createdAt' }),
+  agroMapping('wildlife_records', 'wildlife', { id: 'id', name: 'name', category: 'category', species: 'species', count: 'count', locationId: 'locationId', locationName: 'locationName', acquisitionDate: 'acquisitionDate', healthStatus: 'healthStatus', notes: 'notes', createdAt: 'createdAt' }),
+  agroMapping('wildlife_feed_schedules', 'wildlifeFeeds', { id: 'id', wildlifeId: 'wildlifeId', wildlifeName: 'wildlifeName', scheduleTime: 'scheduleTime', feedType: 'feedType', feedAmount: 'feedAmount', status: 'status', lastFedAt: 'lastFedAt', officerName: 'officerName', notes: 'notes', createdAt: 'createdAt' }),
+  agroMapping('inventory_items', 'inventory', { id: 'id', sku: 'sku', name: 'name', category: 'category', unit: 'unit', stockQty: 'stockQty', minStock: 'minStock', unitPrice: 'unitPrice', locationId: 'locationId', locationName: 'locationName', supplier: 'supplier', updatedAt: 'updatedAt' }),
+  agroMapping('stock_mutations', 'stockMutations', { id: 'id', itemId: 'itemId', itemName: 'itemName', type: 'type', quantity: 'quantity', date: 'date', reason: 'reason', officerName: 'officerName', notes: 'notes', createdAt: 'createdAt' }),
+  agroMapping('purchase_requests', 'purchaseRequests', { id: 'id', requestNo: 'requestNo', itemName: 'itemName', category: 'category', quantity: 'quantity', unit: 'unit', reason: 'reason', requestedBy: 'requestedBy', requestDate: 'requestDate', status: 'status', approvedBy: 'approvedBy', approvedAt: 'approvedAt', notes: 'notes', createdAt: 'createdAt' }),
+  agroMapping('purchase_orders', 'purchaseOrders', { id: 'id', poNo: 'poNo', supplierName: 'supplierName', itemName: 'itemName', quantity: 'quantity', unit: 'unit', unitPrice: 'unitPrice', totalAmount: 'totalAmount', orderDate: 'orderDate', expectedDeliveryDate: 'expectedDeliveryDate', status: 'status', notes: 'notes', createdAt: 'createdAt' }),
+  agroMapping('tasks', 'tasks', { id: 'id', title: 'title', description: 'description', assignee: 'assignee', assigneeRole: 'assigneeRole', dueDate: 'dueDate', priority: 'priority', status: 'status', relatedModule: 'relatedModule', createdAt: 'createdAt' }),
+  agroMapping('attendance_records', 'attendance', { id: 'id', workerName: 'workerName', division: 'division', date: 'date', checkInTime: 'checkInTime', checkOutTime: 'checkOutTime', status: 'status', notes: 'notes', createdAt: 'createdAt' }),
+  agroMapping('kpi_scores', 'kpis', { id: 'id', workerName: 'workerName', division: 'division', period: 'period', attendanceScore: 'attendanceScore', productivityScore: 'productivityScore', disciplineScore: 'disciplineScore', totalScore: 'totalScore', notes: 'notes', createdAt: 'createdAt' }),
+  agroMapping('cash_transactions', 'cashTransactions', { id: 'id', referenceNo: 'referenceNo', date: 'date', type: 'type', category: 'category', description: 'description', amount: 'amount', sourceDivision: 'sourceDivision', paymentMethod: 'paymentMethod', officerName: 'officerName', notes: 'notes', createdAt: 'createdAt' }),
+  agroMapping('lpj_reports', 'lpjReports', { id: 'id', referenceNo: 'referenceNo', fundRequestId: 'fundRequestId', title: 'title', division: 'division', periodStart: 'periodStart', periodEnd: 'periodEnd', totalAllocated: 'totalAllocated', totalSpent: 'totalSpent', remaining: 'remaining', status: 'status', items: 'items', submittedBy: 'submittedBy', createdAt: 'createdAt' }),
+  // approval_requests juga dipakai findoc:fundRequests (payload JSONB).
+  // Legacy approvals = row TANPA payload -> filter saat pull agar tidak saling
+  // menimpa dengan dokumen JSONB.
+  agroMapping('approval_requests', 'approvals', { id: 'id', referenceNo: 'referenceNo', type: 'type', title: 'title', requester: 'requester', requestedAt: 'requestedAt', status: 'status', approvedBy: 'approvedBy', approvedAt: 'approvedAt', notes: 'notes' }, (q) => q.is('payload', null)),
+  agroMapping('master_data', 'masterData', { id: 'id', category: 'category', name: 'name', value: 'value', isActive: 'isActive', createdAt: 'createdAt' }),
+  // Finance-control workflow (fund requests & invoices) sebagai JSONB docs
+  finDocMapping('approval_requests', 'findoc:fundRequests', () => financialDocumentsStore.snapshot().fundRequests, (v) => financialDocumentsStore.replaceCollection('fundRequests', v as never)),
+  finDocMapping('invoices', 'findoc:invoices', () => financialDocumentsStore.snapshot().invoices, (v) => financialDocumentsStore.replaceCollection('invoices', v as never)),
+];
+
+const ALL_MAPPINGS: SyncMapping[] = [...MAPPINGS, ...AGRO_MAPPINGS];
 
 const PUSH_DEBOUNCE_MS = 400;
 
@@ -368,6 +485,7 @@ class DataSync {
     if (!hasSupabase() || this.enabled) return;
     this.enabled = true;
     await this.pullAll();
+    this.subscribeRealtime();
   }
 
   disable(): void {
@@ -383,9 +501,11 @@ class DataSync {
     syncState.paused = true; // set/filter saat pull tidak boleh memicu push
     try {
       let changed = false;
-      for (const m of MAPPINGS) {
+      for (const m of ALL_MAPPINGS) {
         try {
-          const { data, error } = await client.from(m.def.table).select('*');
+          let query = client.from(m.def.table).select('*');
+          if (m.def.pullFilter) query = m.def.pullFilter(query);
+          const { data, error } = await query;
           if (error) { console.warn(`[dataSync] pull ${m.def.table}:`, error.message); continue; }
           if (!data || data.length === 0) {
             // DB kosong. Bedakan seed demo vs data tersimpan asli:
@@ -419,10 +539,10 @@ class DataSync {
     }
   }
 
-  /** Dipanggil dari saveStorage (storeService) setiap kali array disimpan. */
-  onStoreSaved(key: string): void {
+  /** Dipanggil dari saveStorage (storeService) / agroStore / financialDocuments. */
+  onCollectionChanged(key: string): void {
     if (!this.enabled || !supabase() || syncState.paused) return;
-    const m = MAPPINGS.find((x) => x.key === key);
+    const m = ALL_MAPPINGS.find((x) => x.key === key);
     if (!m) return;
     const existing = this.timers.get(key);
     if (existing) clearTimeout(existing);
@@ -483,9 +603,43 @@ class DataSync {
 
   /** Force-push semua key (dipakai tombol import manual Owner). */
   async pushAll(): Promise<void> {
-    for (const m of MAPPINGS) {
+    for (const m of ALL_MAPPINGS) {
       lastSynced.delete(m.key); // paksa diff terhadap undefined => push penuh
       await this.pushKey(m);
+    }
+  }
+
+  // -------------------------------------------------------------------------
+  // REALTIME: subscribe perubahan dari Supabase Realtime channel.
+  // Saat perangkat lain mengubah data, event masuk -> pull ulang koleksi
+  // terkait (pullAll) dan UI re-render. Guard `remoteEvent` mencegah loop
+  // push balik (pull menandai snapshot sehingga pushKey no-op).
+  // -------------------------------------------------------------------------
+  private channel: ReturnType<NonNullable<ReturnType<typeof supabase>>['channel']> | null = null;
+  private remoteEvent = false;
+
+  subscribeRealtime(): void {
+    const client = supabase();
+    if (!client || this.channel) return;
+    const tables = [...new Set(ALL_MAPPINGS.map((m) => m.def.table))];
+    const channel = client.channel('data-sync');
+    for (const table of tables) {
+      channel.on('postgres_changes', { event: '*', schema: 'public', table } as never, () => {
+        if (this.remoteEvent) return; // event dari push kita sendiri -> ignore
+        void this.pullAll();
+      });
+    }
+    channel.subscribe((status) => {
+      if (status === 'SUBSCRIBED') console.info('[dataSync] realtime aktif');
+    });
+    this.channel = channel;
+  }
+
+  unsubscribeRealtime(): void {
+    const client = supabase();
+    if (client && this.channel) {
+      client.removeChannel(this.channel);
+      this.channel = null;
     }
   }
 }
