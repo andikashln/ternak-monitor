@@ -391,9 +391,14 @@ function agroMapping<K extends AgroCollection>(
 // Kolom meta tabel (type/title/invoice_no/date) tetap diisi dari dokumen agar
 // constraint NOT NULL/CHECK terpenuhi dan row mudah dibedakan saat query SQL.
 function finDocMapping(table: 'approval_requests' | 'invoices', key: string, list: () => unknown[], setter: (v: unknown[]) => void): SyncMapping {
+  // columns HARUS mencakup semua kolom meta yang diisi toRow — pushKey hanya
+  // mengirim kolom yang terdaftar di sini.
+  const columns = table === 'approval_requests'
+    ? ['id', 'payload', 'type', 'title', 'reference_no', 'requester', 'requested_at', 'status']
+    : ['id', 'payload', 'invoice_no', 'doc_type', 'date', 'party_name', 'status', 'description'];
   const def: TableDef<never> = {
     table,
-    columns: ['id', 'payload'],
+    columns,
     toRow: (item: never) => {
       const obj = item as unknown as Record<string, unknown>;
       const row: Record<string, unknown> = { id: String(obj.id), payload: obj };
