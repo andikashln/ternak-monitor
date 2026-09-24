@@ -3,7 +3,7 @@ import type { UserRole } from '../types';
 export type WorkspaceModule =
   | 'dashboard' | 'livestock' | 'health' | 'births-deaths' | 'transactions'
   | 'sales-results' | 'finance' | 'expenses' | 'feed' | 'weight' | 'notifications' | 'daily-reports'
-  | 'reports' | 'funding-docs' | 'invoices' | 'users' | 'settings'
+  | 'reports' | 'invoices' | 'users' | 'settings'
   // FINANCE CONTROL
   | 'finance-dashboard' | 'approval-center' | 'cash-flow' | 'lpj'
   // PETERNAKAN SAPI
@@ -47,7 +47,7 @@ const LIVESTOCK_MODULES: WorkspaceModule[] = [
 const FINANCE_MODULES: WorkspaceModule[] = [
   'finance', 'expenses', 'sales-results', 'transactions',
   'finance-dashboard', 'approval-center', 'cash-flow', 'lpj',
-  'funding-docs', 'invoices', 'reports', 'inventory', 'purchase-request', 'purchase-order',
+  'invoices', 'reports', 'inventory', 'purchase-request', 'purchase-order',
 ];
 
 // Module system/kelola — hanya OWNER & DEVELOPER.
@@ -83,7 +83,7 @@ const ACCOUNTANT_ACCESS: WorkspaceModule[] = [
 // Mitra: read-only data terkait mitra (dashboard + operasional divisi yang dikelola).
 const MITRA_ACCESS: WorkspaceModule[] = [
   'dashboard', 'notifications',
-  'livestock', 'feed', 'weight', 'funding-docs',
+  'livestock', 'feed', 'weight', 'invoices',
   'crop-longterm', 'crop-shortterm', 'crop-activity',
   'ponds', 'water-quality', 'fish-feed', 'fish-harvest',
   'wildlife', 'wildlife-feed',
