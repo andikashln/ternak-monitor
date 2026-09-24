@@ -1,6 +1,6 @@
 import React from 'react';
 
-interface DutaAgroNusantaraLogoProps {
+interface DutaAgriNusantaraLogoProps {
   variant?: 'mark' | 'lockup';
   className?: string;
 }
@@ -10,7 +10,7 @@ interface DutaAgroNusantaraLogoProps {
  * - 'mark'   : icon saja (sidebar / favicon konteks kecil)
  * - 'lockup' : icon + teks "PT DUTA AGRI — NUSANTARA"
  */
-export const DutaAgroNusantaraLogo: React.FC<DutaAgroNusantaraLogoProps> = ({
+export const DutaAgriNusantaraLogo: React.FC<DutaAgriNusantaraLogoProps> = ({
   variant = 'lockup',
   className = '',
 }) => {

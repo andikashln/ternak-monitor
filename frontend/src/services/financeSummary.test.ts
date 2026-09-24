@@ -5,22 +5,22 @@ import { summarizeFinancePeriod } from './financeSummary';
 const transactions: FinancialTransaction[] = [
   {
     id: 'income-aug', invoiceNo: 'INV-08', date: '2026-08-12', type: 'income', category: 'Penjualan Ternak',
-    description: 'Penjualan', locationId: 'loc-main', locationName: 'PT.Duta Agro Nusantara', amount: 30_000_000,
+    description: 'Penjualan', locationId: 'loc-main', locationName: 'PT.Duta Agri Nusantara', amount: 30_000_000,
     paymentMethod: 'Tunai', payeePayer: 'Pembeli', createdBy: 'Owner', createdAt: '2026-08-12T00:00:00.000Z',
   },
   {
     id: 'hpp-aug', invoiceNo: 'INV-08', date: '2026-08-12', type: 'expense', category: 'Pembelian Ternak',
-    description: 'Harga beli/HPP ternak terjual (INV-08)', locationId: 'loc-main', locationName: 'PT.Duta Agro Nusantara', amount: 20_000_000,
+    description: 'Harga beli/HPP ternak terjual (INV-08)', locationId: 'loc-main', locationName: 'PT.Duta Agri Nusantara', amount: 20_000_000,
     paymentMethod: 'Harga Perolehan', payeePayer: 'Persediaan', createdBy: 'Owner', createdAt: '2026-08-12T00:00:00.000Z',
   },
   {
     id: 'feed-sep', invoiceNo: 'EXP-09', date: '2026-09-04', type: 'expense', category: 'Pakan',
-    description: 'Pakan', locationId: 'loc-main', locationName: 'PT.Duta Agro Nusantara', amount: 2_000_000,
+    description: 'Pakan', locationId: 'loc-main', locationName: 'PT.Duta Agri Nusantara', amount: 2_000_000,
     paymentMethod: 'Tunai', payeePayer: 'Supplier', createdBy: 'Owner', createdAt: '2026-09-04T00:00:00.000Z',
   },
   {
     id: 'income-prior', invoiceNo: 'INV-25', date: '2025-12-12', type: 'income', category: 'Penjualan Ternak',
-    description: 'Penjualan lama', locationId: 'loc-main', locationName: 'PT.Duta Agro Nusantara', amount: 10_000_000,
+    description: 'Penjualan lama', locationId: 'loc-main', locationName: 'PT.Duta Agri Nusantara', amount: 10_000_000,
     paymentMethod: 'Tunai', payeePayer: 'Pembeli', createdBy: 'Owner', createdAt: '2025-12-12T00:00:00.000Z',
   },
 ];
@@ -29,7 +29,7 @@ const sales: SalesRecord[] = [
   {
     id: 'sale-aug', invoiceNo: 'INV-08', date: '2026-08-12', buyerName: 'Pembeli A', buyerPhone: '-', livestockIds: ['cow-1'],
     weightTotalKg: 400, priceTotal: 30_000_000, acquisitionCostTotal: 20_000_000, paymentMethod: 'Tunai', paymentStatus: 'Lunas',
-    locationId: 'loc-main', locationName: 'PT.Duta Agro Nusantara', salesRep: 'Owner', transactionStatus: 'Selesai', createdBy: 'Owner', createdAt: '2026-08-12T00:00:00.000Z',
+    locationId: 'loc-main', locationName: 'PT.Duta Agri Nusantara', salesRep: 'Owner', transactionStatus: 'Selesai', createdBy: 'Owner', createdAt: '2026-08-12T00:00:00.000Z',
   },
 ];
 

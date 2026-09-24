@@ -32,7 +32,7 @@ export const SalesCatalogView: React.FC<SalesCatalogViewProps> = ({ globalSearch
             <div className="mb-3 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-[#F1F5F9]">
               <Store className="h-4 w-4" /> Katalog Penjualan
             </div>
-            <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">Temukan sapi pilihan dari PT.DUTA AGRO NUSANTARA</h1>
+            <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">Temukan sapi pilihan dari PT.DUTA AGRI NUSANTARA</h1>
             <p className="mt-3 max-w-xl text-sm leading-6 text-[#FFFFFF]/75">
               Lihat informasi sapi yang tersedia, bobot terkini, lokasi, kondisi kesehatan, dan harga jual.
             </p>

@@ -6,7 +6,7 @@ import { Sidebar } from './components/layout/Sidebar';
 import { BottomNav } from './components/layout/BottomNav';
 import { MobileNavigationDrawer } from './components/layout/MobileNavigationDrawer';
 import { getNavigationLabel } from './components/layout/Sidebar';
-import { DutaAgroNusantaraLogo } from './components/brand/DutaAgroNusantaraLogo';
+import { DutaAgriNusantaraLogo } from './components/brand/DutaAgriNusantaraLogo';
 import { SalesCatalogView } from './components/catalog/SalesCatalogView';
 import { canAccess, canEdit } from './services/permissions';
 
@@ -251,7 +251,7 @@ export function App() {
         <div className="app-surface min-h-screen font-sans text-slate-800 antialiased">
           <header className="sticky top-0 z-30 border-b border-[#123D18]/8 bg-white/92 shadow-sm backdrop-blur-xl">
             <div className="mx-auto flex h-[4.5rem] max-w-screen-2xl items-center justify-between gap-3 px-4 sm:px-6 lg:px-8">
-              <DutaAgroNusantaraLogo />
+              <DutaAgriNusantaraLogo />
               <button
                 type="button"
                 onClick={() => setShowPublicCatalog(false)}
