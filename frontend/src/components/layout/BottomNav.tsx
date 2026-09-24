@@ -13,7 +13,7 @@ const roleItems = (role: UserRole) => {
   if (role === 'MITRA') return [
     { id: 'livestock', label: 'Ternak', icon: Database },
     { id: 'feed', label: 'Pakan', icon: Wheat },
-    { id: 'funding-docs', label: 'Dana', icon: WalletCards },
+    { id: 'invoices', label: 'Dana', icon: WalletCards },
   ];
   if (role === 'ACCOUNTANT') return [
     { id: 'dashboard', label: 'Beranda', icon: LayoutDashboard },
@@ -39,7 +39,7 @@ export const BottomNav: React.FC<BottomNavProps> = ({ activeTab, setActiveTab, o
   return <nav aria-label="Navigasi cepat" className="app-bottom-nav fixed inset-x-0 bottom-0 z-40 border-t border-[#1B5E20]/15 bg-white/95 px-2 pt-1.5 shadow-[0_-12px_30px_rgba(15,50,38,0.1)] backdrop-blur-xl lg:hidden">
     <div className="mx-auto grid max-w-lg grid-cols-5 items-end">
       {items.slice(0, splitIndex).map(renderItem)}
-      <button type="button" onClick={onOpenQuickAction} className="group flex min-h-14 flex-col items-center justify-end gap-1 text-[10px] font-black text-[#1B5E20]" aria-label="Tambah catatan baru"><span className="flex h-12 w-12 -translate-y-2 items-center justify-center rounded-2xl bg-[#1B5E20] text-white shadow-lg shadow-[#1B5E20]/20 ring-4 ring-[#FFFFFF] transition active:scale-95"><Plus className="h-6 w-6" /></span><span className="-mt-2">Tambah</span></button>
+      <button type="button" onClick={onOpenQuickAction} className="group flex min-h-14 flex-col items-center justify-end gap-1 text-[10px] font-bold text-[#1B5E20]" aria-label="Tambah catatan baru"><span className="flex h-12 w-12 -translate-y-2 items-center justify-center rounded-2xl bg-[#1B5E20] text-white shadow-lg shadow-[#1B5E20]/20 ring-4 ring-[#FFFFFF] transition active:scale-95"><Plus className="h-6 w-6" /></span><span className="-mt-2">Tambah</span></button>
       {items.slice(splitIndex).map(renderItem)}
     </div>
   </nav>;

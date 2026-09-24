@@ -48,7 +48,7 @@ export const ApprovalCenterView: React.FC = () => {
           <button
             key={t}
             onClick={() => setTab(t)}
-            className={`flex-1 rounded-xl px-4 py-3 text-xs font-black ${tab === t ? 'bg-[#1B5E20] text-white' : 'text-slate-500'}`}
+            className={`flex-1 rounded-xl px-4 py-3 text-xs font-bold ${tab === t ? 'bg-[#1B5E20] text-white' : 'text-slate-500'}`}
           >
             {t} ({counts[t]})
           </button>
@@ -62,8 +62,8 @@ export const ApprovalCenterView: React.FC = () => {
           <AgroCard key={a.id}>
             <div className="flex flex-wrap items-start justify-between gap-3">
               <div>
-                <p className="text-xs font-black text-[#1B5E20]">{a.referenceNo} · {a.type}</p>
-                <h4 className="mt-1 font-black text-slate-900">{a.title}</h4>
+                <p className="text-xs font-bold text-[#1B5E20]">{a.referenceNo} · {a.type}</p>
+                <h4 className="mt-1 font-bold text-slate-900">{a.title}</h4>
                 <p className="mt-0.5 text-xs text-slate-500">Pengaju: {a.requester} · {formatDateTime(a.requestedAt)}</p>
                 {a.notes && <p className="mt-1 text-xs text-slate-600">{a.notes}</p>}
                 {a.approvedBy && (

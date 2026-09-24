@@ -108,7 +108,7 @@ export const PondsView: React.FC = () => {
         <AgroTable headers={['Nama Kolam', 'Jenis', 'Spesies', 'Populasi', 'Luas/Volume', 'Tebar', 'Panen', 'Status', 'Aksi']}>
           {filtered.map(p => (
             <tr key={p.id} className="hover:bg-slate-50">
-              <td className="px-4 py-3 font-black text-slate-800">{p.name}</td>
+              <td className="px-4 py-3 font-bold text-slate-800">{p.name}</td>
               <td className="px-4 py-3 text-xs">{p.type}</td>
               <td className="px-4 py-3 text-xs">{p.species}</td>
               <td className="px-4 py-3 text-xs">{p.stockingCount.toLocaleString('id-ID')} ekor</td>

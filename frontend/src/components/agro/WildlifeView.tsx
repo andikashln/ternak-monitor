@@ -105,7 +105,7 @@ export const WildlifeView: React.FC = () => {
         <AgroTable headers={['Nama', 'Kategori', 'Spesies', 'Jumlah', 'Lokasi', 'Tanggal Perolehan', 'Kesehatan', 'Aksi']}>
           {filtered.map(w => (
             <tr key={w.id} className="hover:bg-slate-50">
-              <td className="px-4 py-3 font-black text-slate-800">{w.name}</td>
+              <td className="px-4 py-3 font-bold text-slate-800">{w.name}</td>
               <td className="px-4 py-3 text-xs">{w.category}</td>
               <td className="px-4 py-3 text-xs italic">{w.species}</td>
               <td className="px-4 py-3 text-xs">{w.count.toLocaleString('id-ID')} ekor</td>

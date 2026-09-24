@@ -187,7 +187,7 @@ export const UserManagementView: React.FC = () => {
                       <button disabled={!canManage(user)} onClick={() => void updateUser(user, { status: user.status === 'Aktif' ? 'Nonaktif' : 'Aktif' })} title={user.status === 'Aktif' ? 'Nonaktifkan akun' : 'Aktifkan akun'} className="rounded-lg border border-slate-200 p-2 text-slate-600 hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-30">
                         {user.status === 'Aktif' ? <UserX className="h-4 w-4" /> : <UserCheck className="h-4 w-4" />}
                       </button>
-                      <button disabled={!canManage(user)} onClick={() => { setResetTarget(user); setNewPassword(''); setMessage(null); }} title="Reset password" className="rounded-lg border border-slate-200 p-2 text-amber-700 hover:bg-amber-50 disabled:cursor-not-allowed disabled:opacity-30"><KeyRound className="h-4 w-4" /></button>
+                      <button disabled={!canManage(user)} onClick={() => { setResetTarget(user); setNewPassword(''); setMessage(null); }} title="Reset password" className="rounded-lg border border-slate-200 p-2 text-[#A97A14] hover:bg-[#FBF6E9] disabled:cursor-not-allowed disabled:opacity-30"><KeyRound className="h-4 w-4" /></button>
                     </div></td>
                   </tr>
                 ))}
@@ -222,7 +222,7 @@ export const UserManagementView: React.FC = () => {
             <div className="flex items-center justify-between"><h3 className="font-bold text-slate-900">Reset Password</h3><button type="button" onClick={() => setResetTarget(null)}><X className="h-5 w-5 text-slate-500" /></button></div>
             <p className="mt-2 text-xs text-slate-500">Buat password sementara baru untuk <strong>{resetTarget.displayName}</strong>.</p>
             <input type="password" minLength={8} required autoFocus value={newPassword} onChange={event => setNewPassword(event.target.value)} placeholder="Minimal 8 karakter" className="mt-4 w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-[#1B5E20]" />
-            <div className="mt-4 flex justify-end gap-2"><button type="button" onClick={() => setResetTarget(null)} className="rounded-lg border border-slate-300 px-4 py-2 text-xs font-bold">Batal</button><button disabled={saving} className="rounded-lg bg-amber-700 px-4 py-2 text-xs font-bold text-white disabled:opacity-60">Reset Password</button></div>
+            <div className="mt-4 flex justify-end gap-2"><button type="button" onClick={() => setResetTarget(null)} className="rounded-lg border border-slate-300 px-4 py-2 text-xs font-bold">Batal</button><button disabled={saving} className="rounded-lg bg-[#C9971C] px-4 py-2 text-xs font-bold text-white disabled:opacity-60">Reset Password</button></div>
           </form>
         </div>
       )}

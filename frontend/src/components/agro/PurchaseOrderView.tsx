@@ -134,7 +134,7 @@ export const PurchaseOrderView: React.FC = () => {
             <AgroField label="Satuan" value={draft.unit} onChange={v => setField({ unit: v })} />
           </div>
           <AgroField label="Harga Satuan" type="number" value={draft.unitPrice} onChange={v => setField({ unitPrice: v })} />
-          <div className="rounded-xl bg-[#FBF6E9]/60 p-3 text-sm font-black text-[#1B5E20]">Total Otomatis: {formatRupiah(totalAmount)}</div>
+          <div className="rounded-xl bg-[#FBF6E9]/60 p-3 text-sm font-bold text-[#1B5E20]">Total Otomatis: {formatRupiah(totalAmount)}</div>
           <div className="grid grid-cols-2 gap-3">
             <AgroField label="Tanggal Pesan" type="date" value={draft.orderDate} onChange={v => setField({ orderDate: v })} />
             <AgroField label="Estimasi Tiba" type="date" value={draft.expectedDeliveryDate} onChange={v => setField({ expectedDeliveryDate: v })} />

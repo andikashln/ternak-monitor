@@ -115,7 +115,7 @@ export const DailyReportView: React.FC = () => {
             <AgroSelect label="Lokasi" value={draft.locationName} onChange={v => { const loc = locations.find(l => l.name === v); setField({ locationName: v, locationId: loc?.id ?? '' }); }} options={locations.map(l => l.name)} />
           </div>
           <AgroCard className="border-[#E4C25E]/50 bg-[#FBF6E9]/40">
-            <p className="text-xs font-black text-[#1B5E20]">Saldo Populasi</p>
+            <p className="text-xs font-bold text-[#1B5E20]">Saldo Populasi</p>
             <div className="mt-2 grid grid-cols-2 gap-3">
               <AgroField label="Populasi Awal" type="number" value={draft.popInitial} onChange={v => setField({ popInitial: v })} />
               <AgroField label="Pembelian" type="number" value={draft.popPurchase} onChange={v => setField({ popPurchase: v })} />
@@ -134,7 +134,7 @@ export const DailyReportView: React.FC = () => {
           </div>
           <AgroField label="Catatan Aktivitas" value={draft.activitiesText} onChange={v => setField({ activitiesText: v })} placeholder="Ringkasan kegiatan harian..." />
           <AgroCard className="border-slate-200">
-            <p className="text-xs font-black text-slate-600">Pengeluaran (opsional)</p>
+            <p className="text-xs font-bold text-slate-600">Pengeluaran (opsional)</p>
             <div className="mt-2 grid grid-cols-3 gap-3">
               <AgroSelect label="Kategori" value={draft.expenseCategory} onChange={v => setField({ expenseCategory: v })} options={storeService.settings.expenseCategories} />
               <AgroField label="Nominal" type="number" value={draft.expenseAmount} onChange={v => setField({ expenseAmount: v })} />

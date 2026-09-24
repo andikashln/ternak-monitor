@@ -152,7 +152,7 @@ export const LivestockImportModal: React.FC<LivestockImportModalProps> = ({ isOp
         {/* Header */}
         <div className="p-4 bg-[#123D18] text-white flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <FileSpreadsheet className="w-5 h-5 text-amber-400" />
+            <FileSpreadsheet className="w-5 h-5 text-[#C9971C]" />
             <div>
               <h3 className="text-base font-bold">Import Data Ternak (CSV / Excel)</h3>
               <p className="text-xs text-[#F1F5F9]">Upload file Excel (.xlsx) atau CSV dengan header data ternak</p>

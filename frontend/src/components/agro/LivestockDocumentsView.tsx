@@ -101,8 +101,8 @@ export const LivestockDocumentsView: React.FC = () => {
 
       <div className="flex flex-wrap items-center gap-3">
         <div className="flex gap-2 rounded-2xl border bg-white p-1">
-          <button onClick={() => setTab('peternakan')} className={`rounded-xl px-4 py-2 text-xs font-black ${tab === 'peternakan' ? 'bg-[#1B5E20] text-white' : 'text-slate-500'}`}>Peternakan Sapi</button>
-          <button onClick={() => setTab('semua')} className={`rounded-xl px-4 py-2 text-xs font-black ${tab === 'semua' ? 'bg-[#1B5E20] text-white' : 'text-slate-500'}`}>Semua Divisi</button>
+          <button onClick={() => setTab('peternakan')} className={`rounded-xl px-4 py-2 text-xs font-bold ${tab === 'peternakan' ? 'bg-[#1B5E20] text-white' : 'text-slate-500'}`}>Peternakan Sapi</button>
+          <button onClick={() => setTab('semua')} className={`rounded-xl px-4 py-2 text-xs font-bold ${tab === 'semua' ? 'bg-[#1B5E20] text-white' : 'text-slate-500'}`}>Semua Divisi</button>
         </div>
         <div className="min-w-[240px] flex-1"><AgroSearch value={search} onChange={setSearch} placeholder="Cari judul / pihak..." /></div>
       </div>
@@ -114,7 +114,7 @@ export const LivestockDocumentsView: React.FC = () => {
           {visible.map(d => (
             <tr key={d.id} className="hover:bg-slate-50">
               <td className="px-4 py-3"><StatusBadge value={d.docType} tone={toneFor(d.docType)} /></td>
-              <td className="px-4 py-3 font-black text-slate-800">{d.title}</td>
+              <td className="px-4 py-3 font-bold text-slate-800">{d.title}</td>
               <td className="px-4 py-3 text-xs">{formatDate(d.date)}</td>
               <td className="px-4 py-3 text-xs">{d.partyName || '-'}</td>
               <td className="px-4 py-3 text-xs">{d.fileName || '-'}</td>

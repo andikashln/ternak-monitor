@@ -76,8 +76,8 @@ export const GardenDocumentsView: React.FC = () => {
                 <div className="flex items-start gap-3">
                   <div className="rounded-xl bg-[#FBF6E9] p-2 text-[#1B5E20]"><FileText className="h-5 w-5" /></div>
                   <div>
-                    <span className="inline-flex rounded-full bg-slate-100 px-2.5 py-1 text-[10px] font-black text-slate-600">{d.docType}</span>
-                    <h4 className="mt-1 font-black text-slate-900">{d.title}</h4>
+                    <span className="inline-flex rounded-full bg-slate-100 px-2.5 py-1 text-[10px] font-bold text-slate-600">{d.docType}</span>
+                    <h4 className="mt-1 font-bold text-slate-900">{d.title}</h4>
                     <p className="mt-0.5 text-xs text-slate-500">{d.partyName} · {formatDate(d.date)}</p>
                     {d.fileName && <p className="mt-0.5 text-[11px] text-slate-400">File: {d.fileName}</p>}
                     {d.notes && <p className="mt-1 text-xs text-slate-600">{d.notes}</p>}

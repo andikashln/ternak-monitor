@@ -531,11 +531,14 @@ const STORAGE_KEYS = {
   USERS: 'ternak_users'
 };
 
+// 5 akun production (sinkron dengan auth.users di Supabase).
+// Role mengikuti raw_app_meta_data.role — lihat supabase/set_roles.sql.
 const INITIAL_USERS: ManagedUser[] = [
-  { uid: 'u-owner-1', displayName: 'Bapak H. Hendra Owner', email: 'andikashalihin01@gmail.com', role: 'OWNER', locationIds: [], phone: '0812-3456-7890', status: 'Aktif', createdAt: '2026-01-01T08:00:00Z' },
-  { uid: 'u-manager-1', displayName: 'Andika Shalihin', email: 'manager@dutaagronusantara.farm', role: 'MANAGER', locationIds: ['loc-kulim'], phone: '0812-0000-0001', status: 'Aktif', createdAt: '2026-01-05T08:00:00Z' },
-  { uid: 'u-akuntan-1', displayName: 'Sari Keuangan', email: 'akuntan@dutaagronusantara.farm', role: 'ACCOUNTANT', locationIds: [], phone: '0812-0000-0002', status: 'Aktif', createdAt: '2026-01-06T08:00:00Z' },
-  { uid: 'u-mitra-1', displayName: 'Mitra Sontang', email: 'mitra@dutaagronusantara.farm', role: 'MITRA', locationIds: ['loc-sontang'], phone: '0812-0000-0003', status: 'Aktif', createdAt: '2026-01-07T08:00:00Z' },
+  { uid: 'u-owner-1', displayName: 'Owner Pimpinan', email: 'Ptdanpusat@gmail.com', role: 'OWNER', locationIds: [], phone: '', status: 'Aktif', createdAt: '2026-09-23T19:46:47Z' },
+  { uid: 'u-owner-2', displayName: 'Owner Papi Farm', email: 'Papifarmriau@gmail.com', role: 'OWNER', locationIds: [], phone: '', status: 'Aktif', createdAt: '2026-09-23T19:47:26Z' },
+  { uid: 'u-manager-1', displayName: 'Manager Aziz', email: 'Azizf400@gmail.com', role: 'MANAGER', locationIds: ['loc-kulim'], phone: '', status: 'Aktif', createdAt: '2026-09-23T19:47:46Z' },
+  { uid: 'u-akuntan-1', displayName: 'Keuangan', email: 'Financeptdan@gmail.com', role: 'ACCOUNTANT', locationIds: [], phone: '', status: 'Aktif', createdAt: '2026-09-23T19:48:05Z' },
+  { uid: 'u-mitra-1', displayName: 'Mitra', email: 'Istriistrisholehah@gmail.com', role: 'MITRA', locationIds: ['loc-sontang'], phone: '', status: 'Aktif', createdAt: '2026-09-23T19:48:33Z' },
 ];
 
 function loadStorage<T>(key: string, fallback: T): T {
@@ -578,8 +581,8 @@ class StoreService {
   // State
   public currentUser: UserProfile = loadStorage(STORAGE_KEYS.CURRENT_USER, {
     uid: 'u-owner-1',
-    displayName: 'Bapak H. Hendra Owner',
-    email: 'andikashalihin01@gmail.com',
+    displayName: 'Owner Pimpinan',
+    email: 'Ptdanpusat@gmail.com',
     role: 'OWNER',
     locationIds: [],
     status: 'Aktif'

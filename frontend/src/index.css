@@ -8,6 +8,10 @@
    ============================================================================ */
 
 @theme {
+  /* Font: Helvetica/Arial reguler (permintaan owner) — dipakai juga oleh
+     utility `font-sans` Tailwind, jadi tidak ada lagi Roboto yang bocor. */
+  --font-sans: 'Helvetica Neue', Helvetica, Arial, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+
   /* Neutral scale — cool, clean, light (no green-tint muddy, no brown). */
   --color-slate-50: #F8FAFC;
   --color-slate-100: #F1F5F9;
@@ -110,7 +114,8 @@ html {
 
 body {
   margin: 0;
-  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  /* Font utama: Helvetica/Arial reguler (permintaan owner) — bersih, netral, familiar. */
+  font-family: 'Helvetica Neue', Helvetica, Arial, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
   background-color: var(--bg);
   color: var(--text);
   font-size: 14px;
@@ -180,16 +185,26 @@ textarea:focus-visible {
 }
 
 .ranch-heading {
-  font-family: 'Roboto', sans-serif;
+  font-family: inherit;
   letter-spacing: -.01em;
 }
 
+/*
+ * ranch-label: label uppercase kecil. PENTING (R-25 antislop): warna default
+ * hanya untuk latar TERANG. Warna dikunci di sini pakai variabel agar tidak
+ * bisa tertimpa utility Tailwind yang kalah spesifisitas — di hero gelap,
+ * komponen harus override langsung via style/class khusus `.ranch-label--on-dark`.
+ */
 .ranch-label {
   color: var(--muted);
   font-size: .65rem;
   font-weight: 700;
   letter-spacing: .12em;
   text-transform: uppercase;
+}
+
+.ranch-label--on-dark {
+  color: var(--gold-soft) !important;
 }
 
 .ranch-divider {
@@ -257,6 +272,17 @@ textarea:focus-visible {
 
 .animate-fade-in {
   animation: fade-in .22s ease-out both;
+}
+
+/* Drawer mobile: slide-in dari kiri (sebelumnya class dipakai tanpa CSS-nya,
+   membuat drawer muncul tanpa animasi dan terasa "tidak jalan"). */
+.drawer-enter {
+  animation: drawer-in .24s ease-out both;
+}
+
+@keyframes drawer-in {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
 }
 
 @keyframes fade-in {

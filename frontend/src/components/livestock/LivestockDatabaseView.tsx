@@ -255,7 +255,7 @@ export const LivestockDatabaseView: React.FC<LivestockDatabaseViewProps> = ({
                         )}
                       </div>
                       <div>
-                        <span className="font-mono font-black text-slate-900 text-sm block">{item.tagId}</span>
+                        <span className="font-mono font-bold text-slate-900 text-sm block">{item.tagId}</span>
                         <span className="text-[10px] text-slate-400 font-mono">{item.qrCode}</span>
                       </div>
                     </div>
@@ -292,7 +292,7 @@ export const LivestockDatabaseView: React.FC<LivestockDatabaseViewProps> = ({
                   </td>
 
                   <td className="p-3.5">
-                    <span className="font-mono font-black text-slate-900 text-sm">{item.currentWeightKg} kg</span>
+                    <span className="font-mono font-bold text-slate-900 text-sm">{item.currentWeightKg} kg</span>
                     <span className="text-[10px] text-slate-400 block">Awal: {item.initialWeightKg} kg</span>
                   </td>
 

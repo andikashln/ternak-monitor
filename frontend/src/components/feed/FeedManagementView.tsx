@@ -100,7 +100,7 @@ export const FeedManagementView: React.FC = () => {
       <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-2xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div className="min-w-0">
           <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-            <Wheat className="w-5 h-5 text-amber-600" />
+            <Wheat className="w-5 h-5 text-[#C9971C]" />
             <span>Stok & Stok Opname Pakan Peternakan</span>
           </h2>
           <p className="text-xs text-slate-500">
@@ -162,7 +162,7 @@ export const FeedManagementView: React.FC = () => {
               </div>
 
               <div>
-                <span className="text-3xl font-black font-mono text-slate-900">{f.stockQty}</span>
+                <span className="text-3xl font-bold font-mono text-slate-900">{f.stockQty}</span>
                 <span className="text-xs font-bold text-slate-500 ml-1">{f.unit}</span>
                 <span className="text-[11px] text-slate-400 block mt-0.5">Batas minimum: {f.minStock} {f.unit}</span>
               </div>

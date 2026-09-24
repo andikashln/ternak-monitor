@@ -63,7 +63,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onOpenCatalog }) 
             <span className="text-[#E4C25E]">satu masa depan.</span>
           </h1>
           <p className="mt-5 max-w-lg text-sm leading-7 text-white/85">
-            Pantau populasi, kesehatan, dan arus keuangan seluruh divisi — peternakan, pertanian, perikanan, dan agrowisata — dari satu ruang kerja.
+            Pantau populasi, kesehatan, dan arus keuangan seluruh divisi · peternakan, pertanian, perikanan, dan agrowisata · dari satu ruang kerja.
           </p>
         </div>
 

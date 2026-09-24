@@ -131,7 +131,7 @@ export const HealthManagementView: React.FC = () => {
 
         <button
           onClick={handleOpenModal}
-          className="flex items-center gap-1.5 px-4 py-2 bg-rose-700 hover:bg-rose-800 text-white text-xs font-bold rounded-xl transition cursor-pointer"
+          className="flex items-center gap-1.5 px-4 py-2 bg-[#1B5E20] hover:bg-[#123D18] text-white text-xs font-bold rounded-xl transition cursor-pointer"
         >
           <Plus className="w-4 h-4" />
           <span>+ Lapor Rekam Kesehatan</span>
@@ -144,7 +144,7 @@ export const HealthManagementView: React.FC = () => {
           <div key={log.id} className="bg-white p-5 rounded-2xl border border-slate-200 shadow-2xs space-y-3">
             <div className="flex items-start justify-between gap-3 border-b border-slate-100 pb-3">
               <div className="flex items-center gap-2">
-                <span className="font-mono font-black text-slate-900 text-base">{log.tagId}</span>
+                <span className="font-mono font-bold text-slate-900 text-base">{log.tagId}</span>
                 <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${
                   log.status === 'Sakit' ? 'bg-rose-100 text-rose-800' :
                   log.status === 'Isolasi' ? 'bg-amber-100 text-amber-800' : 'bg-[#F8FAFC] text-[#1B5E20]'
@@ -230,7 +230,7 @@ export const HealthManagementView: React.FC = () => {
                 >
                   {livestock.map(l => (
                     <option key={l.id} value={l.id}>
-                      {l.tagId} — {l.type} ({l.breed}) [{l.locationName}]
+                      {l.tagId} · {l.type} ({l.breed}) [{l.locationName}]
                     </option>
                   ))}
                 </select>

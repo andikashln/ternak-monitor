@@ -51,7 +51,7 @@ export const QuickActionsModal: React.FC<QuickActionsModalProps> = ({
       label: '+ LAPOR KELAHIRAN',
       desc: 'Catat anak ternak baru lahir & hubungkan ke induk',
       color: 'bg-amber-50 text-amber-900 border-amber-200 hover:bg-amber-100',
-      icon: <Baby className="w-6 h-6 text-amber-600" />
+      icon: <Baby className="w-6 h-6 text-[#C9971C]" />
     },
     {
       id: 'add-death',

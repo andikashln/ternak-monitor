@@ -115,7 +115,7 @@ export const WildlifeFeedView: React.FC = () => {
         <AgroTable headers={['Satwa', 'Waktu', 'Jenis Pakan', 'Jumlah', 'Status', 'Petugas', 'Aksi']}>
           {filtered.map(f => (
             <tr key={f.id} className="hover:bg-slate-50">
-              <td className="px-4 py-3 font-black text-slate-800">{f.wildlifeName}</td>
+              <td className="px-4 py-3 font-bold text-slate-800">{f.wildlifeName}</td>
               <td className="px-4 py-3 text-xs">{f.scheduleTime}</td>
               <td className="px-4 py-3 text-xs">{f.feedType}</td>
               <td className="px-4 py-3 text-xs">{f.feedAmount}</td>

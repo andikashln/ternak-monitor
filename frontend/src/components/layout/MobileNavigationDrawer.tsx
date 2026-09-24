@@ -66,7 +66,7 @@ export const MobileNavigationDrawer: React.FC<MobileNavigationDrawerProps> = ({
             if (visibleItems.length === 0) return null;
             return (
               <div key={section.label} className="mb-5">
-                <p className="mb-1.5 px-3 text-[10px] font-black uppercase tracking-[0.18em] text-slate-400">{section.label}</p>
+                <p className="mb-1.5 px-3 text-[10px] font-bold uppercase tracking-[0.18em] text-slate-400">{section.label}</p>
                 <div className="space-y-1">
                   {visibleItems.map(item => {
                     const Icon = item.icon;
@@ -90,13 +90,13 @@ export const MobileNavigationDrawer: React.FC<MobileNavigationDrawerProps> = ({
 
         <div className="border-t border-slate-200 bg-white p-4 pb-[max(1rem,env(safe-area-inset-bottom))]">
           <div className="mb-3 flex items-center gap-3">
-            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#F1F5F9] text-xs font-black text-[#1B5E20]">{currentUser.displayName.split(' ').map(name => name[0]).join('').slice(0, 2).toUpperCase()}</span>
+            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#F1F5F9] text-xs font-bold text-[#1B5E20]">{currentUser.displayName.split(' ').map(name => name[0]).join('').slice(0, 2).toUpperCase()}</span>
             <span className="min-w-0 flex-1">
-              <span className="block truncate text-sm font-black text-slate-900">{currentUser.displayName}</span>
+              <span className="block truncate text-sm font-bold text-slate-900">{currentUser.displayName}</span>
               <span className="block truncate text-[11px] text-slate-500">{currentUser.role} · {currentUser.email}</span>
             </span>
           </div>
-          <button type="button" onClick={() => void onLogout()} className="flex min-h-11 w-full items-center justify-center gap-2 rounded-xl border border-rose-200 bg-rose-50 text-xs font-black text-rose-700"><LogOut className="h-4 w-4" /> Keluar dari akun</button>
+          <button type="button" onClick={() => void onLogout()} className="flex min-h-11 w-full items-center justify-center gap-2 rounded-xl border border-rose-200 bg-rose-50 text-xs font-bold text-rose-700"><LogOut className="h-4 w-4" /> Keluar dari akun</button>
         </div>
       </aside>
     </div>

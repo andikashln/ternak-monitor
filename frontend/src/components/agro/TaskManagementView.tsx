@@ -102,15 +102,15 @@ export const TaskManagementView: React.FC = () => {
           const colTasks = filtered.filter(t => t.status === col.status);
           return (
             <div key={col.status} className="rounded-2xl border border-slate-200 bg-slate-50/60 p-3">
-              <p className="mb-2 flex items-center justify-between text-xs font-black text-slate-600">
+              <p className="mb-2 flex items-center justify-between text-xs font-bold text-slate-600">
                 {col.label}
-                <span className="rounded-full bg-white px-2 py-0.5 text-[10px] font-black text-slate-500">{colTasks.length}</span>
+                <span className="rounded-full bg-white px-2 py-0.5 text-[10px] font-bold text-slate-500">{colTasks.length}</span>
               </p>
               <div className="space-y-2">
                 {colTasks.map(t => (
                   <div key={t.id} className="rounded-xl border border-slate-200 bg-white p-3 shadow-sm">
                     <div className="flex items-start justify-between gap-2">
-                      <p className="text-sm font-black text-slate-800">{t.title}</p>
+                      <p className="text-sm font-bold text-slate-800">{t.title}</p>
                       <StatusBadge value={t.priority} tone={priorityTone(t.priority)} />
                     </div>
                     {t.description && <p className="mt-1 text-xs text-slate-500">{t.description}</p>}

@@ -45,8 +45,7 @@ export const navigationSections: NavSection[] = [
       { id: 'approval-center', label: 'Approval Center', description: 'Persetujuan terpusat', icon: ShieldCheck, allowedRoles: ['OWNER', 'ACCOUNTANT'] },
       { id: 'cash-flow', label: 'Kas Masuk & Keluar', description: 'Arus kas harian', icon: Banknote, allowedRoles: ['OWNER', 'ACCOUNTANT'] },
       { id: 'lpj', label: 'LPJ Pertanggungjawaban', description: 'Laporan pertanggungjawaban', icon: Scale, allowedRoles: ['OWNER', 'ACCOUNTANT'] },
-      { id: 'funding-docs', label: 'Pengajuan Dana', description: 'Verifikasi & persetujuan', icon: WalletCards, allowedRoles: ['OWNER', 'MANAGER', 'ACCOUNTANT', 'MITRA'] },
-      { id: 'invoices', label: 'Invoice & Bukti Bayar', description: 'Tagihan, DP & bukti bayar', icon: FileText, allowedRoles: ['OWNER', 'ACCOUNTANT'] },
+      { id: 'invoices', label: 'Pengajuan Dana & Invoice', description: 'Dana, tagihan & bukti bayar', icon: FileText, allowedRoles: ['OWNER', 'MANAGER', 'ACCOUNTANT', 'MITRA'] },
     ],
   },
   {

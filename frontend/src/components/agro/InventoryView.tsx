@@ -164,16 +164,16 @@ export const InventoryView: React.FC = () => {
 
       {lowStock.length > 0 && (
         <AgroCard className="border-rose-200 bg-rose-50/60">
-          <p className="flex items-center gap-2 text-sm font-black text-rose-700"><AlertTriangle className="h-4 w-4" />Peringatan Stok Menipis</p>
+          <p className="flex items-center gap-2 text-sm font-bold text-rose-700"><AlertTriangle className="h-4 w-4" />Peringatan Stok Menipis</p>
           <ul className="mt-2 grid gap-1 text-sm text-rose-800">
-            {lowStock.map(i => <li key={i.id}>• {i.name} — sisa {i.stockQty} {i.unit} (min. {i.minStock})</li>)}
+            {lowStock.map(i => <li key={i.id}>• {i.name} · sisa {i.stockQty} {i.unit} (min. {i.minStock})</li>)}
           </ul>
         </AgroCard>
       )}
 
       <div className="flex gap-2 rounded-2xl border bg-white p-2">
-        <button onClick={() => setTab('inventory')} className={`flex-1 rounded-xl px-4 py-3 text-xs font-black ${tab === 'inventory' ? 'bg-[#1B5E20] text-white' : 'text-slate-500'}`}><Package className="mr-2 inline h-4 w-4" />Daftar Barang</button>
-        <button onClick={() => setTab('mutasi')} className={`flex-1 rounded-xl px-4 py-3 text-xs font-black ${tab === 'mutasi' ? 'bg-[#1B5E20] text-white' : 'text-slate-500'}`}><ArrowUpCircle className="mr-2 inline h-4 w-4" />Riwayat Mutasi</button>
+        <button onClick={() => setTab('inventory')} className={`flex-1 rounded-xl px-4 py-3 text-xs font-bold ${tab === 'inventory' ? 'bg-[#1B5E20] text-white' : 'text-slate-500'}`}><Package className="mr-2 inline h-4 w-4" />Daftar Barang</button>
+        <button onClick={() => setTab('mutasi')} className={`flex-1 rounded-xl px-4 py-3 text-xs font-bold ${tab === 'mutasi' ? 'bg-[#1B5E20] text-white' : 'text-slate-500'}`}><ArrowUpCircle className="mr-2 inline h-4 w-4" />Riwayat Mutasi</button>
       </div>
 
       {tab === 'inventory' && (

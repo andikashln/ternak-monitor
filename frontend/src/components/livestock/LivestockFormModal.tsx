@@ -372,7 +372,7 @@ export const LivestockFormModal: React.FC<LivestockFormModalProps> = ({
                 type="text"
                 value={priceChangeNote}
                 onChange={e => setPriceChangeNote(e.target.value)}
-                className="w-full px-3 py-2 border border-amber-300 bg-white rounded-lg text-xs focus:ring-2 focus:ring-amber-600 focus:outline-none"
+                className="w-full px-3 py-2 border border-[#EED995] bg-white rounded-lg text-xs focus:ring-2 focus:ring-[#C9971C] focus:outline-none"
                 placeholder="Contoh: penyesuaian harga pasar, tambahan biaya perawatan"
               />
               <p className="mt-1 text-[10px] text-amber-800">Wajib diisi hanya jika harga beli atau harga jual diubah.</p>

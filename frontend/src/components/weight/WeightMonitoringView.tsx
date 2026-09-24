@@ -152,7 +152,7 @@ export const WeightMonitoringView: React.FC = () => {
               {filteredLogs.map(w => (
                 <tr key={w.id} className="hover:bg-slate-50 transition">
                   <td className="p-3.5 font-semibold text-slate-900">{formatDate(w.weighDate)}</td>
-                  <td className="p-3.5 font-mono font-black text-slate-900">{w.tagId}</td>
+                  <td className="p-3.5 font-mono font-bold text-slate-900">{w.tagId}</td>
                   <td className="p-3.5 text-slate-600 font-mono">{w.previousWeightKg} kg</td>
                   <td className="p-3.5 text-slate-900 font-mono font-bold text-sm">{w.weightKg} kg</td>
                   <td className="p-3.5 font-bold">
@@ -225,7 +225,7 @@ export const WeightMonitoringView: React.FC = () => {
                 >
                   {livestock.map(l => (
                     <option key={l.id} value={l.id}>
-                      {l.tagId} — {l.type} ({l.breed}) [Bobot lama: {l.currentWeightKg} kg]
+                      {l.tagId} · {l.type} ({l.breed}) [Bobot lama: {l.currentWeightKg} kg]
                     </option>
                   ))}
                 </select>

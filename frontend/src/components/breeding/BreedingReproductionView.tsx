@@ -85,7 +85,7 @@ export const BreedingReproductionView: React.FC = () => {
         {records.map(rec => (
           <div key={rec.id} className="bg-white p-5 rounded-2xl border border-slate-200 shadow-2xs space-y-3">
             <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-              <span className="font-mono font-black text-amber-800 text-base">Induk: {rec.motherTag}</span>
+              <span className="font-mono font-bold text-amber-800 text-base">Induk: {rec.motherTag}</span>
               <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-[#F8FAFC] text-[#1B5E20]">
                 {rec.pregStatus}
               </span>
@@ -128,7 +128,7 @@ export const BreedingReproductionView: React.FC = () => {
                   className="w-full px-3 py-2 border border-slate-300 rounded-lg font-bold focus:ring-2 focus:ring-[#1B5E20] focus:outline-none"
                 >
                   {females.map(f => (
-                    <option key={f.id} value={f.id}>{f.tagId} — {f.type} ({f.breed})</option>
+                    <option key={f.id} value={f.id}>{f.tagId} · {f.type} ({f.breed})</option>
                   ))}
                 </select>
               </div>

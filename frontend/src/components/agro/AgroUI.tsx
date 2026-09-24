@@ -10,9 +10,9 @@ export const AgroHeader: React.FC<{ kicker: string; title: string; subtitle?: st
   <div className="rounded-3xl bg-[#1B5E20] p-5 text-white shadow-lg sm:p-7">
     <div className="flex flex-wrap items-end justify-between gap-4">
       <div>
-        <p className="text-xs font-black uppercase tracking-[.2em] text-[#F1F5F9]">{kicker}</p>
-        <h2 className="mt-2 text-2xl font-black">{title}</h2>
-        {subtitle && <p className="mt-2 text-sm text-white/70">{subtitle}</p>}
+        <p className="ranch-label ranch-label--on-dark">{kicker}</p>
+        <h2 className="mt-2 text-2xl font-bold text-white!">{title}</h2>
+        {subtitle && <p className="mt-2 text-sm text-white/85!">{subtitle}</p>}
       </div>
       {actions && <div className="flex flex-wrap gap-2">{actions}</div>}
     </div>
@@ -25,8 +25,8 @@ export const AgroCard: React.FC<{ children: ReactNode; className?: string }> = (
 
 export const AgroStat: React.FC<{ label: string; value: string; hint?: string; accent?: boolean }> = ({ label, value, hint, accent }) => (
   <AgroCard className={accent ? 'border-[#E4C25E]/70 bg-[#FBF6E9]/60' : ''}>
-    <p className="text-[10px] font-black uppercase tracking-wider text-slate-400">{label}</p>
-    <p className="mt-1 text-lg sm:text-xl font-black text-slate-900 leading-tight break-words whitespace-normal">{value}</p>
+    <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">{label}</p>
+    <p className="mt-1 text-lg sm:text-xl font-bold text-slate-900 leading-tight break-words whitespace-normal">{value}</p>
     {hint && <p className="mt-0.5 text-[11px] text-slate-500">{hint}</p>}
   </AgroCard>
 );
@@ -36,7 +36,7 @@ export const AgroTable: React.FC<{ headers: string[]; children: ReactNode }> = (
     <table className="w-full min-w-[640px] text-left text-sm">
       <thead>
         <tr className="border-b border-slate-200 bg-slate-50">
-          {headers.map(h => <th key={h} className="px-4 py-3 text-[10px] font-black uppercase tracking-wider text-slate-500">{h}</th>)}
+          {headers.map(h => <th key={h} className="px-4 py-3 text-[10px] font-bold uppercase tracking-wider text-slate-500">{h}</th>)}
         </tr>
       </thead>
       <tbody className="divide-y divide-slate-100">{children}</tbody>
@@ -47,23 +47,23 @@ export const AgroTable: React.FC<{ headers: string[]; children: ReactNode }> = (
 export const StatusBadge: React.FC<{ value: string; tone?: 'green' | 'amber' | 'red' | 'blue' | 'violet' | 'slate' }> = ({ value, tone = 'slate' }) => {
   const tones: Record<string, string> = {
     green: 'bg-[#FFFFFF] text-[#1B5E20]',
-    amber: 'bg-amber-100 text-amber-900',
+    amber: 'bg-[#FBF6E9] text-[#A97A14]',
     red: 'bg-rose-50 text-rose-700',
     blue: 'bg-blue-50 text-blue-800',
-    violet: 'bg-violet-50 text-violet-800',
+    violet: 'bg-[#FBF6E9] text-[#A97A14]',
     slate: 'bg-slate-100 text-slate-600',
   };
-  return <span className={`inline-flex rounded-full px-2.5 py-1 text-[10px] font-black ${tones[tone]}`}>{value}</span>;
+  return <span className={`inline-flex rounded-full px-2.5 py-1 text-[10px] font-bold ${tones[tone]}`}>{value}</span>;
 };
 
 export const AgroButton: React.FC<{ onClick: () => void; children: ReactNode; variant?: 'primary' | 'ghost' | 'outline'; className?: string }> = ({ onClick, children, variant = 'primary', className = '' }) => {
   const styles = variant === 'primary'
-    ? 'bg-[#1B5E20] text-white hover:bg-[#4a2419]'
+    ? 'bg-[#1B5E20] text-white hover:bg-[#123D18]'
     : variant === 'outline'
       ? 'border border-slate-300 text-slate-700 hover:bg-slate-50'
       : 'text-slate-600 hover:bg-slate-100';
   return (
-    <button type="button" onClick={onClick} className={`inline-flex items-center gap-2 rounded-xl px-3.5 py-2.5 text-xs font-black transition ${styles} ${className}`}>
+    <button type="button" onClick={onClick} className={`inline-flex items-center gap-2 rounded-xl px-3.5 py-2.5 text-xs font-bold transition ${styles} ${className}`}>
       {children}
     </button>
   );
@@ -80,7 +80,7 @@ export const AgroModal: React.FC<{ title: string; onClose: () => void; children:
   <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/50 p-4">
     <div className="max-h-[90vh] w-full max-w-xl overflow-y-auto rounded-3xl bg-white p-5 shadow-2xl">
       <div className="mb-4 flex items-center justify-between">
-        <h3 className="text-lg font-black">{title}</h3>
+        <h3 className="text-lg font-bold">{title}</h3>
         <button onClick={onClose} className="rounded-lg p-2 hover:bg-slate-100"><XCircle className="h-5 w-5" /></button>
       </div>
       <div className="space-y-3">{children}</div>

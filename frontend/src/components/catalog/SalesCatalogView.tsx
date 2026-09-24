@@ -32,7 +32,7 @@ export const SalesCatalogView: React.FC<SalesCatalogViewProps> = ({ globalSearch
             <div className="mb-3 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-[#F1F5F9]">
               <Store className="h-4 w-4" /> Katalog Penjualan
             </div>
-            <h1 className="text-3xl font-black tracking-tight sm:text-4xl">Temukan sapi pilihan dari PT.DUTA AGRO NUSANTARA</h1>
+            <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">Temukan sapi pilihan dari PT.DUTA AGRO NUSANTARA</h1>
             <p className="mt-3 max-w-xl text-sm leading-6 text-[#FFFFFF]/75">
               Lihat informasi sapi yang tersedia, bobot terkini, lokasi, kondisi kesehatan, dan harga jual.
             </p>
@@ -46,7 +46,7 @@ export const SalesCatalogView: React.FC<SalesCatalogViewProps> = ({ globalSearch
       <section className="rounded-2xl border border-slate-200 bg-white p-4 shadow-2xs">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h2 className="flex items-center gap-2 text-base font-black text-slate-900">
+            <h2 className="flex items-center gap-2 text-base font-bold text-slate-900">
               <Beef className="h-5 w-5 text-[#1B5E20]" /> Sapi Tersedia
             </h2>
             <p className="mt-1 text-xs text-slate-500">{filteredLivestock.length} ekor sesuai pencarian</p>
@@ -78,14 +78,14 @@ export const SalesCatalogView: React.FC<SalesCatalogViewProps> = ({ globalSearch
                       <span className="mt-2 text-xs font-bold">Foto sapi belum tersedia</span>
                     </div>
                   )}
-                  <span className="absolute left-3 top-3 rounded-full bg-white/95 px-2.5 py-1 text-[10px] font-black text-[#123D18] shadow">
+                  <span className="absolute left-3 top-3 rounded-full bg-white/95 px-2.5 py-1 text-[10px] font-bold text-[#123D18] shadow">
                     {item.healthStatus}
                   </span>
                 </div>
                 <div className="space-y-3 p-4">
                   <div className="flex items-start justify-between gap-3">
                     <div>
-                      <p className="font-mono text-lg font-black text-slate-950">{item.tagId}</p>
+                      <p className="font-mono text-lg font-bold text-slate-950">{item.tagId}</p>
                       <p className="text-xs font-semibold text-slate-500">Sapi {item.breed} · {item.gender}</p>
                     </div>
                     <span className="rounded-lg bg-[#FFFFFF] px-2 py-1 text-[10px] font-bold text-[#1B5E20]">TERSEDIA</span>
@@ -98,7 +98,7 @@ export const SalesCatalogView: React.FC<SalesCatalogViewProps> = ({ globalSearch
                   </div>
                   <div className="border-t border-slate-100 pt-3">
                     <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Harga jual</p>
-                    <p className="mt-0.5 font-mono text-xl font-black text-[#1B5E20]">{formatRupiah(sellingPrice)}</p>
+                    <p className="mt-0.5 font-mono text-xl font-bold text-[#1B5E20]">{formatRupiah(sellingPrice)}</p>
                   </div>
                 </div>
               </article>

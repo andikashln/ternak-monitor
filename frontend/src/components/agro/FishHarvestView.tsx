@@ -136,14 +136,14 @@ export const FishHarvestView: React.FC = () => {
         <AgroTable headers={['Kolam', 'Tanggal', 'Berat (kg)', 'Jumlah Ekor', 'Rata-rata (kg)', 'Pembeli', 'Harga/kg', 'Total Pendapatan', 'Aksi']}>
           {filtered.map(h => (
             <tr key={h.id} className="hover:bg-slate-50">
-              <td className="px-4 py-3 font-black text-slate-800">{h.pondName}</td>
+              <td className="px-4 py-3 font-bold text-slate-800">{h.pondName}</td>
               <td className="px-4 py-3 text-xs">{formatDate(h.harvestDate)}</td>
               <td className="px-4 py-3 text-xs">{h.totalWeightKg.toLocaleString('id-ID')}</td>
               <td className="px-4 py-3 text-xs">{h.totalFishCount.toLocaleString('id-ID')}</td>
               <td className="px-4 py-3 text-xs">{h.averageWeightKg}</td>
               <td className="px-4 py-3 text-xs">{h.buyerName}</td>
               <td className="px-4 py-3 text-xs">{formatRupiah(h.pricePerKg)}</td>
-              <td className="px-4 py-3 font-black text-[#1B5E20]">{formatRupiah(h.totalRevenue)}</td>
+              <td className="px-4 py-3 font-bold text-[#1B5E20]">{formatRupiah(h.totalRevenue)}</td>
               <td className="px-4 py-3">
                 <div className="flex gap-1">
                   <AgroButton variant="ghost" onClick={() => openEdit(h)}><Pencil className="h-4 w-4" /></AgroButton>

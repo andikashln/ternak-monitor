@@ -96,7 +96,7 @@ export const LivestockDetailModal: React.FC<LivestockDetailModalProps> = ({
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="text-xl font-black font-mono tracking-tight text-amber-300">
+                <span className="text-xl font-bold font-mono tracking-tight text-[#E4C25E]">
                   {livestock.tagId}
                 </span>
                 <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${
@@ -108,7 +108,7 @@ export const LivestockDetailModal: React.FC<LivestockDetailModalProps> = ({
                 </span>
               </div>
               <p className="text-xs text-[#F8FAFC] font-medium">
-                {livestock.type} — {livestock.breed} ({livestock.gender})
+                {livestock.type} · {livestock.breed} ({livestock.gender})
               </p>
               <div className="flex flex-wrap items-center gap-3 mt-1.5 text-[11px] text-[#F1F5F9]">
                 <span className="flex items-center gap-1">
@@ -126,7 +126,7 @@ export const LivestockDetailModal: React.FC<LivestockDetailModalProps> = ({
           <div className="flex sm:flex-col items-end justify-between w-full sm:w-auto border-t sm:border-0 border-[#1B5E20] pt-2 sm:pt-0">
             <div className="text-left sm:text-right">
               <span className="text-[10px] text-[#E2E8F0] font-semibold uppercase tracking-wider block">Bobot Terakhir</span>
-              <span className="text-2xl font-black text-amber-400 font-mono">{livestock.currentWeightKg} <span className="text-xs font-normal text-[#F1F5F9]">kg</span></span>
+              <span className="text-2xl font-bold text-[#E4C25E] font-mono">{livestock.currentWeightKg} <span className="text-xs font-normal text-[#F1F5F9]">kg</span></span>
             </div>
             <button
               onClick={onClose}
@@ -228,15 +228,15 @@ export const LivestockDetailModal: React.FC<LivestockDetailModalProps> = ({
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 <div className="p-3 rounded-xl bg-blue-50 border border-blue-200">
                   <span className="text-[10px] uppercase font-bold text-blue-700 block">Harga Beli Saat Ini</span>
-                  <span className="text-base font-black font-mono text-blue-900">{formatRupiah(livestock.acquisitionPrice)}</span>
+                  <span className="text-base font-bold font-mono text-blue-900">{formatRupiah(livestock.acquisitionPrice)}</span>
                 </div>
                 <div className="p-3 rounded-xl bg-[#FFFFFF] border border-[#F1F5F9]">
                   <span className="text-[10px] uppercase font-bold text-[#1B5E20] block">Harga Jual Saat Ini</span>
-                  <span className="text-base font-black font-mono text-[#123D18]">{formatRupiah(livestock.sellingPrice ?? 0)}</span>
+                  <span className="text-base font-bold font-mono text-[#123D18]">{formatRupiah(livestock.sellingPrice ?? 0)}</span>
                 </div>
                 <div className="p-3 rounded-xl bg-amber-50 border border-amber-200">
-                  <span className="text-[10px] uppercase font-bold text-amber-700 block">Estimasi Margin</span>
-                  <span className="text-base font-black font-mono text-amber-900">{formatRupiah((livestock.sellingPrice ?? 0) - livestock.acquisitionPrice)}</span>
+                  <span className="text-[10px] uppercase font-bold text-[#A97A14] block">Estimasi Margin</span>
+                  <span className="text-base font-bold font-mono text-amber-900">{formatRupiah((livestock.sellingPrice ?? 0) - livestock.acquisitionPrice)}</span>
                 </div>
               </div>
 
@@ -283,7 +283,7 @@ export const LivestockDetailModal: React.FC<LivestockDetailModalProps> = ({
               <div className="p-3 bg-[#FFFFFF] rounded-xl border border-[#F1F5F9] flex items-center justify-between">
                 <div>
                   <span className="text-[10px] text-[#1B5E20] font-bold uppercase block">Total Pertambahan Bobot</span>
-                  <span className="text-lg font-black text-[#123D18]">
+                  <span className="text-lg font-bold text-[#123D18]">
                     +{livestock.currentWeightKg - livestock.initialWeightKg} kg
                   </span>
                 </div>

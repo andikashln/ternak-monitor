@@ -196,7 +196,7 @@ export const PurchasesSalesView: React.FC<PurchasesSalesViewProps> = ({ onOpenAd
                 <div className="p-3 space-y-2">
                   <div className="flex items-start justify-between gap-2">
                     <div>
-                      <div className="font-mono font-black text-slate-900">{item.tagId}</div>
+                      <div className="font-mono font-bold text-slate-900">{item.tagId}</div>
                       <div className="text-[11px] text-slate-500">{item.type} {item.breed}</div>
                     </div>
                     <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#F8FAFC] text-[#1B5E20] font-bold">{item.healthStatus}</span>
@@ -207,7 +207,7 @@ export const PurchasesSalesView: React.FC<PurchasesSalesViewProps> = ({ onOpenAd
                   </div>
                   <div>
                     <span className="text-[10px] text-slate-400 block">Harga jual</span>
-                    <span className="text-base font-black font-mono text-[#1B5E20]">{formatRupiah(salePrice)}</span>
+                    <span className="text-base font-bold font-mono text-[#1B5E20]">{formatRupiah(salePrice)}</span>
                   </div>
                   <button
                     type="button"
@@ -266,7 +266,7 @@ export const PurchasesSalesView: React.FC<PurchasesSalesViewProps> = ({ onOpenAd
                     <div className="text-[10px] text-slate-400 font-normal">{s.buyerPhone}</div>
                   </td>
                   <td className="p-3.5 text-slate-600">{s.locationName}</td>
-                  <td className="p-3.5 font-mono font-black text-[#1B5E20] text-sm">{formatRupiah(s.priceTotal)}</td>
+                  <td className="p-3.5 font-mono font-bold text-[#1B5E20] text-sm">{formatRupiah(s.priceTotal)}</td>
                   <td className="p-3.5 text-center">
                     <span className={`px-2.5 py-0.5 rounded text-[10px] font-bold ${
                       s.paymentStatus === 'Lunas' ? 'bg-[#F8FAFC] text-[#123D18]' :
@@ -354,7 +354,7 @@ export const PurchasesSalesView: React.FC<PurchasesSalesViewProps> = ({ onOpenAd
                 >
                   {livestock.map(l => (
                     <option key={l.id} value={l.id}>
-                      {l.tagId} — {l.type} ({l.breed}) [Bobot: {l.currentWeightKg} kg]
+                      {l.tagId} · {l.type} ({l.breed}) [Bobot: {l.currentWeightKg} kg]
                     </option>
                   ))}
                 </select>
@@ -379,7 +379,7 @@ export const PurchasesSalesView: React.FC<PurchasesSalesViewProps> = ({ onOpenAd
                     className="w-full px-3 py-2 border border-slate-300 rounded-lg font-bold focus:ring-2 focus:ring-[#1B5E20] focus:outline-none"
                   >
                     <option value="Lunas">Lunas</option>
-                    <option value="DP" disabled>DP (belum didukung — nominal DP belum dimodelkan)</option>
+                    <option value="DP" disabled>DP (belum didukung · nominal DP belum dimodelkan)</option>
                     <option value="Belum Bayar">Belum Bayar / Utang</option>
                   </select>
                 </div>

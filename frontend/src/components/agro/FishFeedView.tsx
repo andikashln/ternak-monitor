@@ -122,7 +122,7 @@ export const FishFeedView: React.FC = () => {
         <AgroTable headers={['Kolam', 'Tanggal', 'Jenis Pakan', 'Pakan (kg)', 'Biomassa (kg)', 'FCR', 'Petugas', 'Aksi']}>
           {filtered.map(f => (
             <tr key={f.id} className="hover:bg-slate-50">
-              <td className="px-4 py-3 font-black text-slate-800">{f.pondName}</td>
+              <td className="px-4 py-3 font-bold text-slate-800">{f.pondName}</td>
               <td className="px-4 py-3 text-xs">{formatDate(f.date)}</td>
               <td className="px-4 py-3 text-xs">{f.feedType}</td>
               <td className="px-4 py-3 text-xs">{f.feedAmountKg.toLocaleString('id-ID')} kg</td>

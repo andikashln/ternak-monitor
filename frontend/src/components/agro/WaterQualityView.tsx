@@ -123,7 +123,7 @@ export const WaterQualityView: React.FC = () => {
             const danger = phBad || doBad || amoniaBad;
             return (
               <tr key={r.id} className="hover:bg-slate-50">
-                <td className="px-4 py-3 font-black text-slate-800">{r.pondName}</td>
+                <td className="px-4 py-3 font-bold text-slate-800">{r.pondName}</td>
                 <td className="px-4 py-3 text-xs">{formatDate(r.date)}</td>
                 <td className="px-4 py-3">
                   <StatusBadge value={r.ph.toFixed(1)} tone={phBad ? 'red' : 'green'} />

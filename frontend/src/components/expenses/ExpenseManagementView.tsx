@@ -12,10 +12,10 @@ const expenseCategories: Array<{
   description: string;
   color: string;
 }> = [
-  { value: 'Pakan', label: 'Pakan', description: 'Konsentrat, rumput, silase, mineral', color: 'text-amber-700 bg-amber-50' },
+  { value: 'Pakan', label: 'Pakan', description: 'Konsentrat, rumput, silase, mineral', color: 'text-[#A97A14] bg-[#FBF6E9]' },
   { value: 'Obat & Vitamin', label: 'Obat & Vitamin', description: 'Obat, vaksin, vitamin, pemeriksaan', color: 'text-rose-700 bg-rose-50' },
   { value: 'Tenaga Kerja', label: 'Tenaga Kerja', description: 'Gaji, upah harian, lembur, jasa', color: 'text-blue-700 bg-blue-50' },
-  { value: 'Transportasi', label: 'Transportasi', description: 'Bahan bakar, pengiriman, perjalanan', color: 'text-violet-700 bg-violet-50' },
+  { value: 'Transportasi', label: 'Transportasi', description: 'Bahan bakar, pengiriman, perjalanan', color: 'text-[#A97A14] bg-[#FBF6E9]' },
   { value: 'Operasional Lainnya', label: 'Lainnya', description: 'Listrik, air, kandang, administrasi', color: 'text-slate-700 bg-slate-100' },
 ];
 
@@ -127,7 +127,7 @@ export const ExpenseManagementView: React.FC<ExpenseManagementViewProps> = ({ on
     <div className="space-y-3 pb-24 animate-fade-in sm:space-y-4 md:pb-12">
       <header className="flex flex-col gap-4 rounded-2xl border border-slate-200 bg-white p-4 shadow-2xs sm:flex-row sm:items-center sm:justify-between sm:p-5">
         <div>
-          <h2 className="flex items-center gap-2 text-lg font-black text-slate-900">
+          <h2 className="flex items-center gap-2 text-lg font-bold text-slate-900">
             <WalletCards className="h-5 w-5 text-[#1B5E20]" /> Pengelola Pengeluaran
           </h2>
           <p className="mt-1 text-[11px] leading-relaxed text-slate-500 sm:text-xs">Kelola biaya pakan, kesehatan, tenaga kerja, transportasi, dan operasional lainnya.</p>
@@ -140,8 +140,8 @@ export const ExpenseManagementView: React.FC<ExpenseManagementViewProps> = ({ on
       <section className="rounded-2xl border border-slate-200 bg-white p-4 shadow-2xs">
         <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
           <div>
-            <p className="text-[9px] font-black uppercase tracking-[0.16em] text-[#1B5E20]">Periode bulanan</p>
-            <h3 className="mt-1 text-base font-black capitalize text-slate-900">{periodLabel}</h3>
+            <p className="text-[9px] font-bold uppercase tracking-[0.16em] text-[#1B5E20]">Periode bulanan</p>
+            <h3 className="mt-1 text-base font-bold capitalize text-slate-900">{periodLabel}</h3>
             <p className="mt-0.5 text-[10px] text-slate-500">{expenses.length} transaksi pengeluaran tercatat</p>
           </div>
           <div className="grid grid-cols-1 gap-2 sm:grid-cols-[auto_auto]">
@@ -158,7 +158,7 @@ export const ExpenseManagementView: React.FC<ExpenseManagementViewProps> = ({ on
         <div className="mt-4 flex items-end justify-between rounded-xl bg-slate-950 p-4 text-white">
           <div>
             <span className="text-[9px] font-bold uppercase tracking-wider text-slate-400">Total pengeluaran bulan ini</span>
-            <strong className="mt-1 block font-mono text-2xl font-black">{formatRupiah(totalExpense)}</strong>
+            <strong className="mt-1 block font-mono text-2xl font-bold">{formatRupiah(totalExpense)}</strong>
           </div>
           <ReceiptText className="h-6 w-6 text-[#E2E8F0]" />
         </div>
@@ -176,8 +176,8 @@ export const ExpenseManagementView: React.FC<ExpenseManagementViewProps> = ({ on
               .reduce((total, transaction) => total + transaction.amount, 0);
             return (
               <button key={item.value} type="button" onClick={() => openNewExpense(item.value)} className="bg-white p-4 text-left transition hover:bg-slate-50">
-                <span className={`inline-flex rounded-md px-2 py-1 text-[9px] font-black ${item.color}`}>{item.label}</span>
-                <strong className="mt-2 block font-mono text-base font-black text-rose-600">{formatRupiah(categoryTotal)}</strong>
+                <span className={`inline-flex rounded-md px-2 py-1 text-[9px] font-bold ${item.color}`}>{item.label}</span>
+                <strong className="mt-2 block font-mono text-base font-bold text-rose-600">{formatRupiah(categoryTotal)}</strong>
                 <span className="mt-1 block text-[9px] leading-relaxed text-slate-400">{item.description}</span>
               </button>
             );
@@ -202,7 +202,7 @@ export const ExpenseManagementView: React.FC<ExpenseManagementViewProps> = ({ on
                   <span className="inline-flex rounded-md bg-rose-50 px-2 py-1 text-[9px] font-bold text-rose-700">{categoryLabel(transaction.category)}</span>
                   <p className="mt-2 text-xs font-bold leading-relaxed text-slate-800">{transaction.description}</p>
                 </div>
-                <strong className="shrink-0 font-mono text-sm font-black text-rose-600">-{formatRupiah(transaction.amount)}</strong>
+                <strong className="shrink-0 font-mono text-sm font-bold text-rose-600">-{formatRupiah(transaction.amount)}</strong>
               </div>
               <div className="mt-3 grid grid-cols-2 gap-1 text-[10px] text-slate-500">
                 <span className="truncate font-mono font-bold text-slate-700">{transaction.invoiceNo}</span>
@@ -234,7 +234,7 @@ export const ExpenseManagementView: React.FC<ExpenseManagementViewProps> = ({ on
                   <td className="p-3.5"><span className="whitespace-nowrap rounded-md bg-rose-50 px-2 py-1 text-[10px] font-bold text-rose-700">{categoryLabel(transaction.category)}</span></td>
                   <td className="min-w-52 p-3.5 font-semibold text-slate-700">{transaction.description}</td>
                   <td className="whitespace-nowrap p-3.5 text-slate-600">{transaction.locationName}</td>
-                  <td className="whitespace-nowrap p-3.5 text-right font-mono text-sm font-black text-rose-600">-{formatRupiah(transaction.amount)}</td>
+                  <td className="whitespace-nowrap p-3.5 text-right font-mono text-sm font-bold text-rose-600">-{formatRupiah(transaction.amount)}</td>
                   <td className="p-3.5"><div className="flex justify-end gap-1"><button type="button" onClick={() => openEditExpense(transaction)} className="rounded-lg p-1.5 text-blue-700 hover:bg-blue-50" aria-label={`Edit ${transaction.invoiceNo}`}><Pencil className="h-4 w-4" /></button><button type="button" onClick={() => deleteExpense(transaction)} className="rounded-lg p-1.5 text-rose-700 hover:bg-rose-50" aria-label={`Hapus ${transaction.invoiceNo}`}><Trash2 className="h-4 w-4" /></button></div></td>
                 </tr>
               ))}

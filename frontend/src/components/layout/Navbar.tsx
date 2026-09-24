@@ -52,7 +52,7 @@ export const Navbar: React.FC<NavbarProps> = ({
         <div className="hidden w-[15.75rem] shrink-0 lg:block"><DutaAgroNusantaraLogo /></div>
         <div className="min-w-0 flex-1 lg:hidden">
           <p className="ranch-label">Duta Agri Nusantara</p>
-          <h1 className="ranch-heading text-base font-black leading-tight">{pageTitle}</h1>
+          <h1 className="ranch-heading text-base font-bold leading-tight">{pageTitle}</h1>
         </div>
 
         <div className="mx-auto hidden w-full max-w-xl flex-1 md:block">

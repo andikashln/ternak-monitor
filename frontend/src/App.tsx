@@ -252,7 +252,7 @@ export function App() {
               <button
                 type="button"
                 onClick={() => setShowPublicCatalog(false)}
-                className="flex min-h-10 items-center gap-2 rounded-xl bg-[#123D18] px-3.5 text-xs font-black text-white shadow-sm transition hover:bg-[#1B5E20] sm:px-4"
+                className="flex min-h-10 items-center gap-2 rounded-xl bg-[#123D18] px-3.5 text-xs font-bold text-white shadow-sm transition hover:bg-[#1B5E20] sm:px-4"
               >
                 <LogIn className="h-4 w-4" /> <span className="hidden sm:inline">Login Pengelola</span><span className="sm:hidden">Login</span>
               </button>
@@ -353,8 +353,7 @@ export function App() {
           {activeTab === 'reports' && canAccess(currentUser.role, 'reports') && <ReportsExportView />}
           {activeTab === 'users' && canAccess(currentUser.role, 'users') && <UserManagementView />}
           {activeTab === 'settings' && currentUser.role === 'OWNER' && <SettingsView />}
-          {activeTab === 'funding-docs' && canAccess(currentUser.role, 'funding-docs') && <FinancialDocumentsView initialTab="funding" />}
-          {activeTab === 'invoices' && canAccess(currentUser.role, 'invoices') && <FinancialDocumentsView initialTab="invoices" />}
+          {activeTab === 'invoices' && canAccess(currentUser.role, 'invoices') && <FinancialDocumentsView initialTab="funding" />}
           {/* Divisi baru (agro multi-divisi) */}
           {activeTab === 'finance-dashboard' && canAccess(currentUser.role, 'finance-dashboard') && <FinanceDashboardView />}
           {activeTab === 'approval-center' && canAccess(currentUser.role, 'approval-center') && <ApprovalCenterView />}
@@ -384,7 +383,7 @@ export function App() {
           </Suspense>
 
           <footer className="mt-8 flex flex-col items-center gap-1 border-t border-[#E2E8F0] pt-5 pb-2 text-center">
-            <p className="text-[11px] font-black uppercase tracking-[0.2em] text-[#1B5E20]">PT DUTA AGRI NUSANTARA</p>
+            <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#1B5E20]">PT DUTA AGRI NUSANTARA</p>
             <p className="text-[10px] text-slate-400">One Land. One System. One Future.</p>
           </footer>
 

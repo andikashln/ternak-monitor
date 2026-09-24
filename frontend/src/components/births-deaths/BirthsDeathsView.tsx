@@ -106,7 +106,7 @@ export const BirthsDeathsView: React.FC = () => {
       <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-2xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
           <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-            <Baby className="w-5 h-5 text-amber-600" />
+            <Baby className="w-5 h-5 text-[#1B5E20]" />
             <span>Pencatatan Kelahiran & Kematian Ternak</span>
           </h2>
           <p className="text-xs text-slate-500">
@@ -117,7 +117,7 @@ export const BirthsDeathsView: React.FC = () => {
         <div className="flex items-center gap-2">
           <button
             onClick={handleOpenBirth}
-            className="flex items-center gap-1.5 px-3.5 py-2 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs rounded-xl transition cursor-pointer"
+            className="flex items-center gap-1.5 px-3.5 py-2 bg-[#1B5E20] hover:bg-[#123D18] text-white font-bold text-xs rounded-xl transition cursor-pointer"
           >
             <Baby className="w-4 h-4" />
             <span>+ Lapor Kelahiran</span>
@@ -134,7 +134,7 @@ export const BirthsDeathsView: React.FC = () => {
       </div>
 
       <div className="bg-white rounded-2xl border border-slate-200 shadow-2xs overflow-hidden">
-        <div className="p-4 bg-amber-50 border-b border-amber-200 flex justify-between"><h3 className="text-xs font-bold">Riwayat Kelahiran</h3><span className="text-xs">{births.length} peristiwa</span></div>
+        <div className="p-4 bg-[#ECF5ED] border-b border-[#D5EAD8] flex justify-between"><h3 className="text-xs font-bold">Riwayat Kelahiran</h3><span className="text-xs">{births.length} peristiwa</span></div>
         <div className="overflow-x-auto"><table className="w-full text-left text-xs"><thead className="bg-slate-100"><tr><th className="p-3">Tanggal</th><th className="p-3">Induk</th><th className="p-3">Anak</th><th className="p-3">Bobot</th><th className="p-3">Status / Aksi</th></tr></thead>
           <tbody>{births.map(b => <tr key={b.id} className="border-t"><td className="p-3">{formatDate(b.birthDate)}</td><td className="p-3 font-mono">{b.motherTag}</td><td className="p-3 font-mono font-bold">{b.offspringTag}</td><td className="p-3">{b.birthWeightKg} kg</td><td className="p-3">{b.voidedAt ? <span className="text-rose-700 font-bold">Dibatalkan</span> : <button type="button" onClick={() => handleVoidBirth(b.id, b.offspringTag)} className="text-rose-700 font-bold">Batalkan & Arsipkan Anak</button>}</td></tr>)}</tbody>
         </table>{births.length === 0 && <p className="p-6 text-center text-slate-400 text-xs">Belum ada riwayat kelahiran.</p>}</div>
@@ -168,7 +168,7 @@ export const BirthsDeathsView: React.FC = () => {
               {deaths.map(d => (
                 <tr key={d.id} className="hover:bg-rose-50/50 transition">
                   <td className="p-3.5 font-bold text-slate-900">{formatDate(d.deathDate)}</td>
-                  <td className="p-3.5 font-mono font-black text-rose-800 text-sm">{d.tagId}</td>
+                  <td className="p-3.5 font-mono font-bold text-rose-800 text-sm">{d.tagId}</td>
                   <td className="p-3.5 font-bold text-rose-700">{d.suspectedCause}</td>
                   <td className="p-3.5 text-slate-600">{d.symptomsBefore}</td>
                   <td className="p-3.5 text-slate-600">{d.handlingNote}</td>
@@ -192,9 +192,9 @@ export const BirthsDeathsView: React.FC = () => {
       {isBirthModalOpen && (
         <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center p-3 sm:p-4">
           <div className="bg-white rounded-2xl max-w-md w-full overflow-hidden shadow-2xl border border-slate-200">
-            <div className="p-4 bg-amber-600 text-slate-950 flex items-center justify-between font-bold">
+            <div className="p-4 bg-[#1B5E20] text-white flex items-center justify-between font-bold">
               <h3>Lapor Kelahiran Anakan Ternak Baru</h3>
-              <button onClick={() => setIsBirthModalOpen(false)} className="p-1 hover:bg-amber-500 rounded">
+              <button onClick={() => setIsBirthModalOpen(false)} className="p-1 hover:bg-[#164D1C] rounded">
                 <X className="w-5 h-5" />
               </button>
             </div>
@@ -206,10 +206,10 @@ export const BirthsDeathsView: React.FC = () => {
                   value={motherId}
                   onChange={e => setMotherId(e.target.value)}
                   required
-                  className="w-full px-3 py-2 border border-slate-300 rounded-lg font-bold focus:ring-2 focus:ring-amber-500 focus:outline-none"
+                  className="w-full px-3 py-2 border border-slate-300 rounded-lg font-bold focus:ring-2 focus:ring-[#1B5E20] focus:outline-none"
                 >
                   {livestock.filter(l => l.gender === 'Betina').map(f => (
-                    <option key={f.id} value={f.id}>{f.tagId} — {f.breed} ({f.locationName})</option>
+                    <option key={f.id} value={f.id}>{f.tagId} · {f.breed} ({f.locationName})</option>
                   ))}
                 </select>
               </div>
@@ -224,7 +224,7 @@ export const BirthsDeathsView: React.FC = () => {
                   <select
                     value={gender}
                     onChange={e => setGender(e.target.value as GenderType)}
-                    className="w-full px-3 py-2 border border-slate-300 rounded-lg font-bold focus:ring-2 focus:ring-amber-500 focus:outline-none"
+                    className="w-full px-3 py-2 border border-slate-300 rounded-lg font-bold focus:ring-2 focus:ring-[#1B5E20] focus:outline-none"
                   >
                     <option value="Jantan">Jantan</option>
                     <option value="Betina">Betina</option>
@@ -237,7 +237,7 @@ export const BirthsDeathsView: React.FC = () => {
                     value={birthWeight}
                     onChange={e => setBirthWeight(e.target.value)}
                     required
-                    className="w-full px-3 py-2 border border-slate-300 rounded-lg font-bold focus:ring-2 focus:ring-amber-500 focus:outline-none"
+                    className="w-full px-3 py-2 border border-slate-300 rounded-lg font-bold focus:ring-2 focus:ring-[#1B5E20] focus:outline-none"
                   />
                 </div>
               </div>
@@ -247,7 +247,7 @@ export const BirthsDeathsView: React.FC = () => {
                 <select
                   value={locationId}
                   onChange={e => setLocationId(e.target.value)}
-                  className="w-full px-3 py-2 border border-slate-300 rounded-lg font-bold focus:ring-2 focus:ring-amber-500 focus:outline-none"
+                  className="w-full px-3 py-2 border border-slate-300 rounded-lg font-bold focus:ring-2 focus:ring-[#1B5E20] focus:outline-none"
                 >
                   {locations.map(loc => (
                     <option key={loc.id} value={loc.id}>{loc.name}</option>
@@ -261,7 +261,7 @@ export const BirthsDeathsView: React.FC = () => {
                   value={birthCondition}
                   onChange={e => setBirthCondition(e.target.value)}
                   rows={2}
-                  className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:outline-none"
+                  className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#1B5E20] focus:outline-none"
                 />
               </div>
 
@@ -275,7 +275,7 @@ export const BirthsDeathsView: React.FC = () => {
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold rounded-lg"
+                  className="px-5 py-2 bg-[#1B5E20] hover:bg-[#123D18] text-white font-bold rounded-lg"
                 >
                   Daftarkan Anakan Baru
                 </button>
@@ -313,7 +313,7 @@ export const BirthsDeathsView: React.FC = () => {
                   className="w-full px-3 py-2 border border-slate-300 rounded-lg font-bold focus:ring-2 focus:ring-slate-900 focus:outline-none"
                 >
                   {livestock.map(l => (
-                    <option key={l.id} value={l.id}>{l.tagId} — {l.type} ({l.breed}) [{l.locationName}]</option>
+                    <option key={l.id} value={l.id}>{l.tagId} · {l.type} ({l.breed}) [{l.locationName}]</option>
                   ))}
                 </select>
               </div>

@@ -83,14 +83,14 @@ export const KpiView: React.FC = () => {
 
   const rows = filtered.map((k, idx) => (
     <tr key={k.id} className={idx === 0 ? 'bg-[#FBF6E9]/40' : ''}>
-      <td className="px-4 py-3 font-black text-slate-800">{idx + 1}</td>
+      <td className="px-4 py-3 font-bold text-slate-800">{idx + 1}</td>
       <td className="px-4 py-3 font-semibold text-slate-800">{k.workerName}{idx === 0 && <Award className="ml-2 inline h-4 w-4 text-[#E4C25E]" />}</td>
       <td className="px-4 py-3 text-slate-600">{k.division}</td>
       <td className="px-4 py-3 text-slate-600">{k.period}</td>
       <td className="px-4 py-3 text-slate-600">{k.attendanceScore}</td>
       <td className="px-4 py-3 text-slate-600">{k.productivityScore}</td>
       <td className="px-4 py-3 text-slate-600">{k.disciplineScore}</td>
-      <td className="px-4 py-3 font-black">{k.totalScore}</td>
+      <td className="px-4 py-3 font-bold">{k.totalScore}</td>
       <td className="px-4 py-3"><StatusBadge value={gradeFor(k.totalScore)} tone={toneFor(k.totalScore)} /></td>
       <td className="px-4 py-3">
         <div className="flex gap-1">
@@ -138,7 +138,7 @@ export const KpiView: React.FC = () => {
             <AgroField label="Produktivitas" type="number" value={draft.productivityScore} onChange={v => setField({ productivityScore: v })} />
             <AgroField label="Disiplin" type="number" value={draft.disciplineScore} onChange={v => setField({ disciplineScore: v })} />
           </div>
-          <div className="rounded-xl bg-[#FBF6E9]/60 p-3 text-sm font-black text-[#1B5E20]">
+          <div className="rounded-xl bg-[#FBF6E9]/60 p-3 text-sm font-bold text-[#1B5E20]">
             Skor Total Otomatis: {totalScore} <span className="ml-2">Grade: {gradeFor(totalScore)}</span>
           </div>
           <AgroButton onClick={save} className="w-full justify-center">{editing ? 'Simpan Perubahan' : 'Simpan KPI'}</AgroButton>

@@ -162,8 +162,8 @@ export const FinanceView: React.FC = () => {
 
       <section className="ranch-panel flex flex-col gap-3 rounded-2xl border p-4 lg:flex-row lg:items-center lg:justify-between">
         <div>
-          <p className="text-[10px] font-black uppercase tracking-[0.16em] text-[#1B5E20]">Ringkasan {granularity === 'month' ? 'bulanan' : 'tahunan'}</p>
-          <h3 className="mt-1 text-base font-black capitalize text-slate-900">Periode {periodLabel}</h3>
+          <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-[#1B5E20]">Ringkasan {granularity === 'month' ? 'bulanan' : 'tahunan'}</p>
+          <h3 className="mt-1 text-base font-bold capitalize text-slate-900">Periode {periodLabel}</h3>
           <p className="mt-0.5 text-[10px] text-slate-500">Angka ringkasan dan daftar transaksi mengikuti periode yang dipilih.</p>
         </div>
         <div className="grid w-full grid-cols-2 gap-2 lg:flex lg:w-auto lg:items-center">
@@ -215,37 +215,37 @@ export const FinanceView: React.FC = () => {
       <section className="grid grid-cols-2 gap-2.5 sm:grid-cols-4 sm:gap-3">
         <article className="rounded-2xl border border-[#F1F5F9] bg-white p-4 shadow-2xs sm:p-5">
           <div className="flex items-center justify-between">
-            <span className="text-[10px] font-black uppercase tracking-wider text-slate-500">Pemasukan</span>
+            <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500">Pemasukan</span>
             <ArrowUpRight className="h-4 w-4 text-[#1B5E20]" />
           </div>
-          <strong className="mt-2 block font-mono text-lg font-black text-[#1B5E20]">{formatRupiah(totalIncome)}</strong>
+          <strong className="mt-2 block font-mono text-lg font-bold text-[#1B5E20]">{formatRupiah(totalIncome)}</strong>
           <p className="mt-1 text-[10px] text-slate-400">Kas masuk pada periode</p>
         </article>
 
         <article className="rounded-2xl border border-rose-200 bg-white p-4 shadow-2xs sm:p-5">
           <div className="flex items-center justify-between">
-            <span className="text-[10px] font-black uppercase tracking-wider text-slate-500">Pengeluaran</span>
+            <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500">Pengeluaran</span>
             <ArrowDownRight className="h-4 w-4 text-rose-600" />
           </div>
-          <strong className="mt-2 block font-mono text-lg font-black text-rose-600">{formatRupiah(totalExpense)}</strong>
+          <strong className="mt-2 block font-mono text-lg font-bold text-rose-600">{formatRupiah(totalExpense)}</strong>
           <p className="mt-1 text-[10px] text-slate-400">HPP dan biaya operasional</p>
         </article>
 
         <article className={`rounded-2xl border bg-white p-4 shadow-2xs sm:p-5 ${grossProfit >= 0 ? 'border-[#F1F5F9]' : 'border-rose-200'}`}>
           <div className="flex items-center justify-between">
-            <span className="text-[10px] font-black uppercase tracking-wider text-slate-500">Laba Kotor</span>
-            <span className={`rounded-full px-2 py-1 text-[9px] font-black ${grossProfit >= 0 ? 'bg-[#FFFFFF] text-[#1B5E20]' : 'bg-rose-50 text-rose-700'}`}>{grossProfit >= 0 ? 'LABA' : 'RUGI'}</span>
+            <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500">Laba Kotor</span>
+            <span className={`rounded-full px-2 py-1 text-[9px] font-bold ${grossProfit >= 0 ? 'bg-[#FFFFFF] text-[#1B5E20]' : 'bg-rose-50 text-rose-700'}`}>{grossProfit >= 0 ? 'LABA' : 'RUGI'}</span>
           </div>
-          <strong className={`mt-2 block font-mono text-lg font-black ${grossProfit >= 0 ? 'text-[#1B5E20]' : 'text-rose-600'}`}>{formatRupiah(grossProfit)}</strong>
+          <strong className={`mt-2 block font-mono text-lg font-bold ${grossProfit >= 0 ? 'text-[#1B5E20]' : 'text-rose-600'}`}>{formatRupiah(grossProfit)}</strong>
           <p className="mt-1 text-[10px] text-slate-400">Penjualan dikurangi HPP ternak</p>
         </article>
 
         <article className={`rounded-2xl border bg-white p-4 shadow-2xs sm:p-5 ${netProfit >= 0 ? 'border-[#F1F5F9]' : 'border-rose-200'}`}>
           <div className="flex items-center justify-between">
-            <span className="text-[10px] font-black uppercase tracking-wider text-slate-500">Laba Bersih</span>
-            <span className={`rounded-full px-2 py-1 text-[9px] font-black ${netProfit >= 0 ? 'bg-[#FFFFFF] text-[#1B5E20]' : 'bg-rose-50 text-rose-700'}`}>{netProfit >= 0 ? 'LABA' : 'RUGI'}</span>
+            <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500">Laba Bersih</span>
+            <span className={`rounded-full px-2 py-1 text-[9px] font-bold ${netProfit >= 0 ? 'bg-[#FFFFFF] text-[#1B5E20]' : 'bg-rose-50 text-rose-700'}`}>{netProfit >= 0 ? 'LABA' : 'RUGI'}</span>
           </div>
-          <strong className={`mt-2 block font-mono text-lg font-black ${netProfit >= 0 ? 'text-[#1B5E20]' : 'text-rose-600'}`}>{formatRupiah(netProfit)}</strong>
+          <strong className={`mt-2 block font-mono text-lg font-bold ${netProfit >= 0 ? 'text-[#1B5E20]' : 'text-rose-600'}`}>{formatRupiah(netProfit)}</strong>
           <p className="mt-1 text-[10px] text-slate-400">Laba kotor dikurangi operasional</p>
         </article>
       </section>
@@ -264,8 +264,8 @@ export const FinanceView: React.FC = () => {
             return (
               <div key={item.category} className="bg-white p-3.5 sm:p-4">
                 <span className="block text-[9px] font-bold uppercase tracking-wider text-slate-400">{isIncome ? 'Pemasukan' : 'Pengeluaran'}</span>
-                <span className="mt-1 block text-xs font-black text-slate-800">{item.label}</span>
-                <span className={`mt-2 block font-mono text-sm font-black ${isIncome ? 'text-[#1B5E20]' : 'text-rose-600'}`}>
+                <span className="mt-1 block text-xs font-bold text-slate-800">{item.label}</span>
+                <span className={`mt-2 block font-mono text-sm font-bold ${isIncome ? 'text-[#1B5E20]' : 'text-rose-600'}`}>
                   {isIncome ? '+' : '-'}{formatRupiah(categoryTotal)}
                 </span>
               </div>
@@ -295,7 +295,7 @@ export const FinanceView: React.FC = () => {
                     </span>
                     <p className="mt-2 line-clamp-2 text-xs font-bold leading-relaxed text-slate-800">{transaction.description}</p>
                   </div>
-                  <strong className={`shrink-0 whitespace-nowrap font-mono text-sm font-black ${isIncome ? 'text-[#1B5E20]' : 'text-rose-600'}`}>
+                  <strong className={`shrink-0 whitespace-nowrap font-mono text-sm font-bold ${isIncome ? 'text-[#1B5E20]' : 'text-rose-600'}`}>
                     {isIncome ? '+' : '-'}{formatRupiah(transaction.amount)}
                   </strong>
                 </div>
@@ -349,7 +349,7 @@ export const FinanceView: React.FC = () => {
                   </td>
                   <td className="min-w-52 p-3.5 font-semibold text-slate-700">{transaction.description}</td>
                   <td className="whitespace-nowrap p-3.5 text-slate-600">{transaction.locationName}</td>
-                  <td className={`whitespace-nowrap p-3.5 text-right font-mono text-sm font-black ${transaction.type === 'income' ? 'text-[#1B5E20]' : 'text-rose-600'}`}>
+                  <td className={`whitespace-nowrap p-3.5 text-right font-mono text-sm font-bold ${transaction.type === 'income' ? 'text-[#1B5E20]' : 'text-rose-600'}`}>
                     {transaction.type === 'income' ? '+' : '-'}{formatRupiah(transaction.amount)}
                   </td>
                   <td className="whitespace-nowrap p-3.5 text-slate-500">{transaction.paymentMethod}</td>

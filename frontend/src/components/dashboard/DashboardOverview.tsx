@@ -44,11 +44,11 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
       {/* Top Header Banner with Professional Polish Styling */}
       <div className="ranch-hero rounded-xl p-6 shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div>
-          <p className="ranch-label relative z-10 mb-2 text-[#F1F5F9]">Pusat kendali operasional</p>
-          <h2 className="ranch-heading relative z-10 text-xl sm:text-2xl font-bold tracking-tight text-[#FFFFFF]">
+          <p className="ranch-label ranch-label--on-dark relative z-10 mb-2">Pusat kendali operasional</p>
+          <h2 className="ranch-heading relative z-10 text-xl sm:text-2xl font-bold tracking-tight text-white!">
             Ringkasan peternakan hari ini
           </h2>
-          <p className="relative z-10 max-w-2xl mt-1 text-xs sm:text-sm text-[#F1F5F9]/80 leading-relaxed">
+          <p className="relative z-10 max-w-2xl mt-1 text-xs sm:text-sm text-white/85! leading-relaxed">
             Pantau populasi, kesehatan, aktivitas kandang, dan arus keuangan dari satu tempat.
           </p>
         </div>
@@ -127,17 +127,17 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
 
       {/* Funding and invoice workflow indicators */}
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
-        <button onClick={() => onNavigateTab('funding-docs')} className="card-polish text-left transition hover:border-amber-300">
-          <WalletCards className="mb-2 h-5 w-5 text-amber-700"/><p className="text-[10px] font-black uppercase tracking-wider text-slate-500">Menunggu Persetujuan</p><p className="mt-1 text-xl font-black">{workflow.fundRequests.filter(item => ['Diajukan','Diverifikasi Akuntan'].includes(item.status)).length}</p>
+        <button onClick={() => onNavigateTab('invoices')} className="card-polish text-left transition hover:border-amber-300">
+          <WalletCards className="mb-2 h-5 w-5 text-[#A97A14]"/><p className="text-[10px] font-bold uppercase tracking-wider text-slate-500">Menunggu Persetujuan</p><p className="mt-1 text-xl font-bold">{workflow.fundRequests.filter(item => ['Diajukan','Diverifikasi Akuntan'].includes(item.status)).length}</p>
         </button>
-        <button onClick={() => onNavigateTab('funding-docs')} className="card-polish text-left transition hover:border-[#E2E8F0]">
-          <CheckCircle2 className="mb-2 h-5 w-5 text-[#1B5E20]"/><p className="text-[10px] font-black uppercase tracking-wider text-slate-500">Dana Disetujui</p><p className="mt-1 text-sm font-black">{formatRupiah(workflow.fundRequests.filter(item => ['Disetujui Owner','Dicairkan','Selesai'].includes(item.status)).reduce((sum,item) => sum + item.total, 0))}</p>
+        <button onClick={() => onNavigateTab('invoices')} className="card-polish text-left transition hover:border-[#E2E8F0]">
+          <CheckCircle2 className="mb-2 h-5 w-5 text-[#1B5E20]"/><p className="text-[10px] font-bold uppercase tracking-wider text-slate-500">Dana Disetujui</p><p className="mt-1 text-sm font-bold">{formatRupiah(workflow.fundRequests.filter(item => ['Disetujui Owner','Dicairkan','Selesai'].includes(item.status)).reduce((sum,item) => sum + item.total, 0))}</p>
         </button>
         <button onClick={() => onNavigateTab('invoices')} className="card-polish text-left transition hover:border-rose-300">
-          <Receipt className="mb-2 h-5 w-5 text-rose-700"/><p className="text-[10px] font-black uppercase tracking-wider text-slate-500">Invoice Belum Lunas</p><p className="mt-1 text-xl font-black">{workflow.invoices.filter(item => item.status === 'Aktif' && item.remainingAmount > 0).length}</p>
+          <Receipt className="mb-2 h-5 w-5 text-rose-700"/><p className="text-[10px] font-bold uppercase tracking-wider text-slate-500">Invoice Belum Lunas</p><p className="mt-1 text-xl font-bold">{workflow.invoices.filter(item => item.status === 'Aktif' && item.remainingAmount > 0).length}</p>
         </button>
         <button onClick={() => onNavigateTab('invoices')} className="card-polish text-left transition hover:border-blue-300">
-          <Clock3 className="mb-2 h-5 w-5 text-blue-700"/><p className="text-[10px] font-black uppercase tracking-wider text-slate-500">Verifikasi Bayar</p><p className="mt-1 text-xl font-black">{workflow.invoices.flatMap(item => item.payments).filter(item => item.status === 'Menunggu Verifikasi').length}</p>
+          <Clock3 className="mb-2 h-5 w-5 text-blue-700"/><p className="text-[10px] font-bold uppercase tracking-wider text-slate-500">Verifikasi Bayar</p><p className="mt-1 text-xl font-bold">{workflow.invoices.flatMap(item => item.payments).filter(item => item.status === 'Menunggu Verifikasi').length}</p>
         </button>
       </div>
 
@@ -251,7 +251,7 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
               <div key={rpt.id} className="p-3 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-between text-xs">
                 <div>
                   <div className="font-bold text-slate-900">
-                    {rpt.locationName} — {formatDate(rpt.date)}
+                    {rpt.locationName} · {formatDate(rpt.date)}
                   </div>
                   <div className="text-[11px] text-slate-500 mt-0.5">
                     Populasi Akhir: <span className="font-bold text-slate-800">{rpt.popFinal} ekor</span> (Awal: {rpt.popInitial})

@@ -131,7 +131,7 @@ export const DailyReportsView: React.FC = () => {
           <div key={rpt.id} className="bg-white p-5 rounded-2xl border border-slate-200 shadow-2xs space-y-4">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
               <div>
-                <span className="text-base font-black text-slate-900">{rpt.locationName}</span>
+                <span className="text-base font-bold text-slate-900">{rpt.locationName}</span>
                 <span className="text-xs text-slate-500 font-medium ml-2">📅 Tanggal: {formatDate(rpt.date)}</span>
               </div>
               <div className="flex items-center gap-2">
@@ -165,8 +165,8 @@ export const DailyReportsView: React.FC = () => {
                 <div>Awal: <span className="text-slate-900">{rpt.popInitial}</span></div>
                 <div>+ Masuk (Beli/Lahir/Tf): <span className="text-[#1B5E20]">+{rpt.popPurchase + rpt.popBirth + rpt.popTransferIn}</span></div>
                 <div>- Keluar (Jual/Mati/Tf): <span className="text-rose-600">-{rpt.popSales + rpt.popDeath + rpt.popTransferOut}</span></div>
-                <div className="text-[#123D18] font-black">
-                  = Populasi Akhir: <span className="text-base font-black">{rpt.popFinal} ekor</span>
+                <div className="text-[#123D18] font-bold">
+                  = Populasi Akhir: <span className="text-base font-bold">{rpt.popFinal} ekor</span>
                 </div>
               </div>
             </div>
