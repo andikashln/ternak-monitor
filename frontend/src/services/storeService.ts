@@ -510,7 +510,7 @@ const INITIAL_SETTINGS: BusinessSettings = {
 };
 
 // Local Storage Helper keys
-const STORAGE_KEYS = {
+export const STORAGE_KEYS = {
   LOCATIONS: 'ternak_locations',
   PENS: 'ternak_pens',
   LIVESTOCK: 'ternak_livestock',
@@ -530,6 +530,10 @@ const STORAGE_KEYS = {
   CURRENT_USER: 'ternak_current_user',
   USERS: 'ternak_users'
 };
+
+// Flag untuk dataSync: saat pull dari DB sedang berjalan, mutasi array lokal
+// (penggantian array penuh) tidak boleh memicu push balik ke DB.
+export const syncState = { paused: false };
 
 // 5 akun production (sinkron dengan auth.users di Supabase).
 // Role mengikuti raw_app_meta_data.role — lihat supabase/set_roles.sql.
@@ -573,6 +577,8 @@ function saveStorage<T>(key: string, value: T): void {
   } catch (e) {
     console.error("Failed to save to localStorage:", e);
   }
+  // Sinkronisasi ke Supabase (debounced per-key). No-op bila sync nonaktif.
+  import('./dataSync').then(({ dataSync }) => dataSync.onStoreSaved(key)).catch(() => {});
 }
 
 class StoreService {
@@ -617,6 +623,11 @@ class StoreService {
 
   private notify() {
     this.listeners.forEach(l => l());
+  }
+
+  /** Dipakai dataSync untuk me-render ulang setelah pull mengganti array. */
+  public notifyListeners() {
+    this.notify();
   }
 
   // Audit Log helper

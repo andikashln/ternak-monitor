@@ -750,8 +750,15 @@ begin
   end loop;
 
 
-  -- B3) notifications: update (mark-as-read) boleh semua authenticated
+  -- B3) notifications: notifikasi dibuat sistem dari aksi role mana pun;
+  --      insert & update (mark-as-read) boleh semua authenticated.
+  execute 'drop policy if exists "notif_insert" on public.notifications;';
   execute 'drop policy if exists "notif_update" on public.notifications;';
+  execute $p$
+    create policy "notif_insert" on public.notifications
+    for insert to authenticated
+    with check (true);
+  $p$;
   execute $p$
     create policy "notif_update" on public.notifications
     for update to authenticated

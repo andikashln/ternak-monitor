@@ -14,6 +14,7 @@ import { storeService } from './services/storeService';
 import { authAPI, authSession } from './services/api';
 import { getStaticDemoSession, getStaticDemoSessionFromToken, shouldUseStaticDemoFallback } from './services/demoAuth';
 import { supabaseSignIn, supabaseRestore, supabaseSignOut } from './services/supabase';
+import { dataSync } from './services/dataSync';
 import { LivestockItem, UserProfile } from './types';
 
 const DashboardOverview = lazy(() => import('./components/dashboard/DashboardOverview').then(module => ({ default: module.DashboardOverview })));
@@ -98,6 +99,7 @@ export function App() {
       const supabaseResult = await supabaseRestore();
       if (supabaseResult?.ok) {
         storeService.setCurrentUser(supabaseResult.user);
+        void dataSync.enable();
         setActiveTab(supabaseResult.user.role === 'MITRA' ? 'livestock' : 'dashboard');
         setAuthState('authenticated');
         return;
@@ -157,6 +159,7 @@ export function App() {
       if (supabaseResult.ok) {
         authSession.setToken(supabaseResult.token);
         storeService.setCurrentUser(supabaseResult.user);
+        void dataSync.enable();
         setActiveTab(supabaseResult.user.role === 'MITRA' ? 'livestock' : 'dashboard');
         setAuthState('authenticated');
         return;
