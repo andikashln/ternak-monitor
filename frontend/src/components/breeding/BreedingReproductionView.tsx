@@ -85,7 +85,7 @@ export const BreedingReproductionView: React.FC = () => {
         {records.map(rec => (
           <div key={rec.id} className="bg-white p-5 rounded-2xl border border-slate-200 shadow-2xs space-y-3">
             <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-              <span className="font-mono font-bold text-amber-800 text-base">Induk: {rec.motherTag}</span>
+              <span className="font-mono font-bold text-[#A97A14] text-base">Induk: {rec.motherTag}</span>
               <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-[#F8FAFC] text-[#1B5E20]">
                 {rec.pregStatus}
               </span>
@@ -95,7 +95,7 @@ export const BreedingReproductionView: React.FC = () => {
               <p><span className="font-semibold text-slate-700">Metode Perkawinan:</span> {rec.method}</p>
               <p><span className="font-semibold text-slate-700">Pejantan / Semen:</span> {rec.fatherTag}</p>
               <p><span className="font-semibold text-slate-700">Tanggal Kawin:</span> {formatDate(rec.matingDate)}</p>
-              <p><span className="font-semibold text-amber-800">Estimasi Lahir:</span> <span className="font-bold text-amber-900">{formatDate(rec.estBirthDate)}</span></p>
+              <p><span className="font-semibold text-[#A97A14]">Estimasi Lahir:</span> <span className="font-bold text-[#A97A14]">{formatDate(rec.estBirthDate)}</span></p>
               {rec.notes && <p className="text-slate-500 italic mt-1">{rec.notes}</p>}
             </div>
           </div>

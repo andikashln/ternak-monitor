@@ -55,7 +55,7 @@ export const ApprovalCenterView: React.FC = () => {
         ))}
       </div>
 
-      {message && <div role="status" className="rounded-xl border border-amber-200 bg-amber-50 p-3 text-xs font-bold text-amber-900">{message}</div>}
+      {message && <div role="status" className="rounded-xl border border-[#EED995] bg-[#FBF6E9] p-3 text-xs font-bold text-[#A97A14]">{message}</div>}
 
       <div className="space-y-3">
         {filtered.map(a => (

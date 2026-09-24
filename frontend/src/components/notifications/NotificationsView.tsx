@@ -39,13 +39,13 @@ export const NotificationsView: React.FC = () => {
           <div
             key={n.id}
             className={`p-4 rounded-2xl border transition flex items-start justify-between gap-3 ${
-              n.isRead ? 'bg-white border-slate-200' : 'bg-amber-50/50 border-amber-200 shadow-2xs'
+              n.isRead ? 'bg-white border-slate-200' : 'bg-[#FBF6E9]/50 border-[#EED995] shadow-2xs'
             }`}
           >
             <div className="flex items-start gap-3">
               <div className={`p-2 rounded-xl shrink-0 mt-0.5 ${
                 n.severity === 'critical' ? 'bg-rose-100 text-rose-700' :
-                n.severity === 'warning' ? 'bg-amber-100 text-amber-800' : 'bg-blue-100 text-blue-800'
+                n.severity === 'warning' ? 'bg-[#FBF6E9] text-[#A97A14]' : 'bg-blue-100 text-blue-800'
               }`}>
                 <AlertTriangle className="w-4 h-4" />
               </div>

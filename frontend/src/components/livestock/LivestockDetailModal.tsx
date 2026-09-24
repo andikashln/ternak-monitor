@@ -102,7 +102,7 @@ export const LivestockDetailModal: React.FC<LivestockDetailModalProps> = ({
                 <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${
                   livestock.status === 'Aktif' ? 'bg-[#F8FAFC] text-[#123D18]' :
                   livestock.status === 'Sakit' ? 'bg-rose-100 text-rose-900' :
-                  livestock.status === 'Isolasi' ? 'bg-amber-100 text-amber-900' : 'bg-slate-200 text-slate-800'
+                  livestock.status === 'Isolasi' ? 'bg-[#FBF6E9] text-[#A97A14]' : 'bg-slate-200 text-slate-800'
                 }`}>
                   {livestock.status}
                 </span>
@@ -234,9 +234,9 @@ export const LivestockDetailModal: React.FC<LivestockDetailModalProps> = ({
                   <span className="text-[10px] uppercase font-bold text-[#1B5E20] block">Harga Jual Saat Ini</span>
                   <span className="text-base font-bold font-mono text-[#123D18]">{formatRupiah(livestock.sellingPrice ?? 0)}</span>
                 </div>
-                <div className="p-3 rounded-xl bg-amber-50 border border-amber-200">
+                <div className="p-3 rounded-xl bg-[#FBF6E9] border border-[#EED995]">
                   <span className="text-[10px] uppercase font-bold text-[#A97A14] block">Estimasi Margin</span>
-                  <span className="text-base font-bold font-mono text-amber-900">{formatRupiah((livestock.sellingPrice ?? 0) - livestock.acquisitionPrice)}</span>
+                  <span className="text-base font-bold font-mono text-[#A97A14]">{formatRupiah((livestock.sellingPrice ?? 0) - livestock.acquisitionPrice)}</span>
                 </div>
               </div>
 
@@ -360,9 +360,9 @@ export const LivestockDetailModal: React.FC<LivestockDetailModalProps> = ({
           {activeTab === 'breeding' && (
             <div className="space-y-3">
               {breedingLogs.map(b => (
-                <div key={b.id} className="p-3.5 bg-amber-50/50 rounded-xl border border-amber-200 space-y-2">
+                <div key={b.id} className="p-3.5 bg-[#FBF6E9]/50 rounded-xl border border-[#EED995] space-y-2">
                   <div className="flex items-center justify-between">
-                    <span className="font-bold text-amber-900 text-xs">Perkawinan ({b.method})</span>
+                    <span className="font-bold text-[#A97A14] text-xs">Perkawinan ({b.method})</span>
                     <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-[#F8FAFC] text-[#1B5E20]">
                       {b.pregStatus}
                     </span>
@@ -374,7 +374,7 @@ export const LivestockDetailModal: React.FC<LivestockDetailModalProps> = ({
                     </div>
                     <div>
                       <span className="text-[10px] text-slate-500 block">Estimasi Lahir:</span>
-                      <span className="font-semibold text-amber-800">{formatDate(b.estBirthDate)}</span>
+                      <span className="font-semibold text-[#A97A14]">{formatDate(b.estBirthDate)}</span>
                     </div>
                   </div>
                   {b.notes && <p className="text-xs text-slate-600">{b.notes}</p>}

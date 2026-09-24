@@ -366,8 +366,8 @@ export const LivestockFormModal: React.FC<LivestockFormModalProps> = ({
           </div>
 
           {editItem && (
-            <div className="p-3 rounded-xl border border-amber-200 bg-amber-50/70">
-              <label className="block text-xs font-bold text-amber-900 mb-1">Alasan Perubahan Harga</label>
+            <div className="p-3 rounded-xl border border-[#EED995] bg-[#FBF6E9]/70">
+              <label className="block text-xs font-bold text-[#A97A14] mb-1">Alasan Perubahan Harga</label>
               <input
                 type="text"
                 value={priceChangeNote}
@@ -375,7 +375,7 @@ export const LivestockFormModal: React.FC<LivestockFormModalProps> = ({
                 className="w-full px-3 py-2 border border-[#EED995] bg-white rounded-lg text-xs focus:ring-2 focus:ring-[#C9971C] focus:outline-none"
                 placeholder="Contoh: penyesuaian harga pasar, tambahan biaya perawatan"
               />
-              <p className="mt-1 text-[10px] text-amber-800">Wajib diisi hanya jika harga beli atau harga jual diubah.</p>
+              <p className="mt-1 text-[10px] text-[#A97A14]">Wajib diisi hanya jika harga beli atau harga jual diubah.</p>
             </div>
           )}
 

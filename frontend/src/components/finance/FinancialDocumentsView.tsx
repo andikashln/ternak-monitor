@@ -58,7 +58,7 @@ export const FinancialDocumentsView: React.FC<{ initialTab?: 'funding' | 'invoic
   return <div className="space-y-5 pb-16">
     <div className="rounded-3xl bg-[#1B5E20] p-5 text-white shadow-lg sm:p-7"><p className="ranch-label ranch-label--on-dark">Keuangan terkontrol</p><h2 className="mt-2 text-2xl font-bold text-white!">Pengajuan Dana, Invoice &amp; Pembayaran</h2><p className="mt-2 text-sm text-white/85!">Alur persetujuan, cicilan, bukti pembayaran, dan audit dalam satu ruang kerja.</p></div>
     <div className="flex gap-2 rounded-2xl border bg-white p-2"><button onClick={() => setTab('funding')} className={`flex-1 rounded-xl px-4 py-3 text-xs font-bold ${tab === 'funding' ? 'bg-[#1B5E20] text-white' : 'text-slate-500'}`}><WalletCards className="mr-2 inline h-4 w-4"/>Pengajuan Dana</button><button onClick={() => setTab('invoices')} className={`flex-1 rounded-xl px-4 py-3 text-xs font-bold ${tab === 'invoices' ? 'bg-[#1B5E20] text-white' : 'text-slate-500'}`}><Receipt className="mr-2 inline h-4 w-4"/>Invoice & Pembayaran</button></div>
-    {message && <div role="status" className="rounded-xl border border-amber-200 bg-amber-50 p-3 text-xs font-bold text-amber-900">{message}</div>}
+    {message && <div role="status" className="rounded-xl border border-[#EED995] bg-[#FBF6E9] p-3 text-xs font-bold text-[#A97A14]">{message}</div>}
 
     {tab === 'funding' && <>
       <div className="flex items-center justify-between"><div><h3 className="font-bold text-slate-950">Daftar Pengajuan</h3><p className="text-xs text-slate-500">Akuntan verifikasi, Owner menyetujui final.</p></div><button onClick={() => setShowFundForm(true)} className="ranch-action-primary"><Plus className="h-4 w-4"/>Buat Pengajuan</button></div>

@@ -270,7 +270,7 @@ export const PurchasesSalesView: React.FC<PurchasesSalesViewProps> = ({ onOpenAd
                   <td className="p-3.5 text-center">
                     <span className={`px-2.5 py-0.5 rounded text-[10px] font-bold ${
                       s.paymentStatus === 'Lunas' ? 'bg-[#F8FAFC] text-[#123D18]' :
-                      s.paymentStatus === 'DP' ? 'bg-amber-100 text-amber-900' : 'bg-rose-100 text-rose-900'
+                      s.paymentStatus === 'DP' ? 'bg-[#FBF6E9] text-[#A97A14]' : 'bg-rose-100 text-rose-900'
                     }`}>
                       {s.paymentStatus}
                     </span>

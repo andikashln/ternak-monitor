@@ -154,7 +154,7 @@ export const SettingsView: React.FC = () => {
         {/* Master Locations Management */}
         <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-2xs space-y-4 text-xs">
           <h3 className="font-bold text-slate-900 text-sm border-b border-slate-100 pb-2">Master Lokasi Peternakan ({locations.length})</h3>
-          {locationMessage && <div role="status" className="p-2 rounded bg-amber-50 border border-amber-200 text-amber-900 font-semibold">{locationMessage}</div>}
+          {locationMessage && <div role="status" className="p-2 rounded bg-[#FBF6E9] border border-[#EED995] text-[#A97A14] font-semibold">{locationMessage}</div>}
 
           <div className="space-y-2 max-h-48 overflow-y-auto">
             {locations.map(loc => (

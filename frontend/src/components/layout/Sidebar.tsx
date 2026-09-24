@@ -34,7 +34,7 @@ export const navigationSections: NavSection[] = [
   {
     label: 'Ringkasan',
     items: [
-      { id: 'dashboard', label: 'Dashboard', description: 'Kondisi farm hari ini', icon: LayoutDashboard, allowedRoles: ['OWNER', 'MANAGER', 'ACCOUNTANT', 'MITRA'] },
+      { id: 'dashboard', label: 'Dashboard', description: 'Ringkasan farm hari ini', icon: LayoutDashboard, allowedRoles: ['OWNER', 'MANAGER', 'ACCOUNTANT', 'MITRA'] },
       { id: 'notifications', label: 'Notifikasi', description: 'Alert & peringatan dini', icon: Bell, allowedRoles: ['OWNER', 'MANAGER', 'ACCOUNTANT', 'MITRA'] },
     ],
   },

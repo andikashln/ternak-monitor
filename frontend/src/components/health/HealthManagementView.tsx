@@ -147,7 +147,7 @@ export const HealthManagementView: React.FC = () => {
                 <span className="font-mono font-bold text-slate-900 text-base">{log.tagId}</span>
                 <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${
                   log.status === 'Sakit' ? 'bg-rose-100 text-rose-800' :
-                  log.status === 'Isolasi' ? 'bg-amber-100 text-amber-800' : 'bg-[#F8FAFC] text-[#1B5E20]'
+                  log.status === 'Isolasi' ? 'bg-[#FBF6E9] text-[#A97A14]' : 'bg-[#F8FAFC] text-[#1B5E20]'
                 }`}>
                   {log.status}
                 </span>
@@ -191,7 +191,7 @@ export const HealthManagementView: React.FC = () => {
               </div>
               {log.followUpDate && (
                 <div className="text-right">
-                  <span className="text-[10px] text-amber-800 font-bold block">Jadwal Kontrol:</span>
+                  <span className="text-[10px] text-[#A97A14] font-bold block">Jadwal Kontrol:</span>
                   <span className="font-bold text-slate-900">{formatDate(log.followUpDate)}</span>
                 </div>
               )}

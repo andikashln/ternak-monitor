@@ -64,7 +64,7 @@ export const SalesResultsView: React.FC = () => {
         {[
           { label: 'Ternak Terjual', value: summary.soldCount, displayValue: `${summary.soldCount} ekor`, icon: BadgeDollarSign, tone: 'bg-[#FBF6E9] text-[#A97A14]' },
           { label: 'Total Penjualan', value: summary.revenue, icon: TrendingUp, tone: 'bg-[#FFFFFF] text-[#1B5E20]' },
-          { label: 'Total HPP', value: summary.hpp, icon: ReceiptText, tone: 'bg-amber-50 text-amber-800' },
+          { label: 'Total HPP', value: summary.hpp, icon: ReceiptText, tone: 'bg-[#FBF6E9] text-[#A97A14]' },
           { label: 'Laba Bersih', value: summary.netProfit, icon: summary.netProfit >= 0 ? TrendingUp : TrendingDown, tone: summary.netProfit >= 0 ? 'bg-blue-50 text-blue-800' : 'bg-rose-50 text-rose-700' },
         ].map(metric => {
           const Icon = metric.icon;
@@ -80,11 +80,11 @@ export const SalesResultsView: React.FC = () => {
           const margin = sale.priceTotal > 0 ? (netProfit / sale.priceTotal) * 100 : 0;
           return (
             <article key={sale.id} className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xs">
-              <div className="border-b border-slate-100 bg-slate-50/70 p-4"><div className="flex flex-wrap items-center gap-2"><span className="font-mono text-sm font-bold text-slate-950">{sale.invoiceNo}</span><span className={`rounded-full px-2 py-1 text-[9px] font-bold ${sale.paymentStatus === 'Lunas' ? 'bg-[#F8FAFC] text-[#1B5E20]' : sale.paymentStatus === 'DP' ? 'bg-amber-100 text-amber-800' : 'bg-rose-100 text-rose-700'}`}>{sale.paymentStatus}</span></div><p className="mt-1 text-[10px] text-slate-500">{formatDate(sale.date)} · {sale.buyerName} · {sale.livestockIds.length} ekor</p></div>
+              <div className="border-b border-slate-100 bg-slate-50/70 p-4"><div className="flex flex-wrap items-center gap-2"><span className="font-mono text-sm font-bold text-slate-950">{sale.invoiceNo}</span><span className={`rounded-full px-2 py-1 text-[9px] font-bold ${sale.paymentStatus === 'Lunas' ? 'bg-[#F8FAFC] text-[#1B5E20]' : sale.paymentStatus === 'DP' ? 'bg-[#FBF6E9] text-[#A97A14]' : 'bg-rose-100 text-rose-700'}`}>{sale.paymentStatus}</span></div><p className="mt-1 text-[10px] text-slate-500">{formatDate(sale.date)} · {sale.buyerName} · {sale.livestockIds.length} ekor</p></div>
               <div className="grid grid-cols-2 gap-px bg-slate-200 sm:grid-cols-3">
                 {[
                   ['Penjualan', sale.priceTotal, 'text-[#1B5E20]'],
-                  ['HPP', hpp, 'text-amber-800'],
+                  ['HPP', hpp, 'text-[#A97A14]'],
                   ['Laba Bersih', netProfit, netProfit >= 0 ? 'text-[#123D18]' : 'text-rose-700'],
                 ].map(([label, value, color]) => <div key={String(label)} className="bg-white p-3.5"><span className="block text-[9px] font-bold uppercase tracking-wider text-slate-400">{label}</span><strong className={`mt-1.5 block font-mono text-xs font-bold ${color}`}>{formatRupiah(Number(value))}</strong>{label === 'Laba Bersih' && <span className="mt-1 block text-[9px] font-bold text-slate-400">Margin {margin.toFixed(1)}%</span>}</div>)}
               </div>

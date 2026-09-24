@@ -127,7 +127,7 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
 
       {/* Funding and invoice workflow indicators */}
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
-        <button onClick={() => onNavigateTab('invoices')} className="card-polish text-left transition hover:border-amber-300">
+        <button onClick={() => onNavigateTab('invoices')} className="card-polish text-left transition hover:border-[#EED995]">
           <WalletCards className="mb-2 h-5 w-5 text-[#A97A14]"/><p className="text-[10px] font-bold uppercase tracking-wider text-slate-500">Menunggu Persetujuan</p><p className="mt-1 text-xl font-bold">{workflow.fundRequests.filter(item => ['Diajukan','Diverifikasi Akuntan'].includes(item.status)).length}</p>
         </button>
         <button onClick={() => onNavigateTab('invoices')} className="card-polish text-left transition hover:border-[#E2E8F0]">
@@ -143,16 +143,16 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
 
       {/* Critical Warnings Alert Bar */}
       {criticalNotifs.length > 0 && (
-        <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-2xs">
+        <div className="bg-[#FBF6E9] border border-[#EED995] rounded-xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-2xs">
           <div className="flex items-center gap-3">
-            <div className="p-2 bg-amber-200 text-amber-900 rounded-lg shrink-0">
+            <div className="p-2 bg-[#EED995] text-[#A97A14] rounded-lg shrink-0">
               <ShieldAlert className="w-5 h-5" />
             </div>
             <div>
-              <h4 className="text-xs font-bold text-amber-900">
+              <h4 className="text-xs font-bold text-[#A97A14]">
                 Notifikasi & Alert Kandang ({criticalNotifs.length} Perhatian)
               </h4>
-              <p className="text-xs text-amber-800">
+              <p className="text-xs text-[#A97A14]">
                 {criticalNotifs[0].title}: {criticalNotifs[0].message}
               </p>
             </div>

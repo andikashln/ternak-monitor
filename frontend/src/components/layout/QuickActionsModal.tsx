@@ -50,7 +50,7 @@ export const QuickActionsModal: React.FC<QuickActionsModalProps> = ({
       id: 'add-birth',
       label: '+ LAPOR KELAHIRAN',
       desc: 'Catat anak ternak baru lahir & hubungkan ke induk',
-      color: 'bg-amber-50 text-amber-900 border-amber-200 hover:bg-amber-100',
+      color: 'bg-[#FBF6E9] text-[#A97A14] border-[#EED995] hover:bg-[#F6EBC9]',
       icon: <Baby className="w-6 h-6 text-[#C9971C]" />
     },
     {

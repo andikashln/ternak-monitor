@@ -123,7 +123,7 @@ export const FeedManagementView: React.FC = () => {
           const isLow = f.stockQty <= f.minStock;
           return (
             <div key={f.id} className={`p-5 rounded-2xl border shadow-2xs space-y-3 bg-white ${
-              isLow ? 'border-amber-300 ring-1 ring-amber-300/50' : 'border-slate-200'
+              isLow ? 'border-[#EED995] ring-1 ring-[#EED995]/50' : 'border-slate-200'
             }`}>
               <div className="flex items-center justify-between border-b border-slate-100 pb-2">
                 <div>
@@ -132,7 +132,7 @@ export const FeedManagementView: React.FC = () => {
                 </div>
                 <div className="flex items-center gap-1">
                 {isLow ? (
-                  <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-100 text-amber-900 flex items-center gap-1">
+                  <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-[#FBF6E9] text-[#A97A14] flex items-center gap-1">
                     <AlertTriangle className="w-3 h-3" /> Stok Rendah
                   </span>
                 ) : (

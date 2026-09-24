@@ -247,7 +247,7 @@ export const LivestockDatabaseView: React.FC<LivestockDatabaseViewProps> = ({
                 <tr key={item.id} className="hover:bg-slate-50 transition">
                   <td className="p-3.5 font-bold">
                     <div className="flex items-center gap-2.5">
-                      <div className="w-9 h-9 rounded-lg bg-[#123D18] text-amber-300 font-bold flex items-center justify-center text-xs overflow-hidden shrink-0">
+                      <div className="w-9 h-9 rounded-lg bg-[#123D18] text-[#E4C25E] font-bold flex items-center justify-center text-xs overflow-hidden shrink-0">
                         {item.photoUrl ? (
                           <img src={item.photoUrl} alt={item.tagId} className="w-full h-full object-cover" />
                         ) : (
@@ -299,7 +299,7 @@ export const LivestockDatabaseView: React.FC<LivestockDatabaseViewProps> = ({
                   <td className="p-3.5 text-center">
                     <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold ${
                       item.healthStatus === 'Sehat' ? 'bg-[#F8FAFC] text-[#123D18]' :
-                      item.healthStatus === 'Sakit' ? 'bg-rose-100 text-rose-900' : 'bg-amber-100 text-amber-900'
+                      item.healthStatus === 'Sakit' ? 'bg-rose-100 text-rose-900' : 'bg-[#FBF6E9] text-[#A97A14]'
                     }`}>
                       {item.healthStatus}
                     </span>
